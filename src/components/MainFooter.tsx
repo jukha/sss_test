@@ -9,7 +9,7 @@ import Typography from './Typography';
 
 const MainFooter = () => {
   return (
-    <div className='relative  grid grid-cols-1 lg:grid-cols-[60%_31%] gap-30 bg-[#FFF9E1] p-24'>
+    <div className='relative  flex flex-col lg:flex-row justify-center lg:items-start  gap-[74px] bg-[#FFF9E1] p-[3em]'>
       <svg
         className='w-full absolute top-[-2.5%] left-0'
         width='1440'
@@ -25,21 +25,22 @@ const MainFooter = () => {
         />
       </svg>
       {/* Section Left */}
-      <div className='flex flex-col gap-16 max-w-7xl'>
+      <div className='flex flex-col gap-4 lg:gap-10 '>
         {/* Text */}
-        <div className='flex flex-col lg:flex-row items-start  justify-between gap-10'>
+        <div className='flex flex-col-reverse lg:flex-row items-start  justify-between gap-4'>
           <Typography
             variant='body1'
-            className=' font-bold w-full  lg:w-[488px]'
+            className=' font-bold w-full  lg:max-w-[488px]'
           >
             Our swim instructors travel to your home or community pool.
             <span className='text-[var(--color-orange)]'>
+              {' '}
               Learn to Swim guaranteed
             </span>
             <br />
             with a Sunsational instructor!
           </Typography>
-          <div className='flex items-center justify-around gap-0 lg:gap-4 w-full lg:w-auto'>
+          <div className='flex items-center justify-around  gap-4 '>
             {/* insta */}
             <span className='h-[31px] w-[31px]'>
               <FacebookIcon />
@@ -55,12 +56,12 @@ const MainFooter = () => {
           </div>
         </div>
         {/* Divider */}
-        <hr className='text-[var(--color-yellow)]' />
+        <hr className='text-[var(--color-yellow)] md:mb-[24px]' />
         {/*  */}
-        <div className='flex gap-10 lg:gap-4 flex-wrap justify-between'>
+        <div className='flex gap-10 lg:gap-6  flex-wrap justify-between'>
           {/* SiteMap */}
-          <div className='flex flex-col gap-4'>
-            <p className='text-[var(--color-orange)] text-xl font-bold '>
+          <div className='flex flex-col gap-4 min-w-[189px]'>
+            <p className='text-[var(--color-orange)] font-primary text-xl font-bold '>
               Sitemap
             </p>
             <ul className='flex flex-col gap-4 font-semibold'>
@@ -115,8 +116,8 @@ const MainFooter = () => {
             </ul>
           </div>
           {/* Services */}
-          <div className='flex flex-col gap-4'>
-            <p className='text-[var(--color-orange)] text-xl font-bold '>
+          <div className='flex flex-col gap-4 min-w-[189px]'>
+            <p className='text-[var(--color-orange)] font-primary text-xl font-bold '>
               Sitemap
             </p>
             <ul className='flex flex-col gap-4 font-semibold'>
@@ -171,8 +172,8 @@ const MainFooter = () => {
             </ul>
           </div>
           {/* Swim Lessons */}
-          <div className='flex flex-col gap-4'>
-            <p className='text-[var(--color-orange)] text-xl font-bold '>
+          <div className='flex flex-col gap-4 min-w-[189px]'>
+            <p className='text-[var(--color-orange)] font-primary text-xl font-bold '>
               Swim Lessons
             </p>
             <ul className='flex flex-col gap-4 font-semibold'>
@@ -227,8 +228,8 @@ const MainFooter = () => {
             </ul>
           </div>
           {/* Swim Lessons */}
-          <div className='flex flex-col gap-4'>
-            <p className='text-[var(--color-orange)] text-xl font-bold '>
+          <div className='flex flex-col gap-4 min-w-[189px]'>
+            <p className='text-[var(--color-orange)] font-primary text-xl font-bold '>
               Contact Us
             </p>
             <ul className='flex flex-col gap-4 font-semibold'>
@@ -260,7 +261,7 @@ const MainFooter = () => {
           </div>
         </div>
 
-        <div className='flex flex-col gap-3'>
+        <div className='hidden flex-col gap-3 lg:flex'>
           <p className='font-medium text-[#808080] text-xs'>
             ©Sunsational Swim School LLC 2025- Private At-Home Swim Lessons of
             America
@@ -274,7 +275,7 @@ const MainFooter = () => {
 
       {/* Section Right */}
       <div className='flex flex-col gap-6'>
-        <Typography variant='h2' className='max-w-[444px]'>
+        <Typography variant='h2' className='max-w-[294px]  md:max-w-[444px]'>
           Bring the swim school to{' '}
           <span className='text-[var(--color-orange)]'>your pool!™</span>
         </Typography>
@@ -285,9 +286,20 @@ const MainFooter = () => {
           submitText='Submit'
         />
         {/* logo */}
-        <div className='flex items-center justify-center'>
+        <div className='flex lg:-translate-y-20  items-center justify-start lg:justify-center'>
           <Image src={imageSun} alt='Image Sun' height={300} width={400} />
         </div>
+      </div>
+
+      <div className='flex-col  gap-3 lg:hidden'>
+        <p className='font-medium text-[#808080] text-xs'>
+          ©Sunsational Swim School LLC 2025- Private At-Home Swim Lessons of
+          America
+        </p>
+        <p className='font-medium text-[#808080] text-xs'>
+          Proudly founded in Los Angeles, Headquartered in San Diego & Serving
+          All America Business 1-888-788-2140
+        </p>
       </div>
 
       <svg

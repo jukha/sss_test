@@ -31,6 +31,7 @@ import fiveStar from './images/fiveStar.webp';
 import yellowLike from './images/yellowLike.webp';
 
 import homeHero from './images/homeHero.png';
+import homeHeroMobile from "./images/homeHeroMobile.png";
 import stickerStamp from './images/stampSticker.svg';
 
 // figures
@@ -77,4 +78,5 @@ export {
   boyAndMom,
   mail,
   wavyBorder,
+  homeHeroMobile
 };

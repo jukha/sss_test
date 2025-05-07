@@ -8,7 +8,7 @@ type Props = {
 
 const CustomInputForm: React.FC<Props> = (props: Props) => {
     return (
-        <div className='flex items-center max-w-[450px]'>
+        <div className='flex z-10 items-center max-w-[450px]'>
             <svg
                 className='w-full h-full'
                 viewBox='0 0 458 66'

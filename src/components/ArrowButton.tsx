@@ -41,7 +41,7 @@ const ArrowButton = (props: Props) => {
       <div className='flex gap-6 justify-center items-center w-full h-full'>
         <Link
           href={props.link ?? '/'}
-          className='relative z-10  text-2xl font-bold text-darkBlue'
+          className='relative z-10  text-base lg:text-2xl font-bold text-darkBlue'
         >
           {props.text}
         </Link>
@@ -65,7 +65,7 @@ const ArrowButton = (props: Props) => {
           {/* icon background */}
           <svg
             width='60'
-            height='52'
+            height='42'
             viewBox='0 0 60 52'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'

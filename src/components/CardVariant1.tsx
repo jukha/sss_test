@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Typography from './Typography';
 
 interface Props {
   direction: string;
@@ -16,7 +16,11 @@ const CardVariant1 = (props: Props) => {
   const CardContent = () => {
     return (
       <foreignObject height={'100%'} width={'100%'}>
-        <section className={`flex flex-col relative  justify-start items-center z-10 gap-5  ${props.iconWidth? 'py-[1em]':'py-[2em]'}`}>
+        <section
+          className={`flex flex-col relative  justify-start items-center z-10 gap-5  ${
+            props.iconWidth ? 'py-[1em]' : 'py-[2em]'
+          }`}
+        >
           {/* Icon */}
           <div
             style={{
@@ -28,15 +32,21 @@ const CardVariant1 = (props: Props) => {
           </div>
           {/* Title */}
           <div>
-            <p className='text-[32px] text-darkBlue text-center max-w-[290px] leading-[120%] font-[Grandstander] font-bold'>
+            <Typography
+              variant='h4'
+              className='font-bold max-w-[290px] leading-[120%]  text-center font-primary text-darkBlue'
+            >
               {props.title}
-            </p>
+            </Typography>
           </div>
           {/* Description */}
           <div>
-            <p className='text-[24px] text-center max-w-[301px] leading-[125%]  font-bold'>
+            <Typography
+              variant='body1'
+              className='font-bold max-w-[230px] md:max-w-[310px] leading-[125%] text-center'
+            >
               {props.description}
-            </p>
+            </Typography>
           </div>
         </section>
       </foreignObject>
@@ -46,8 +56,8 @@ const CardVariant1 = (props: Props) => {
   const LeftTiltCard = () => {
     return (
       <svg
-        width='394'
-        height='516'
+        width='100%'
+        height='100%'
         viewBox='0 0 394 516'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
@@ -66,8 +76,8 @@ const CardVariant1 = (props: Props) => {
   const RightTiltCard = () => {
     return (
       <svg
-        width='389'
-        height='517'
+        width='100%'
+        height='100%'
         viewBox='0 0 389 517'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
@@ -83,7 +93,7 @@ const CardVariant1 = (props: Props) => {
   };
 
   return (
-    <div className='flex flex-col  relative'>
+    <div className='flex flex-col h-[320px] md:h-[380px] w-[280px] lg:w-[320px] relative'>
       {props.direction == 'rt' && <LeftTiltCard />}
       {props.direction == 'lt' && <RightTiltCard />}
     </div>

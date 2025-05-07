@@ -19,3 +19,4 @@ export { default as WaveIcon } from './WaveIcon';
 
 export { default as HamburgerIcon } from './HamburgerIcon';
 export { default as WaveWithBorder } from './WaveWithBorder';
+export { default as FemaleUserIcon } from './FemaleUserIcon';

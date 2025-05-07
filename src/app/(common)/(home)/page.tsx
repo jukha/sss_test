@@ -19,17 +19,17 @@ export default function Home() {
       <main className='flex flex-col '>
         {/* Hero Section - Main banner with call to action */}
         <Hero bgImage={homeHero}>
-          <Typography variant='h1' className='max-w-[690px] mb-8'>
+          <Typography variant='h1' className='max-w-[327px] ml-[30px] md:max-w-full lg:max-w-[690px] mb-8'>
             {heroSection.title}
-            <span className='text-orange relative inline-flex justify-center items-center'>
+            <span className='text-orange relative inline-flex justify-center items-center lg:p-4'>
               &nbsp;{heroSection.titleHighlight}
               {/* White highlight bubble behind the text */}
-              <span className='bg-white w-[300px] lg:w-[576px] h-[120px] left-1 -z-10 rounded-full opacity-90 inline-block -rotate-[0.5deg] absolute'></span>
+              <span className='bg-white w-full h-full left-1 -z-10 rounded-full opacity-90 inline-block -rotate-[0.5deg] absolute'></span>
             </span>
           </Typography>
           <Typography
             variant='body1'
-            className='text-white  max-w-[457px] leading-[125%] mb-[26px] font-secondary font-medium'
+            className='text-white  max-w-[457px] leading-[125%] mb-[26px] font-secondary font-medium ml-[30px] '
           >
             {heroSection.desc}
           </Typography>
@@ -38,7 +38,7 @@ export default function Home() {
 
         {/* How It Works Section - Step-by-step process */}
         <Container>
-          <section className='flex flex-col gap-20 py-[100px] justify-start items-center'>
+          <section className='flex flex-col gap-16 py-[100px] justify-start items-center'>
             <div className='flex flex-col gap-2'>
               <Typography variant='h2' className='max-w-[837px] text-center'>
                 {howItWorksSection.title}
@@ -48,7 +48,7 @@ export default function Home() {
               </Typography>
             </div>
             {/* Steps cards container - displays process steps */}
-            <div className='flex justify-center gap-8 flex-wrap items-center'>
+            <div className='flex justify-center gap-[25px] lg:gap-8 flex-wrap items-center'>
               {howItWorksSection.steps.map((el, index) => {
                 return (
                   <CardVariant1
@@ -89,10 +89,10 @@ export default function Home() {
               </div>
               {/* Right side - Feature list */}
               <div className='w-full lg:w-1/2'>
-                <ul className='w-full flex flex-col justify-center gap-16'>
+                <ul className='w-full flex flex-col justify-center gap-8'>
                   {whyChooseSunsationalSection.steps.map((el, index) => {
                     return (
-                      <li key={index} className='w-full flex items-start gap-[45px] '>
+                      <li key={index} className='w-full flex flex-col md:flex-row items-start gap-4 lg:gap-[45px] '>
                         <div>{el.image}</div>
                         <div>
                           <Typography variant='h4' className='font-bold  text-[#033D9A] leading-[120%] font-primary'>

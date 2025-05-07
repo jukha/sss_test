@@ -2,8 +2,8 @@ import Image, { StaticImageData } from 'next/image';
 import React, { ReactNode } from 'react';
 import HeroBottomBar from './HeroBottomBar';
 import Container from './Container';
-import { StampIcon, WaveWithBorder } from './icons';
-import { HeroBottomBarVariant } from '@/types/heroBottomBar.type';
+import { StampIcon } from './icons';
+import { homeHeroMobile } from '@/assets';
 
 type Props = {
   // content?: HeroType;
@@ -11,7 +11,6 @@ type Props = {
   bgImage: StaticImageData;
   hasBottomBar?: boolean;
   hasSticker?: boolean;
-  bottomBarVariant?: HeroBottomBarVariant;
 };
 
 const Hero: React.FC<Props> = ({
@@ -19,34 +18,44 @@ const Hero: React.FC<Props> = ({
   bgImage,
   hasBottomBar = true,
   hasSticker = true,
-  bottomBarVariant = 'homepage',
 }) => {
   return (
-    <section className='min-h-[768px] bg-no-repeat relative -translate-y-5'>
-      <Image
-        src={bgImage}
-        quality={80}
-        width={1000}
-        alt=''
-        className='absolute top-0 right-0 h-full object-cover w-[80%] -z-20'
-      />
-
+    <section className='pt-[42px] lg:pt-0  bg-no-repeat relative -translate-y-5'>
+      {/* Gradient */}
+      <div
+        className='absolute top-0 w-full h-[70%] lg:bottom-0 lg:top-0 lg:left-0 lg:w-1/2 lg:h-full bg-[linear-gradient(360deg,rgba(27,129,188,0)_0%,#1B81BC_34%)]
+         lg:bg-[linear-gradient(269.54deg,rgba(27,129,188,0)_0%,#1B81BC_34%)] -z-10'
+      ></div>
       <Container>
-        {/* Gradient Left*/}
-        <div className='absolute bottom-0 top-0 left-0 w-1/2 bg-[linear-gradient(269.54deg,_rgba(27,129,188,0)_0%,_#1B81BC_34%)] -z-10'></div>
-        <div className='max-w-[1440px] py-[200px] mx-auto'>{children}</div>
+        <div className='max-w-[1440px] lg:py-[200px] mx-auto'>{children}</div>
         {/* <StampSticker /> */}
         {hasSticker && (
-          <div className='absolute bottom-40 right-4'>
+          <div className='absolute bottom-28 lg:bottom-40 lg:h-[200px] lg:w-[200px] right-1 lg:right-4 h-[116px] w-[116px]'>
             <StampIcon />
           </div>
         )}
         {/* Bottom Wavy pattern */}
       </Container>
-      <div className='absolute w-full -bottom-1'>
-        <WaveWithBorder />
+      <div className='absolute overflow-hidden -bottom-8  w-full'>
+        {hasBottomBar && <HeroBottomBar />}
       </div>
-      {hasBottomBar && <HeroBottomBar variant={bottomBarVariant} />}
+
+      {/* desktop image */}
+      <Image
+        src={bgImage}
+        quality={80}
+        width={1000}
+        alt=''
+        className='relative  hidden lg:block  z-[-100] lg:absolute  lg:top-0 lg:right-0  lg:object-cover  w-full h-full lg:w-[80%] lg:-z-20'
+      />
+      {/* mobile image */}
+      <Image
+        src={homeHeroMobile}
+        quality={80}
+        width={1000}
+        alt=''
+        className='relative lg:hidden -translate-y-24  lg:translate-y-0   z-[-100]'
+      />
     </section>
   );
 };

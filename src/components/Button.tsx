@@ -15,10 +15,9 @@ const Button: React.FC<Props> = (props) => {
     <div
       style={{ height: props.height, width: props.width }}
       className={`relative inline-flex items-center justify-center ${
-        props.height ? '' : 'py-4'
-      } ${props.width ? '' : 'px-7'}    rounded-full overflow-hidden`}
+        props.height ? '' : 'py-3 lg:py-4'
+      } ${props.width ? '' : 'px-3 lg:px-7'}    rounded-full overflow-hidden`}
     >
-      
       <svg
         className='absolute inset-0 w-full h-full -z-10 pointer-events-none'
         viewBox='0 0 170 75'
@@ -46,8 +45,8 @@ const Button: React.FC<Props> = (props) => {
       </svg>
       <div className='flex gap-6 justify-center items-center w-full h-full'>
         <Link
-          href={props.link?? '#'}
-          className='relative z-10  text-2xl font-bold text-darkBlue'
+          href={props.link ?? '#'}
+          className='relative z-10 text-base  lg:text-lg font-bold text-darkBlue'
         >
           {props.text}
         </Link>

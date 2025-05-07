@@ -14,17 +14,25 @@ const Navbar = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
   return (
-    <nav className='relative  z-30'>
+    <nav className='relative pb-[1em] z-30'>
       {/* Background wave SVG */}
-      <div className='absolute inset-0 z-0 pointer-events-none'></div>
-
-      {/* Hamburger Menu for Mobile */}
-      <div className='md:hidden flex justify-between items-center gap-4 relative px-4 py-2 font-bold text-[#110241] z-10'>
-        <Link href='#'>
-          <Image src={logoMobile} alt='Sunsational Swim School' className='h-[90px] w-auto' />
+      <div className='md:hidden flex justify-between items-center gap-4 relative px-1 py-2 font-bold text-[#110241] z-10'>
+        <Link href='#' className='w-[50%] lg:w-auto'>
+          <Image
+            src={logoMobile}
+            alt='Sunsational Swim School'
+            className='h-[90px] w-full'
+          />
         </Link>
-        <Button link={'/registration'} text='Book Now' shadowColor='var(--color-orange)' />
-        <button className='text-[#110241] h-[40px] w-[40px] focus:outline-none' onClick={toggleMenu}>
+        <Button
+          link={'/registration'}
+          text='Book Now'
+          shadowColor='var(--color-orange)'
+        />
+        <button
+          className='text-[#110241] h-[40px] w-[40px] focus:outline-none'
+          onClick={toggleMenu}
+        >
           <HamburgerIcon />
         </button>
       </div>
@@ -72,30 +80,43 @@ const Navbar = () => {
       )}
 
       {/* Desktop and tablet view */}
-      <div className='hidden md:flex justify-between items-center flex-wrap relative z-10 max-w-[1440px] mx-auto text-[#110241] sm:text-xl font-bold pt-[1rem] px-[2rem] pb-[2rem] flex-column flex-column lg:flex-row lg:gap-6'>
-        <div className='flex gap-16 items-center flex-wrap '>
+      <div className='hidden  md:flex justify-center gap-12 items-center  relative z-10 max-w-[1440px] mx-auto text-[#110241] sm:text-xl font-bold  px-[2rem]  flex-column flex-column lg:flex-row'>
+        <div className='flex   items-center gap-8 justify-center w-full '>
           <Link href='#'>About</Link>
-          <Link href='#'>Swim Lesson Programs</Link>
+          <Link href='#' className=' '>
+            Swim Lesson Programs
+          </Link>
           <Link href='#'>Pricing</Link>
         </div>
 
-        <div className='flex justify-center'>
-          <Link href='#'>
-            <Image src={mainLogo} alt='sunsational swim school logo' />
-          </Link>
-        </div>
+        <Link href='#'>
+          <Image
+            width={355}
+            src={mainLogo}
+            alt='sunsational swim school logo'
+            className=''
+          />
+        </Link>
 
-        <Link href='#'>Support</Link>
-        <div className='flex gap-16 items-center flex-wrap order-3'>
-          <div className='flex gap-6 items-center'>
-            <Link href='tel:18887882140' className='text-red-600'>
+        <div className='flex w-full  justify-center gap-8  items-center'>
+          <Link href='#'>Support</Link>
+
+          <div className='flex flex-col xl:gap-8 xl:justify-between xl:flex-row items-end xl:items-center'>
+            <Link
+              href='tel:18887882140'
+              className='text-red-600 text-base lg:text-[20px]'
+            >
               📞 1-888-788-2140hh
             </Link>
-            <Button link={'/registration'} text='Book Now' shadowColor='var(--color-orange)' />
+            <Button
+              link={'/registration'}
+              text='Book Now'
+              shadowColor='var(--color-orange)'
+            />
           </div>
         </div>
       </div>
-      <div className='w-full  h-[20px] md:h-[54px] absolute right-0 bottom-[2%]  md:-bottom-[7%] rotate-180 z-[99] '>
+      <div className='w-full absolute  h-[54px] bottom-[0%] translate-y-[15%] rotate-180 z-[99] '>
         <WaveWithBorder />
       </div>
     </nav>
