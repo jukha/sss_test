@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Grandstander:ital,wght@0,100..900;1,100..900&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+@import 'tailwindcss';
+
+@theme inline {
+  --breakpoint-mobile: 425px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 1024px;
+  --breakpoint-desktop: 1440px;
+
+  --color-yellow: #fedf46;
+  --color-lightYellow: #fff9e1;
+  --color-orange: #f86008;
+  --color-lightOrange: #fab248;
+  --color-darkBlue: #110241;
+  --color-blue: #033d9a;
+  --color-lightBlue: #1a8dc6;
+  --color-gray: #f4f4f4;
+  --color-lightGreen: #00acb6;
+  --color-white: #ffffff;
+  --color-off-white: #fff9e1;
+  --color-black: #000000;
+  --color-red: #d60009;
+  --color-lightRed: #d600090d;
+
+ --font-primary: Grandstander, sans-serif;
+ --font-secondary: 'Rethink Sans', san-serif, Arial, Helvetica, sans-serif;
+
+/* font sizes variables */
+  --text-small: 16px;
+  --text-medium: 20px;
+  --text-large: 24px;
+  --text-semiHead: 32px;
+  --text-head: 48px;
+
+  --text-head-desktop: 96px;
+
+  --filter-yellow: brightness(0) saturate(100%) invert(100%) sepia(26%)
+    saturate(6061%) hue-rotate(323deg) brightness(105%) contrast(100%);
+  --filter-lightYellow: brightness(0) saturate(100%) invert(98%) sepia(46%)
+    saturate(666%) hue-rotate(313deg) brightness(110%) contrast(103%);
+  --filter-orange: brightness(0) saturate(100%) invert(43%) sepia(60%)
+    saturate(2642%) hue-rotate(357deg) brightness(98%) contrast(99%);
+  --filter-lightOrange: brightness(0) saturate(100%) invert(78%) sepia(88%)
+    saturate(4092%) hue-rotate(327deg) brightness(113%) contrast(104%);
+  --filter-darkBlue: brightness(0) saturate(100%) invert(1%) sepia(100%)
+    saturate(7495%) hue-rotate(235deg) brightness(101%) contrast(101%);
+  --filter-blue: brightness(0) saturate(100%) invert(16%) sepia(50%)
+    saturate(5369%) hue-rotate(207deg) brightness(86%) contrast(107%);
+  --filter-lightBlue: brightness(0) saturate(100%) invert(45%) sepia(45%)
+    saturate(851%) hue-rotate(155deg) brightness(95%) contrast(93%);
+  --filter-gray: brightness(0) saturate(100%) invert(57%) sepia(3%) saturate(0%)
+    hue-rotate(358deg) brightness(99%) contrast(96%);
+  --filter-lightGray: brightness(0) saturate(100%) invert(100%) sepia(0%)
+    saturate(7402%) hue-rotate(297deg) brightness(111%) contrast(91%);
+  --filter-lightGreen: brightness(0) saturate(100%) invert(45%) sepia(54%)
+    saturate(2397%) hue-rotate(150deg) brightness(96%) contrast(101%);
+  --filter-white: brightness(0) saturate(100%) invert(100%) sepia(100%)
+    saturate(2%) hue-rotate(295deg) brightness(108%) contrast(101%);
+  --filter-black: brightness(0) saturate(100%) invert(0%) sepia(8%) saturate(8%)
+    hue-rotate(145deg) brightness(97%) contrast(102%);
+  --filter-red: brightness(0) saturate(100%) invert(9%) sepia(74%)
+    saturate(5568%) hue-rotate(346deg) brightness(120%) contrast(128%);
+  --filter-lightRed: brightness(0) saturate(100%) invert(91%) sepia(23%)
+    saturate(354%) hue-rotate(334deg) brightness(116%) contrast(106%);
+}
+
+body {
+  font-family: 'Rethink Sans', san-serif, Arial, Helvetica, sans-serif;
+  overflow: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  @apply font-bold text-head md:text-head-desktop leading-[110%];
+  font-family: Grandstander, sans-serif;
+  font-weight: 700;
+}
+
+h2 {
+  font-family: Grandstander, sans-serif;
+  font-weight: 700;
+  font-size: var(--text-head);
+  line-height: 110%;
+}
+
+h3 {
+  font-family: Grandstander, sans-serif;
+  font-weight: 700;
+  font-size: var(--text-semiHead);
+  line-height: 120%;
+}
+h4 {
+  font-family: Grandstander, sans-serif;
+  font-weight: 700;
+  font-size: var(--text-large);
+  line-height: 125%;
+}
+
+nav,
+nav * {
+  color: #110241;
+  font-weight: 700;
+}
+
+.curveButton {
+  border-radius: 94% 6% 87% 13% / 13% 80% 20% 87%;
+  position: relative;
+}
+
+.curveCircle {
+  border-radius: 31% 69% 21% 79% / 51% 46% 54% 49%;
+}
+
+.curveButton:not(:disabled)::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  width: 100%;
+  height: 100%;
+  border-radius: 94% 6% 87% 13% / 13% 80% 20% 87%;
+  background-color: var(--color-blue);
+  z-index: -1;
+}
+
+.cutCard {
+  /* clip-path: polygon(0 0, 100% 10%, 97% 100%, 0% 100%); */
+  /* border-radius: 16px 100px 80px 16px; */
+  /* border-radius: 16px 200px 100px 16px; */
+  border-radius: 10% 90% 15% 10% / 10% 30% 90% 10%;
+  position: relative;
+}
+
+.cutCard::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  width: 100%;
+  height: 100%;
+  border-radius: 10% 90% 15% 10% / 10% 30% 90% 10%;
+  background-color: var(--color-blue);
+  z-index: -1;
+}
+
+.orangeScroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.orangeScroll::-webkit-scrollbar-thumb {
+  background-color: var(--color-orange);
+  border-radius: 4px;
+}
+
+.orangeScroll::-webkit-scrollbar-track {
+  background-color: var(--color-lightOrange);
+  border-radius: 4px;
+}
+
+.filterYellow {
+  filter: var(--filter-yellow);
+}
+
+.filterLightYellow {
+  filter: var(--filter-lightYellow);
+}
+
+.filterOrange {
+  filter: var(--filter-orange);
+}
+
+.filterDarkBlue {
+  filter: var(--filter-darkBlue);
+}
+
+.filterBlue {
+  filter: var(--filter-blue);
+}
+
+.filterLightBlue {
+  filter: var(--filter-lightBlue);
+}
+
+.filterGray {
+  filter: var(--filter-gray);
+}
+
+.filterLightGray {
+  filter: var(--filter-lightGray);
+}
+
+.filterLightGreen {
+  filter: var(--filter-lightGreen);
+}
+
+.filterWhite {
+  filter: var(--filter-white);
+}
+
+.filterBlack {
+  filter: var(--filter-black);
+}
+
+.filterRed {
+  filter: var(--filter-red);
+}
+
+.filterLightRed {
+  filter: var(--filter-lightRed);
+}

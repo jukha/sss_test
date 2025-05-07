@@ -1,0 +1,17 @@
+export enum FilterClassEnum {
+  None = '',
+  Yellow = 'filterYellow',
+  LightYellow = 'filterLightYellow',
+  Orange = 'filterOrange',
+  LightOrange = 'filterLightOrange',
+  DarkBlue = 'filterDarkBlue',
+  Blue = 'filterBlue',
+  LightBlue = 'filterLightBlue',
+  Gray = 'filterGray',
+  LightGray = 'filterLightGray',
+  LightGreen = 'filterLightGreen',
+  White = 'filterWhite',
+  Black = 'filterBlack',
+  Red = 'filterRed',
+  LightRed = 'filterLightRed',
+}

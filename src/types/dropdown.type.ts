@@ -1,0 +1,1 @@
+export type DropDownType = { header: string; textArticles: string[] };
