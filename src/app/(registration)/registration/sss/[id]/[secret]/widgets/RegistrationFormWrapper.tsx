@@ -41,7 +41,7 @@ const stepsPictures = [
 ];
 
 const RegistrationFormWrapper: React.FC<Props> = observer(
-  ({ secret, formId }) => {
+  ({ databaseId, secret, formId }) => {
     const [loading, setLoading] = useState(true);
     const pathname = usePathname();
     const { setRegistrationForm, registrationStep, setRegistrationStep } =
@@ -52,16 +52,15 @@ const RegistrationFormWrapper: React.FC<Props> = observer(
 
       (async () => {
         setLoading(true);
-
         const { data } = await getRegistrationRepository.get({
-          headers: { 'X-Form-Id': formId, 'X-Anonymous-Secret': secret },
+          headers: { 'X-RegFormType-Id': formId, 'X-Registration-Secret': secret, 'X-Registration-Id': databaseId },
         });
 
         setLoading(false);
 
         if (data) {
           setRegistrationForm(data);
-          setRegistrationStep(data.lastCompletedStep + 1);
+          // setRegistrationStep(data.lastCompletedStep + 1);
         } else {
           setRegistrationStep(RegistrationStepEnum.Error);
         }
@@ -86,7 +85,7 @@ const RegistrationFormWrapper: React.FC<Props> = observer(
       const { data } = await registrationStepRepository.post({
         data: validatedData,
         endpoint: `/${stepNumber}`,
-        headers: { 'X-Form-Id': formId, 'X-Anonymous-Secret': secret },
+        headers: { 'X-RegFormType-Id': formId, 'X-Registration-Secret': secret, 'X-Registration-Id': databaseId },
       });
 
       if (!data) return; // todo add error handling?
@@ -105,7 +104,7 @@ const RegistrationFormWrapper: React.FC<Props> = observer(
       [RegistrationStepEnum.Error]: <div>error</div>,
       [RegistrationStepEnum.Step1]: (
         <RegistrationForm1
-          disableInputs={loading}
+          loading={loading}
           onNext={(data, step) => onNextStep(data, step)}
         />
       ),

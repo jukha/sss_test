@@ -3,8 +3,8 @@ import React from 'react';
 const PoolIcon = () => {
   return (
     <svg
-      width='64'
-      height='64'
+      width='100%'
+      height='100%'
       viewBox='0 0 103 102'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'

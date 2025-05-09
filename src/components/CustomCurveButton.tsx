@@ -23,7 +23,7 @@ const CustomCurveButton: React.FC<Props> = ({
   return (
     <div className='z-[1]' style={{ width }}>
       <button
-        className='w-full curveButton flex items-center px-[100px] py-[30px] cursor-pointer justify-center disabled:opacity-60 disabled:cursor-default relative'
+        className='w-full flex items-center px-[100px] py-[30px] cursor-pointer justify-center disabled:opacity-60 disabled:cursor-default relative'
         disabled={disabled}
         type={type || 'button'}
         onClick={onClick}

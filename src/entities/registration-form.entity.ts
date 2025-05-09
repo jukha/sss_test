@@ -1,8 +1,8 @@
 export type RegistrationForm = {
-  id: number;
-  zipCode: number | null;
-  poolAccess: boolean | null;
-  lastCompletedStep: number;
-  completed: boolean;
-  anonUserSecret?: string
+  id: bigint;
+  zip: string | null;
+  customerHasAccessToPool: boolean | null;
+  isRegistrationComplete: boolean;
+  registrationFormType: string;
+  secret?: string
 };

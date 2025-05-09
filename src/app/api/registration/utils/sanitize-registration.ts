@@ -1,7 +1,15 @@
-import {Registration} from '@/__generated__/prisma';
+import {CustomerRegistration} from '@/__generated__/prisma';
 
-export const sanitizeRegistration = (registration: Registration) => {
+
+//Fix BigInts being non JSON stringifyable.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(BigInt.prototype as any).toJSON = function () {
+  return this.toString();
+};
+
+
+export const sanitizeRegistration = (registration: CustomerRegistration): Partial<CustomerRegistration> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {anonUserSecret, ...rest} = registration;
+  const {secret, ...rest} = registration;
   return rest;
-}
+};

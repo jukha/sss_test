@@ -4,18 +4,19 @@ import { HTMLAttributes } from 'react';
 import FilteredImage from './FilteredImage';
 import { FilterClassEnum } from '@/enum/filter-class.enum';
 
-type Props = HTMLAttributes<HTMLInputElement> & {
-  text: string;
+type Props = HTMLAttributes<HTMLTextAreaElement> & {
+  text?: string;
   icon?: StaticImageData;
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   disabled?: boolean;
   error?: string;
   maxLength?: number;
-  className?: string;
+  placeholder?: string;
+  rows?: number;
 };
 
-const CustomInput: React.FC<Props> = (props) => {
+const CustomTextArea: React.FC<Props> = (props) => {
   const {
     text,
     icon,
@@ -24,19 +25,25 @@ const CustomInput: React.FC<Props> = (props) => {
     disabled,
     maxLength,
     error,
-    className,
+    placeholder,
+    rows,
     ...inputProps
   } = props;
   return (
-    <div className={clsx('flex flex-col gap-[10px] w-full', className)}>
-      <div className='flex justify-between w-full'>
-        <label htmlFor={text} className='text-darkBlue'>
-          {text}
-        </label>
-        <span className={clsx('text-red', error ? 'opacity-100' : 'opacity-0')}>
-          {error || 'error'}
-        </span>
-      </div>
+    <div className='flex flex-col gap-[10px] w-full'>
+      {(text || error) && (
+        <div className='flex justify-between w-full'>
+          <label htmlFor={text} className='text-darkBlue'>
+            {text}
+          </label>
+          <span
+            className={clsx('text-red', error ? 'opacity-100' : 'opacity-0')}
+          >
+            {error || 'error'}
+          </span>
+        </div>
+      )}
+
       <div
         className={clsx(
           'flex items-center bg-white rounded-[10px] border-[1px]',
@@ -51,19 +58,20 @@ const CustomInput: React.FC<Props> = (props) => {
             className='ml-[8px] h-[24px] w-[24px] '
           />
         )}
-        <input
+        <textarea
           {...inputProps}
-          type='text'
           id={text}
+          rows={rows || 4}
           maxLength={maxLength}
-          className='py-[8px] px-[16px] w-full outline-none'
+          className='py-[8px] px-[16px] w-full outline-none resize-none'
           value={value}
           onChange={onChange}
           disabled={disabled}
+          placeholder={placeholder}
         />
       </div>
     </div>
   );
 };
 
-export default CustomInput;
+export default CustomTextArea;

@@ -5,6 +5,9 @@ import blackArrow from './images/blackArrow.svg';
 import placeMarker from './images/placeMarker.svg';
 import alertCircle from './images/alertCircle.svg';
 import arrowUp from './images/arrowUp.svg';
+import plus from './images/plus.svg';
+import minus from './images/minus.svg';
+import personIcon from './images/person.svg';
 import registrationStep1 from './images/registrationStep1.svg';
 import registrationStep2 from './images/registrationStep2.svg';
 import registrationStep3 from './images/registrationStep3.svg';
@@ -29,15 +32,20 @@ import logo from './images/logo.webp';
 import logoMobile from './images/logoMobile.svg';
 import fiveStar from './images/fiveStar.webp';
 import yellowLike from './images/yellowLike.webp';
-
+import yellowCoin from './images/yellowCoin.webp';
+import calendar from './images/calendar.webp';
+import poolStairs from './images/poolStairs.webp';
+import groupedWomen from './images/instructorWithStudent1.svg';
 import homeHero from './images/homeHero.png';
-import homeHeroMobile from "./images/homeHeroMobile.png";
+import homeHeroMobile from './images/homeHeroMobile.png';
 import stickerStamp from './images/stampSticker.svg';
 
 // figures
 
 import curveOval from './images/curveOval.svg';
-import curveCard from './images/curveCard.svg';
+import curveCard1 from './images/curveCard1.svg';
+import curveCard2 from './images/curveCard2.svg';
+import curveCard3 from './images/curveCard3.svg';
 import wavyBorder from './images/wavyBorder.svg';
 
 // Logos
@@ -74,9 +82,18 @@ export {
   stickerStamp,
   imageSun,
   mainLogo,
-  curveCard,
+  curveCard1,
+  curveCard2,
+  curveCard3,
   boyAndMom,
   mail,
   wavyBorder,
-  homeHeroMobile
+  homeHeroMobile,
+  plus,
+  minus,
+  personIcon,
+  yellowCoin,
+  poolStairs,
+  calendar,
+  groupedWomen
 };

@@ -58,7 +58,7 @@ const ArrowButton = (props: Props) => {
             >
               <path
                 d='M12.6353 24.7181L9.90202 21.9222L17.3041 14.7482L0.226854 14.481L0.29015 10.436L17.3674 10.7033L10.1932 3.31313L13.0129 0.592137L24.8871 12.8439L12.6353 24.7181Z'
-                fill={props.iconColor? props.iconColor:'white'}
+                fill={props.iconColor ? props.iconColor : 'white'}
               />
             </svg>
           </span>

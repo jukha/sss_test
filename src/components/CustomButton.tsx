@@ -27,7 +27,7 @@ const CustomButton: React.FC<Props> = ({
   return (
     <button
       className={clsx(
-        'flex items-center px-[8px] py-[12px] cursor-pointer justify-center relative rounded-[10px] disabled:opacity-60 disabled:cursor-default',
+        'flex items-center px-[8px] py-[12px] gap-[10px] cursor-pointer justify-center relative rounded-[10px] disabled:opacity-60 disabled:cursor-default',
         isActive ? 'bg-blue' : 'bg-gray',
         className
       )}

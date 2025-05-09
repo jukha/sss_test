@@ -17,13 +17,26 @@ type Props = {
   error?: string;
   value?: Choice;
   onChange: (v: Choice) => void;
+  className?: string;
 };
 
-const DropDownSelect: React.FC<Props> = ({ choices, width, text, error, value, onChange }) => {
+const DropDownSelect: React.FC<Props> = ({
+  choices,
+  width,
+  text,
+  error,
+  value,
+  onChange,
+  className,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   return (
-    <div className='flex flex-col w-full relative' style={{ width }} ref={ref}>
+    <div
+      className={clsx('flex flex-col w-full relative gap-[10px]', className)}
+      style={{ width }}
+      ref={ref}
+    >
       <div className='flex justify-between w-full'>
         <label htmlFor={text} className='text-darkBlue'>
           {text}
@@ -40,7 +53,7 @@ const DropDownSelect: React.FC<Props> = ({ choices, width, text, error, value, o
         )}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <span className='grow h-[24px]'>{value?.text}</span>
+        <span className='grow h-[24px] whitespace-nowrap overflow-clip max-w-[80%]'>{value?.text}</span>
         <FilteredImage
           src={arrowUp}
           rotate={isOpen ? 'top' : 'bottom'}

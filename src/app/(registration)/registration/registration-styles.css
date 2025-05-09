@@ -14,6 +14,7 @@
   --color-darkBlue: #110241;
   --color-blue: #033d9a;
   --color-lightBlue: #1a8dc6;
+  --color-extraLightBlue: #e3f5f9;
   --color-gray: #f4f4f4;
   --color-lightGreen: #00acb6;
   --color-white: #ffffff;
@@ -22,10 +23,10 @@
   --color-red: #d60009;
   --color-lightRed: #d600090d;
 
- --font-primary: Grandstander, sans-serif;
- --font-secondary: 'Rethink Sans', san-serif, Arial, Helvetica, sans-serif;
+  --font-primary: Grandstander, sans-serif;
+  --font-secondary: 'Rethink Sans', san-serif, Arial, Helvetica, sans-serif;
 
-/* font sizes variables */
+  /* font sizes variables */
   --text-small: 16px;
   --text-medium: 20px;
   --text-large: 24px;
@@ -42,12 +43,14 @@
     saturate(2642%) hue-rotate(357deg) brightness(98%) contrast(99%);
   --filter-lightOrange: brightness(0) saturate(100%) invert(78%) sepia(88%)
     saturate(4092%) hue-rotate(327deg) brightness(113%) contrast(104%);
-  --filter-darkBlue: brightness(0) saturate(100%) invert(1%) sepia(100%)
-    saturate(7495%) hue-rotate(235deg) brightness(101%) contrast(101%);
+  --filter-darkBlue: brightness(0) saturate(100%) invert(5%) sepia(89%)
+    saturate(4934%) hue-rotate(258deg) brightness(78%) contrast(108%);
   --filter-blue: brightness(0) saturate(100%) invert(16%) sepia(50%)
     saturate(5369%) hue-rotate(207deg) brightness(86%) contrast(107%);
   --filter-lightBlue: brightness(0) saturate(100%) invert(45%) sepia(45%)
     saturate(851%) hue-rotate(155deg) brightness(95%) contrast(93%);
+  --filter-extraLightBlue: brightness(0) saturate(100%) invert(90%) sepia(25%)
+    saturate(102%) hue-rotate(154deg) brightness(102%) contrast(95%);
   --filter-gray: brightness(0) saturate(100%) invert(57%) sepia(3%) saturate(0%)
     hue-rotate(358deg) brightness(99%) contrast(96%);
   --filter-lightGray: brightness(0) saturate(100%) invert(100%) sepia(0%)
@@ -182,6 +185,10 @@ nav * {
 
 .filterLightBlue {
   filter: var(--filter-lightBlue);
+}
+
+.filterExtraLightBlue {
+  filter: var(--filter-extraLightBlue);
 }
 
 .filterGray {

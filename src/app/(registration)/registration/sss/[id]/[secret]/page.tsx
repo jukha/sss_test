@@ -1,6 +1,6 @@
 import RegistrationPageLayout from '../../../RegistrationPageLayout';
 
-const FORM_ID = 'J';
+const REGISTRATION_FORM_TYPE = 'J';
 
 export default async function Registration({
   params,
@@ -8,5 +8,5 @@ export default async function Registration({
   params: Promise<{ id: string; secret: string }>;
 }) {
   const { id, secret } = await params;
-  return <RegistrationPageLayout formId={FORM_ID} databaseId={id} secret={secret} />;
+  return <RegistrationPageLayout formId={REGISTRATION_FORM_TYPE} databaseId={id} secret={secret} />;
 }

@@ -1,46 +1,105 @@
-import { fiveStar, starBg, waterBg, yellowLike } from '@/assets';
+import {
+  calendar,
+  curveCard1,
+  curveCard2,
+  curveCard3,
+  fiveStar,
+  poolStairs,
+  starBg,
+  waterBg,
+  yellowCoin,
+  yellowLike,
+} from '@/assets';
 import AbsoluteLogo from '@/components/AbsoluteLogo';
 import RegistrationFormWrapper from './sss/[id]/[secret]/widgets/RegistrationFormWrapper';
 import CardSlider from '@/components/CardSlider';
 import DropDownBlock from '@/components/DropDownBlock';
 import { DropDownType } from '@/types/dropdown.type';
 import SmallCardSlider from '@/components/SmallCardSlider';
-import './registration-styles.css'
+import './registration-styles.css';
+import { CardType } from '@/types/card.type';
+import { FilterClassEnum } from '@/enum/filter-class.enum';
 
-const cardsData = [
+const cardsData: CardType[] = [
   {
-    text: 'Christine has been great! My kids enjoy swimming with her and she is very easy to work with...',
-    person: { name: 'Joselyn K', city: 'Las Vegas' },
+    text: 'Christine has been great! My kids enjoy swim ming with her and she is very easy to work with...',
+    person: { name: 'Joselyn K', city: 'Las Vegas', bgColor: 'bg-lightBlue' },
+    cardBgSrc: curveCard1,
+    cardFilter: FilterClassEnum.DarkBlue,
+    cardShadowFilter: FilterClassEnum.Blue,
+    textColor: '!text-white',
   },
   {
-    text: 'So good. My children like this classes so much, special thanks to John',
-    person: { name: 'Mike E', city: 'New York' },
+    text: 'We have been having a great experience with Sunsational. First they worked hard to get us matched....',
+    person: { name: 'Neda', city: 'Arizona', bgColor: 'bg-orange' },
+    cardBgSrc: curveCard2,
+    cardFilter: FilterClassEnum.Yellow,
+    cardShadowFilter: FilterClassEnum.Orange,
+    textColor: '!text-black',
+  },
+  {
+    text: 'We had James for swimming lessons, and I cannot say enough good things about him. He was prompt every single day...',
+    person: { name: 'Raja J', city: 'Atlanta', bgColor: 'bg-yellow' },
+    cardBgSrc: curveCard3,
+    cardFilter: FilterClassEnum.LightBlue,
+    cardShadowFilter: FilterClassEnum.ExtraLightBlue,
+    textColor: '!text-white',
   },
 ];
 
 const additionalCardsData = [
   { text: 'Thousands of 5-star reviews ', image: fiveStar },
   { text: '1# rated swim school in America', image: yellowLike },
+  { text: 'Get final quote before checkout', image: yellowCoin },
+  { text: 'Personalized swim lesson plans', image: poolStairs },
+  { text: 'Flexible Scheduling', image: calendar },
 ];
 
 const dropDownData: DropDownType[] = [
   {
-    header: 'First Header',
+    header: 'How long does it take to learn how to swim with private lessons?',
     textArticles: [
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      'We require that a parent or guardian be present during all lessons. Parents can supervise lessons, either from inside the house, or from the pool deck. If your child starts acting out, we would recommend watching the lessons out of their sight, since young children perform better if there is only one authority figure to focus on at a time.',
+      'For children under 2 years we recommend a parent is in the water for the child to be the most comfortable. Children 2 years and older get the most out of lessons without the parent in the water and often with the parent out of direct sight (preschoolers often act up when the parent is in view).',
     ],
   },
   {
-    header: 'Second Header',
+    header: 'Where is your pool located?',
     textArticles: [
       'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
       'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     ],
   },
   {
-    header: 'Third Header',
+    header: 'What happens if I don’t have a pool at home?',
+    textArticles: [
+      'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
+      'Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
+    ],
+  },
+  {
+    header: 'What qualifications do your instructors have?',
+    textArticles: [
+      'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
+      'Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
+    ],
+  },
+  {
+    header: 'What is your Learn to Swim Guarantee?',
+    textArticles: [
+      'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
+      'Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
+    ],
+  },
+  {
+    header: 'What is the cost and how many lessons are typically required?',
+    textArticles: [
+      'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
+      'Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
+    ],
+  },
+  {
+    header: 'When can I register? How?',
     textArticles: [
       'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
       'Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
@@ -79,9 +138,9 @@ const RegistrationPageLayout: React.FC<Props> = ({
             </div>
 
             <RegistrationFormWrapper
-              formId={formId}
               databaseId={databaseId}
               secret={secret}
+              formId={formId}
             />
           </div>
 

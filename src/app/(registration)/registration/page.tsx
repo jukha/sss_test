@@ -4,7 +4,7 @@ import { startRegistrationRepository } from '@/repositories/registration/start-r
 import { useEffect, useState } from 'react';
 import RegistrationPageLayout from './RegistrationPageLayout';
 
-const FORM_ID = 'J';
+const REGISTRATION_FORM_TYPE = 'J';
 
 const RegistrationWrapper = () => {
   const [data, setData] = useState<RegistrationForm | null>(null);
@@ -14,7 +14,7 @@ const RegistrationWrapper = () => {
     (async () => {
       const { data } = await startRegistrationRepository.post({
         data: null,
-        headers: { 'X-Form-Id': FORM_ID },
+        headers: { 'X-RegFormType-Id': REGISTRATION_FORM_TYPE },
       });
 
       if (!data) {
@@ -37,8 +37,8 @@ const RegistrationWrapper = () => {
   return (
     <RegistrationPageLayout
       databaseId={data?.id.toString() || ''}
-      secret={data?.anonUserSecret || ''}
-      formId={FORM_ID}
+      secret={data?.secret || ''}
+      formId={REGISTRATION_FORM_TYPE}
     />
   );
 };

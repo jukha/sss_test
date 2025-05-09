@@ -1,6 +1,7 @@
 import {z} from 'zod';
 
-export const formatZodErrors = <S,>(validationResult: z.SafeParseReturnType<S, S>) => {
+
+export const extractZodErrors = <S,>(validationResult: z.SafeParseReturnType<S, S>) => {
   if (!validationResult.error?.errors) return null;
 
   const validationErrors: Partial<Record<keyof z.infer<z.ZodType<S>>, string>> = {};
@@ -18,4 +19,4 @@ export const formatZodErrors = <S,>(validationResult: z.SafeParseReturnType<S, S
   }
 
   return validationErrors;
-}
+};

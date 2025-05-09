@@ -1,3 +1,4 @@
 export const registrationSettings = {
-  maxStep: 1
-}
+  registrationRecordSecretLength: 30,
+  maxStep: 2
+};

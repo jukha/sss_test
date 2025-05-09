@@ -18,7 +18,8 @@ const GoBackTextButton: React.FC<Props> = ({
     <div
       className={clsx(
         'flex gap-[10px] items-center',
-        onClick ? 'cursor-pointer' : 'cursor-default'
+        onClick ? 'cursor-pointer' : 'cursor-default',
+        size === 'large' && 'self-start'
       )}
       onClick={onClick}
     >

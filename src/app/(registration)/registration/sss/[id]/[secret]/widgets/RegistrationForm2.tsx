@@ -1,13 +1,17 @@
 'use client';
 
+import { blackArrow, minus, personIcon, plus } from '@/assets';
 import CustomButton from '@/components/CustomButton';
+import CustomCurveButton from '@/components/CustomCurveButton';
 import CustomInput from '@/components/CustomInput';
+import CustomTextArea from '@/components/CustomTextArea';
 import DropDownSelect from '@/components/DropDownSelect';
 import GoBackTextButton from '@/components/GoBackTextButton';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import { registrationFormStore } from '@/stores/registration-form.store';
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { DeepPartial, useForm } from 'react-hook-form';
 
 const ageChoices = [
   { index: 0, text: '6-8 Months' },
@@ -35,14 +39,33 @@ type Student = {
 
 type FormValues = {
   students: Student[];
+  additionalInfo: string;
+  guardOfStudents: null | boolean;
+};
+
+const formDefaultValues: DeepPartial<FormValues> = {
+  students: [],
+  additionalInfo: '',
+  guardOfStudents: null,
 };
 
 const RegistrationForm2: React.FC<Props> = ({}) => {
-  const { register, handleSubmit, setValue, getValues, watch } =
-    useForm<FormValues>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+    formState: { errors },
+  } = useForm<FormValues>({ defaultValues: formDefaultValues });
   const { setRegistrationStep } = registrationFormStore;
   const [countOfStudents, setCountOfStudents] = useState(1);
   const [howManyButtonsShown, setHowManyButtonsShown] = useState<3 | 6>(3);
+  const [isTextAreaShown, setIsTextAreaShown] = useState(false);
+
+  const students = watch('students') || [];
+  const guardOfStudents = watch('guardOfStudents');
+
   const onSubmit = () => {};
 
   useEffect(() => {
@@ -54,9 +77,6 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
     );
     setValue('students', newStudents);
   }, [countOfStudents]);
-
-  const students = watch('students');
-  console.log(students);
 
   return (
     <form
@@ -92,27 +112,87 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
       </div>
 
       <div className='flex flex-col gap-[24px] w-full'>
-        {Array.from({ length: countOfStudents }).map((_, i) => {
-          const students = getValues('students') || [];
-          const ageValue = students[i]?.age || undefined;
-
-          return (
-            <div key={i} className='flex gap-[14px] items-end'>
-              <CustomInput
-                text='Student Name*'
-                {...register(`students.${i}.name`)}
+        {Array.from({ length: countOfStudents }).map((_, i) => (
+          <div key={i} className='flex gap-[14px] items-end'>
+            <CustomInput
+              text='Student Name*'
+              {...register(`students.${i}.name`)}
+              icon={personIcon}
+              className='!w-[70%]'
               />
-
-              <DropDownSelect
-                text='Student Age*'
-                choices={ageChoices}
-                value={ageValue}
-                onChange={(v) => setValue(`students.${i}.age`, v)}
-              />
-            </div>
-          );
-        })}
+            <DropDownSelect
+              text='Student Age*'
+              choices={ageChoices}
+              value={students[i]?.age || undefined}
+              onChange={(v) => setValue(`students.${i}.age`, v)}
+              className='!w-[30%]'
+            />
+          </div>
+        ))}
       </div>
+
+      <div className='w-full flex flex-col gap-[16px] pt-[16px] border-t-[1px] border-black'>
+        <CustomButton
+          text={
+            isTextAreaShown
+              ? 'Remove additional information about the students'
+              : 'Additional information about the students (goals, special needs, etc...)'
+          }
+          onClick={() => setIsTextAreaShown((prev) => !prev)}
+          icon={isTextAreaShown ? minus : plus}
+          className='text-start flex-row-reverse p-[16px] w-[90%] !bg-extraLightBlue'
+        />
+
+        {isTextAreaShown && (
+          <CustomTextArea
+            {...register('additionalInfo')}
+            placeholder='Tell us about your goals for your children! Any special needs, medical issues, or special information we should know?'
+            rows={5}
+          />
+        )}
+      </div>
+
+      <div className='flex flex-col gap-[10px] w-full'>
+        <div className='flex justify-between w-full'>
+          <span>Are you the Parent or Guardian of all of the students?* </span>
+          <span
+            className={clsx(
+              'text-red',
+              errors.guardOfStudents ? 'opacity-100' : 'opacity-0'
+            )}
+          >
+            {errors.guardOfStudents?.message || 'error'}
+          </span>
+        </div>
+
+        <div className='flex gap-[16px]'>
+          <CustomButton
+            text='Yes'
+            width='50%'
+            onClick={() => setValue('guardOfStudents', true)}
+            isActive={guardOfStudents === true}
+          />
+          <CustomButton
+            text='No'
+            width='50%'
+            onClick={() => setValue('guardOfStudents', false)}
+            isActive={guardOfStudents === false}
+          />
+        </div>
+      </div>
+
+      <CustomCurveButton
+        type='submit'
+        disabled={Object.keys(errors).length > 0}
+        text='Continue'
+        icon={blackArrow}
+      />
+
+      <GoBackTextButton
+        size='small'
+        text='Back to metro areas selection'
+        onClick={() => setRegistrationStep(RegistrationStepEnum.Step1)}
+      />
     </form>
   );
 };

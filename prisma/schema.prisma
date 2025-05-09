@@ -8,23 +8,107 @@ datasource db {
   url      = env("JAWSDB_URL")
 }
 
-model Registration {
-  id                Int      @id @default(autoincrement())
-  anonUserSecret    String   @unique
-  zipCode           Int?
-  poolAccess        Boolean?
-  lastCompletedStep Int      @default(0)
-  completed         Boolean  @default(false)
-  formId            String
+model CustomerRegistrationHistory {
+  id                            BigInt                         @id @default(autoincrement())
+  record_id                     BigInt?
+  data                          String?                        @db.Text
+  customer_registration_records CustomerRegistration? @relation(fields: [record_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "customer_registration_record_history_ibfk_1")
 
-  @@map(name: "registration")
+  @@index([record_id], map: "record_id")
+  @@map("customer_registration_record_history")
 }
 
-model RegistrationLog {
-  id             Int      @id @default(autoincrement())
-  timestamp      DateTime
-  anonUserSecret String
-  payload        String
+model CustomerRegistration {
+  id                                                BigInt                                 @id @default(autoincrement())
+  orderId                                           BigInt?
+  isRegistrationComplete                            Boolean?
+  metroArea                                         String?                                @db.VarChar(200)
+  additionalPayForSI                                Decimal?                               @db.Decimal(10, 2)
+  doWeHaveSIWithPool                                Boolean?
+  canWeServe                                        Boolean?
+  canWeServeText                                    String?                                @db.VarChar(200)
+  firstName                                         String?                                @db.VarChar(200)
+  lastName                                          String?                                @db.VarChar(200)
+  email                                             String?                                @db.VarChar(200)
+  phone                                             String?                                @db.VarChar(200)
+  zip                                               String?                                @db.VarChar(5)
+  customerHasAccessToPool                           Boolean?
+  registrationDate                                  String?                                @db.VarChar(200)
+  premiumAreaFee                                    Decimal?                               @db.Decimal(10, 2)
+  studentsCount                                     Int?
+  questionsOfInformationWeShouldNowAboutTheStudents String?                                @db.Text
+  isCustomerAParentGuardianOfAll                    Boolean?
+  additionalParentGuardiansCount                    Int?
+  hasStudentsAboveThreeYearsOld                     Boolean?
+  lessonType                                        String?                                @db.VarChar(200)
+  lessonTime                                        Int?
+  packageSize                                       Int?
+  basePay                                           Decimal?                               @db.Decimal(10, 2)
+  totalBasePay                                      Decimal?                               @db.Decimal(10, 2)
+  lessonCostBeforeDiscount                          Decimal?                               @db.Decimal(10, 2)
+  packageDiscount                                   Decimal?                               @db.Decimal(10, 2)
+  lessonFrequency                                   Int?
+  customerWouldLikeToBegin                          String?                                @db.VarChar(200)
+  preferredLessonBeginDate                          String?                                @db.VarChar(200)
+  customerAvailableUntil                            String?                                @db.VarChar(200)
+  additionalSchedulingInformation                   String?                                @db.Text
+  bookability                                       String?                                @db.VarChar(200)
+  poolAddress                                       String?                                @db.VarChar(200)
+  poolType                                          String?                                @db.VarChar(200)
+  howFarCustomerWillingToDrive                      String?                                @db.VarChar(200)
+  validatedPromoCode                                String?                                @db.VarChar(200)
+  eligibleLsg                                       Boolean?
+  haveCustomerBeenHelpedBy                          String?                                @db.VarChar(200)
+  lg1Signed                                         Boolean?
+  lg1SigningDate                                    String?                                @db.VarChar(200)
+  freeLessons                                       Int?
+  paidLessons                                       Int?
+  promoDiscount                                     Decimal?                               @db.Decimal(10, 2)
+  orderTotal                                        Decimal?                               @db.Decimal(10, 2)
+  stripeToken                                       String?                                @db.VarChar(200)
+  selectedDays                                      String?                                @db.VarChar(200)
+  selectedWeekdayTimes                              String?                                @db.VarChar(200)
+  selectedWeekendTimes                              String?                                @db.VarChar(200)
+  studentName1                                      String?                                @db.VarChar(200)
+  studentAge1                                       String?                                @db.VarChar(200)
+  studentName2                                      String?                                @db.VarChar(200)
+  studentAge2                                       String?                                @db.VarChar(200)
+  studentName3                                      String?                                @db.VarChar(200)
+  studentAge3                                       String?                                @db.VarChar(200)
+  studentName4                                      String?                                @db.VarChar(200)
+  studentAge4                                       String?                                @db.VarChar(200)
+  studentName5                                      String?                                @db.VarChar(200)
+  studentAge5                                       String?                                @db.VarChar(200)
+  studentName6                                      String?                                @db.VarChar(200)
+  studentAge6                                       String?                                @db.VarChar(200)
+  parentGuardianName1                               String?                                @db.VarChar(200)
+  parentGuardianEmail1                              String?                                @db.VarChar(200)
+  parentGuardianName2                               String?                                @db.VarChar(200)
+  parentGuardianEmail2                              String?                                @db.VarChar(200)
+  parentGuardianName3                               String?                                @db.VarChar(200)
+  parentGuardianEmail3                              String?                                @db.VarChar(200)
+  parentGuardianName4                               String?                                @db.VarChar(200)
+  parentGuardianEmail4                              String?                                @db.VarChar(200)
+  parentGuardianName5                               String?                                @db.VarChar(200)
+  parentGuardianEmail5                              String?                                @db.VarChar(200)
+  parentGuardianName6                               String?                                @db.VarChar(200)
+  parentGuardianEmail6                              String?                                @db.VarChar(200)
+  secret                                            String?                                @db.VarChar(100)
+  ip                                                String?                                @db.VarChar(50)
+  ad_call                                           String?                                @db.VarChar(3)
+  referralCreditSpent                               BigInt?
+  referralLessonsSpent                              BigInt?
+  registrationFormType                              String?                                @db.VarChar(10)
+  deviceCategory                                    String?                                @db.VarChar(200)
+  deviceType                                        String?                                @db.VarChar(200)
+  requestedInstructor                               String?                                @db.VarChar(200)
+  upsell_from                                       BigInt?                                @default(0)
+  priceMultiplier                                   Decimal?                               @db.Decimal(10, 2)
+  payMultiplier                                     Decimal?                               @db.Decimal(10, 2)
+  termsFullName                                     String?                                @db.VarChar(200)
+  flexibleSchedule                                  Boolean?
+  customer_registration_record_history              CustomerRegistrationHistory[]
 
-  @@map(name: "registration_log")
+  @@index([orderId], map: "orderId")
+  @@map("customer_registration_records")
 }
