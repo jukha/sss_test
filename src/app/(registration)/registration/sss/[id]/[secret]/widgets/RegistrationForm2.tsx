@@ -89,7 +89,7 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
       />
 
       <div className='flex flex-col w-full gap-[16px]'>
-        <span>Select how many students need swim lessons</span>
+        <span className='font-medium'>Select how many students need swim lessons</span>
         <div className='flex gap-[8px] w-full flex-wrap'>
           {Array.from({ length: howManyButtonsShown }).map((_, i) => (
             <CustomButton
@@ -111,21 +111,21 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
         </div>
       </div>
 
-      <div className='flex flex-col gap-[24px] w-full'>
+      <div className='flex flex-col gap-[32px] w-full'>
         {Array.from({ length: countOfStudents }).map((_, i) => (
-          <div key={i} className='flex gap-[14px] items-end'>
+          <div key={i} className='flex flex-col gap-[14px] desktop:flex-row'>
             <CustomInput
               text='Student Name*'
               {...register(`students.${i}.name`)}
               icon={personIcon}
-              className='!w-[70%]'
-              />
+              className='grow'
+            />
             <DropDownSelect
               text='Student Age*'
               choices={ageChoices}
               value={students[i]?.age || undefined}
               onChange={(v) => setValue(`students.${i}.age`, v)}
-              className='!w-[30%]'
+              className='!w-[140px] shrink-0'
             />
           </div>
         ))}
@@ -140,7 +140,8 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
           }
           onClick={() => setIsTextAreaShown((prev) => !prev)}
           icon={isTextAreaShown ? minus : plus}
-          className='text-start flex-row-reverse p-[16px] w-[90%] !bg-extraLightBlue'
+          className='text-start flex-row-reverse p-[16px] desktop:w-[90%] !bg-extraLightBlue'
+          textClassName='text-sm leading-[120%]'
         />
 
         {isTextAreaShown && (
@@ -154,7 +155,7 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
 
       <div className='flex flex-col gap-[10px] w-full'>
         <div className='flex justify-between w-full'>
-          <span>Are you the Parent or Guardian of all of the students?* </span>
+          <span className='font-medium'>Are you the Parent or Guardian of all of the students?* </span>
           <span
             className={clsx(
               'text-red',

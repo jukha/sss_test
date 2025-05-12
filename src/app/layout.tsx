@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import '@/utils/styles/embla.css';
+import '@/utils/styles/cards.path.css';
 
 export const metadata: Metadata = {
   title: 'Sunsational Swim School - At-Home Private Swimming Lessons',

@@ -1,17 +1,18 @@
 import Hero from '@/components/Hero';
 import { groupedWomen, homeHero } from '@/assets';
 import ArrowButton from '@/components/ArrowButton';
-import CardVariant1 from '@/components/CardVariant1';
 
 import Image from 'next/image';
 import Container from '@/components/Container';
 import Typography from '@/components/Typography';
 import {
   heroSection,
-  howItWorksSection,
   whyChooseSunsationalSection,
 } from './data';
 import { Bubbles } from '@/components/decoration';
+import TakeStressOutSection from '@/components/TakeStressOutSection';
+import HowItWorksSection from '@/components/HowItWorksSection';
+import InstructorQualitiesSection from '@/components/InstructorQualitiesSection';
 import CardHorizontal from '@/components/CardHorizontal';
 import IconFrame from '@/components/icons/IconFrame';
 
@@ -22,7 +23,7 @@ import IconFrame from '@/components/icons/IconFrame';
 export default function Home() {
   return (
     <div>
-      <main className='flex flex-col '>
+      <main className='flex flex-col'>
         {/* Hero Section - Main banner with call to action */}
         <Hero bgImage={homeHero}>
           <Typography
@@ -48,38 +49,7 @@ export default function Home() {
           />
         </Hero>
 
-        {/* How It Works Section - Step-by-step process */}
-        <Container>
-          <section className='flex flex-col gap-16 py-[100px] justify-start items-center'>
-            <div className='flex flex-col gap-2'>
-              <Typography variant='h2' className='max-w-[837px] text-center'>
-                {howItWorksSection.title}
-              </Typography>
-              <Typography
-                variant='body1'
-                className='font-bold max-w-[762px]  text-center leading-[125%]'
-              >
-                {howItWorksSection.desc}
-              </Typography>
-            </div>
-            {/* Steps cards container - displays process steps */}
-            <div className='flex justify-center gap-[25px] lg:gap-8 flex-wrap items-center'>
-              {howItWorksSection.steps.map((el, index) => {
-                return (
-                  <CardVariant1
-                    key={index}
-                    title={el.title}
-                    description={el.desc}
-                    opacity={el.opacity}
-                    bgColor={el.bgColor}
-                    icon={el.image}
-                    direction={el.direction}
-                  />
-                );
-              })}
-            </div>
-          </section>
-        </Container>
+        <TakeStressOutSection />
 
         {/* Why Choose Us Section - Features and benefits */}
         <Container>
@@ -101,7 +71,11 @@ export default function Home() {
               {/* Left side - Image */}
               <div className='w-full mx-auto sm:max-w-[70%] lg:w-1/2  '>
                 <div className='relative mb-24 lg:mb-0'>
-                  <Image src={groupedWomen} alt='Image' className='mx-auto lg:max-w-[70%] lg:pb-32' />
+                  <Image
+                    src={groupedWomen}
+                    alt='Image'
+                    className='mx-auto lg:max-w-[70%] lg:pb-32'
+                  />
                   <div className='absolute w-full h-auto  md:w-[444px] md:h-[250px] -bottom-[15%] md:bottom-0  md:right-10 xl:right-20'>
                     <CardHorizontal
                       name='Sarah'
@@ -166,6 +140,9 @@ export default function Home() {
             /> */}
           </section>
         </Container>
+        {/* How It Works Section */}
+        <HowItWorksSection />
+        <InstructorQualitiesSection />
       </main>
     </div>
   );

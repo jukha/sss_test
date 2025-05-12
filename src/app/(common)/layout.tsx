@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import '../globals.css';
+import '../../utils/styles/common.path.css'
 import MainNavigation from '@/components/MainNavigation';
 import MainFooter from '@/components/MainFooter';
 

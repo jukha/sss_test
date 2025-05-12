@@ -15,13 +15,14 @@ const GoBackTextButton: React.FC<Props> = ({
   size = 'large',
 }) => {
   return (
-    <div
+    <button
       className={clsx(
-        'flex gap-[10px] items-center',
-        onClick ? 'cursor-pointer' : 'cursor-default',
-        size === 'large' && 'self-start'
+        'flex gap-[10px] items-center cursor-pointer font-bold leading-[120%] font-primary',
+        size === 'large' && 'self-start text-[24px]',
+        size === 'small' && 'text-[20px]'
       )}
       onClick={onClick}
+      type='button'
     >
       {onClick && (
         <FilteredImage
@@ -31,12 +32,15 @@ const GoBackTextButton: React.FC<Props> = ({
           alt='arrow'
           filter={FilterClassEnum.DarkBlue}
           rotate='left'
+          className={clsx(size === 'large' && 'mb-[6px]')}
         />
       )}
-      <h3 className={clsx('text-darkBlue', size === 'small' && '!text-medium')}>
+      <span
+        className={clsx('text-darkBlue', size === 'small' && '!text-medium')}
+      >
         {text}
-      </h3>
-    </div>
+      </span>
+    </button>
   );
 };
 

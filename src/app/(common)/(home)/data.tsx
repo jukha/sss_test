@@ -1,8 +1,5 @@
 import {
   ApprovalIcon,
-  CheckMarkIcon,
-  HomeIcon,
-  PlannerIcon,
   PoolIcon,
   ProtecIcon,
   SnorkelIcon,
@@ -17,38 +14,6 @@ const heroSection = {
   titleHighlight: 'your pool!™',
   // title: "Bring the swim school to your pool!™",
   desc: 'Book swim lessons at your home or community pool—fast progress and guaranteed results!',
-};
-
-// How It Works Section
-const howItWorksSection = {
-  title: 'Take the Stress Out of Learning to Swim',
-  desc: 'No more long drives, crowded swim schools, or inconvenient schedules— make learning to swim easy, effective, and stress-free with lessons at your home or community pool.',
-  steps: [
-    {
-      image: <HomeIcon />,
-      title: 'Convenient At-Home Lessons',
-      desc: 'Our instructors come to your pool at a time that works for you, eliminating the hassle of driving back and forth to swim lessons and scheduling multiple students back-to-back!',
-      direction: 'lt',
-      bgColor: '#c7eaf3',
-      opacity: 0.5,
-    },
-    {
-      image: <CheckMarkIcon />,
-      title: 'Learn to Swim Guarantee',
-      desc: 'We guarantee your child (aged 3+) will swim to the pool’s edge unassisted after a minimum of 12 lessons in our Learn to Swim Guarantee package (3x per week).',
-      direction: 'rt',
-      bgColor: '#fedf46',
-      opacity: 1,
-    },
-    {
-      image: <PlannerIcon />,
-      title: 'Flexible Scheduling',
-      desc: 'Busy schedule? No problem! We work around your availability, offering private at-home swim lessons at times that work best for your family.',
-      direction: 'rt',
-      bgColor: '#c7eaf3',
-      opacity: 0.5,
-    },
-  ],
 };
 
 // Why Choose Sunsational
@@ -168,7 +133,6 @@ const footer = {
 
 export {
   heroSection,
-  howItWorksSection,
   whyChooseSunsationalSection,
   getPrivateSwimmingSection,
   thousandsOfFiveSection,

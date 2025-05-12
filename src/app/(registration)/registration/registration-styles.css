@@ -23,6 +23,9 @@
   --color-red: #d60009;
   --color-lightRed: #d600090d;
 
+  --color-input-border: #8e8e8e;
+  --color-input-focus: #fedf46;
+
   --font-primary: Grandstander, sans-serif;
   --font-secondary: 'Rethink Sans', san-serif, Arial, Helvetica, sans-serif;
 

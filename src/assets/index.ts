@@ -21,6 +21,7 @@ import starFish from './images/starFish.svg';
 import singleStar from './images/singleStar.svg';
 import circles from './images/circles.svg';
 import mail from './images/mail.svg';
+import mobile from './images/mobile.svg';
 
 //pictures
 
@@ -39,6 +40,7 @@ import groupedWomen from './images/instructorWithStudent1.svg';
 import homeHero from './images/homeHero.png';
 import homeHeroMobile from './images/homeHeroMobile.png';
 import stickerStamp from './images/stampSticker.svg';
+import whatMakesUsSunsationalFeatureImage from './images/whatMakesUsSunsationalFeatureImage.png';
 
 // figures
 
@@ -47,7 +49,9 @@ import curveCard1 from './images/curveCard1.svg';
 import curveCard2 from './images/curveCard2.svg';
 import curveCard3 from './images/curveCard3.svg';
 import wavyBorder from './images/wavyBorder.svg';
-
+import howItWorksSectionImage1 from './images/howItWorksSectionImage1.png';
+import howItWorksSectionImage2 from './images/howItWorksSectionImage2.png';
+import howItWorksSectionImage3 from './images/howItWorksSectionImage3.png';
 // Logos
 
 import imageSun from './logos/image-sun.svg';
@@ -95,5 +99,10 @@ export {
   yellowCoin,
   poolStairs,
   calendar,
-  groupedWomen
+  mobile,
+  groupedWomen,
+  whatMakesUsSunsationalFeatureImage,
+  howItWorksSectionImage1,
+  howItWorksSectionImage2,
+  howItWorksSectionImage3,
 };

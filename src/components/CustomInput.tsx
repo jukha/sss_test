@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import { StaticImageData } from 'next/image';
-import { HTMLAttributes } from 'react';
+import { InputHTMLAttributes } from 'react';
 import FilteredImage from './FilteredImage';
 import { FilterClassEnum } from '@/enum/filter-class.enum';
 
-type Props = HTMLAttributes<HTMLInputElement> & {
+type Props = InputHTMLAttributes<HTMLInputElement> & {
   text: string;
   icon?: StaticImageData;
   value?: string;
@@ -13,6 +13,7 @@ type Props = HTMLAttributes<HTMLInputElement> & {
   error?: string;
   maxLength?: number;
   className?: string;
+  inputClassName?: string;
 };
 
 const CustomInput: React.FC<Props> = (props) => {
@@ -25,22 +26,27 @@ const CustomInput: React.FC<Props> = (props) => {
     maxLength,
     error,
     className,
+    inputClassName,
     ...inputProps
   } = props;
   return (
-    <div className={clsx('flex flex-col gap-[10px] w-full', className)}>
+    <label
+      className={clsx(
+        'flex flex-col gap-[8px] w-full',
+        disabled && 'opacity-70',
+        className
+      )}
+    >
       <div className='flex justify-between w-full'>
-        <label htmlFor={text} className='text-darkBlue'>
-          {text}
-        </label>
+        <span className='text-darkBlue font-medium'>{text}</span>
         <span className={clsx('text-red', error ? 'opacity-100' : 'opacity-0')}>
           {error || 'error'}
         </span>
       </div>
       <div
         className={clsx(
-          'flex items-center bg-white rounded-[10px] border-[1px]',
-          error ? 'border-red-500' : 'border-yellow'
+          'flex items-center bg-white rounded-[10px] border-[2px] focus-within:border-input-focus',
+          error ? 'border-red-500' : 'border-input-border'
         )}
       >
         {icon && (
@@ -53,16 +59,19 @@ const CustomInput: React.FC<Props> = (props) => {
         )}
         <input
           {...inputProps}
-          type='text'
+          type={inputProps.type ?? 'text'}
           id={text}
           maxLength={maxLength}
-          className='py-[8px] px-[16px] w-full outline-none'
+          className={clsx(
+            'py-[8px] px-[16px] w-full outline-none',
+            inputClassName
+          )}
           value={value}
           onChange={onChange}
           disabled={disabled}
         />
       </div>
-    </div>
+    </label>
   );
 };
 

@@ -23,6 +23,7 @@ import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import RegistrationForm1Success from './RegistrationForm1Success';
 import RegistrationForm1Error from './RegistrationForm1Error';
 import RegistrationForm2 from './RegistrationForm2';
+import RegistrationForm3 from './RegistrationForm3';
 
 type Props = {
   databaseId: string;
@@ -44,8 +45,12 @@ const RegistrationFormWrapper: React.FC<Props> = observer(
   ({ databaseId, secret, formId }) => {
     const [loading, setLoading] = useState(true);
     const pathname = usePathname();
-    const { setRegistrationForm, registrationStep, setRegistrationStep } =
-      registrationFormStore;
+    const {
+      registrationForm,
+      setRegistrationForm,
+      registrationStep,
+      setRegistrationStep,
+    } = registrationFormStore;
 
     useEffect(() => {
       if (!secret || !formId) return;
@@ -53,7 +58,11 @@ const RegistrationFormWrapper: React.FC<Props> = observer(
       (async () => {
         setLoading(true);
         const { data } = await getRegistrationRepository.get({
-          headers: { 'X-RegFormType-Id': formId, 'X-Registration-Secret': secret, 'X-Registration-Id': databaseId },
+          headers: {
+            'X-RegFormType-Id': formId,
+            'X-Registration-Secret': secret,
+            'X-Registration-Id': databaseId,
+          },
         });
 
         setLoading(false);
@@ -85,7 +94,11 @@ const RegistrationFormWrapper: React.FC<Props> = observer(
       const { data } = await registrationStepRepository.post({
         data: validatedData,
         endpoint: `/${stepNumber}`,
-        headers: { 'X-RegFormType-Id': formId, 'X-Registration-Secret': secret, 'X-Registration-Id': databaseId },
+        headers: {
+          'X-RegFormType-Id': formId,
+          'X-Registration-Secret': secret,
+          'X-Registration-Id': databaseId,
+        },
       });
 
       if (!data) return; // todo add error handling?
@@ -114,6 +127,22 @@ const RegistrationFormWrapper: React.FC<Props> = observer(
         <RegistrationForm1Error errorType='outsideArea' />
       ),
       [RegistrationStepEnum.Step2]: <RegistrationForm2 />,
+      [RegistrationStepEnum.Step3]: (
+        <RegistrationForm3
+          initialValues={{
+            firstName: registrationForm?.firstName,
+            lastName: registrationForm?.lastName,
+            email: registrationForm?.email,
+            phone: registrationForm?.phone,
+            parentGuardians: registrationForm?.parentGuardians,
+          }}
+          studentsNames={registrationForm?.students?.map(
+            (student) => student.name
+          )}
+          onSubmit={(formData) => onNextStep(formData, 3)}
+          onBackClick={() => setRegistrationStep(registrationStep - 1)}
+        />
+      ),
     };
 
     return (
@@ -128,8 +157,10 @@ const RegistrationFormWrapper: React.FC<Props> = observer(
           currentStep={registrationStep}
           setStep={(n) => setRegistrationStep(n)}
         />
-        <div className='flex flex-col w-full bg-white rounded-[16px] py-[50px] px-[25px] laptop:px-[50px]'>
-          {formsToRender[registrationStep]}
+        <div className='flex flex-col items-center w-full bg-white rounded-[16px] py-[50px] px-[25px] laptop:px-[50px] desktop:py-[65px]'>
+          <div className='desktop:max-w-[440px] w-full'>
+            {formsToRender[registrationStep]}
+          </div>
         </div>
       </div>
     );

@@ -30,10 +30,10 @@ const CustomTextArea: React.FC<Props> = (props) => {
     ...inputProps
   } = props;
   return (
-    <div className='flex flex-col gap-[10px] w-full'>
+    <div className='flex flex-col gap-[8px] w-full'>
       {(text || error) && (
         <div className='flex justify-between w-full'>
-          <label htmlFor={text} className='text-darkBlue'>
+          <label htmlFor={text} className='text-darkBlue font-medium'>
             {text}
           </label>
           <span
@@ -46,8 +46,8 @@ const CustomTextArea: React.FC<Props> = (props) => {
 
       <div
         className={clsx(
-          'flex items-center bg-white rounded-[10px] border-[1px]',
-          error ? 'border-red-500' : 'border-yellow'
+          'flex items-center bg-white rounded-[10px] border-[2px] focus-within:border-input-focus',
+          error ? 'border-red-500' : 'border-input-border'
         )}
       >
         {icon && (

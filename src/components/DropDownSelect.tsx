@@ -33,12 +33,12 @@ const DropDownSelect: React.FC<Props> = ({
   const ref = useRef<HTMLDivElement>(null);
   return (
     <div
-      className={clsx('flex flex-col w-full relative gap-[10px]', className)}
+      className={clsx('flex flex-col w-full relative gap-[8px]', className)}
       style={{ width }}
       ref={ref}
     >
       <div className='flex justify-between w-full'>
-        <label htmlFor={text} className='text-darkBlue'>
+        <label htmlFor={text} className='text-darkBlue font-medium'>
           {text}
         </label>
         <span className={clsx('text-red', error ? 'opacity-100' : 'opacity-0')}>
@@ -46,20 +46,23 @@ const DropDownSelect: React.FC<Props> = ({
         </span>
       </div>
 
-      <div
+      <button
+        type='button'
         className={clsx(
-          'flex items-center bg-white rounded-[10px] gap-[8px] p-[8px] border-[1px] cursor-pointer',
-          error ? 'border-red-500' : 'border-yellow'
+          'flex items-center bg-white rounded-[10px] gap-[8px] p-[8px] border-[2px] cursor-pointer focus:border-input-focus',
+          error ? 'border-red-500' : 'border-input-border'
         )}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <span className='grow h-[24px] whitespace-nowrap overflow-clip max-w-[80%]'>{value?.text}</span>
+        <span className='grow h-[24px] whitespace-nowrap overflow-clip max-w-[80%]'>
+          {value?.text}
+        </span>
         <FilteredImage
           src={arrowUp}
           rotate={isOpen ? 'top' : 'bottom'}
           filter={FilterClassEnum.Black}
         />
-      </div>
+      </button>
 
       {isOpen && (
         <ContextMenuWrapper

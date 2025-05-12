@@ -48,7 +48,7 @@ const cardsData: CardType[] = [
 ];
 
 const additionalCardsData = [
-  { text: 'Thousands of 5-star reviews ', image: fiveStar },
+  { text: 'Thousands of 5-star reviews ', image: fiveStar },
   { text: '1# rated swim school in America', image: yellowLike },
   { text: 'Get final quote before checkout', image: yellowCoin },
   { text: 'Personalized swim lesson plans', image: poolStairs },

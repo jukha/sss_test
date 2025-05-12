@@ -12,6 +12,7 @@ type Props = {
   type?: 'submit' | 'button' | 'reset';
   isActive?: boolean;
   className?: string;
+  textClassName?: string;
 };
 
 const CustomButton: React.FC<Props> = ({
@@ -23,6 +24,7 @@ const CustomButton: React.FC<Props> = ({
   type,
   isActive,
   className,
+  textClassName,
 }) => {
   return (
     <button
@@ -38,8 +40,9 @@ const CustomButton: React.FC<Props> = ({
     >
       <span
         className={clsx(
-          'max-w-[80%]  text-medium font-semibold ',
-          isActive ? 'text-white' : 'text-black'
+          'max-w-[80%]',
+          isActive ? 'text-white' : 'text-black',
+          textClassName ? textClassName : 'text-medium font-semibold'
         )}
       >
         {text}
