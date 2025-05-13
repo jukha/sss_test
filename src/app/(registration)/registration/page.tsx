@@ -2,7 +2,7 @@
 import { RegistrationForm } from '@/entities/registration-form.entity';
 import { startRegistrationRepository } from '@/repositories/registration/start-registration.repository';
 import { useEffect, useState } from 'react';
-import RegistrationPageLayout from './RegistrationPageLayout';
+import RegistrationPageLayout from './components/shared/RegistrationPageLayout';
 
 const REGISTRATION_FORM_TYPE = 'J';
 

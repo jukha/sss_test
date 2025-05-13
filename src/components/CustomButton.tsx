@@ -48,7 +48,11 @@ const CustomButton: React.FC<Props> = ({
         {text}
       </span>
       {icon && (
-        <FilteredImage filter={FilterClassEnum.Black} src={icon} alt='icon' />
+        <FilteredImage
+          filter={isActive ? FilterClassEnum.White : FilterClassEnum.Black}
+          src={icon}
+          alt='icon'
+        />
       )}
     </button>
   );

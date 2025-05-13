@@ -22,6 +22,10 @@ import singleStar from './images/singleStar.svg';
 import circles from './images/circles.svg';
 import mail from './images/mail.svg';
 import mobile from './images/mobile.svg';
+import lock from './images/lock.svg';
+import calendarAlert from './images/calendarAlert.svg'
+import calendarTwo from './images/calendarTwo.svg'
+import calendarDate from './images/calendarDate.svg'
 
 //pictures
 
@@ -105,4 +109,8 @@ export {
   howItWorksSectionImage1,
   howItWorksSectionImage2,
   howItWorksSectionImage3,
+  lock,
+  calendarAlert,
+  calendarDate,
+  calendarTwo
 };

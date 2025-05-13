@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 import '@/utils/styles/embla.css';
 import '@/utils/styles/cards.path.css';
+import { RegistrationFormProvider } from '@/context/registration-form.context';
+import '@/utils/styles/common.path.css';
+import '@/utils/styles/buttons.css';
 
 export const metadata: Metadata = {
   title: 'Sunsational Swim School - At-Home Private Swimming Lessons',
@@ -27,7 +30,9 @@ export default function RootLayout({
           rel='stylesheet'
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <RegistrationFormProvider>{children}</RegistrationFormProvider>
+      </body>
     </html>
   );
 }

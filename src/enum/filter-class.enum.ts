@@ -9,6 +9,7 @@ export enum FilterClassEnum {
   LightBlue = 'filterLightBlue',
   ExtraLightBlue = 'filterExtraLightBlue',
   Gray = 'filterGray',
+  DarkGray = 'filterDarkGray',
   LightGray = 'filterLightGray',
   LightGreen = 'filterLightGreen',
   White = 'filterWhite',

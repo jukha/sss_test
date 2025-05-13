@@ -8,6 +8,7 @@
   --breakpoint-desktop: 1440px;
 
   --color-yellow: #fedf46;
+  --color-brightYellow: #fdd733;
   --color-lightYellow: #fff9e1;
   --color-orange: #f86008;
   --color-lightOrange: #fab248;
@@ -15,6 +16,7 @@
   --color-blue: #033d9a;
   --color-lightBlue: #1a8dc6;
   --color-extraLightBlue: #e3f5f9;
+  --color-blueSky: #c7eaf3;
   --color-gray: #f4f4f4;
   --color-lightGreen: #00acb6;
   --color-white: #ffffff;
@@ -22,6 +24,8 @@
   --color-black: #000000;
   --color-red: #d60009;
   --color-lightRed: #d600090d;
+  --color-brown: #422019;
+  --color-mediumGray: #171717;
 
   --font-primary: Grandstander, sans-serif;
   --font-secondary: 'Rethink Sans', san-serif, Arial, Helvetica, sans-serif;

@@ -9,9 +9,9 @@ datasource db {
 }
 
 model CustomerRegistrationHistory {
-  id                            BigInt                         @id @default(autoincrement())
+  id                            BigInt                @id @default(autoincrement())
   record_id                     BigInt?
-  data                          String?                        @db.Text
+  data                          String?               @db.Text
   customer_registration_records CustomerRegistration? @relation(fields: [record_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "customer_registration_record_history_ibfk_1")
 
   @@index([record_id], map: "record_id")
@@ -19,96 +19,312 @@ model CustomerRegistrationHistory {
 }
 
 model CustomerRegistration {
-  id                                                BigInt                                 @id @default(autoincrement())
+  id                                                BigInt                        @id @default(autoincrement())
   orderId                                           BigInt?
   isRegistrationComplete                            Boolean?
-  metroArea                                         String?                                @db.VarChar(200)
-  additionalPayForSI                                Decimal?                               @db.Decimal(10, 2)
+  metroArea                                         String?                       @db.VarChar(200)
+  additionalPayForSI                                Decimal?                      @db.Decimal(10, 2)
   doWeHaveSIWithPool                                Boolean?
   canWeServe                                        Boolean?
-  canWeServeText                                    String?                                @db.VarChar(200)
-  firstName                                         String?                                @db.VarChar(200)
-  lastName                                          String?                                @db.VarChar(200)
-  email                                             String?                                @db.VarChar(200)
-  phone                                             String?                                @db.VarChar(200)
-  zip                                               String?                                @db.VarChar(5)
+  canWeServeText                                    String?                       @db.VarChar(200)
+  firstName                                         String?                       @db.VarChar(200)
+  lastName                                          String?                       @db.VarChar(200)
+  email                                             String?                       @db.VarChar(200)
+  phone                                             String?                       @db.VarChar(200)
+  zip                                               String?                       @db.VarChar(5)
   customerHasAccessToPool                           Boolean?
-  registrationDate                                  String?                                @db.VarChar(200)
-  premiumAreaFee                                    Decimal?                               @db.Decimal(10, 2)
+  registrationDate                                  String?                       @db.VarChar(200)
+  premiumAreaFee                                    Decimal?                      @db.Decimal(10, 2)
   studentsCount                                     Int?
-  questionsOfInformationWeShouldNowAboutTheStudents String?                                @db.Text
+  questionsOfInformationWeShouldNowAboutTheStudents String?                       @db.Text
   isCustomerAParentGuardianOfAll                    Boolean?
   additionalParentGuardiansCount                    Int?
   hasStudentsAboveThreeYearsOld                     Boolean?
-  lessonType                                        String?                                @db.VarChar(200)
+  lessonType                                        String?                       @db.VarChar(200)
   lessonTime                                        Int?
   packageSize                                       Int?
-  basePay                                           Decimal?                               @db.Decimal(10, 2)
-  totalBasePay                                      Decimal?                               @db.Decimal(10, 2)
-  lessonCostBeforeDiscount                          Decimal?                               @db.Decimal(10, 2)
-  packageDiscount                                   Decimal?                               @db.Decimal(10, 2)
+  basePay                                           Decimal?                      @db.Decimal(10, 2)
+  totalBasePay                                      Decimal?                      @db.Decimal(10, 2)
+  lessonCostBeforeDiscount                          Decimal?                      @db.Decimal(10, 2)
+  packageDiscount                                   Decimal?                      @db.Decimal(10, 2)
   lessonFrequency                                   Int?
-  customerWouldLikeToBegin                          String?                                @db.VarChar(200)
-  preferredLessonBeginDate                          String?                                @db.VarChar(200)
-  customerAvailableUntil                            String?                                @db.VarChar(200)
-  additionalSchedulingInformation                   String?                                @db.Text
-  bookability                                       String?                                @db.VarChar(200)
-  poolAddress                                       String?                                @db.VarChar(200)
-  poolType                                          String?                                @db.VarChar(200)
-  howFarCustomerWillingToDrive                      String?                                @db.VarChar(200)
-  validatedPromoCode                                String?                                @db.VarChar(200)
+  customerWouldLikeToBegin                          String?                       @db.VarChar(200)
+  preferredLessonBeginDate                          String?                       @db.VarChar(200)
+  customerAvailableUntil                            String?                       @db.VarChar(200)
+  additionalSchedulingInformation                   String?                       @db.Text
+  bookability                                       String?                       @db.VarChar(200)
+  poolAddress                                       String?                       @db.VarChar(200)
+  poolType                                          String?                       @db.VarChar(200)
+  howFarCustomerWillingToDrive                      String?                       @db.VarChar(200)
+  validatedPromoCode                                String?                       @db.VarChar(200)
   eligibleLsg                                       Boolean?
-  haveCustomerBeenHelpedBy                          String?                                @db.VarChar(200)
+  haveCustomerBeenHelpedBy                          String?                       @db.VarChar(200)
   lg1Signed                                         Boolean?
-  lg1SigningDate                                    String?                                @db.VarChar(200)
+  lg1SigningDate                                    String?                       @db.VarChar(200)
   freeLessons                                       Int?
   paidLessons                                       Int?
-  promoDiscount                                     Decimal?                               @db.Decimal(10, 2)
-  orderTotal                                        Decimal?                               @db.Decimal(10, 2)
-  stripeToken                                       String?                                @db.VarChar(200)
-  selectedDays                                      String?                                @db.VarChar(200)
-  selectedWeekdayTimes                              String?                                @db.VarChar(200)
-  selectedWeekendTimes                              String?                                @db.VarChar(200)
-  studentName1                                      String?                                @db.VarChar(200)
-  studentAge1                                       String?                                @db.VarChar(200)
-  studentName2                                      String?                                @db.VarChar(200)
-  studentAge2                                       String?                                @db.VarChar(200)
-  studentName3                                      String?                                @db.VarChar(200)
-  studentAge3                                       String?                                @db.VarChar(200)
-  studentName4                                      String?                                @db.VarChar(200)
-  studentAge4                                       String?                                @db.VarChar(200)
-  studentName5                                      String?                                @db.VarChar(200)
-  studentAge5                                       String?                                @db.VarChar(200)
-  studentName6                                      String?                                @db.VarChar(200)
-  studentAge6                                       String?                                @db.VarChar(200)
-  parentGuardianName1                               String?                                @db.VarChar(200)
-  parentGuardianEmail1                              String?                                @db.VarChar(200)
-  parentGuardianName2                               String?                                @db.VarChar(200)
-  parentGuardianEmail2                              String?                                @db.VarChar(200)
-  parentGuardianName3                               String?                                @db.VarChar(200)
-  parentGuardianEmail3                              String?                                @db.VarChar(200)
-  parentGuardianName4                               String?                                @db.VarChar(200)
-  parentGuardianEmail4                              String?                                @db.VarChar(200)
-  parentGuardianName5                               String?                                @db.VarChar(200)
-  parentGuardianEmail5                              String?                                @db.VarChar(200)
-  parentGuardianName6                               String?                                @db.VarChar(200)
-  parentGuardianEmail6                              String?                                @db.VarChar(200)
-  secret                                            String?                                @db.VarChar(100)
-  ip                                                String?                                @db.VarChar(50)
-  ad_call                                           String?                                @db.VarChar(3)
+  promoDiscount                                     Decimal?                      @db.Decimal(10, 2)
+  orderTotal                                        Decimal?                      @db.Decimal(10, 2)
+  stripeToken                                       String?                       @db.VarChar(200)
+  selectedDays                                      String?                       @db.VarChar(200)
+  selectedWeekdayTimes                              String?                       @db.VarChar(200)
+  selectedWeekendTimes                              String?                       @db.VarChar(200)
+  studentName1                                      String?                       @db.VarChar(200)
+  studentAge1                                       String?                       @db.VarChar(200)
+  studentName2                                      String?                       @db.VarChar(200)
+  studentAge2                                       String?                       @db.VarChar(200)
+  studentName3                                      String?                       @db.VarChar(200)
+  studentAge3                                       String?                       @db.VarChar(200)
+  studentName4                                      String?                       @db.VarChar(200)
+  studentAge4                                       String?                       @db.VarChar(200)
+  studentName5                                      String?                       @db.VarChar(200)
+  studentAge5                                       String?                       @db.VarChar(200)
+  studentName6                                      String?                       @db.VarChar(200)
+  studentAge6                                       String?                       @db.VarChar(200)
+  parentGuardianName1                               String?                       @db.VarChar(200)
+  parentGuardianEmail1                              String?                       @db.VarChar(200)
+  parentGuardianName2                               String?                       @db.VarChar(200)
+  parentGuardianEmail2                              String?                       @db.VarChar(200)
+  parentGuardianName3                               String?                       @db.VarChar(200)
+  parentGuardianEmail3                              String?                       @db.VarChar(200)
+  parentGuardianName4                               String?                       @db.VarChar(200)
+  parentGuardianEmail4                              String?                       @db.VarChar(200)
+  parentGuardianName5                               String?                       @db.VarChar(200)
+  parentGuardianEmail5                              String?                       @db.VarChar(200)
+  parentGuardianName6                               String?                       @db.VarChar(200)
+  parentGuardianEmail6                              String?                       @db.VarChar(200)
+  secret                                            String?                       @db.VarChar(100)
+  ip                                                String?                       @db.VarChar(50)
+  ad_call                                           String?                       @db.VarChar(3)
   referralCreditSpent                               BigInt?
   referralLessonsSpent                              BigInt?
-  registrationFormType                              String?                                @db.VarChar(10)
-  deviceCategory                                    String?                                @db.VarChar(200)
-  deviceType                                        String?                                @db.VarChar(200)
-  requestedInstructor                               String?                                @db.VarChar(200)
-  upsell_from                                       BigInt?                                @default(0)
-  priceMultiplier                                   Decimal?                               @db.Decimal(10, 2)
-  payMultiplier                                     Decimal?                               @db.Decimal(10, 2)
-  termsFullName                                     String?                                @db.VarChar(200)
+  registrationFormType                              String?                       @db.VarChar(10)
+  deviceCategory                                    String?                       @db.VarChar(200)
+  deviceType                                        String?                       @db.VarChar(200)
+  requestedInstructor                               String?                       @db.VarChar(200)
+  upsell_from                                       BigInt?                       @default(0)
+  priceMultiplier                                   Decimal?                      @db.Decimal(10, 2)
+  payMultiplier                                     Decimal?                      @db.Decimal(10, 2)
+  termsFullName                                     String?                       @db.VarChar(200)
   flexibleSchedule                                  Boolean?
   customer_registration_record_history              CustomerRegistrationHistory[]
 
   @@index([orderId], map: "orderId")
   @@map("customer_registration_records")
+}
+
+model Instructor {
+  id                       BigInt    @id @default(autoincrement())
+  email                    String?   @unique(map: "email") @db.VarChar(150)
+  first_name               String?   @db.VarChar(255)
+  last_name                String?   @db.VarChar(255)
+  profile_pic              String?   @db.Text
+  biography                String?   @db.Text
+  base_address             String?   @db.Text
+  city                     String?   @db.VarChar(200)
+  state                    String?   @db.VarChar(200)
+  zip                      String?   @db.VarChar(200)
+  lat                      Decimal?  @db.Decimal(10, 7)
+  lng                      Decimal?  @db.Decimal(10, 7)
+  certifications           String?   @db.Text
+  featured_feedback_1      String?   @db.Text
+  featured_feedback_2      String?   @db.Text
+  featured_feedback_3      String?   @db.Text
+  exp_infants              String?   @db.VarChar(20)
+  exp_toddlers             String?   @db.VarChar(20)
+  exp_preschoolers         String?   @db.VarChar(20)
+  exp_adults               String?   @db.VarChar(20)
+  exp_special_needs        String?   @db.VarChar(255)
+  activity_status          String?   @db.VarChar(255)
+  location_metro_area_id   String?   @db.VarChar(200)
+  location_metro_area_name String?   @db.VarChar(200)
+  is_public                Boolean?
+  instructor_score         BigInt?   @default(0)
+  number_of_pools_access   Int?
+  knack_uid                String?   @db.VarChar(200)
+  profile_pic_opt          String?   @db.Text
+  profile_pic_sm           String?   @db.Text
+  profile_pic_sm_opt       String?   @db.Text
+  neighborhood             String?   @db.VarChar(255)
+  profile_img_score        Decimal   @default(0.00) @db.Decimal(3, 2)
+  hired_date               DateTime? @db.Date
+  political_seo_city_name  String?   @db.VarChar(255)
+  last_updated             DateTime? @db.Timestamp(0)
+  created                  DateTime? @db.DateTime(0)
+  max_driving_range        Int?
+
+  @@index([is_public, activity_status, city, state, biography(length: 10), profile_pic(length: 10), instructor_score], map: "instructor_city_state_score")
+  @@index([is_public, activity_status], map: "instructor_is_public")
+  @@index([is_public, activity_status, location_metro_area_name, biography(length: 10), profile_pic(length: 10), instructor_score], map: "instructor_metro_score")
+  @@index([instructor_score], map: "instructor_score")
+  @@map("instructor")
+}
+
+model LocationCityPage {
+  id                    Int                   @id @default(autoincrement())
+  name                  String                @db.VarChar(255)
+  metro_area_id         Int
+  metro_area_name       String?               @db.VarChar(255)
+  state_id              Int
+  state_abbreviation    String                @db.VarChar(2)
+  neighborhood_id       Int?
+  neighborhood_name     String?               @db.VarChar(255)
+  serve_page            Boolean?              @default(true)
+  lat                   Decimal?              @db.Decimal(10, 7)
+  lng                   Decimal?              @db.Decimal(10, 7)
+  template_id           Int?
+  location_metro_area   LocationMetroArea     @relation(fields: [metro_area_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_city_page_ibfk_1")
+  location_state        LocationState         @relation(fields: [state_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_city_page_ibfk_2")
+  location_neighborhood LocationNeighborhood? @relation(fields: [neighborhood_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_city_page_ibfk_3")
+
+  @@index([metro_area_id], map: "metro_area_id")
+  @@index([neighborhood_id], map: "neighborhood_id")
+  @@index([state_id], map: "state_id")
+  @@map("location_city_page")
+}
+
+model LocationCityPageTemplate {
+  id      Int      @id @default(autoincrement())
+  name    String?  @db.VarChar(255)
+  enabled Boolean?
+
+  @@map("location_city_page_template")
+}
+
+model LocationMetroArea {
+  id                         Int                       @id @default(autoincrement())
+  name                       String                    @db.VarChar(255)
+  state_id                   Int
+  state_abbreviation         String                    @db.VarChar(2)
+  lat                        Decimal?                  @db.Decimal(10, 7)
+  lng                        Decimal?                  @db.Decimal(10, 7)
+  package_price_tier_id      Int?
+  are_we_serving             Boolean?                  @default(false)
+  have_sis_with_pool         Boolean?                  @default(false)
+  local_phone                String?                   @db.VarChar(14)
+  yelp_url                   String?                   @db.VarChar(500)
+  google_url                 String?                   @db.VarChar(500)
+  match_rate_30_day          Decimal?                  @db.Decimal(5, 2)
+  knack_id                   String?                   @db.VarChar(255)
+  location_city_page         LocationCityPage[]
+  package_price_tier         PackagePriceTier?         @relation(fields: [package_price_tier_id], references: [id], map: "fk_price_tier_id")
+  location_state             LocationState             @relation(fields: [state_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_metro_area_ibfk_1")
+  location_neighborhood      LocationNeighborhood[]
+  location_zip_code_serviced LocationZipCodeServiced[]
+
+  @@index([package_price_tier_id], map: "fk_price_tier_id")
+  @@index([state_id], map: "state_id")
+  @@map("location_metro_area")
+}
+
+model LocationNeighborhood {
+  id                  Int                @id @default(autoincrement())
+  name                String             @db.VarChar(255)
+  metro_area_id       Int
+  location_city_page  LocationCityPage[]
+  location_metro_area LocationMetroArea  @relation(fields: [metro_area_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_neighborhood_ibfk_1")
+
+  @@index([metro_area_id], map: "metro_area_id")
+  @@map("location_neighborhood")
+}
+
+model LocationState {
+  id                  Int                 @id @default(autoincrement())
+  name                String              @db.VarChar(255)
+  abbreviation        String              @unique(map: "abbreviation") @db.VarChar(2)
+  location_city_page  LocationCityPage[]
+  location_metro_area LocationMetroArea[]
+
+  @@map("location_state")
+}
+
+model LocationZipCodeServiced {
+  id                  Int               @id @default(autoincrement())
+  zip                 String            @unique(map: "uq_zip") @db.Char(5)
+  metro_area_id       Int
+  location_metro_area LocationMetroArea @relation(fields: [metro_area_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_zip_code_serviced_ibfk_1")
+
+  @@index([metro_area_id], map: "metro_area_id")
+  @@map("location_zip_code_serviced")
+}
+
+model LocationZipCodeUnserviced {
+  id    Int    @id @default(autoincrement())
+  zip   String @db.Char(5)
+  count Int?   @default(0)
+  state String @db.VarChar(255)
+
+  @@map("location_zip_code_unserviced")
+}
+
+model PackagePriceMatrix {
+  id                      Int              @id @default(autoincrement())
+  package_price_tier_id   Int
+  lesson_type             String           @db.VarChar(255)
+  lesson_qty              Int
+  lesson_duration_minutes Int              @db.UnsignedSmallInt
+  price                   Decimal?         @db.Decimal(10, 2)
+  price_upsell            Decimal?         @db.Decimal(10, 2)
+  base_pay                Decimal?         @db.Decimal(10, 2)
+  package_price_tier      PackagePriceTier @relation(fields: [package_price_tier_id], references: [id], onDelete: Cascade, map: "fk_pkg_price_tier")
+
+  @@unique([package_price_tier_id, lesson_type, lesson_qty, lesson_duration_minutes], map: "uniq_tier_type_qty_duration")
+  @@map("package_price_matrix")
+}
+
+model PackagePriceTier {
+  id                   Int                  @id @default(autoincrement())
+  name                 String               @unique(map: "name") @db.VarChar(255)
+  registration_fee     Decimal?             @db.Decimal(10, 2)
+  location_metro_area  LocationMetroArea[]
+  package_price_matrix PackagePriceMatrix[]
+
+  @@map("package_price_tier")
+}
+
+model PackagePromoCode {
+  id         Int       @id @default(autoincrement())
+  promo      String    @unique(map: "uq_promo") @db.VarChar(255)
+  start_date DateTime? @db.DateTime(0)
+  end_date   DateTime? @db.DateTime(0)
+  off6x30    Decimal   @default(0.00) @db.Decimal(10, 2)
+  free6x30   Int       @default(0) @db.UnsignedInt
+  off6x45    Decimal   @default(0.00) @db.Decimal(10, 2)
+  free6x45   Int       @default(0) @db.UnsignedInt
+  off6x60    Decimal   @default(0.00) @db.Decimal(10, 2)
+  free6x60   Int       @default(0) @db.UnsignedInt
+  off6x90    Decimal   @default(0.00) @db.Decimal(10, 2)
+  free6x90   Int       @default(0) @db.UnsignedInt
+  off6x120   Decimal   @default(0.00) @db.Decimal(10, 2)
+  free6x120  Int       @default(0) @db.UnsignedInt
+  off6x150   Decimal   @default(0.00) @db.Decimal(10, 2)
+  free6x150  Int       @default(0) @db.UnsignedInt
+  off12x30   Decimal   @default(0.00) @db.Decimal(10, 2)
+  free12x30  Int       @default(0) @db.UnsignedInt
+  off12x45   Decimal   @default(0.00) @db.Decimal(10, 2)
+  free12x45  Int       @default(0) @db.UnsignedInt
+  off12x60   Decimal   @default(0.00) @db.Decimal(10, 2)
+  free12x60  Int       @default(0) @db.UnsignedInt
+  off12x90   Decimal   @default(0.00) @db.Decimal(10, 2)
+  free12x90  Int       @default(0) @db.UnsignedInt
+  off12x120  Decimal   @default(0.00) @db.Decimal(10, 2)
+  free12x120 Int       @default(0) @db.UnsignedInt
+  off12x150  Decimal   @default(0.00) @db.Decimal(10, 2)
+  free12x150 Int       @default(0) @db.UnsignedInt
+  off18x30   Decimal   @default(0.00) @db.Decimal(10, 2)
+  free18x30  Int       @default(0) @db.UnsignedInt
+  off18x45   Decimal   @default(0.00) @db.Decimal(10, 2)
+  free18x45  Int       @default(0) @db.UnsignedInt
+  off18x60   Decimal   @default(0.00) @db.Decimal(10, 2)
+  free18x60  Int       @default(0) @db.UnsignedInt
+  off18x90   Decimal   @default(0.00) @db.Decimal(10, 2)
+  free18x90  Int       @default(0) @db.UnsignedInt
+  off18x120  Decimal   @default(0.00) @db.Decimal(10, 2)
+  free18x120 Int       @default(0) @db.UnsignedInt
+  off18x150  Decimal   @default(0.00) @db.Decimal(10, 2)
+  free18x150 Int       @default(0) @db.UnsignedInt
+
+  @@index([start_date, end_date], map: "idx_dates")
+  @@index([promo], map: "idx_promo")
+  @@map("package_promo_code")
 }

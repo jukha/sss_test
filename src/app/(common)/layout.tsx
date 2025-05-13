@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import '../globals.css';
 import '../../utils/styles/common.path.css'
-import MainNavigation from '@/components/MainNavigation';
-import MainFooter from '@/components/MainFooter';
+import MainNavigation from '@/components/layout/MainNavigation';
+import MainFooter from '@/components/layout/MainFooter';
 
 export const metadata: Metadata = {
   title: 'Sunsational Swim School - At-Home Private Swimming Lessons',
