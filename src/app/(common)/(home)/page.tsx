@@ -1,4 +1,3 @@
-
 import WhyChooseUsSection from './components/WhyChooseUsSection';
 import HowItWorksSection from '@/components/sections/HowItWorksSection';
 import InstructorQualitiesSection from './components/InstructorQualitiesSection';
@@ -6,6 +5,9 @@ import ServiceLocationsSection from '@/components/sections/ServiceLocationsSecti
 import LocationsListSection from '@/components/sections/LocationsListSection';
 import TakeStressOutSection from './components/TakeStressOutSection';
 import HomeHero from './components/HomeHero';
+import CustomerReviewsSection from '@/components/sections/CustomerReviewsSection';
+import MembersOfSection from '@/components/sections/MembersOfSection';
+import SatisfactionGuaranteeSection from '@/components/sections/SatisfactionGuaranteeSection';
 
 /**
  * Home Page Component
@@ -23,8 +25,14 @@ export default function Home() {
         <WhyChooseUsSection />
         {/* How It Works Section */}
         <HowItWorksSection />
+        {/* Customer Reviews Section - Testimonials */}
+        <CustomerReviewsSection />
+        {/* Members of Section - Logos of organizations */}
+        <MembersOfSection />
         {/* What makes our swim instructors sunsational - Highlights instructor qualities */}
         <InstructorQualitiesSection />
+        {/* 100% Satisfaction Guarantee Section */}
+        <SatisfactionGuaranteeSection />
         {/* Search our serviced locations Section - locations with map */}
         <ServiceLocationsSection />
         {/* Available all across the USA - Lists all locations */}

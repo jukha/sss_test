@@ -21,7 +21,7 @@ const DropDown: React.FC<Props> = ({ dropDown }) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <h3>{dropDown.header}</h3>
-        <div className='curveCircle bg-lightGreen min-w-[30px] min-h-[30px] max-w-[30px] max-h-[30px] flex items-center justify-center '>
+        <div className='curveCircle bg-teal min-w-[30px] min-h-[30px] max-w-[30px] max-h-[30px] flex items-center justify-center '>
           <FilteredImage
             src={arrowUp}
             filter={FilterClassEnum.White}

@@ -9,6 +9,7 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
   icon?: StaticImageData;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   error?: string;
   maxLength?: number;
@@ -22,6 +23,7 @@ const CustomInput: React.FC<Props> = (props) => {
     icon,
     value,
     onChange,
+    onBlur,
     disabled,
     maxLength,
     error,
@@ -38,15 +40,15 @@ const CustomInput: React.FC<Props> = (props) => {
       )}
     >
       <div className='flex justify-between w-full'>
-        <span className='text-darkBlue font-medium'>{text}</span>
+        <span className='text-offBlack font-medium'>{text}</span>
         <span className={clsx('text-red', error ? 'opacity-100' : 'opacity-0')}>
           {error || 'error'}
         </span>
       </div>
       <div
         className={clsx(
-          'flex items-center bg-white rounded-[10px] border-[2px] focus-within:border-input-focus',
-          error ? 'border-red-500' : 'border-input-border'
+          'flex items-center bg-white rounded-[10px] border-[2px] focus-within:border-yellow',
+          error ? 'border-red-500' : 'border-gray'
         )}
       >
         {icon && (
@@ -68,6 +70,7 @@ const CustomInput: React.FC<Props> = (props) => {
           )}
           value={value}
           onChange={onChange}
+          onBlur={onBlur}
           disabled={disabled}
         />
       </div>

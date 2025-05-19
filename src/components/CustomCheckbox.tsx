@@ -25,7 +25,7 @@ export const CustomCheckbox: React.FC<Props> = ({
       onChange={(e) => onClick?.(e.target.checked)}
       className='invisible w-0 h-0 absolute'
     />
-    <span className='w-6 h-6 rounded-sm block bg-white border-2 border-input-border relative'>
+    <span className='w-6 h-6 rounded-sm block bg-white border-2 border-gray relative'>
       {checked && (
         <svg
           className='absolute top-[50%] left-[50%] transform-[translate(-50%,-50%)]'

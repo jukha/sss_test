@@ -1,91 +1,132 @@
 'use client';
 
-import { DeepPartial, useForm } from 'react-hook-form';
 import CustomButton from '@/components/CustomButton';
 import CustomCurveButton from '@/components/CustomCurveButton';
 import CustomInput from '@/components/CustomInput';
-// import { registrationFormStore } from '@/stores/registration-form.store';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { blackArrow, placeMarker } from '@/assets';
-import { extractRequiredFieldsFromObject } from '@/helpers/extract-required-fields-from-object';
 import clsx from 'clsx';
-// import { validateNumberInput } from '@/helpers/validate-number-input';
-import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import GoBackTextButton from '../../shared/GoBackTextButton';
 import AlertBox from '../../shared/AlertBox';
 import { useRegistrationForm } from '@/context/registration-form.context';
+import { useLocationsAndPricing } from '@/context/locations-and-prices.context';
+import { checkServiceabilityByZip } from '@/utils/check-serviceability-by-zip';
+import { ServiceabilityErrorEnum } from '@/enum/serviceability-error.enum';
+import { RegistrationStepEnum } from '@/enum/registration-step.enum';
+import { validateFormStep } from '../../../logic/validation';
+// import { sendDataToServer } from '../../../logic/send.data';
+import {
+  BuildOnFieldChangedHandlerFunction,
+  BuildOnFieldFocusLostHandlerFunction
+} from '../../../types';
 
 type Props = {
-  onNext: (data: FormValues, step: RegistrationStepEnum) => void;
-  loading: boolean;
+  onNextClicked: () => void;
+  buildOnFieldChangedHandler: BuildOnFieldChangedHandlerFunction;
+  buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
+  registrationDataIsLoading: boolean;
 };
 
-type FormValues = {
-  zip: string | null;
-  customerHasAccessToPool: boolean | null;
-};
+const prepareZipValue = (v: string) => v.replace(/\D/gi, '').slice(0, 5);
 
-const formDefaultValues: DeepPartial<FormValues> = {
-  zip: null,
-  customerHasAccessToPool: null,
-};
+const RegistrationForm1 = ({
+  onNextClicked,
+  buildOnFieldChangedHandler,
+  buildOnFieldFocusLostHandler,
+  registrationDataIsLoading
+}: Props) => {
 
-const RegistrationForm1: React.FC<Props> = ({ onNext, loading }) => {
-  const { registrationForm, registrationErrors } = useRegistrationForm();
   const {
-    handleSubmit,
-    setValue,
-    getValues,
-    watch,
-    reset,
-    formState: { errors },
-    setError,
-    clearErrors,
-  } = useForm<FormValues>({
-    defaultValues: formDefaultValues,
-  });
+    registrationForm,
+    registrationErrors,
+    registrationErrorsText,
+    // setZipCodeError,
+    registrationStep,
+    setRegistrationStep,
+    setRegistrationErrors,
+  } = useRegistrationForm();
+  const locationsAndPricing = useLocationsAndPricing();
 
-  const customerHasAccessToPool = watch('customerHasAccessToPool');
-  const zipValue = watch('zip');
+  const [checkingServiceability, setCheckingServiceability] = useState(false);
 
-  useEffect(() => {
-    if (registrationForm) {
-      const values = getValues();
-      reset(extractRequiredFieldsFromObject(registrationForm, values));
-    }
-  }, [registrationForm, reset]);
+  const setZip = buildOnFieldChangedHandler('zip');
+  const setCustomerHasAccessToPool = buildOnFieldChangedHandler('customerHasAccessToPool');
+  const onZipFocusLost = buildOnFieldFocusLostHandler('zip');
 
-  useEffect(() => {
-    if (!registrationErrors) {
-      return;
-    }
+  const loading =
+    locationsAndPricing.loading ||
+    registrationDataIsLoading ||
+    checkingServiceability;
 
-    for (const [k, v] of Object.entries(registrationErrors)) {
-      if (Object.keys(formDefaultValues).includes(k)) {
-        setError(k as keyof FormValues, { type: 'custom', message: v });
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      if (!locationsAndPricing.data) {
+        throw new Error('Not loaded yet');
       }
+
+      console.log(registrationForm);
+
+      const validationErrors = validateFormStep(registrationForm, registrationStep);
+      if (validationErrors) {
+        setRegistrationErrors(validationErrors);
+        console.log(validationErrors);
+        return;
+      } else {
+        setRegistrationErrors({});
+      }
+
+      setCheckingServiceability(true);
+
+      const zipCodeError = await checkServiceabilityByZip({
+        zipCode: registrationForm?.zip || '',
+        requirePool: !registrationForm?.customerHasAccessToPool,
+        locationsAndPricing: locationsAndPricing.data,
+      });
+
+      setCheckingServiceability(false);
+      console.log(zipCodeError);
+
+      // if (zipCodeError == ServiceabilityErrorEnum.NoPools || zipCodeError == ServiceabilityErrorEnum.OutsideArea) {
+      // setZipCodeError(zipCodeError);
+      // setZipCodeError(undefined);
+      // }
+
+      if (zipCodeError == ServiceabilityErrorEnum.NoPools) {
+        // sendDataToServer({
+        //   registrationRecordId: databaseId,
+        //   registrationFormTypeId: formId,
+        //   secret: secret,
+        //   formData: registrationForm
+        // });
+
+        setRegistrationStep(RegistrationStepEnum.Step1NoPoolsError);
+        return;
+      } else if (zipCodeError == ServiceabilityErrorEnum.OutsideArea) {
+        // sendDataToServer({
+        //   registrationRecordId: databaseId,
+        //   registrationFormTypeId: formId,
+        //   secret: secret,
+        //   formData: registrationForm
+        // });
+
+        setRegistrationStep(RegistrationStepEnum.Step1OutsideAreaError);
+        return;
+      }
+
+      onNextClicked();
+    } catch (error) {
+      console.log(error);
     }
-  }, [registrationErrors]);
-
-  const onSubmit = async (data: FormValues) => {
-    onNext(data, RegistrationStepEnum.Step1);
-  };
-
-  const handleChangeValue = (
-    field: 'zip' | 'customerHasAccessToPool',
-    value: string | boolean
-  ) => {
-    setValue(field, value);
-    clearErrors(field);
   };
 
   const getZipCodeValue = () => {
-    return zipValue || '';
+    return registrationForm?.zip || '';
   };
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={onSubmit}
       className='flex  flex-col gap-[30px] items-center w-full'
     >
       <GoBackTextButton text='Check Availability' />
@@ -94,11 +135,13 @@ const RegistrationForm1: React.FC<Props> = ({ onNext, loading }) => {
         text='Zip Code'
         maxLength={5}
         value={getZipCodeValue()}
-        error={errors.zip?.message}
+        error={registrationErrors?.zip}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          handleChangeValue('zip', e.target.value)
+          setZip(prepareZipValue(e.target.value))
         }
+        onBlur={onZipFocusLost}
         icon={placeMarker}
+        inputMode='numeric'
       />
 
       <div className='flex flex-col gap-[10px] w-full'>
@@ -107,10 +150,10 @@ const RegistrationForm1: React.FC<Props> = ({ onNext, loading }) => {
           <span
             className={clsx(
               'text-red',
-              errors.customerHasAccessToPool ? 'opacity-100' : 'opacity-0'
+              registrationErrors?.customerHasAccessToPool ? 'opacity-100' : 'opacity-0',
             )}
           >
-            {errors.customerHasAccessToPool?.message || 'error'}
+            {registrationErrors?.customerHasAccessToPool || 'error'}
           </span>
         </div>
 
@@ -118,26 +161,26 @@ const RegistrationForm1: React.FC<Props> = ({ onNext, loading }) => {
           <CustomButton
             text='Yes'
             width='50%'
-            onClick={() => handleChangeValue('customerHasAccessToPool', true)}
-            isActive={customerHasAccessToPool === true}
+            onClick={() => setCustomerHasAccessToPool(true)}
+            isActive={registrationForm?.customerHasAccessToPool === true}
           />
           <CustomButton
             text='No'
             width='50%'
-            onClick={() => handleChangeValue('customerHasAccessToPool', false)}
-            isActive={customerHasAccessToPool === false}
+            onClick={() => setCustomerHasAccessToPool(false)}
+            isActive={registrationForm?.customerHasAccessToPool === false}
           />
         </div>
       </div>
 
-      {(errors.zip || errors.customerHasAccessToPool) && (
+      {registrationErrorsText && (
         <AlertBox
           type='error'
-          text='Woops looks like some info is missing. Please provide ZIP, do you have access to a pool or not?'
+          text={registrationErrorsText}
         />
       )}
 
-      {customerHasAccessToPool === false && (
+      {registrationForm?.customerHasAccessToPool === false && (
         <AlertBox
           type='info'
           text='If you don’t have access to one of the following pool types, you can change your answer to yes.'
@@ -152,7 +195,7 @@ const RegistrationForm1: React.FC<Props> = ({ onNext, loading }) => {
 
       <CustomCurveButton
         type='submit'
-        disabled={Object.keys(errors).length > 0 || loading}
+        disabled={loading}
         text={loading ? 'Loading' : 'Continue'}
         icon={!loading && blackArrow}
       />

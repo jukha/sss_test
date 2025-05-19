@@ -74,7 +74,7 @@ const HowItWorksSection = () => {
         </Typography>
         <Typography
           variant='custom'
-          className='text-2xl font-bold leading-[125%] font-secondary text-darkBlue max-w-[559px] text-center mx-auto'
+          className='text-2xl font-bold leading-[125%] font-secondary text-offBlack max-w-[559px] text-center mx-auto'
         >
           Start America’s #1 rated swimming lessons at your home pool as easy as
           1,2,3

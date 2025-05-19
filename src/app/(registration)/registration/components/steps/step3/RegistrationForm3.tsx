@@ -1,30 +1,31 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-
 import CustomInput from '@/components/CustomInput';
 import CustomCurveButton from '@/components/CustomCurveButton';
-import { CustomCheckbox } from '@/components/CustomCheckbox';
-import { mobile, mail, personIcon, blackArrow } from '@/assets';
-import { Step3Fields } from '@/entities/registration-form.entity';
-import {
-  emailSchema,
-  nameSchema,
-  step3Schema,
-} from '@/app/api/registration/step/schemas/step.schemas';
-import { extractZodErrors } from '@/utils/extract-zod-errors';
+import AlertBox from '../../shared/AlertBox';
 import GoBackTextButton from '../../shared/GoBackTextButton';
+import AdditionalParentGuardian from './components/AdditionalParentGuardian';
+import {blackArrow, mail, mobile, personIcon} from '@/assets';
+import { useRegistrationForm } from '@/context/registration-form.context';
+import {
+  BuildOnFieldChangedHandlerFunction,
+  BuildOnFieldChangedEventHandler,
+  BuildOnFieldFocusLostHandlerFunction
+} from '../../../types';
 
-type Fields = Step3Fields;
 
 type Props = {
-  initialValues?: Partial<Fields>;
-  studentsNames?: string[];
-  onSubmit?: (fields: Fields) => void;
-  onBackClick?: () => void;
+  onNextClicked: () => void;
+  onPreviousClicked: () => void;
+  buildOnFieldChangedHandler: BuildOnFieldChangedHandlerFunction;
+  buildOnFieldChangedEventHandler: BuildOnFieldChangedEventHandler;
+  buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
 };
 
-const validationSchema = step3Schema;
 
-const getPhoneNumber = (v: string) => {
+const formatPhoneNumber = (v: string | null | undefined) => {
+  if (!v) {
+    return '';
+  }
+
   let phoneNumber = v.replace(/\D/g, '');
 
   phoneNumber = phoneNumber.substring(0, 10);
@@ -43,174 +44,113 @@ const getPhoneNumber = (v: string) => {
   return formatted;
 };
 
+
 const RegistrationForm3: React.FC<Props> = ({
-  initialValues,
-  studentsNames,
-  onSubmit,
-  onBackClick,
+  onNextClicked,
+  onPreviousClicked,
+  buildOnFieldChangedHandler,
+  buildOnFieldChangedEventHandler,
+  buildOnFieldFocusLostHandler,
 }) => {
-  const [state, setState] = useState<Fields>(() => ({
-    firstName: initialValues?.firstName ?? '',
-    lastName: initialValues?.lastName ?? '',
-    email: initialValues?.email ?? '',
-    phone: initialValues?.phone ? getPhoneNumber(initialValues.phone) : '',
-    parentGuardians:
-      initialValues?.parentGuardians ??
-      (studentsNames ?? []).map(() => ({ name: '', email: '' })),
-  }));
-  const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>(
-    {}
-  );
-  const [parentGuardiansErrors, setParentGuardiansErrors] = useState<
-    { name: string; email: string }[]
-  >(() => (studentsNames ?? []).map(() => ({ name: '', email: '' })));
-  const [initialErrors, setInitialErrors] = useState(false);
 
-  const fullParentName =
-    state.firstName || state.lastName
-      ? `${state.firstName ?? ''}${' ' + (state.lastName ?? '')}`
-      : '';
+  const {
+    registrationForm,
+    registrationErrors,
+    registrationErrorsText
+  } = useRegistrationForm();
 
-  const showAdditionalParentGuardians =
-    studentsNames && studentsNames.length > 0;
+  const showAdditionalParentGuardians = !registrationForm?.isCustomerAParentGuardianOfAll;
 
-  const hasEmptyRequiredFields =
-    !state.firstName ||
-    !state.lastName ||
-    !state.email ||
-    !state.phone ||
-    state.parentGuardians?.some((pgData) => !pgData.name || !pgData.email);
-
-  const disableSubmitBtn =
-    initialErrors ||
-    Object.values(errors).some(Boolean) ||
-    parentGuardiansErrors.some((pgErr) => Object.values(pgErr).some(Boolean)) ||
-    hasEmptyRequiredFields;
-
-  const updateState = (key: keyof Fields, value: string) => {
-    if (initialErrors) {
-      setInitialErrors(false);
-    }
-
-    let finalValue = '';
-
-    if (key === 'phone') {
-      finalValue = getPhoneNumber(value);
-    } else {
-      finalValue = value;
-    }
-
-    const result = { ...state, [key]: finalValue };
-
-    setState(result);
-    setErrors({
-      ...errors,
-      [key]: extractZodErrors(validationSchema.safeParse(result))?.[key] ?? '',
-    });
+  const getStudentsCount = () => {
+    return registrationForm?.studentsCount || 0;
   };
 
-  const updateParentGuardians = (
-    idx: number,
-    key: 'name' | 'email',
-    value: string
-  ) => {
-    const result: Fields = {
-      ...state,
-      parentGuardians: state.parentGuardians?.map((pg, i) =>
-        idx === i ? { ...pg, [key]: value } : pg
-      ),
-    };
+  const setFirstName = buildOnFieldChangedEventHandler('firstName');
+  const setLastName = buildOnFieldChangedEventHandler('lastName');
+  const setEmail = buildOnFieldChangedEventHandler('email');
 
-    const shouldValidate =
-      state.parentGuardians?.[idx]?.[key] !==
-      result.parentGuardians?.[idx]?.[key];
-
-    setState(() => result);
-
-    if (shouldValidate) {
-      if (initialErrors) {
-        setInitialErrors(false);
-      }
-      let errorMessage = '';
-
-      if (key === 'name') {
-        errorMessage =
-          nameSchema.safeParse(value).error?.errors[0]?.message ?? '';
-      } else {
-        errorMessage =
-          emailSchema.safeParse(value).error?.errors[0]?.message ?? '';
-      }
-
-      setParentGuardiansErrors(
-        parentGuardiansErrors.map((pgErr, i) =>
-          idx === i
-            ? {
-                ...pgErr,
-                [key]: errorMessage,
-              }
-            : pgErr
-        )
-      );
-    }
+  const setPhoneHandler = buildOnFieldChangedHandler('phone');
+  const setPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhoneHandler(formatPhoneNumber(e.target.value));
   };
 
-  const backClickHandler = () => onBackClick?.();
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const onParentGuardianNameChangeHandlers: ((e: React.ChangeEvent<HTMLInputElement>) => void)[] = [];
+  for (let i = 1; i <= getStudentsCount(); i++) {
+    // @ts-expect-error Dynamic field name construction
+    onParentGuardianNameChangeHandlers[i] = buildOnFieldChangedEventHandler(`parentGuardianName${i}`);
+  }
+
+  const onParentGuardianEmailChangeHandlers: ((e: React.ChangeEvent<HTMLInputElement>) => void)[] = [];
+  for (let i = 1; i <= getStudentsCount(); i++) {
+    // @ts-expect-error Dynamic field name construction
+    onParentGuardianEmailChangeHandlers[i] = buildOnFieldChangedEventHandler(`parentGuardianEmail${i}`);
+  }
+
+  const setParentGuardianNameHandlers: ((name: string) => void)[] = [];
+  for (let i = 1; i <= getStudentsCount(); i++) {
+    // @ts-expect-error Dynamic field name construction
+    setParentGuardianNameHandlers[i] = buildOnFieldChangedHandler(`parentGuardianName${i}`);
+  }
+
+  const setParentGuardianEmailHandlers: ((email: string) => void)[] = [];
+  for (let i = 1; i <= getStudentsCount(); i++) {
+    // @ts-expect-error Dynamic field name construction
+    setParentGuardianEmailHandlers[i] = buildOnFieldChangedHandler(`parentGuardianEmail${i}`);
+  }
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit?.(state);
+    onNextClicked();
   };
-
-  useLayoutEffect(() => {
-    const initialErrors = extractZodErrors(validationSchema.safeParse(state));
-    setInitialErrors(
-      Boolean(initialErrors && Object.values(initialErrors).length)
-    );
-  }, []);
 
   return (
     <div className='flex flex-col gap-[34px]'>
       <GoBackTextButton
         text='Guardian/Parent Details'
-        onClick={backClickHandler}
+        onClick={onPreviousClicked}
       />
 
       <form onSubmit={submitHandler} className='flex flex-col gap-[34px]'>
         <div className='flex flex-col gap-8 font-secondary font-medium font-'>
           <div className='flex gap-8 flex-col sm:flex-row'>
             <CustomInput
-              value={state.firstName ?? ''}
-              error={errors.firstName}
+              value={registrationForm?.firstName || ''}
+              error={registrationErrors?.firstName}
               text='First Name*'
               icon={personIcon}
-              onChange={(e) => updateState('firstName', e.target.value)}
+              onChange={setFirstName}
+              onBlur={buildOnFieldFocusLostHandler('firstName')}
             />
 
             <CustomInput
-              value={state.lastName ?? ''}
-              error={errors.lastName}
+              value={registrationForm?.lastName || ''}
+              error={registrationErrors?.lastName}
               text='Last Name*'
               icon={personIcon}
-              onChange={(e) => updateState('lastName', e.target.value)}
+              onChange={setLastName}
+              onBlur={buildOnFieldFocusLostHandler('lastName')}
             />
           </div>
 
           <CustomInput
-            value={state.email ?? ''}
-            error={errors.email}
+            value={registrationForm?.email || ''}
+            error={registrationErrors?.email}
             text='Email Address*'
             icon={mail}
             type='email'
-            onChange={(e) => updateState('email', e.target.value)}
+            onChange={setEmail}
+            onBlur={buildOnFieldFocusLostHandler('email')}
           />
 
           <CustomInput
-            value={state.phone ?? ''}
-            error={errors.phone}
-            onChange={(e) => updateState('phone', e.target.value)}
+            value={formatPhoneNumber(registrationForm?.phone)}
+            error={registrationErrors?.phone}
+            onChange={setPhone}
             text='Phone Number*'
             icon={mobile}
             type='phone'
             inputMode='numeric'
+            onBlur={buildOnFieldFocusLostHandler('phone')}
           />
         </div>
 
@@ -221,25 +161,40 @@ const RegistrationForm3: React.FC<Props> = ({
             </p>
 
             <div className='flex flex-col gap-8 desktop:gap-10'>
-              {studentsNames.map((name, idx) => (
-                <AdditionalParentGuard
-                  key={idx}
-                  studentName={name}
-                  currentUserName={fullParentName}
-                  currentUserEmail={state.email ?? ''}
-                  nameError={parentGuardiansErrors[idx]?.name}
-                  emailError={parentGuardiansErrors[idx]?.email}
-                  initialData={state.parentGuardians?.[idx]}
-                  onNameChange={(name) =>
-                    updateParentGuardians(idx, 'name', name)
-                  }
-                  onEmailChange={(email) =>
-                    updateParentGuardians(idx, 'email', email)
-                  }
+              {Array.from({ length: getStudentsCount() }).map((_, i) => (
+                <AdditionalParentGuardian
+                  key={i}
+                  // @ts-expect-error Dynamic field name construction
+                  studentName={registrationForm?.[`studentName${i+1}`] || ''}
+                  currentUserName={`${registrationForm?.firstName || ''} ${registrationForm?.lastName || ''}`}
+                  currentUserEmail={registrationForm?.email || ''}
+                  // @ts-expect-error Dynamic field name construction
+                  name={registrationForm?.[`parentGuardianName${i+1}`] || ''}
+                  // @ts-expect-error Dynamic field name construction
+                  email={registrationForm?.[`parentGuardianEmail${i+1}`] || ''}
+                  // @ts-expect-error Dynamic field name construction
+                  nameError={registrationErrors?.[`parentGuardianName${i+1}`]}
+                  // @ts-expect-error Dynamic field name construction
+                  emailError={registrationErrors?.[`parentGuardianEmail${i+1}`]}
+                  onNameChange={onParentGuardianNameChangeHandlers[i+1]}
+                  onEmailChange={onParentGuardianEmailChangeHandlers[i+1]}
+                  setName={setParentGuardianNameHandlers[i+1]}
+                  setEmail={setParentGuardianEmailHandlers[i+1]}
+                  // @ts-expect-error Dynamic field name construction
+                  onNameBlur={buildOnFieldFocusLostHandler(`parentGuardianName${i+1}`)}
+                  // @ts-expect-error Dynamic field name construction
+                  onEmailBlur={buildOnFieldFocusLostHandler(`parentGuardianEmail${i+1}`)}
                 />
               ))}
             </div>
           </div>
+        )}
+
+        {registrationErrorsText && (
+          <AlertBox
+            type='error'
+            text={registrationErrorsText}
+          />
         )}
 
         <div className='flex justify-center'>
@@ -248,7 +203,6 @@ const RegistrationForm3: React.FC<Props> = ({
               type='submit'
               text='Continue'
               icon={blackArrow}
-              disabled={disableSubmitBtn}
             />
           </div>
         </div>
@@ -258,89 +212,12 @@ const RegistrationForm3: React.FC<Props> = ({
         <GoBackTextButton
           size='small'
           text='Back to student details'
-          onClick={backClickHandler}
+          onClick={onPreviousClicked}
         />
       </div>
     </div>
   );
 };
+
 
 export default RegistrationForm3;
-
-type AdditionalParentGuardProps = {
-  studentName: string;
-  currentUserName: string;
-  currentUserEmail: string;
-  nameError?: string;
-  emailError?: string;
-  initialData?: { name: string; email: string };
-  onNameChange?: (val: string) => void;
-  onEmailChange?: (val: string) => void;
-};
-
-const AdditionalParentGuard: React.FC<AdditionalParentGuardProps> = ({
-  studentName,
-  currentUserName,
-  currentUserEmail,
-  nameError,
-  emailError,
-  initialData,
-  onNameChange,
-  onEmailChange,
-}) => {
-  const [isCurrentUserParentOrGuard, setIsCurrentUserParentOrGuard] = useState(
-    () => Boolean(initialData?.name && initialData.name === currentUserName)
-  );
-  const [name, setName] = useState(() => initialData?.name ?? '');
-  const [email, setEmail] = useState(() => initialData?.email ?? '');
-
-  useEffect(() => {
-    if (isCurrentUserParentOrGuard) {
-      setName(currentUserName);
-      setEmail(currentUserEmail);
-    }
-  }, [isCurrentUserParentOrGuard, currentUserName, currentUserEmail]);
-
-  useEffect(() => {
-    onNameChange?.(name);
-  }, [name]);
-
-  useEffect(() => {
-    onEmailChange?.(email);
-  }, [email]);
-
-  return (
-    <div className='flex flex-col gap-4'>
-      <div className='flex flex-col gap-1 p-2 desktop:flex-row desktop:justify-between desktop:gap-4 desktop:py-[18px] desktop:px-[10px] bg-[#EEFCFF] rounded-lg'>
-        <div className='font-bold desktop:text-[18px]'>{studentName}</div>
-        <div>
-          <CustomCheckbox
-            checked={isCurrentUserParentOrGuard}
-            onClick={(v) => setIsCurrentUserParentOrGuard(v)}
-            text='I am the parent/guardian'
-          />
-        </div>
-      </div>
-
-      <div className='flex flex-col gap-2 desktop:flex-row desktop:gap-4'>
-        <CustomInput
-          value={name}
-          error={nameError}
-          text='Parent Name*'
-          icon={personIcon}
-          disabled={isCurrentUserParentOrGuard}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <CustomInput
-          value={email}
-          error={emailError}
-          type='email'
-          text='Parent email*'
-          icon={mail}
-          disabled={isCurrentUserParentOrGuard}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-    </div>
-  );
-};

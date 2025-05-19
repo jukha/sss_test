@@ -37,7 +37,7 @@ export class GenericRepository<E> {
     this._allowedMethods = allowedMethods;
   }
 
-  async get({ endpoint, headers }: GetOptions): Promise<RepositoryResponse<E>> {
+  async get<T>({ endpoint, headers }: GetOptions): Promise<RepositoryResponse<T>> {
     if (!this._allowedMethods.includes('get'))
       throw new MethodNotAllowedError('get');
 
@@ -47,16 +47,16 @@ export class GenericRepository<E> {
       headers: headers,
     });
 
-    if (data) return { data };
+    if (data) return { data: data as T };
 
     return { data: null, errorCode: response.status };
   }
 
-  async post<D>({
-    data,
-    endpoint,
-    headers,
-  }: PostOptions<D>): Promise<RepositoryResponse<E>> {
+  async findAll({ endpoint, headers }: GetOptions): Promise<RepositoryResponse<E[]>> {
+    return await this.get<E[]>({endpoint, headers});
+  }
+
+  async post<D>({data, endpoint, headers}: PostOptions<D>): Promise<RepositoryResponse<E>> {
     if (!this._allowedMethods.includes('post'))
       throw new MethodNotAllowedError('post');
 

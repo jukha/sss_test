@@ -16,12 +16,14 @@ const CustomInputForm: React.FC<Props> = (props: Props) => {
         <input
           type='text'
           placeholder={props.placeholder}
-          className='w-[60%] border-none font-medium focus:outline-none text-base lg:text-2xl text-darkBlue pl-2 lg:pl-[26px] lg:px-2 lg:py-1 bg-white placeholder-darkBlue'
+          className='w-[60%] border-none font-medium focus:outline-none text-base lg:text-2xl text-offBlack pl-2 lg:pl-[26px] lg:px-2 lg:py-1 bg-white placeholder-offBlack'
         />
         <div className='w-[40%] lg:w-max'>
-          <div className='bg-yellow background-decoration text-center text-base lg:text-2xl font-medium font-primary py-1 lg:py-[10px] px-2 lg:px-5 text-darkBlue'>
-            <Link href='#'>Search</Link>
-          </div>
+          <Link href='#'>
+            <div className='bg-yellow background-decoration text-center text-base lg:text-2xl font-medium font-primary py-1 lg:py-[10px] px-2 lg:px-5 text-offBlack cursor-pointer'>
+              {props.submitText}
+            </div>
+          </Link>
         </div>
       </div>
     </div>

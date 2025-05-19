@@ -9,6 +9,7 @@ type Props = HTMLAttributes<HTMLTextAreaElement> & {
   icon?: StaticImageData;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onBlur?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   disabled?: boolean;
   error?: string;
   maxLength?: number;
@@ -22,6 +23,7 @@ const CustomTextArea: React.FC<Props> = (props) => {
     icon,
     value,
     onChange,
+    onBlur,
     disabled,
     maxLength,
     error,
@@ -33,7 +35,7 @@ const CustomTextArea: React.FC<Props> = (props) => {
     <div className='flex flex-col gap-[8px] w-full'>
       {(text || error) && (
         <div className='flex justify-between w-full'>
-          <label htmlFor={text} className='text-darkBlue font-medium'>
+          <label htmlFor={text} className='text-offBlack font-medium'>
             {text}
           </label>
           <span
@@ -46,8 +48,8 @@ const CustomTextArea: React.FC<Props> = (props) => {
 
       <div
         className={clsx(
-          'flex items-center bg-white rounded-[10px] border-[2px] focus-within:border-input-focus',
-          error ? 'border-red-500' : 'border-input-border'
+          'flex items-center bg-white rounded-[10px] border-[2px] focus-within:border-yellow',
+          error ? 'border-red-500' : 'border-gray'
         )}
       >
         {icon && (
@@ -66,6 +68,7 @@ const CustomTextArea: React.FC<Props> = (props) => {
           className='py-[8px] px-[16px] w-full outline-none resize-none'
           value={value}
           onChange={onChange}
+          onBlur={onBlur}
           disabled={disabled}
           placeholder={placeholder}
         />

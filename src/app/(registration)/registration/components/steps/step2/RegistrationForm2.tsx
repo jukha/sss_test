@@ -6,12 +6,17 @@ import CustomCurveButton from '@/components/CustomCurveButton';
 import CustomInput from '@/components/CustomInput';
 import CustomTextArea from '@/components/CustomTextArea';
 import DropDownSelect from '@/components/DropDownSelect';
-import { RegistrationStepEnum } from '@/enum/registration-step.enum';
+import AlertBox from '../../shared/AlertBox';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
-import { DeepPartial, useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
 import GoBackTextButton from '../../shared/GoBackTextButton';
 import { useRegistrationForm } from '@/context/registration-form.context';
+import {
+  BuildOnFieldChangedHandlerFunction,
+  BuildOnFieldChangedEventHandler,
+  BuildOnFieldChangedEventHandler2,
+  BuildOnFieldFocusLostHandlerFunction
+} from '../../../types';
 
 const ageChoices = [
   { index: 0, text: '6-8 Months' },
@@ -29,63 +34,74 @@ const ageChoices = [
 ];
 
 type Props = {
-  onNext?: (data: FormValues, step: RegistrationStepEnum) => void;
+  onNextClicked: () => void;
+  onPreviousClicked: () => void;
+  buildOnFieldChangedHandler: BuildOnFieldChangedHandlerFunction;
+  buildOnFieldChangedEventHandler: BuildOnFieldChangedEventHandler;
+  buildOnFieldChangedEventHandler2: BuildOnFieldChangedEventHandler2;
+  buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
 };
 
-type Student = {
-  name: string;
-  age: { index: number; text: string } | null;
-};
+const RegistrationForm2: React.FC<Props> = ({
+  onNextClicked,
+  onPreviousClicked,
+  buildOnFieldChangedHandler,
+  buildOnFieldChangedEventHandler,
+  buildOnFieldChangedEventHandler2,
+  buildOnFieldFocusLostHandler,
+}) => {
 
-type FormValues = {
-  students: Student[];
-  additionalInfo: string;
-  guardOfStudents: null | boolean;
-};
-
-const formDefaultValues: DeepPartial<FormValues> = {
-  students: [],
-  additionalInfo: '',
-  guardOfStudents: null,
-};
-
-const RegistrationForm2: React.FC<Props> = ({}) => {
   const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    watch,
-    formState: { errors },
-  } = useForm<FormValues>({ defaultValues: formDefaultValues });
-  const { setRegistrationStep } = useRegistrationForm();
-  const [countOfStudents, setCountOfStudents] = useState(1);
+    registrationForm,
+    registrationErrors,
+    registrationErrorsText
+  } = useRegistrationForm();
+
+  const getStudentsCount = () => {
+    return registrationForm?.studentsCount || 0;
+  };
+
+  const setStudentsCount = buildOnFieldChangedHandler('studentsCount');
+  useEffect(() => {
+    if (getStudentsCount() == 0) {
+      setStudentsCount(1);
+    }
+  }, []);
+
+  const setIsCustomerAParentGuardianOfAll = buildOnFieldChangedHandler('isCustomerAParentGuardianOfAll');
+  const setQuestionsOfInformationWeShouldNowAboutTheStudents = buildOnFieldChangedEventHandler2('questionsOfInformationWeShouldNowAboutTheStudents');
+
+  const setStudentNameHandlers: ((e: React.ChangeEvent<HTMLInputElement>) => void)[] = [];
+  for (let i = 1; i <= getStudentsCount(); i++) {
+    // @ts-expect-error Dynamic field name construction
+    setStudentNameHandlers[i] = buildOnFieldChangedEventHandler(`studentName${i}`);
+  }
+
+  const setStudentAgeHandlers: ((e: { text: string }) => void)[] = [];
+  for (let i = 1; i <= getStudentsCount(); i++) {
+    // @ts-expect-error Dynamic field name construction
+    const handler = buildOnFieldChangedHandler(`studentAge${i}`);
+    setStudentAgeHandlers[i] = ({ text }) => {
+      handler(text);
+    };
+  }
+
   const [howManyButtonsShown, setHowManyButtonsShown] = useState<3 | 6>(3);
   const [isTextAreaShown, setIsTextAreaShown] = useState(false);
 
-  const students = watch('students') || [];
-  const guardOfStudents = watch('guardOfStudents');
-
-  const onSubmit = () => {};
-
-  useEffect(() => {
-    const currentStudents = getValues('students') || [];
-    const newStudent = { name: '', age: null };
-    const newStudents = Array.from(
-      { length: countOfStudents },
-      (_, i) => currentStudents[i] || newStudent
-    );
-    setValue('students', newStudents);
-  }, [countOfStudents]);
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onNextClicked();
+  };
 
   return (
     <form
       className='flex flex-col gap-[30px] items-center w-full'
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={onSubmit}
     >
       <GoBackTextButton
         text='Student Details'
-        onClick={() => setRegistrationStep(RegistrationStepEnum.Step1)}
+        onClick={onPreviousClicked}
       />
 
       <div className='flex flex-col w-full gap-[16px]'>
@@ -97,8 +113,8 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
             <CustomButton
               key={i + 1}
               text={i + 1 + ' Student'}
-              isActive={countOfStudents === i + 1}
-              onClick={() => setCountOfStudents(i + 1)}
+              isActive={getStudentsCount() === i + 1}
+              onClick={() => setStudentsCount(i + 1)}
               className='grow'
             />
           ))}
@@ -114,19 +130,29 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
       </div>
 
       <div className='flex flex-col gap-[32px] w-full'>
-        {Array.from({ length: countOfStudents }).map((_, i) => (
+        {Array.from({ length: getStudentsCount() }).map((_, i) => (
           <div key={i} className='flex flex-col gap-[14px] desktop:flex-row'>
             <CustomInput
               text='Student Name*'
-              {...register(`students.${i}.name`)}
+              name={`studentName${i+1}`}
+              // @ts-expect-error Dynamic field name construction
+              error={registrationErrors?.[`studentName${i+1}`]}
+              // @ts-expect-error Dynamic field name construction
+              value={registrationForm?.[`studentName${i+1}`] || ''}
+              onChange={setStudentNameHandlers[i+1]}
+              // @ts-expect-error Dynamic field name construction
+              onBlur={buildOnFieldFocusLostHandler(`studentName${i+1}`)}
               icon={personIcon}
               className='grow'
             />
             <DropDownSelect
               text='Student Age*'
               choices={ageChoices}
-              value={students[i]?.age || undefined}
-              onChange={(v) => setValue(`students.${i}.age`, v)}
+              // @ts-expect-error Dynamic field name construction
+              error={registrationErrors?.[`studentAge${i+1}`]}
+              // @ts-expect-error Dynamic field name construction
+              value={{text: registrationForm?.[`studentAge${i+1}`] || ''}}
+              onChange={setStudentAgeHandlers[i+1]}
               className='!w-[140px] shrink-0'
             />
           </div>
@@ -142,13 +168,15 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
           }
           onClick={() => setIsTextAreaShown((prev) => !prev)}
           icon={isTextAreaShown ? minus : plus}
-          className='text-start flex-row-reverse p-[16px] desktop:w-[90%] !bg-extraLightBlue'
+          className='text-start flex-row-reverse p-[16px] desktop:w-[90%] !bg-lightBlue'
           textClassName='text-sm leading-[120%]'
         />
 
         {isTextAreaShown && (
           <CustomTextArea
-            {...register('additionalInfo')}
+            value={registrationForm?.questionsOfInformationWeShouldNowAboutTheStudents || ''}
+            onChange={setQuestionsOfInformationWeShouldNowAboutTheStudents}
+            onBlur={buildOnFieldFocusLostHandler('questionsOfInformationWeShouldNowAboutTheStudents')}
             placeholder='Tell us about your goals for your children! Any special needs, medical issues, or special information we should know?'
             rows={5}
           />
@@ -163,10 +191,10 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
           <span
             className={clsx(
               'text-red',
-              errors.guardOfStudents ? 'opacity-100' : 'opacity-0'
+              registrationErrors?.isCustomerAParentGuardianOfAll ? 'opacity-100' : 'opacity-0'
             )}
           >
-            {errors.guardOfStudents?.message || 'error'}
+            {registrationErrors?.isCustomerAParentGuardianOfAll || 'error'}
           </span>
         </div>
 
@@ -174,21 +202,27 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
           <CustomButton
             text='Yes'
             width='50%'
-            onClick={() => setValue('guardOfStudents', true)}
-            isActive={guardOfStudents === true}
+            onClick={() => setIsCustomerAParentGuardianOfAll(true)}
+            isActive={registrationForm?.isCustomerAParentGuardianOfAll === true}
           />
           <CustomButton
             text='No'
             width='50%'
-            onClick={() => setValue('guardOfStudents', false)}
-            isActive={guardOfStudents === false}
+            onClick={() => setIsCustomerAParentGuardianOfAll(false)}
+            isActive={registrationForm?.isCustomerAParentGuardianOfAll === false}
           />
         </div>
       </div>
 
+      {registrationErrorsText && (
+        <AlertBox
+          type='error'
+          text={registrationErrorsText}
+        />
+      )}
+
       <CustomCurveButton
         type='submit'
-        disabled={Object.keys(errors).length > 0}
         text='Continue'
         icon={blackArrow}
       />
@@ -196,7 +230,7 @@ const RegistrationForm2: React.FC<Props> = ({}) => {
       <GoBackTextButton
         size='small'
         text='Back to metro areas selection'
-        onClick={() => setRegistrationStep(RegistrationStepEnum.Step1)}
+        onClick={onPreviousClicked}
       />
     </form>
   );

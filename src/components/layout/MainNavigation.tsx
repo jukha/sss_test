@@ -44,7 +44,7 @@ const Navbar = () => {
           <Link href='/' className='block'>
             Home
           </Link>
-          <Link href='#' className='block'>
+          <Link href='/about-us' className='block'>
             About Us
           </Link>
           <Link href='#' className='block'>
@@ -83,7 +83,7 @@ const Navbar = () => {
       {/* Desktop and tablet view */}
       <div className='hidden  md:flex justify-center gap-12 items-center  relative z-10 max-w-[1440px] mx-auto text-[#110241] sm:text-xl font-bold  px-[2rem]  flex-column flex-column lg:flex-row'>
         <div className='flex   items-center gap-8 justify-center w-full '>
-          <Link href='#'>About</Link>
+          <Link href='/about-us'>About</Link>
           <Link href='#' className=' '>
             Swim Lesson Programs
           </Link>
@@ -113,7 +113,7 @@ const Navbar = () => {
               link={'/registration'}
               text='Book Now'
               shadow={true}
-              buttonClasses='bg-brightYellow'
+              buttonClasses='bg-yellow'
               shadowClasses='bg-orange'
             />
           </div>

@@ -2,6 +2,7 @@ import { StaticImageData } from 'next/image';
 import FilteredImage from './FilteredImage';
 import { FilterClassEnum } from '@/enum/filter-class.enum';
 import { curveOval } from '@/assets';
+import clsx from 'clsx';
 
 type Props = {
   onClick?: () => void;
@@ -10,6 +11,8 @@ type Props = {
   icon?: StaticImageData;
   width?: string;
   type?: 'submit' | 'button' | 'reset';
+  iconSide?: 'left';
+  iconWrapperClass?: string;
 };
 
 const CustomCurveButton: React.FC<Props> = ({
@@ -19,6 +22,8 @@ const CustomCurveButton: React.FC<Props> = ({
   width,
   icon,
   type,
+  iconSide,
+  iconWrapperClass,
 }) => {
   return (
     <div className='z-[1] relative' style={{ width }}>
@@ -34,13 +39,34 @@ const CustomCurveButton: React.FC<Props> = ({
           height={30}
           width={30}
           className='z-[-1] object-fill absolute w-full h-full'
-          filter={FilterClassEnum.DarkBlue}
+          filter={FilterClassEnum.OffBlack}
         />
+        {icon && iconSide === 'left' && (
+          <div
+            className={clsx(
+              'curveCircle bg-yellow flex items-center justify-center p-[8px] absolute left-[20px]',
+              iconWrapperClass
+            )}
+          >
+            <FilteredImage
+              filter={FilterClassEnum.Black}
+              src={icon}
+              alt='icon'
+            />
+          </div>
+        )}
+
         <span className='w-fit text-white text-medium font-semibold'>
           {text}
         </span>
-        {icon && (
-          <div className='curveCircle bg-yellow flex items-center justify-center p-[8px] absolute right-[20px]'>
+
+        {icon && iconSide !== 'left' && (
+          <div
+            className={clsx(
+              'curveCircle bg-yellow flex items-center justify-center p-[8px] absolute right-[20px]',
+              iconWrapperClass
+            )}
+          >
             <FilteredImage
               filter={FilterClassEnum.Black}
               src={icon}
@@ -56,7 +82,7 @@ const CustomCurveButton: React.FC<Props> = ({
             height={30}
             width={30}
             className='z-[-2] object-fill absolute w-full h-full top-[10px] left-[-10px]'
-            filter={FilterClassEnum.LightBlue}
+            filter={FilterClassEnum.Blue}
           />
         )}
       </button>

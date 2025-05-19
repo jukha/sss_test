@@ -17,7 +17,7 @@ const GoBackTextButton: React.FC<Props> = ({
   return (
     <button
       className={clsx(
-        'flex gap-[10px] items-center cursor-pointer font-bold leading-[120%] font-primary',
+        'group flex gap-[10px] items-center cursor-pointer font-bold leading-[120%] font-primary',
         size === 'large' && 'self-start text-[24px]',
         size === 'small' && 'text-[20px]'
       )}
@@ -30,13 +30,13 @@ const GoBackTextButton: React.FC<Props> = ({
           width={20}
           height={20}
           alt='arrow'
-          filter={FilterClassEnum.DarkBlue}
+          filter={FilterClassEnum.OffBlack}
           rotate='left'
           className={clsx(size === 'large' && 'mb-[6px]')}
         />
       )}
       <span
-        className={clsx('text-darkBlue', size === 'small' && '!text-medium')}
+        className={clsx('text-offBlack border-b-2 border-transparent group-hover:border-offBlack transition-[border]', size === 'small' && '!text-medium')}
       >
         {text}
       </span>

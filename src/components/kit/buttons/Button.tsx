@@ -23,21 +23,17 @@ type Props = {
  * @returns A React functional component.
  */
 const Button: React.FC<Props> = (props) => {
-  return (
+  const buttonContent = (
     <div className={`relative group`}>
       <div
         className={`py-3 lg:py-4 px-3  lg:px-7 button  flex items-center justify-center duration-300   ${
           props.buttonClasses ?? 'bg-brightYellow text-black'
         } `}
       >
-        <Link
-          href={props.link ?? '#'}
-          className='relative  text-base  lg:text-lg font-bold '
-        >
+        <span className='relative text-base lg:text-lg font-bold '>
           {props.text}
-        </Link>
+        </span>
       </div>
-
       {props.shadow && (
         <div
           className={`absolute z-[-1] h-full w-full button bottom-[-6px] left-[-4px] duration-300 ${
@@ -46,6 +42,20 @@ const Button: React.FC<Props> = (props) => {
         ></div>
       )}
     </div>
+  );
+
+  if (props.link) {
+    return (
+      <Link href={props.link} className='block'>
+        {buttonContent}
+      </Link>
+    );
+  }
+
+  return (
+    <button type='button' className='block w-full'>
+      {buttonContent}
+    </button>
   );
 };
 

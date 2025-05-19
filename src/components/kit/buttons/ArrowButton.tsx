@@ -1,6 +1,6 @@
+import { ArrowIcon } from '@/components/icons';
 import Link from 'next/link';
 import React from 'react';
-import { ArrowIcon } from '../../icons';
 
 interface Props {
   /** The URL the button should link to. If not provided, it defaults to '/'. */
@@ -27,8 +27,8 @@ interface Props {
  * @returns A React functional component.
  */
 const ArrowButton = (props: Props) => {
-  return (
-    <button
+  const buttonContent = (
+    <div
       className={`relative flex items-center justify-center font-semibold md:font-bold text-base md:text-[24px] group `}
     >
       <div
@@ -36,17 +36,15 @@ const ArrowButton = (props: Props) => {
           props.buttonClasses ?? 'bg-brightYellow text-black'
         } duration-300`}
       >
-        <Link href={props.link ?? '/'} className={`relative z-10 `}>
-          {props.text}
-        </Link>
+        <span className={`relative z-10 `}>{props.text}</span>
         {/* icon background */}
 
         <span
           className={`inline-block h-[33px] w-[33px] md:h-[55px] md:w-[55px] p-2 md:p-4 icon-background ${
-            props.IconClasses ?? 'bg-darkBlue'
+            props.IconClasses ?? 'bg-offBlack'
           }`}
         >
-          <ArrowIcon iconColor={props.iconColor} />
+          <ArrowIcon iconColor={props.iconColor || '#000000'} />
         </span>
       </div>
       {props.shadow && (
@@ -56,6 +54,20 @@ const ArrowButton = (props: Props) => {
           } duration-300`}
         ></div>
       )}
+    </div>
+  );
+
+  if (props.link) {
+    return (
+      <Link href={props.link} className="">
+        {buttonContent}
+      </Link>
+    );
+  }
+
+  return (
+    <button type="button" className="block text-left">
+      {buttonContent}
     </button>
   );
 };

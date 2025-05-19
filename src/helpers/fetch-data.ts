@@ -9,6 +9,7 @@ type Params<D> = {
   method: 'POST' | 'GET';
   headers?: Record<string, string>;
   data?: D;
+  jsonHeaderInRequest?: boolean;
 };
 
 async function fetchData<E, D>({
@@ -16,11 +17,12 @@ async function fetchData<E, D>({
   method,
   headers,
   data,
+  jsonHeaderInRequest = true
 }: Params<D>): Promise<FetchData<E>> {
   const options: RequestInit = {
     method,
     headers: {
-      'Content-Type': 'application/json',
+      ...(jsonHeaderInRequest ? {'Content-Type': 'application/json'} : {}),
       ...headers,
     },
     body: method === 'POST' && data ? JSON.stringify(data) : undefined,

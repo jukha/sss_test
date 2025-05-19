@@ -328,3 +328,12 @@ model PackagePromoCode {
   @@index([promo], map: "idx_promo")
   @@map("package_promo_code")
 }
+
+model UnservicedLeads {
+  id        Int       @id @default(autoincrement())
+  email     String    @db.VarChar(200)
+  zip       String    @db.VarChar(5)
+  timestamp DateTime? @db.Timestamp(0)
+
+  @@map("unserviced_leads")
+}

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import clsx from 'clsx';
 import { StaticImageData } from 'next/image';
 import FilteredImage from './FilteredImage';
@@ -5,6 +6,7 @@ import { FilterClassEnum } from '@/enum/filter-class.enum';
 
 type Props = {
   onClick: () => void;
+  onBlur?: () => void;
   text: string;
   disabled?: boolean;
   icon?: StaticImageData;
@@ -17,6 +19,7 @@ type Props = {
 
 const CustomButton: React.FC<Props> = ({
   onClick,
+  onBlur,
   text,
   disabled,
   width,
@@ -26,22 +29,25 @@ const CustomButton: React.FC<Props> = ({
   className,
   textClassName,
 }) => {
+  const [hovered, setHovered] = useState(false);
   return (
     <button
       className={clsx(
-        'flex items-center px-[8px] py-[12px] gap-[10px] cursor-pointer justify-center relative rounded-[10px] disabled:opacity-60 disabled:cursor-default',
-        isActive ? 'bg-blue' : 'bg-gray',
+        'group flex items-center px-[8px] py-[12px] gap-[10px] cursor-pointer justify-center relative rounded-[10px] disabled:opacity-60 disabled:cursor-default enabled:hover:bg-darkBlue enabled:hover:text-white enabled:transition-all',
+        isActive ? 'bg-darkBlue text-white' : 'bg-lightGray text-black',
         className
       )}
       style={{ width }}
       disabled={disabled}
       type={type || 'button'}
       onClick={onClick}
+      onBlur={onBlur}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <span
         className={clsx(
           'max-w-[80%]',
-          isActive ? 'text-white' : 'text-black',
           textClassName ? textClassName : 'text-medium font-semibold'
         )}
       >
@@ -49,7 +55,9 @@ const CustomButton: React.FC<Props> = ({
       </span>
       {icon && (
         <FilteredImage
-          filter={isActive ? FilterClassEnum.White : FilterClassEnum.Black}
+          filter={
+            isActive || hovered ? FilterClassEnum.White : FilterClassEnum.Black
+          }
           src={icon}
           alt='icon'
         />

@@ -51,7 +51,7 @@ const CustomDateInput: React.FC<Props> = (props) => {
     >
       {(text || error) && (
         <div className='flex justify-between w-full'>
-          <span className='text-darkBlue font-medium'>{text}</span>
+          <span className='text-offBlack font-medium'>{text}</span>
           <span
             className={clsx('text-red', error ? 'opacity-100' : 'opacity-0')}
           >
@@ -62,8 +62,8 @@ const CustomDateInput: React.FC<Props> = (props) => {
       <div
         className={clsx(
           'relative flex items-center bg-white rounded-[10px] border-[2px]',
-          'focus-within:border-input-focus',
-          error ? 'border-red-500' : 'border-input-border'
+          'focus-within:border-yellow',
+          error ? 'border-red-500' : 'border-gray'
         )}
         onClick={handleWrapperClick}
       >
@@ -77,7 +77,7 @@ const CustomDateInput: React.FC<Props> = (props) => {
         {!value && placeholder && (
           <span
             className={clsx(
-              'absolute left-[40px] pointer-events-none bg-white text-darkGray',
+              'absolute left-[40px] pointer-events-none bg-white text-gray',
               icon ? 'ml-[32px]' : ''
             )}
           >

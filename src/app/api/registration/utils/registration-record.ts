@@ -54,12 +54,3 @@ export const addRegistrationHistoryRecord = async (registration: CustomerRegistr
     }
   });
 };
-
-
-export const extractIdentifierFromRegistration = (registrationRecord: Partial<CustomerRegistration>): RegistrationRecordIdentifier => {
-  return {
-    id: registrationRecord.id,
-    secret: registrationRecord.secret,
-    formTypeId: registrationRecord.registrationFormType
-  };
-};

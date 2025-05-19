@@ -5,6 +5,7 @@ import '@/utils/styles/cards.path.css';
 import { RegistrationFormProvider } from '@/context/registration-form.context';
 import '@/utils/styles/common.path.css';
 import '@/utils/styles/buttons.css';
+import '@/utils/styles/embla.review-section.css';
 
 export const metadata: Metadata = {
   title: 'Sunsational Swim School - At-Home Private Swimming Lessons',

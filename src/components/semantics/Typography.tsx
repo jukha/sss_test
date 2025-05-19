@@ -23,8 +23,8 @@ interface TypographyProps {
 
 const variantClasses: Record<Variant, string> = {
   h1: `text-5xl md:text-8xl text-white font-bold font-primary leading-[115%] md:leading-[100%]`, //96px
-  h2: 'text-[40px] md:text-[64px] text-darkBlue font-primary font-bold leading-[115%]', // 64px
-  h3: 'text-[32px] md:text-5xl text-darkBlue font-bold leading-[115%] md:leading-[110%]', // 48px
+  h2: 'text-[40px] md:text-[64px] text-offBlack font-primary font-bold leading-[115%]', // 64px
+  h3: 'text-[32px] md:text-5xl text-offBlack font-bold leading-[115%] md:leading-[110%]', // 48px
   h4: 'text-[24px] md:text-[32px]', //32 px
   h5: 'text-xl font-medium',
   h6: 'text-lg font-medium',

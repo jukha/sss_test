@@ -11,21 +11,19 @@
   --color-lightYellow: #fff9e1;
   --color-orange: #f86008;
   --color-lightOrange: #fab248;
-  --color-darkBlue: #110241;
-  --color-blue: #033d9a;
-  --color-lightBlue: #1a8dc6;
-  --color-extraLightBlue: #e3f5f9;
-  --color-gray: #f4f4f4;
-  --color-darkGray: #8e8e8e;
-  --color-lightGreen: #00acb6;
+  --color-offBlack: #110241;
+  --color-darkBlue: #033d9a;
+  --color-blue: #1a8dc6;
+  --color-lightBlue: #c7eaf3;
+  --color-lightGray: #f4f4f4;
+  --color-gray: #8e8e8e;
+  --color-teal: #00acb6;
   --color-white: #ffffff;
   --color-off-white: #fff9e1;
   --color-black: #000000;
+  --color-off-black: #110241;
   --color-red: #d60009;
   --color-lightRed: #d600090d;
-
-  --color-input-border: #8e8e8e;
-  --color-input-focus: #fedf46;
 
   --font-primary: Grandstander, sans-serif;
   --font-secondary: 'Rethink Sans', san-serif, Arial, Helvetica, sans-serif;
@@ -37,7 +35,6 @@
   --text-large: 24px;
   --text-semiHead: 32px;
   --text-head: 48px;
-
   --text-head-desktop: 96px;
 
   --filter-yellow: brightness(0) saturate(100%) invert(100%) sepia(26%)
@@ -48,21 +45,19 @@
     saturate(2642%) hue-rotate(357deg) brightness(98%) contrast(99%);
   --filter-lightOrange: brightness(0) saturate(100%) invert(78%) sepia(88%)
     saturate(4092%) hue-rotate(327deg) brightness(113%) contrast(104%);
-  --filter-darkBlue: brightness(0) saturate(100%) invert(5%) sepia(89%)
+  --filter-offBlack: brightness(0) saturate(100%) invert(5%) sepia(89%)
     saturate(4934%) hue-rotate(258deg) brightness(78%) contrast(108%);
-  --filter-blue: brightness(0) saturate(100%) invert(16%) sepia(50%)
+  --filter-darkBlue: brightness(0) saturate(100%) invert(16%) sepia(50%)
     saturate(5369%) hue-rotate(207deg) brightness(86%) contrast(107%);
-  --filter-lightBlue: brightness(0) saturate(100%) invert(45%) sepia(45%)
+  --filter-blue: brightness(0) saturate(100%) invert(45%) sepia(45%)
     saturate(851%) hue-rotate(155deg) brightness(95%) contrast(93%);
-  --filter-extraLightBlue: brightness(0) saturate(100%) invert(90%) sepia(25%)
+  --filter-lightBlue: brightness(0) saturate(100%) invert(90%) sepia(25%)
     saturate(102%) hue-rotate(154deg) brightness(102%) contrast(95%);
-  --filter-gray: brightness(0) saturate(100%) invert(57%) sepia(3%) saturate(0%)
-    hue-rotate(358deg) brightness(99%) contrast(96%);
-  --filter-darkGray: brightness(0) saturate(100%) invert(59%) sepia(5%)
-    saturate(25%) hue-rotate(3deg) brightness(95%) contrast(88%);
-  --filter-lightGray: brightness(0) saturate(100%) invert(100%) sepia(0%)
-    saturate(7402%) hue-rotate(297deg) brightness(111%) contrast(91%);
-  --filter-lightGreen: brightness(0) saturate(100%) invert(45%) sepia(54%)
+  --filter-lightGray: brightness(0) saturate(100%) invert(100%) sepia(54%)
+    saturate(73%) hue-rotate(188deg) brightness(112%) contrast(91%);
+  --filter-gray: brightness(0) saturate(100%) invert(54%) sepia(4%) saturate(6%)
+    hue-rotate(5deg) brightness(105%) contrast(82%);
+  --filter-teal: brightness(0) saturate(100%) invert(45%) sepia(54%)
     saturate(2397%) hue-rotate(150deg) brightness(96%) contrast(101%);
   --filter-white: brightness(0) saturate(100%) invert(100%) sepia(100%)
     saturate(2%) hue-rotate(295deg) brightness(108%) contrast(101%);
@@ -115,45 +110,8 @@ nav * {
   font-weight: 700;
 }
 
-.curveButton {
-  border-radius: 94% 6% 87% 13% / 13% 80% 20% 87%;
-  position: relative;
-}
-
 .curveCircle {
   border-radius: 31% 69% 21% 79% / 51% 46% 54% 49%;
-}
-
-.curveButton:not(:disabled)::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: -10px;
-  width: 100%;
-  height: 100%;
-  border-radius: 94% 6% 87% 13% / 13% 80% 20% 87%;
-  background-color: var(--color-blue);
-  z-index: -1;
-}
-
-.cutCard {
-  /* clip-path: polygon(0 0, 100% 10%, 97% 100%, 0% 100%); */
-  /* border-radius: 16px 100px 80px 16px; */
-  /* border-radius: 16px 200px 100px 16px; */
-  border-radius: 10% 90% 15% 10% / 10% 30% 90% 10%;
-  position: relative;
-}
-
-.cutCard::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: -10px;
-  width: 100%;
-  height: 100%;
-  border-radius: 10% 90% 15% 10% / 10% 30% 90% 10%;
-  background-color: var(--color-blue);
-  z-index: -1;
 }
 
 .orangeScroll::-webkit-scrollbar {
@@ -175,7 +133,6 @@ nav * {
   -webkit-appearance: none;
 }
 
-
 .filterYellow {
   filter: var(--filter-yellow);
 }
@@ -186,6 +143,10 @@ nav * {
 
 .filterOrange {
   filter: var(--filter-orange);
+}
+
+.filterOffBlack {
+  filter: var(--filter-offBlack);
 }
 
 .filterDarkBlue {
@@ -200,24 +161,16 @@ nav * {
   filter: var(--filter-lightBlue);
 }
 
-.filterExtraLightBlue {
-  filter: var(--filter-extraLightBlue);
+.filterLightGray {
+  filter: var(--filter-lightGray);
 }
 
 .filterGray {
   filter: var(--filter-gray);
 }
 
-.filterDarkGray {
-  filter: var(--filter-darkGray);
-}
-
-.filterLightGray {
-  filter: var(--filter-lightGray);
-}
-
-.filterLightGreen {
-  filter: var(--filter-lightGreen);
+.filterTeal {
+  filter: var(--filter-teal);
 }
 
 .filterWhite {

@@ -1,4 +1,4 @@
-import { homeHero } from '@/assets';
+import { homeHero, homeHeroMobile } from '@/assets';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
@@ -13,7 +13,7 @@ const heroSection = {
 
 const HomeHero = () => {
   return (
-    <Hero bgImage={homeHero}>
+    <Hero desktopBgImage={homeHero} mobileBgImage={homeHeroMobile}>
       <Typography
         variant='h1'
         className='max-w-[327px] ml-[30px] md:max-w-full lg:max-w-[690px] mb-8'
@@ -31,13 +31,16 @@ const HomeHero = () => {
       >
         {heroSection.desc}
       </Typography>
-      <ArrowButton
-        text={'Book Swimming Lessons'}
-        buttonClasses='bg-[#FDD733]'
-        IconClasses='bg-darkBlue'
-        shadow={true}
-        shadowClasses='bg-orange'
-      />
+      <div className='flex justify-start items-center gap-4 ml-[30px]'>
+        <ArrowButton
+          text={'Book Swimming Lessons'}
+          buttonClasses='bg-[#FDD733]'
+          IconClasses='bg-darkBlue'
+          shadow={true}
+          shadowClasses='bg-orange'
+          link='/registration'
+        />
+      </div>
     </Hero>
   );
 };

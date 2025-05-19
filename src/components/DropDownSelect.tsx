@@ -17,6 +17,7 @@ type Props = {
   error?: string;
   value?: Choice;
   onChange: (v: Choice) => void;
+  onBlur?: (e: React.ChangeEvent<HTMLButtonElement>) => void;
   className?: string;
 };
 
@@ -27,6 +28,7 @@ const DropDownSelect: React.FC<Props> = ({
   error,
   value,
   onChange,
+  onBlur,
   className,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +40,7 @@ const DropDownSelect: React.FC<Props> = ({
       ref={ref}
     >
       <div className='flex justify-between w-full'>
-        <label htmlFor={text} className='text-darkBlue font-medium'>
+        <label htmlFor={text} className='text-offBlack font-medium'>
           {text}
         </label>
         <span className={clsx('text-red', error ? 'opacity-100' : 'opacity-0')}>
@@ -49,10 +51,11 @@ const DropDownSelect: React.FC<Props> = ({
       <button
         type='button'
         className={clsx(
-          'flex items-center bg-white rounded-[10px] gap-[8px] p-[8px] border-[2px] cursor-pointer focus:border-input-focus',
-          error ? 'border-red-500' : 'border-input-border'
+          'flex items-center bg-white rounded-[10px] gap-[8px] p-[8px] border-[2px] cursor-pointer focus:border-yellow',
+          error ? 'border-red-500' : 'border-gray'
         )}
         onClick={() => setIsOpen((prev) => !prev)}
+        onBlur={onBlur}
       >
         <span className='grow h-[24px] whitespace-nowrap overflow-clip max-w-[80%]'>
           {value?.text}
@@ -68,7 +71,7 @@ const DropDownSelect: React.FC<Props> = ({
         <ContextMenuWrapper
           refAttachTo={ref}
           onClose={() => setIsOpen(false)}
-          className='flex flex-col rounded-[10px] bg-white border-gray border-[1px]'
+          className='flex flex-col rounded-[10px] bg-white border-lightGray border-[1px]'
         >
           {choices.map((el, i) => (
             <ContextMenuButton

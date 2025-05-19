@@ -16,7 +16,7 @@ const ContextMenuButton: React.FC<Props> = ({
 }) => {
   return (
     <div
-      className={clsx('flex gap-[10px] px-[10px] py-[4px] bg-white cursor-pointer rounded-[10px] hover:bg-lightBlue hover:text-white', className)}
+      className={clsx('flex gap-[10px] px-[10px] py-[4px] bg-white cursor-pointer rounded-[10px] hover:bg-blue hover:text-white', className)}
       onClick={onClick}
     >
       <span>{text}</span>

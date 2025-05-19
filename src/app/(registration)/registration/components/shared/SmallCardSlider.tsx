@@ -2,7 +2,7 @@
 
 import clsx from 'clsx';
 import Image, { StaticImageData } from 'next/image';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 type Card = {
   text: string;
   image: StaticImageData;
@@ -10,25 +10,64 @@ type Card = {
 
 type Props = {
   cards: Card[];
+  withAutoplay?: boolean;
 };
 
-const SmallCardSlider: React.FC<Props> = ({ cards }) => {
+const AUTOPLAY_DELAY = 4000;
+
+const SmallCardSlider: React.FC<Props> = ({ cards, withAutoplay }) => {
+  const swipeTimerRef = useRef<NodeJS.Timeout>(null);
   const [index, setIndex] = useState(0);
 
+  const nextCard = () => {
+    setIndex((prev) => (prev >= cards.length - 1 ? 0 : prev + 1));
+  };
+
+  const autoplay = () => {
+    const stop = () => {
+      const { current } = swipeTimerRef;
+      if (current) {
+        clearInterval(current);
+      }
+    };
+
+    swipeTimerRef.current = setInterval(nextCard, AUTOPLAY_DELAY);
+
+    return stop;
+  };
+
+  useEffect(() => {
+    const stop = autoplay();
+
+    if (!withAutoplay) {
+      stop();
+    }
+
+    return () => {
+      stop();
+    };
+  }, [withAutoplay]);
+
   return (
-    <div className='flex flex-col items-center'>
-      <div className='flex gap-[20px] items-center'>
-        {cards[index].image && <Image src={cards[index].image} className=' min-h-[101px]' alt='icon' />}
-        <span className='text-large font-[700] max-w-[200px] max-h-[100px]'>
+    <div className='flex flex-col items-center max-w-[240px] desktop:max-w-[320px]'>
+      <div className='flex gap-4 items-center desktop:gap-6'>
+        {cards[index].image && (
+          <Image
+            src={cards[index].image}
+            className='w-[72px] aspect-square shrink-0 desktop:w-[100px]'
+            alt='icon'
+          />
+        )}
+        <span className='text-[18px] font-bold leading-[1.25] text-[#422019] desktop:text-2xl'>
           {cards[index].text}
         </span>
       </div>
 
-      <div className='flex gap-[10px]'>
+      <div className='flex gap-[10px] mt-2.5 desktop:mt-5'>
         {cards.map((_, i) => (
           <div
             className={clsx(
-              'h-[12px] w-[12px] rounded-[12px] cursor-pointer',
+              'w-2 aspect-square rounded-[12px] cursor-pointer desktop:w-3',
               index === i ? 'bg-orange' : 'bg-white'
             )}
             key={i}

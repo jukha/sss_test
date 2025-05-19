@@ -33,7 +33,7 @@ const CardVariant1 = (props: Props) => {
         <div>
           <Typography
             variant='h4'
-            className='font-bold  leading-[120%]  text-center font-primary text-darkBlue'
+            className='font-bold  leading-[120%]  text-center font-primary text-offBlack'
           >
             {props.title}
           </Typography>

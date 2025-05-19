@@ -3,11 +3,11 @@
 import React from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { EmblaOptionsType } from 'embla-carousel';
-import { DotButton, useDotButton } from './EmblaCarouselDotButton';
 
 // Icons
 import { StarIcon, PoolIcon, ProtecIcon } from '../icons';
 import { HeroBottomBarVariant } from '@/types/heroBottomBar.type';
+import { DotButton, useDotButton } from './EmblaCarouselDotButton';
 
 type PropType = {
   variant?: HeroBottomBarVariant;

@@ -3,19 +3,20 @@ import React, { ReactNode } from 'react';
 import HeroBottomBar from './HeroBottomBar';
 import Container from './Container';
 import { StampIcon, WaveWithBorder } from '../icons';
-import { homeHeroMobile } from '@/assets';
 
 type Props = {
   // content?: HeroType;
   children: ReactNode;
-  bgImage: StaticImageData;
+  desktopBgImage: StaticImageData;
   hasBottomBar?: boolean;
   hasSticker?: boolean;
+  mobileBgImage: StaticImageData;
 };
 
 const Hero: React.FC<Props> = ({
   children,
-  bgImage,
+  desktopBgImage,
+  mobileBgImage,
   hasBottomBar = true,
   hasSticker = true,
 }) => {
@@ -23,12 +24,12 @@ const Hero: React.FC<Props> = ({
     <section className='pt-[42px] lg:pt-0  bg-no-repeat relative -translate-y-5'>
       {/* Desktop only Gradient */}
       <div
-        className='hidden lg:block -translate-y-[0.75%] opacity-[0.95] absolute top-0 w-full h-[300px] lg:bottom-0 lg:top-0 lg:left-0  bg-[linear-gradient(360deg,rgba(27,129,188,0)_0%,#1B81BC_95%)]
+        className='hidden lg:block -translate-y-[0.75%] opacity-70 absolute top-0 w-full h-[100px] lg:bottom-0 lg:top-0 lg:left-0  bg-[linear-gradient(360deg,rgba(27,129,188,0)_0%,#1B81BC_95%)]
           -z-10'
       ></div>
       {/* Gradient */}
       <div
-        className='absolute top-0 w-full h-[70%] lg:bottom-0 lg:top-0 lg:left-0 lg:w-1/2 lg:h-full bg-[linear-gradient(360deg,rgba(27,129,188,0)_0%,#1B81BC_34%)]
+        className='absolute top-0 w-full h-[70%] lg:bottom-0 lg:top-0 lg:left-0 lg:w-1/2 lg:h-full bg-[linear-gradient(360deg,rgba(27,129,188,0)_0%,#1B81BC_45%)]
          lg:bg-[linear-gradient(269.54deg,rgba(27,129,188,0)_0%,#1B81BC_34%)] -z-10'
       ></div>
       <Container className='lg:relative'>
@@ -46,7 +47,7 @@ const Hero: React.FC<Props> = ({
       </div>
       {/* desktop image */}
       <Image
-        src={bgImage}
+        src={desktopBgImage}
         quality={80}
         width={1000}
         alt=''
@@ -67,7 +68,7 @@ const Hero: React.FC<Props> = ({
 
         {/* mobile image */}
         <Image
-          src={homeHeroMobile}
+          src={mobileBgImage}
           quality={80}
           width={1000}
           alt=''

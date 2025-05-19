@@ -133,8 +133,9 @@ const WhyChooseUsSection = () => {
           buttonClasses='bg-darkBlue text-white'
           IconClasses='bg-yellow'
           shadow={true}
-          shadowClasses='bg-lightBlue'
+          shadowClasses='bg-blue'
           iconColor='black'
+          link='/get-started'
         />
       </section>
     </Container>
