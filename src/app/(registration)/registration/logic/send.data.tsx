@@ -29,7 +29,6 @@ type SendDataToServerParameters = {
 export async function sendDataToServer ({ registrationRecordId, registrationFormTypeId, secret, formData } : SendDataToServerParameters) {
   const record = convertFormDataToRecord(formData);
 
-  // [!!!] attention: Bulat asked not to wait for response. bugs are expected.
   try {
     await registrationStepRepository.post({
       data: record,

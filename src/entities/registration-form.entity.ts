@@ -43,12 +43,6 @@ export type RegistrationForm = {
 
   poolAddress: string | null;
   poolType?: string | null;
+
+  policiesAgreement?: boolean;
 };
-
-// export type Student = { name: string; age: string };
-// export type ParentGuardian = { name: string; email: string };
-
-// export type Step3Fields = Pick<
-//   RegistrationForm,
-//   'firstName' | 'lastName' | 'email' | 'phone' | 'parentGuardians'
-// >;

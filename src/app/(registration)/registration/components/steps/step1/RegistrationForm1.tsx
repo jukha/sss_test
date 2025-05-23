@@ -61,16 +61,15 @@ const RegistrationForm1 = ({
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
+
       if (!locationsAndPricing.data) {
         throw new Error('Not loaded yet');
       }
 
-      console.log(registrationForm);
-
       const validationErrors = validateFormStep(registrationForm, registrationStep);
+
       if (validationErrors) {
         setRegistrationErrors(validationErrors);
-        console.log(validationErrors);
         return;
       } else {
         setRegistrationErrors({});
@@ -85,31 +84,11 @@ const RegistrationForm1 = ({
       });
 
       setCheckingServiceability(false);
-      console.log(zipCodeError);
-
-      // if (zipCodeError == ServiceabilityErrorEnum.NoPools || zipCodeError == ServiceabilityErrorEnum.OutsideArea) {
-      // setZipCodeError(zipCodeError);
-      // setZipCodeError(undefined);
-      // }
 
       if (zipCodeError == ServiceabilityErrorEnum.NoPools) {
-        // sendDataToServer({
-        //   registrationRecordId: databaseId,
-        //   registrationFormTypeId: formId,
-        //   secret: secret,
-        //   formData: registrationForm
-        // });
-
         setRegistrationStep(RegistrationStepEnum.Step1NoPoolsError);
         return;
       } else if (zipCodeError == ServiceabilityErrorEnum.OutsideArea) {
-        // sendDataToServer({
-        //   registrationRecordId: databaseId,
-        //   registrationFormTypeId: formId,
-        //   secret: secret,
-        //   formData: registrationForm
-        // });
-
         setRegistrationStep(RegistrationStepEnum.Step1OutsideAreaError);
         return;
       }

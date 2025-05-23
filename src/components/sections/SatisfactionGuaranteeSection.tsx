@@ -55,7 +55,7 @@ const SatisfactionGuaranteeSection: React.FC<Props> = ({ location }) => {
           </Typography>
           <Typography
             variant='body2'
-            className='lg:max-w-[367px] font-medium font-secondary text-brown'
+            className='lg:max-w-[367px] font-medium font-secondary text-offBlack'
           >
             {data.desc.paragraph1}
             <br />

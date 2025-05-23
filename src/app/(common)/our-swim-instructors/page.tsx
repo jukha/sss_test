@@ -5,6 +5,9 @@ import PrivateInstrucutorSection from './components/PrivateInstructorSection';
 import WhatMakesOurInstructorsSection from '@/components/sections/WhatMakesOurInstructorsSection';
 import FeaturedSwimInstructorsSection from '@/components/sections/FeaturedSwimInstructorsSection';
 import VideoFrameGenericSsection from '@/components/sections/VideoFrameGenericSsection';
+import HowWeMatchYouSection from './components/HowWeMatchYouSection';
+import AreYouInstructor2Section from '@/components/sections/AreYouInstructor2Section';
+import CustomerReviewsSection from '@/components/sections/CustomerReviewsSection';
 
 export default function OurSwimInstructors() {
   return (
@@ -21,9 +24,12 @@ export default function OurSwimInstructors() {
         {/*Swim Lessons With Local Swim Instructors - Section */}
         <WhatMakesOurInstructorsSection />
         {/*How We Match You With the Perfect Swim Instructor - Section */}
+        <HowWeMatchYouSection />
         {/*Thousands Of Five Stars - Section */}
+        <CustomerReviewsSection />
         {/*Are You A Swim Instructor? - Section */}
-
+        <AreYouInstructor2Section />
+        {/*Service Locations - Section */}
         <ServiceLocationsSection />
         <LocationsListSection />
       </main>

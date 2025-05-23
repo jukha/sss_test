@@ -42,7 +42,7 @@ const CardVariant1 = (props: Props) => {
         <div>
           <Typography
             variant='body1'
-            className='font-bold  leading-[125%] text-center'
+            className='font-bold text-offBlack leading-[125%] text-center'
           >
             {props.description}
           </Typography>

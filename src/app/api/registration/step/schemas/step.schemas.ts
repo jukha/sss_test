@@ -3,8 +3,54 @@ import { z } from 'zod';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 
 
+// const FIELD_LABELS = {
+//   zip: 'ZIP',
+//   customerHasAccessToPool: 'do you have access to pool or not',
+//
+//   studentsCount: 'how many students need swim lessons',
+//   isCustomerAParentGuardianOfAll: 'are you a parent/guardian of all the students or not',
+//   studentName1: 'student 1 name',
+//   studentName2: 'student 2 name',
+//   studentName3: 'student 3 name',
+//   studentName4: 'student 4 name',
+//   studentName5: 'student 5 name',
+//   studentName6: 'student 6 name',
+//   studentAge1: 'student 1 age',
+//   studentAge2: 'student 2 age',
+//   studentAge3: 'student 3 age',
+//   studentAge4: 'student 4 age',
+//   studentAge5: 'student 5 age',
+//   studentAge6: 'student 6 age',
+//
+//   firstName: 'first name',
+//   lastName: 'last name',
+//   email: 'email',
+//   phone: 'phone',
+//   parentGuardianName1: 'student 1 parent/guardian name',
+//   parentGuardianName2: 'student 2 parent/guardian name',
+//   parentGuardianName3: 'student 3 parent/guardian name',
+//   parentGuardianName4: 'student 4 parent/guardian name',
+//   parentGuardianName5: 'student 5 parent/guardian name',
+//   parentGuardianName6: 'student 6 parent/guardian name',
+//   parentGuardianEmail1: 'student 1 parent/guardian email',
+//   parentGuardianEmail2: 'student 2 parent/guardian email',
+//   parentGuardianEmail3: 'student 3 parent/guardian email',
+//   parentGuardianEmail4: 'student 4 parent/guardian email',
+//   parentGuardianEmail5: 'student 5 parent/guardian email',
+//   parentGuardianEmail6: 'student 6 parent/guardian email',
+//
+//   poolAddress: string | null;
+//   poolType?: string | null;
+//
+//   policiesAgreement?: boolean;
+// };
+
+
+
+
 const ERROR_MESSAGES = {
   required: 'Required',
+  invalidZip: 'Must be exactly 5 digits', //'Invalid ZIP'
   invalidEmail: 'Invalid email',
   invalidPhone: 'Invalid phone',
 };
@@ -30,10 +76,10 @@ const step1Schema = z.object({
   zip: z
     .string({
       required_error: ERROR_MESSAGES.required,
-      invalid_type_error: 'Must be 5 digits',
+      invalid_type_error: ERROR_MESSAGES.invalidZip,
     })
-    .length(5, 'Must be exactly 5 digits')
-    .regex(new RegExp(/^\d{5}$/), 'Must be exactly 5 digits'),
+    .length(5, ERROR_MESSAGES.invalidZip)
+    .regex(new RegExp(/^\d{5}$/), ERROR_MESSAGES.invalidZip),
 
   customerHasAccessToPool: z.boolean(),
 });

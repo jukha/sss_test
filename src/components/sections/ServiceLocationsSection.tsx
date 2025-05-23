@@ -17,7 +17,7 @@ const ServiceLocationsSection = () => {
       </Typography>
       <Typography
         variant='body1'
-        className='text-brown max-w-[382px] text-center mx-auto mb-16 font-bold'
+        className='text-offBlack max-w-[382px] text-center mx-auto mb-16 font-bold'
       >
         {searchOurServiced.desc}
       </Typography>
@@ -27,7 +27,7 @@ const ServiceLocationsSection = () => {
           <CustomInputForm placeholder='Your Zip Code' submitText='Search' />
         </div>
         <MapWithStates />
-        <div className='map-search-background top-2.5 -z-[1] absolute inset-0 h-full bg-blueSky'></div>
+        <div className='map-search-background top-2.5 -z-[1] absolute inset-0 h-full bg-lightBlue'></div>
       </div>
     </Container>
   );

@@ -8,6 +8,7 @@ import {
 } from '@/app/(registration)/registration/logic/navigation';
 import { createContext, useContext, useState } from 'react';
 
+
 export interface RegistrationFormContextType {
   registrationForm: RegistrationForm | null;
   setRegistrationForm: (form: RegistrationForm) => void;
@@ -18,45 +19,33 @@ export interface RegistrationFormContextType {
   switchToPreviousStep: () => void;
 
   isStep1SuccessShown: boolean | null | undefined;
-  setIsStep1SuccessShown: (
-    isStep1SuccessShown: boolean | null | undefined
-  ) => void;
+  setIsStep1SuccessShown: (isStep1SuccessShown: boolean | null | undefined) => void;
 
   registrationErrors: Partial<Record<keyof RegistrationForm, string>> | null;
-  setRegistrationErrors: (
-    errors: Partial<Record<keyof RegistrationForm, string>> | null
-  ) => void;
-  setOneFieldValidationErrors: (
-    errors: Partial<Record<keyof RegistrationForm, string>> | null
-  ) => void;
+  setRegistrationErrors: (errors: Partial<Record<keyof RegistrationForm, string>> | null) => void;
+  setOneFieldValidationErrors: (errors: Partial<Record<keyof RegistrationForm, string>> | null) => void;
   clearRegistrationErrors: () => void;
   clearFieldRegistrationErrors: (fieldName: keyof RegistrationForm) => void;
   registrationErrorsText: string | null | undefined;
 
   showLessonsPackageSummary: boolean;
   setShowLessonsPackageSummary: (show: boolean) => void;
-
-  // TODO move to RegistrationForm?
-  policiesAgreement: boolean;
-  setPoliciesAgreement: (agree: boolean) => void;
 }
+
 
 type RegistrationFormErrors = Partial<Record<keyof RegistrationForm, string>>;
 
-const RegistrationFormContext = createContext<
-  RegistrationFormContextType | undefined
->(undefined);
+
+const RegistrationFormContext = createContext<RegistrationFormContextType | undefined>(undefined);
+
 
 export const RegistrationFormProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [registrationStep, internalSetRegistrationStep] =
-    useState<RegistrationStepEnum>(RegistrationStepEnum.Step1);
-  const [isStep1SuccessShown, setIsStep1SuccessShown] = useState<
-    boolean | null | undefined
-  >(undefined);
+  const [registrationStep, internalSetRegistrationStep] = useState<RegistrationStepEnum>(RegistrationStepEnum.Step1);
+  const [isStep1SuccessShown, setIsStep1SuccessShown] = useState<boolean | null | undefined>(undefined);
 
   const setRegistrationStep = (step: RegistrationStepEnum) => {
     clearRegistrationErrors();
@@ -89,20 +78,12 @@ export const RegistrationFormProvider = ({
     setRegistrationStep(previousStep);
   };
 
-  const [registrationForm, setRegistrationForm] =
-    useState<RegistrationForm | null>(null);
-  const [registrationErrors, internalSetRegistrationErrors] =
-    useState<RegistrationFormErrors | null>(null);
-  const [registrationErrorsText, setRegistrationErrorsText] = useState<
-    string | null
-  >(null);
-  const [showLessonsPackageSummary, setShowLessonsPackageSummary] =
-    useState(false);
-  const [policiesAgreement, setPoliciesAgreement] = useState(false);
+  const [registrationForm, setRegistrationForm] = useState<RegistrationForm | null>(null);
+  const [registrationErrors, internalSetRegistrationErrors] = useState<RegistrationFormErrors | null>(null);
+  const [registrationErrorsText, setRegistrationErrorsText] = useState<string | null>(null);
+  const [showLessonsPackageSummary, setShowLessonsPackageSummary] = useState(false);
 
-  const setRegistrationErrors = (
-    registrationErrors: RegistrationFormErrors | null
-  ) => {
+  const setRegistrationErrors = (registrationErrors: RegistrationFormErrors | null) => {
     let errorsText = null;
 
     const erroneousFields = Object.keys(registrationErrors || {});
@@ -131,9 +112,7 @@ export const RegistrationFormProvider = ({
     setRegistrationErrorsText(null);
   };
 
-  const setOneFieldValidationErrors = (
-    fieldRegistrationErrors: RegistrationFormErrors | null
-  ) => {
+  const setOneFieldValidationErrors = (fieldRegistrationErrors: RegistrationFormErrors | null) => {
     internalSetRegistrationErrors({
       ...registrationErrors,
       ...fieldRegistrationErrors,
@@ -164,15 +143,13 @@ export const RegistrationFormProvider = ({
 
         showLessonsPackageSummary,
         setShowLessonsPackageSummary,
-
-        policiesAgreement,
-        setPoliciesAgreement,
       }}
     >
       {children}
     </RegistrationFormContext.Provider>
   );
 };
+
 
 export const useRegistrationForm = () => {
   const context = useContext(RegistrationFormContext);

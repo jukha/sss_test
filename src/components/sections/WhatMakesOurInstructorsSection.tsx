@@ -44,7 +44,7 @@ const WhatMakesOurInstructorsSection = () => {
       mobileMediaQuery.removeEventListener('change', handleResize);
     };
   }, []);
-  
+
   return (
     <Container className='flex flex-col gap-12 justify-start items-center py-24'>
       <Typography
@@ -66,7 +66,7 @@ const WhatMakesOurInstructorsSection = () => {
           <div className='flex flex-col gap-6 pt-16 lg:pt-0 lg:pl-44   z-10'>
             <Typography
               variant='custom'
-              className='text-[32px] md:text-[40px] leading-[115%] font-primary font-bold text-center max-w-[287px] md:max-w-[595px]'
+              className='text-[32px] md:text-[40px] leading-[115%] font-primary font-bold text-offBlack text-center max-w-[287px] md:max-w-[595px]'
             >
               {content.heading2}
             </Typography>
@@ -113,6 +113,9 @@ const WhatMakesOurInstructorsSection = () => {
           )}
         ></div>
         <div className='hidden lg:block absolute z-10 -right-[30px] w-[155px] bottom-40'>
+          <ThreeStars />
+        </div>
+        <div className='lg:hidden absolute z-10  w-[65px] bottom-0 left-[-25px]'>
           <ThreeStars />
         </div>
       </div>

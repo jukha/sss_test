@@ -46,7 +46,7 @@ const TakeStressOutSection = () => {
                     </Typography>
                     <Typography
                         variant='body1'
-                        className='font-bold max-w-[762px]  text-center leading-[125%]'
+                        className='font-bold max-w-[762px]  text-center leading-[125%] text-offBlack'
                     >
                         No more long drives, crowded swim schools, or inconvenient schedules— make learning to swim easy, effective, and stress-free with lessons at your home or community pool.
                     </Typography>

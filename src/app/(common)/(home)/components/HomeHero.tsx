@@ -34,8 +34,8 @@ const HomeHero = () => {
       <div className='flex justify-start items-center gap-4 ml-[30px]'>
         <ArrowButton
           text={'Book Swimming Lessons'}
-          buttonClasses='bg-[#FDD733]'
-          IconClasses='bg-darkBlue'
+          buttonClasses='bg-brightYellow text-offBlack'
+          iconColor='var(--color-white)'
           shadow={true}
           shadowClasses='bg-orange'
           link='/registration'

@@ -1,8 +1,11 @@
 'use client';
 
+import { useCallback, useState } from 'react';
 import clsx from 'clsx';
 import Image, { StaticImageData } from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+
+import { useInterval } from '@/hooks/use-interval';
+
 type Card = {
   text: string;
   image: StaticImageData;
@@ -16,37 +19,13 @@ type Props = {
 const AUTOPLAY_DELAY = 4000;
 
 const SmallCardSlider: React.FC<Props> = ({ cards, withAutoplay }) => {
-  const swipeTimerRef = useRef<NodeJS.Timeout>(null);
   const [index, setIndex] = useState(0);
 
-  const nextCard = () => {
+  const nextCard = useCallback(() => {
     setIndex((prev) => (prev >= cards.length - 1 ? 0 : prev + 1));
-  };
+  }, []);
 
-  const autoplay = () => {
-    const stop = () => {
-      const { current } = swipeTimerRef;
-      if (current) {
-        clearInterval(current);
-      }
-    };
-
-    swipeTimerRef.current = setInterval(nextCard, AUTOPLAY_DELAY);
-
-    return stop;
-  };
-
-  useEffect(() => {
-    const stop = autoplay();
-
-    if (!withAutoplay) {
-      stop();
-    }
-
-    return () => {
-      stop();
-    };
-  }, [withAutoplay]);
+  useInterval(nextCard, withAutoplay ? AUTOPLAY_DELAY : null);
 
   return (
     <div className='flex flex-col items-center max-w-[240px] desktop:max-w-[320px]'>

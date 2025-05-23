@@ -30,7 +30,7 @@ const MainFooter = () => {
         <div className='flex flex-col-reverse lg:flex-row items-start  justify-between gap-4'>
           <Typography
             variant='body1'
-            className=' font-bold w-full  lg:max-w-[488px]'
+            className=' font-bold w-full  lg:max-w-[488px] text-offBlack'
           >
             Our swim instructors travel to your home or community pool.
             <span className='text-[var(--color-orange)]'>
@@ -67,7 +67,7 @@ const MainFooter = () => {
             <ul className='flex flex-col gap-4 font-semibold'>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-neutral-900 text-[14px] font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Home
@@ -75,7 +75,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   About us
@@ -83,7 +83,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Pricing
@@ -91,7 +91,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Support
@@ -99,7 +99,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Blog
@@ -107,7 +107,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Register
@@ -120,7 +120,7 @@ const MainFooter = () => {
             <ul className='flex flex-col gap-4 font-semibold'>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base self-end'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base self-end'
                   href={'#'}
                 >
                   Our Swim Instructors
@@ -128,7 +128,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Nearby Swim Instructors
@@ -136,7 +136,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Customer Reviews
@@ -144,7 +144,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Gift Certificates
@@ -152,7 +152,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Swim Instructor Jobs
@@ -160,7 +160,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Swim School
@@ -176,7 +176,7 @@ const MainFooter = () => {
             <ul className='flex flex-col gap-4 font-semibold'>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Private Swim Lessons
@@ -184,7 +184,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Baby Swim Lessons
@@ -192,7 +192,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Toddler Swim Lessons
@@ -200,7 +200,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Teen Swim Lessons
@@ -208,7 +208,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Adult Swim Lessons
@@ -216,7 +216,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Special Needs Swim Lessons
@@ -232,7 +232,7 @@ const MainFooter = () => {
             <ul className='flex flex-col gap-4 font-semibold'>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Privacy Policy
@@ -240,7 +240,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Terms & Conditions
@@ -248,7 +248,7 @@ const MainFooter = () => {
               </li>
               <li>
                 <Link
-                  className='font-secondary text-[14px] font-semiBold leading-[120%] md:text-base'
+                  className='font-secondary text-[14px] text-neutral-900 font-semiBold leading-[120%] md:text-base'
                   href={'#'}
                 >
                   Contact us

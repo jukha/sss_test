@@ -16,10 +16,10 @@ const content = {
 
 const LearnToSwimGuarantee = () => {
   return (
-    <section className='bg-blue relative my-28 pb-11 lg:py-11 lg:p-0'>
+    <section className='bg-darkBlue relative my-28 pb-11 lg:py-11 lg:p-0'>
       {/* Top Wave */}
       <div className='absolute top-0 h-[16px] md:h-[54px] left-0 w-full -translate-y-1/2 z-[-3]'>
-        <WaveIcon color='var(--color-blue)' />
+        <WaveIcon color='var(--color-darkBlue)' />
       </div>
       <FlexWrapper stackOrder='second-top'>
         <div className='lg:w-[45%] relative z-0'>
@@ -37,7 +37,7 @@ const LearnToSwimGuarantee = () => {
           </Typography>
           {/* Bubbles */}
           <div className='mt-[26px] lg:mt-0 relative lg:absolute w-[115px] h-[113px] lg:w-[240px] lg:h-[200px] -z-[1] -left-[25px] lg:left-[unset] lg:bottom-0 lg:right-full lg:rotate-[334deg] lg:translate-y-[50px] lg:translate-x-[25px]'>
-            <Bubbles color='var(--color-lightBlue)' />
+            <Bubbles color='var(--color-blue)' />
           </div>
         </div>
         <div className='lg:w-[55%] relative z-0 pl-[30px] lg:pl-0'>
@@ -61,7 +61,7 @@ const LearnToSwimGuarantee = () => {
       </FlexWrapper>
       {/* Bottom Wave */}
       <div className='absolute bottom-0 h-[16px] md:h-[54px] left-0 w-full translate-y-1/2 rotate-180'>
-        <WaveIcon color='var(--color-blue)' />
+        <WaveIcon color='var(--color-darkBlue)' />
       </div>
     </section>
   );

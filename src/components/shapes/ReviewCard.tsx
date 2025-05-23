@@ -24,26 +24,22 @@ const ReviewCard = (props: Props) => {
   const classes: ClassesType = {
     lt: 'slider-card-left text-white',
     rt: 'slider-card-right text-white',
-    center: 'slider-card-center text-black',
+    center: 'slider-card-center text-offBlack',
   };
   const textContentRef = useRef<HTMLDivElement | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
   const [isExpandedAble, setIsExpandAble] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const Review = props.description;
 
   useEffect(() => {
     const height = textContentRef?.current?.clientHeight || 0;
+
     if (height > 120) {
       setIsExpandAble(true);
     }
   }, []);
 
-  useClickOutside(cardRef, () => {
-    if (expanded) {
-      setExpanded(false);
-    }
-  });
+  useClickOutside(cardRef, () => setExpanded(false));
 
   return (
     <div
@@ -53,17 +49,17 @@ const ReviewCard = (props: Props) => {
       }}
       className={clsx(
         'relative w-full sm:w-auto top-0',
-        classes[props.direction],
         'relative min-h-[280px] p-6 w-fit min-w-[250px] max-w-[275px]',
-        'md:max-w-[386px] md:min-h-[360px] z-20'
+        'md:max-w-[386px] md:min-h-[360px] z-20',
+        classes[props.direction],
       )}
     >
       {/* content start */}
       <div
         className={clsx(
           'flex flex-col h-full relative justify-start',
-          isExpandedAble ? 'gap-2 md:gap-16' : 'gap-8 md:gap-28',
           'duration-300 pl-4 md:px-6 items-start z-10',
+          isExpandedAble ? 'gap-2 md:gap-16' : 'gap-8 md:gap-28',
           expanded ? 'pt-[3em] md:pt-[4em]' : 'pt-[1em] md:pt-[2em]'
         )}
       >
@@ -78,7 +74,7 @@ const ReviewCard = (props: Props) => {
                   : 'max-h-[133px] md:max-h-[121px] overflow-hidden'
               )}
             >
-              {Review}
+              {props.description}
             </Typography>
           </div>
 

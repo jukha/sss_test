@@ -116,7 +116,7 @@ const EmblaCarousel: React.FC<PropType> = ({ variant = 'homepage' }) => {
               <div className='embla__slide' key={index}>
                 <div className='flex justify-center gap-5'>
                   <div className='h-[70px] w-[70px]'>{slide.icon}</div>
-                  <div className='flex font-bold flex-col justify-center items-start'>
+                  <div className='flex font-bold flex-col justify-center items-start text-offBlack'>
                     {variant === 'homepage'
                       ? slide.content.homepage
                       : slide.content.citypage}
@@ -148,7 +148,7 @@ const EmblaCarousel: React.FC<PropType> = ({ variant = 'homepage' }) => {
             <div className='h-[70px] w-[70px] xl:h-[100px] xl:w-[100px]'>
               {slide.icon}
             </div>
-            <div className='flex font-bold flex-col justify-center items-start'>
+            <div className='flex font-bold flex-col justify-center items-start text-offBlack'>
               {variant === 'citypage'
                 ? slide.content.homepage
                 : slide.content.citypage}

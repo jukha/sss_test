@@ -18,19 +18,19 @@ const SwimmersBlogCard = ({ blog }: { blog: Blog }) => {
       <div className='flex flex-col'>
         <Typography
           variant='custom'
-          className='text-[13px] md:text-[14px] font-secondary font-bold leading-[120%] text-start text-darkBlue mb-1'
+          className='text-[13px] md:text-[14px] font-secondary font-bold leading-[120%] text-start text-offBlack mb-1'
         >
           {blog.category}
         </Typography>
         <Typography
           variant='custom'
-          className='text-[16px] md:text-[20px] font-semibold leading-[120%] text-start text-darkBlue font-primary mb-2'
+          className='text-[16px] md:text-[20px] font-semibold leading-[120%] text-start text-offBlack font-primary mb-2'
         >
           {blog.title}
         </Typography>
         <Typography
           variant='custom'
-          className='text-[14px] md:text-[16px] font-secondary font-medium text-start text-darkBlue leading-[120%]'
+          className='text-[14px] md:text-[16px] font-secondary font-medium text-start text-offBlack leading-[120%]'
         >
           {blog.description}
         </Typography>

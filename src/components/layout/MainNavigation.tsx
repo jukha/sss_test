@@ -87,7 +87,7 @@ const Navbar = () => {
           <Link href='#' className=' '>
             Swim Lesson Programs
           </Link>
-          <Link href='#'>Pricing</Link>
+          <Link href='/pricing'>Pricing</Link>
         </div>
 
         <Link href='#'>

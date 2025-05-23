@@ -3,7 +3,12 @@ import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import CardHorizontal from '@/components/shapes/CardHorizontal';
 import Container from '@/components/layout/Container';
 import { Bubbles } from '@/components/decoration';
-import { ApprovalIcon, PoolIcon, SnorkelIcon, SwimmingPoolIcon } from '@/components/icons';
+import {
+  ApprovalIcon,
+  PoolIcon,
+  SnorkelIcon,
+  SwimmingPoolIcon,
+} from '@/components/icons';
 import IconFrame from '@/components/icons/IconFrame';
 import Typography from '@/components/semantics/Typography';
 import Image from 'next/image';
@@ -109,7 +114,7 @@ const WhyChooseUsSection = () => {
                     <div>
                       <Typography
                         variant='h4'
-                        className='font-bold  text-[#033D9A] leading-[120%] font-primary'
+                        className='font-bold  text-darkBlue leading-[120%] font-primary'
                       >
                         {el.title}
                         <br />
@@ -117,7 +122,7 @@ const WhyChooseUsSection = () => {
                       </Typography>
                       <Typography
                         variant='custom'
-                        className='font-medium font-secondary text-darkBlue text-xl leading-[120%]'
+                        className='font-medium font-secondary text-offBlack text-xl leading-[120%]'
                       >
                         {el.desc}
                       </Typography>
@@ -130,7 +135,7 @@ const WhyChooseUsSection = () => {
         </div>{' '}
         <ArrowButton
           text={'Get Started'}
-          buttonClasses='bg-darkBlue text-white'
+          buttonClasses='bg-offBlack text-white'
           IconClasses='bg-yellow'
           shadow={true}
           shadowClasses='bg-blue'

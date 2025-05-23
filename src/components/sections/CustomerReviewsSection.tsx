@@ -125,7 +125,7 @@ const CustomerReviewsSection = () => {
         </Typography>
         <Typography
           variant='body1'
-          className='max-w-[354px] md:max-w-[447px] text-center font-bold text-brown'
+          className='max-w-[354px] md:max-w-[447px] text-center font-bold text-offBlack'
         >
           {content.desc}
         </Typography>
@@ -188,11 +188,11 @@ const CustomerReviewsSection = () => {
       <div className='z-10'>
         <ArrowButton
           text={'See our splashing reviews'}
-          buttonClasses='bg-darkBlue leading-[120%] text-base md:text-[20px] text-white font-primary'
+          buttonClasses='bg-offBlack leading-[120%] text-base md:text-[20px] text-white font-primary'
           IconClasses='bg-yellow'
           shadow={true}
           iconColor='black'
-          shadowClasses='bg-lightBlue'
+          shadowClasses='bg-blue'
           link={'/registration'}
         />
       </div>

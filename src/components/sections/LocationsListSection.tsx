@@ -54,7 +54,7 @@ const LocationsListSection = () => {
     <Container>
       <div className='flex flex-col gap-7 justify-start items-center py-24 pl-6 md:px-0'>
         <Typography
-          className='font-bold font-primary text-center leading-[114%]'
+          className='font-bold font-primary text-offBlack text-center leading-[114%]'
           variant='h4'
         >
           Available all across the USA!

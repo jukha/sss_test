@@ -4,7 +4,7 @@ type Props = {
   color?: string;
 }
 
-const Bubbles:React.FC<Props> = ({color = '#C7EAF3'}) => {
+const Bubbles:React.FC<Props> = ({color = 'var(--color-lightBlue)'}) => {
   return (
     <svg width='100%' height='100%' viewBox='0 0 344 407' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path

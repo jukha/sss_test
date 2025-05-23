@@ -41,6 +41,7 @@ import accreditedBusinessLogo from './images/accredited-business-logo.png';
 import calendarIcon from './images/calendar.svg';
 import cardVerificationValueIcon from './images/cardVerificationValue.svg';
 import magneticCardIcon from './images/magneticCard.svg';
+import featuredBlogImg from './images/featuredBlogImg.png';
 
 //pictures
 import girlAndMom from './images/girlAndMom.webp';
@@ -77,8 +78,17 @@ import suggestedArticle2 from './images/suggestedArticle2.png';
 import suggestedArticle3 from './images/suggestedArticle3.png';
 import orderConfirmed from './images/orderConfirmed.png';
 import sunsationalInstructorImg from './images/sunsationalInstructorImg.png';
+import howWeMatchYouImg from './images/howWeMatchYouImg.png';
+import nearbyInstructorHeroImg from './images/nearbyInstructorHeroImg.png';
+import nearbyInstructorHeroMobileImg from './images/nearbySwimInstructorHeroMobile.png';
+import areYouInstructor2Img from './images/areYouSwimInstructor2Img.png';
+import areasWeServiceFeatureImage from './images/areasWeServiceFeatureImage.png';
+import pricingHero from './images/pricingHero.png';
+import pricingHeroMobile from './images/pricingHeroMobile.png';
+import blogHeroImg from './images/blogHeroImg.png';
+import blogHeroMobileImg from './images/blogHerloMobileImg.png';
 
-// figures
+// figures  
 import curveOval from './images/curveOval.svg';
 import curveCard1 from './images/curveCard1.svg';
 import curveCard2 from './images/curveCard2.svg';
@@ -189,4 +199,14 @@ export {
   magneticCardIcon,
   orderConfirmed,
   sunsationalInstructorImg,
+  howWeMatchYouImg,
+  nearbyInstructorHeroImg,
+  nearbyInstructorHeroMobileImg,
+  areYouInstructor2Img,
+  areasWeServiceFeatureImage,
+  pricingHero,
+  pricingHeroMobile,
+  blogHeroImg,
+  blogHeroMobileImg,
+  featuredBlogImg,
 };

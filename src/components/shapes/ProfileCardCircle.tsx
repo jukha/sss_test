@@ -28,7 +28,7 @@ const ProfileCardCircle = (props: Props) => {
       <div className='flex flex-col gap-4 w-full justify-start items-start max-w-[272px]'>
         <Typography
           variant='custom'
-          className='text-[40px] font-primary font-bold leading-[100%] tetx-darkBlue'
+          className='text-[40px] text-offBlack font-primary font-bold leading-[100%]'
         >
           {props.name}
         </Typography>
@@ -40,7 +40,7 @@ const ProfileCardCircle = (props: Props) => {
         </Typography>
         <Typography
           variant='custom'
-          className='text-base font-medium leading-[120%] font-secondary'
+          className='text-base font-medium leading-[120%] font-secondary text-offBlack'
         >
           {props.experience}
         </Typography>

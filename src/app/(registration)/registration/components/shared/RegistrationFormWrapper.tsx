@@ -51,12 +51,8 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
   const lessonsPackages = useLessonsPackages();
 
   const onNextClicked = () => {
-    console.log(registrationForm);
+    const validationErrors = validateFormStep(registrationForm, registrationStep);
 
-    const validationErrors = validateFormStep(
-      registrationForm,
-      registrationStep
-    );
     if (validationErrors) {
       setRegistrationErrors(validationErrors);
       console.log(validationErrors);
@@ -65,6 +61,7 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       setRegistrationErrors({});
     }
 
+    // [!!!] attention: Bulat asked not to wait for response. bugs are expected.
     sendDataToServer({
       registrationRecordId: databaseId,
       registrationFormTypeId: formId,
@@ -213,6 +210,7 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       <RegistrationForm7
         onNextClicked={onNextClicked}
         onPreviousClicked={onPreviousClicked}
+        buildOnFieldChangedHandler={buildOnFieldChangedHandler}
       />
     ),
     [RegistrationStepEnum.Step7OrderConfirmed]: <OrderConfirmed />,

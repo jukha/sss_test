@@ -72,8 +72,7 @@ const FeaturedSwimInstructorsSection = () => {
         <ArrowButton
           text='Find Your Instructor'
           buttonClasses='font-primary bg-offBlack text-white text-[20px] font-semiBold'
-          shadow
-          shadowClasses='bg-blue'
+          shadow={false}
           IconClasses='bg-yellow'
           iconColor='black'
           link='/find-instructor'

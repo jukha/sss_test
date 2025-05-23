@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
+
 import { arrowUp } from '@/assets';
 import { CardType } from '@/types/card.type';
-import Card from './Card';
 import { FilterClassEnum } from '@/enum/filter-class.enum';
 import FilteredImage from '@/components/FilteredImage';
+import { useInterval } from '@/hooks/use-interval';
+import Card from './Card';
 
 type Props = {
   cards: CardType[];
@@ -15,41 +17,17 @@ type Props = {
 const AUTOPLAY_DELAY = 4000;
 
 const CardSlider: React.FC<Props> = ({ cards, withAutoplay }) => {
-  const swipeTimerRef = useRef<NodeJS.Timeout>(null);
   const [currentCard, setCurrentCard] = useState(0);
 
   const prevCard = () => {
     setCurrentCard((prev) => (prev === 0 ? cards.length - 1 : prev - 1));
   };
 
-  const nextCard = () => {
+  const nextCard = useCallback(() => {
     setCurrentCard((prev) => (prev >= cards.length - 1 ? 0 : prev + 1));
-  };
+  }, []);
 
-  const autoplay = () => {
-    const stop = () => {
-      const { current } = swipeTimerRef;
-      if (current) {
-        clearInterval(current);
-      }
-    };
-
-    swipeTimerRef.current = setInterval(nextCard, AUTOPLAY_DELAY);
-
-    return stop;
-  };
-
-  useEffect(() => {
-    const stop = autoplay();
-
-    if (!withAutoplay) {
-      stop();
-    }
-
-    return () => {
-      stop();
-    };
-  }, [withAutoplay]);
+  useInterval(nextCard, withAutoplay ? AUTOPLAY_DELAY : null);
 
   return (
     <div className='py-[80px] flex items-center gap-[20px] laptop:gap-[40px] w-full'>

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+
 import CustomCurveButton from '@/components/CustomCurveButton';
 import { CustomCheckbox } from '@/components/CustomCheckbox';
+import { usePaymentDetails } from '@/context/payment-datails.context';
+import { useRegistrationForm } from '@/context/registration-form.context';
 import { accreditedBusinessLogo, blackArrow } from '@/assets';
+
 import GoBackTextButton from '../../shared/GoBackTextButton';
 import UpgradeLessonsCTA from './components/UpgradeLessonsCTA';
 import CreditCardDetails from './components/CreditCardDetails';
-import { usePaymentDetails } from '@/context/payment-datails.context';
-import { useRegistrationForm } from '@/context/registration-form.context';
+import { BuildOnFieldChangedHandlerFunction } from '../../../types';
 
 const POLICY_URL =
   'https://legal-docs-public.s3.us-west-2.amazonaws.com/Swim+Lesson+Agreement+2023_website.pdf';
@@ -15,14 +18,19 @@ const POLICY_URL =
 type Props = {
   onNextClicked: () => void;
   onPreviousClicked: () => void;
+  buildOnFieldChangedHandler: BuildOnFieldChangedHandlerFunction;
 };
 
 const RegistrationForm7: React.FC<Props> = ({
   onNextClicked,
   onPreviousClicked,
+  buildOnFieldChangedHandler,
 }) => {
+  const { registrationForm } = useRegistrationForm();
+  const { policiesAgreement } = registrationForm ?? {};
+
+  const setPoliciesAgreement = buildOnFieldChangedHandler('policiesAgreement');
   const { creditCardData, setCreditCardData } = usePaymentDetails();
-  const { policiesAgreement, setPoliciesAgreement } = useRegistrationForm();
   const [showPromocodeInput, setShowPromocodeInput] = useState(false);
 
   const handlePayAndConfirmClick = () => {

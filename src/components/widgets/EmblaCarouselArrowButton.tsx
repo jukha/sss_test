@@ -41,7 +41,6 @@ export const usePrevNextButtons = (
     onSelect(emblaApi);
     emblaApi.on('reInit', onSelect).on('select', onSelect);
 
-    // Cleanup function to unsubscribe from events
     return () => {
       emblaApi.off('reInit', onSelect).off('select', onSelect);
     };

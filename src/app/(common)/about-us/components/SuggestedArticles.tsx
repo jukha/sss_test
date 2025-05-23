@@ -61,7 +61,7 @@ const SuggestedArticles = () => {
           </Typography>
           <Typography
             variant='custom'
-            className='max-w-[718px] font-secondary text-[18px] leading-[125%] md:text-[28px] font-semibold text-darkBlue text-center'
+            className='max-w-[718px] font-secondary text-[18px] leading-[125%] md:text-[28px] font-semibold text-offBlack text-center'
           >
             {content.subHeading}
           </Typography>

@@ -1,6 +1,6 @@
 import WhyChooseUsSection from './components/WhyChooseUsSection';
 import HowItWorksSection from '@/components/sections/HowItWorksSection';
-import InstructorQualitiesSection from './components/InstructorQualitiesSection';
+import InstructorQualitiesSection from '../../../components/sections/InstructorQualitiesSection';
 import ServiceLocationsSection from '@/components/sections/ServiceLocationsSection';
 import LocationsListSection from '@/components/sections/LocationsListSection';
 import TakeStressOutSection from './components/TakeStressOutSection';

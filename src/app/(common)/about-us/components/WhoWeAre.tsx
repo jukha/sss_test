@@ -31,7 +31,7 @@ const WhoWeAre = () => {
       {/* Our Mission */}
       <FlexWrapper stackOrder='second-top'>
         <div className='lg:max-w-[502px] lg:w-1/2 mt-6 lg:mt-0'>
-          <Typography variant='h3' className='text-darkBlue mb-2 font-primary'>
+          <Typography variant='h3' className='mb-2 font-primary'>
             Our Mission
           </Typography>
           <div>
@@ -79,7 +79,7 @@ const WhoWeAre = () => {
           <div className='lg:max-w-[502px] grow'>
             <Typography
               variant='h3'
-              className='text-darkBlue mb-2 font-primary'
+              className='mb-2 font-primary'
             >
               Learning to swim
             </Typography>
@@ -114,7 +114,7 @@ const WhoWeAre = () => {
       {/* Meet our Founder */}
       <FlexWrapper stackOrder='second-top'>
         <div className='lg:max-w-[511px]'>
-          <Typography variant='h3' className='text-darkBlue mb-2 font-primary'>
+          <Typography variant='h3' className='mb-2 font-primary'>
             Meet our Founder
           </Typography>
           <div>
@@ -149,7 +149,7 @@ const WhoWeAre = () => {
         </div>
         <div className='lg:w-1/2 relative'>
           <Image src={aboutUsSectionImage3} className='w-full h-full' alt='' />
-          <span className='background-decoration text-white bg-darkBlue font-primary text-2xl lg:text-4xl font-bold absolute right-[10%] bottom-[13%] p-4 lg:p-6 leading-[115%]'>
+          <span className='background-decoration text-white bg-offBlack font-primary text-2xl lg:text-4xl font-bold absolute right-[10%] bottom-[13%] p-4 lg:p-6 leading-[115%]'>
             Our founder
           </span>
         </div>
@@ -162,7 +162,7 @@ const WhoWeAre = () => {
             <div>
               <Typography
                 variant='h3'
-                className='text-darkBlue mb-2 text-center font-primary'
+                className='mb-2 text-center font-primary'
               >
                 Our Sunsational Team
               </Typography>
