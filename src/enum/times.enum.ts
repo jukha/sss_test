@@ -8,6 +8,16 @@ export enum TimesEnum {
   Pm6ToPm8 = '6pm-8pm',
 }
 
+export const TIMES_ORDER: Record<TimesEnum, number> = {
+  [TimesEnum.Am6ToAm8]: 1,
+  [TimesEnum.Am8ToAm10]: 2,
+  [TimesEnum.Am10ToPm12]: 3,
+  [TimesEnum.Am12ToPm2]: 4,
+  [TimesEnum.Pm2ToPm4]: 5,
+  [TimesEnum.Pm4ToPm6]: 6,
+  [TimesEnum.Pm6ToPm8]: 7,
+};
+
 export const ALL_TIMES_ARRAY: TimesEnum[] = [
   TimesEnum.Am6ToAm8,
   TimesEnum.Am8ToAm10,

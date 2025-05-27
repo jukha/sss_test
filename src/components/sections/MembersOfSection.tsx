@@ -8,10 +8,17 @@ import {
 } from '@/assets';
 import Image from 'next/image';
 import Typography from '../semantics/Typography';
+import ThreeStars from '../decoration/ThreeStars';
 
 const MembersOfSection = () => {
   return (
-    <section className='section container'>
+    <section className='section relative container'>
+      <div className='absolute z-10 top-10 right-0 h-16 md:h32'>
+        <ThreeStars color='var(--color-orange)' />
+      </div>
+      <div className='absolute z-10 bottom-0 md:-bottom-10 left-0 h-16 md:h32'>
+        <ThreeStars color='var(--color-orange)' />
+      </div>
       <Typography
         variant='h3'
         className='text-[40px] md:text-[64px] text-darkBlue font-primary font-bold leading-[115%] text-center mb-2 mb-4 max-w-[842px] mx-auto'

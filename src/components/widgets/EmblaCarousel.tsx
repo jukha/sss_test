@@ -5,8 +5,8 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { EmblaOptionsType } from 'embla-carousel';
 
 // Icons
-import { StarIcon, PoolIcon, ProtecIcon } from '../icons';
-import { HeroBottomBarVariant } from '@/types/heroBottomBar.type';
+import { StarIcon, PoolIcon, ProtectIcon } from '../icons';
+import { HeroBottomBarVariant } from '@/types/hero-bottom-bar.type';
 import { DotButton, useDotButton } from './EmblaCarouselDotButton';
 
 type PropType = {
@@ -50,7 +50,7 @@ const EmblaCarousel: React.FC<PropType> = ({ variant = 'homepage' }) => {
       },
     },
     {
-      icon: <ProtecIcon />,
+      icon: <ProtectIcon />,
       content: {
         homepage: (
           <div>

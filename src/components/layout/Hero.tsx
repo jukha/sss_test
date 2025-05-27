@@ -4,6 +4,8 @@ import HeroBottomBar from './HeroBottomBar';
 import Container from './Container';
 import { StampIcon, WaveWithBorder } from '../icons';
 
+type HeroBottomBarVariant = 'homepage' | 'citypage';
+
 type Props = {
   // content?: HeroType;
   children: ReactNode;
@@ -11,6 +13,7 @@ type Props = {
   hasBottomBar?: boolean;
   hasSticker?: boolean;
   mobileBgImage: StaticImageData;
+  heroBottomVariant?: HeroBottomBarVariant;
 };
 
 const Hero: React.FC<Props> = ({
@@ -19,6 +22,7 @@ const Hero: React.FC<Props> = ({
   mobileBgImage,
   hasBottomBar = true,
   hasSticker = true,
+  heroBottomVariant
 }) => {
   return (
     <section className='pt-[42px] lg:pt-0  bg-no-repeat relative -translate-y-5'>
@@ -43,7 +47,7 @@ const Hero: React.FC<Props> = ({
         {/* Bottom Wavy pattern */}
       </Container>
       <div className='absolute -bottom-8 w-full'>
-        {hasBottomBar && <HeroBottomBar />}
+        {hasBottomBar && <HeroBottomBar variant={heroBottomVariant} />}
       </div>
       {/* desktop image */}
       <Image

@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { HeroBottomBarVariant } from '@/types/heroBottomBar.type';
+import { HeroBottomBarVariant } from '@/types/hero-bottom-bar.type';
 import { WaveIcon } from '../icons';
 import EmblaCarousel from '../widgets/EmblaCarousel';
 

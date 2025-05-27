@@ -34,7 +34,8 @@ export async function checkServiceabilityByZip({zipCode, requirePool, locationsA
     return;
   }
 
-  const hasInstructorsWithPool = data.find(i => i.number_of_pools_access > 0)
+  const hasInstructorsWithPool = data.find(i => i.number_of_pools_access || 0 > 0)
+
   if (!hasInstructorsWithPool) {
     return ServiceabilityErrorEnum.NoPools;
   }

@@ -14,7 +14,7 @@ type Props = {
 
 const FeaturedBannerSection = (props: Props) => {
   return (
-    <Container className='flex justify-center items-center w-full relative'>
+    <Container className='flex justify-center items-center w-full relative px-16'>
       <div
         style={{ backgroundColor: props.borderColor }}
         className='rotate-[0.5deg] horizonral-card-local-swim-instructors px-3 md:px-10 py-6 md:py-6 w-full  '

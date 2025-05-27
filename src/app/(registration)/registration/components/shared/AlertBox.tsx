@@ -1,10 +1,11 @@
+import React from 'react';
 import { alertCircle } from '@/assets';
 import clsx from 'clsx';
 import { FilterClassEnum } from '@/enum/filter-class.enum';
 import FilteredImage from '@/components/FilteredImage';
 
 type Props = {
-  text: string;
+  text: React.ReactNode;
   bulletTexts?: string[];
   type: 'info' | 'error' | 'alert';
 };

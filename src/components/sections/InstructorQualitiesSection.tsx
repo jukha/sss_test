@@ -14,7 +14,7 @@
 
 import Image, { StaticImageData } from 'next/image';
 import Container from '@/components/layout/Container';
-import { ZoomOutIcon, OkHandIcon, ProtecIcon } from '@/components/icons';
+import { ZoomOutIcon, OkHandIcon, ProtectIcon } from '@/components/icons';
 import {
   whatMakesUsSunsationalFeatureImage,
   areasWeServiceFeatureImage,
@@ -36,7 +36,7 @@ const instructorQualities = {
       desc: 'Sunsational Swim School carefully screens each instructor to ensure they have the certifications, experience, and expertise needed to deliver effective swim lessons. Every swim instructor must also pass an extensive background check and be CPR certified.',
     },
     {
-      image: <ProtecIcon hasWhiteBg={true} />,
+      image: <ProtectIcon hasWhiteBg={true} />,
       headerTextColor: 'text-white',
       headerBgColor: 'bg-orange',
       title: 'Fully Insured for Peace of Mind',

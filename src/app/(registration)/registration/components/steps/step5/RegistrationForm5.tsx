@@ -1,184 +1,185 @@
-import {
-  blackArrow,
-  calendarAlert,
-  calendarDate,
-  calendarTwo,
-  lock,
-} from '@/assets';
+import React, { useEffect, useState } from 'react';
+import clsx from 'clsx';
+import { StaticImageData } from 'next/image';
+import { blackArrow, calendarAlert, calendarDate, calendarTwo, lock } from '@/assets';
 import CustomButton from '@/components/CustomButton';
-import { CustomCheckbox } from '@/components/CustomCheckbox';
 import CustomCurveButton from '@/components/CustomCurveButton';
 import CustomDateInput from '@/components/CustomDatePicker';
 import FilteredImage from '@/components/FilteredImage';
 import { FilterClassEnum } from '@/enum/filter-class.enum';
-import clsx from 'clsx';
-import { DeepPartial, useForm } from 'react-hook-form';
+import { DAY_ORDER, DaysEnum, WEEKDAYS_ARRAY, WEEKENDS_ARRAY } from '@/enum/days.enum';
+import { ALL_TIMES_ARRAY, TIMES_ORDER, TimesEnum } from '@/enum/times.enum';
+import { useRegistrationForm } from '@/context/registration-form.context';
+import { WhenToBeginEnum } from '@/enum/when-to-begin.enum';
+import { convertDateFromUSFormatToInputValue, convertDateToUSFormat } from '@/helpers/date';
+
 import GoBackTextButton from '../../shared/GoBackTextButton';
-// import { useRegistrationForm } from '@/context/registration-form.context';
 import AlertBox from '../../shared/AlertBox';
-import {
-  ALL_DAYS_ARRAY,
-  DaysEnum,
-  WEEKDAYS_ARRAY,
-  WEEKENDS_ARRAY,
-} from '@/enum/days.enum';
-import { ALL_TIMES_ARRAY, TimesEnum } from '@/enum/times.enum';
-import { mapAllTo } from '@/helpers/map-all-to';
+import { BuildOnFieldChangedEventHandler2, BuildOnFieldChangedHandlerFunction } from '../../../types';
+import TimesSelector from './components/TimeSelector';
+import FlexibleSchedule from './components/FlexibleSchedule';
+import DaysSelector from './components/DaysSelector';
+import ErrorHighlighter from './components/ErrorHighlighter';
+
+const sortDays = (days: DaysEnum[]) => {
+  return days.sort((a, b) => DAY_ORDER[a] - DAY_ORDER[b]);
+};
+const sortTimes = (times: TimesEnum[]) => {
+  return times.sort((a, b) => TIMES_ORDER[a] - TIMES_ORDER[b]);
+};
+
+type WhenToBeginCard = {
+  text: string;
+  value: WhenToBeginEnum;
+  icon?: StaticImageData | undefined;
+};
+
+const whenToBeginCards: WhenToBeginCard[] = [
+  {
+    text: 'ASAP',
+    value: WhenToBeginEnum.Asap,
+    icon: calendarAlert,
+  },
+  {
+    text: 'Within two weeks',
+    value: WhenToBeginEnum.TwoWeeks,
+    icon: calendarTwo,
+  },
+  {
+    text: 'Specific date',
+    value: WhenToBeginEnum.Specific,
+    icon: calendarDate,
+  },
+];
 
 type Props = {
   onNextClicked: () => void;
   onPreviousClicked: () => void;
+  buildOnFieldChangedHandler: BuildOnFieldChangedHandlerFunction;
+  buildOnFieldChangedEventHandler2: BuildOnFieldChangedEventHandler2;
 };
 
-enum WhenToStartEnum {
-  ASAP,
-  TwoWeeks,
-  Specific,
-}
+const RegistrationForm5: React.FC<Props> = ({
+  onNextClicked,
+  onPreviousClicked,
+  buildOnFieldChangedHandler,
+  buildOnFieldChangedEventHandler2,
+}) => {
+  const { registrationForm, registrationErrors, registrationErrorsText } = useRegistrationForm();
 
-export const DEFAULT_SELECTED_DAYS = mapAllTo(ALL_DAYS_ARRAY, false);
-export const ALL_DAYS_SELECTED = mapAllTo(ALL_DAYS_ARRAY, true);
-export const WEEKDAYS_SELECTED = mapAllTo(WEEKDAYS_ARRAY, true);
-export const WEEKENDS_SELECTED = mapAllTo(WEEKENDS_ARRAY, true);
-
-export const DEFAULT_SELECTED_TIMES = mapAllTo(ALL_TIMES_ARRAY, false);
-export const ALL_TIMES_SELECTED = mapAllTo(ALL_TIMES_ARRAY, true);
-
-type FormValues = {
-  lessonsCount: number | null;
-  whenToStart: WhenToStartEnum | null;
-  specificDateToStart: string | null;
-  selectedDays: Record<DaysEnum, boolean>;
-  selectedWeekdayTimes: Record<TimesEnum, boolean>;
-  selectedWeekendTimes: Record<TimesEnum, boolean>;
-};
-
-const formDefaultValues: DeepPartial<FormValues> = {
-  lessonsCount: null,
-  whenToStart: null,
-  specificDateToStart: null,
-  selectedDays: DEFAULT_SELECTED_DAYS,
-  selectedWeekdayTimes: DEFAULT_SELECTED_TIMES,
-  selectedWeekendTimes: DEFAULT_SELECTED_TIMES,
-};
-
-const RegistrationForm5: React.FC<Props> = ({ onNextClicked, onPreviousClicked }) => {
   const {
-    // register,
-    handleSubmit,
-    setValue,
-    // getValues,
-    watch,
-    // formState: { errors },
-  } = useForm<FormValues>({ defaultValues: formDefaultValues });
+    lessonFrequency: formLessonsFrequency,
+    customerWouldLikeToBegin,
+    preferredLessonBeginDate,
+    selectedDays,
+    selectedWeekdayTimes,
+    selectedWeekendTimes,
+    flexibleSchedule,
+    additionalSchedulingInformation,
+  } = registrationForm ?? {};
 
-  const onSubmit = async () => {
+  const setLessonFrequency = buildOnFieldChangedHandler('lessonFrequency');
+  const setCustomerWouldLikeToBegin = buildOnFieldChangedHandler('customerWouldLikeToBegin');
+  const setPreferredLessonBeginDate = buildOnFieldChangedHandler('preferredLessonBeginDate');
+
+  const showDatePicker = customerWouldLikeToBegin === WhenToBeginEnum.Specific;
+  const inputDateValue = convertDateFromUSFormatToInputValue(preferredLessonBeginDate ?? '');
+  const lessonFrequency = !formLessonsFrequency ? 0 : formLessonsFrequency;
+
+  const setSelectedDays = (days: DaysEnum[]) => {
+    buildOnFieldChangedHandler('selectedDays')(sortDays(days).join(' '));
+  };
+
+  const setSelectedWeekdayTimes = (times: TimesEnum[]) => {
+    buildOnFieldChangedHandler('selectedWeekdayTimes')(sortTimes(times).join(' '));
+  };
+
+  const setSelectedWeekendTimes = (times: TimesEnum[]) => {
+    buildOnFieldChangedHandler('selectedWeekendTimes')(sortTimes(times).join(' '));
+  };
+
+  const setFlexibleSchedule = buildOnFieldChangedHandler('flexibleSchedule');
+  const setAdditionalSchedulingInformation = buildOnFieldChangedEventHandler2('additionalSchedulingInformation');
+
+  const selectedWeekdayTimesArray = (selectedWeekdayTimes ? selectedWeekdayTimes.split(' ') : []) as TimesEnum[];
+
+  const selectedWeekendTimesArray = (selectedWeekendTimes ? selectedWeekendTimes.split(' ') : []) as TimesEnum[];
+
+  const selectedDaysArray = (selectedDays ? selectedDays.split(' ') : []) as DaysEnum[];
+
+  const [showFlexibleScheduling, setShowFlexibleScheduling] = useState(() => selectedDaysArray.length > 0);
+
+  const handleLessonFrequencyClick = (selectedFrequency: string) => {
+    setLessonFrequency(+selectedFrequency);
+  };
+
+  const handleWhenToBeginCardClick = (card: WhenToBeginCard) => {
+    setCustomerWouldLikeToBegin(card.value);
+
+    if (card.value !== WhenToBeginEnum.Specific) {
+      setPreferredLessonBeginDate('');
+    }
+  };
+
+  const handleDateInputChange = (date: string) => {
+    setPreferredLessonBeginDate(convertDateToUSFormat(new Date(date)));
+  };
+
+  const handleTimesChange = (variant: 'weekday' | 'weekend') => {
+    return (selectedTimes: TimesEnum[]) => {
+      if (variant === 'weekday') {
+        setSelectedWeekdayTimes(selectedTimes);
+      } else {
+        setSelectedWeekendTimes(selectedTimes);
+      }
+    };
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     onNextClicked();
   };
 
-  const lessonsCount = watch('lessonsCount') || 0;
-  const whenToStart = watch('whenToStart');
-  const specificDateToStart = watch('specificDateToStart');
-  const selectedDays = watch('selectedDays');
-  const selectedWeekdayTimes = watch('selectedWeekdayTimes');
-  const selectedWeekendTimes = watch('selectedWeekendTimes');
+  const someWeekDaysSelected = WEEKDAYS_ARRAY.some((day) => selectedDaysArray.includes(day));
 
-  const selectDays = (daysObject: Partial<Record<DaysEnum, boolean>>) => {
-    const updated = {
-      ...selectedDays,
-      ...daysObject,
-    };
+  const someWeekendDaysSelected = WEEKENDS_ARRAY.some((day) => selectedDaysArray.includes(day));
 
-    setValue('selectedDays', updated);
-  };
+  useEffect(() => {
+    if (!someWeekDaysSelected) {
+      setSelectedWeekdayTimes([]);
+    } else {
+      setShowFlexibleScheduling(true);
+    }
+  }, [someWeekDaysSelected]);
 
-  const selectWeekdayTimes = (
-    timesObject: Partial<Record<TimesEnum, boolean>>
-  ) => {
-    const updated = {
-      ...selectedWeekdayTimes,
-      ...timesObject,
-    };
-
-    setValue('selectedWeekdayTimes', updated);
-  };
-
-  const selectWeekendTimes = (
-    timesObject: Partial<Record<TimesEnum, boolean>>
-  ) => {
-    const updated = {
-      ...selectedWeekendTimes,
-      ...timesObject,
-    };
-
-    setValue('selectedWeekendTimes', updated);
-  };
-
-  const allWeekdaysSelected = Object.keys(WEEKDAYS_SELECTED).every(
-    (day) => selectedDays[day as DaysEnum] === true
-  );
-
-  const allWeekendDaysSelected = Object.keys(WEEKENDS_SELECTED).every(
-    (day) => selectedDays[day as DaysEnum] === true
-  );
-
-  const allDaysSelected = allWeekdaysSelected && allWeekendDaysSelected;
-
-  const someWeekdaysSelected = Object.keys(WEEKDAYS_SELECTED).some(
-    (day) => selectedDays[day as DaysEnum] === true
-  );
-
-  const someWeekendDaysSelected = Object.keys(WEEKENDS_SELECTED).some(
-    (day) => selectedDays[day as DaysEnum] === true
-  );
-
-  const allTimesInWeekdaysSelected = Object.keys(ALL_TIMES_SELECTED).every(
-    (time) => selectedWeekdayTimes[time as TimesEnum] === true
-  );
-
-  const allTimesInWeekendDaysSelected = Object.keys(ALL_TIMES_SELECTED).every(
-    (time) => selectedWeekendTimes[time as TimesEnum] === true
-  );
+  useEffect(() => {
+    if (!someWeekendDaysSelected) {
+      setSelectedWeekendTimes([]);
+    } else {
+      setShowFlexibleScheduling(true);
+    }
+  }, [someWeekendDaysSelected]);
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className='flex flex-col gap-[30px] items-center w-full'
-    >
-      <GoBackTextButton
-        text='Schedule'
-        onClick={onPreviousClicked}
-      />
+    <form onSubmit={onSubmit} className='flex flex-col gap-[30px] items-center w-[calc(100vw-50px)] laptop:w-auto'>
+      <GoBackTextButton text='Schedule' onClick={onPreviousClicked} />
 
-      <div className='flex flex-col gap-[8px] w-full'>
-        <span>How many lessons would like per week*</span>
-        <div className='flex gap-[6px] items-center'>
-          {lessonsCount < 3 && (
-            <div className={clsx('text-extraSmall text-gray')}>
-              Pick 3 or more lessons per week to
-            </div>
-          )}
+      <div className='relative flex flex-col gap-[8px] w-full'>
+        {registrationErrors?.lessonFrequency && <ErrorHighlighter />}
+
+        <span className='font-medium'>How many lessons would like per week*</span>
+
+        <div className='flex flex-col gap-[6px] items-start desktop:flex-row desktop:items-center'>
+          {lessonFrequency < 3 && <div className='text-extraSmall text-gray'>Pick 3 or more lessons per week to</div>}
 
           <div
             className={clsx(
               'flex gap-[8px] px-[16px] py-[4px] rounded-[16px] bg-lightGray shrink',
-              lessonsCount < 3 ? 'bg-gray' : 'bg-yellow'
+              lessonFrequency < 3 ? 'bg-gray' : 'bg-yellow'
             )}
           >
-            <FilteredImage
-              src={lock}
-              filter={
-                lessonsCount < 3
-                  ? FilterClassEnum.Gray
-                  : FilterClassEnum.Orange
-              }
-            />
-            <span
-              className={clsx(
-                'text-extraSmall font-[700]',
-                lessonsCount < 3 ? 'text-gray' : 'text-orange'
-              )}
-            >
+            <FilteredImage src={lock} filter={lessonFrequency < 3 ? FilterClassEnum.Gray : FilterClassEnum.Orange} />
+            <span className={clsx('text-extraSmall font-[700]', lessonFrequency < 3 ? 'text-gray' : 'text-orange')}>
               LEARN TO SWIM GUARANTEED
             </span>
           </div>
@@ -189,167 +190,107 @@ const RegistrationForm5: React.FC<Props> = ({ onNextClicked, onPreviousClicked }
             <CustomButton
               key={i}
               text={(i + 1).toString()}
-              onClick={() => setValue('lessonsCount', i + 1)}
-              isActive={lessonsCount === i + 1}
+              onClick={() => handleLessonFrequencyClick((i + 1).toString())}
+              isActive={lessonFrequency === i + 1}
               className='grow'
             />
           ))}
         </div>
       </div>
-      {lessonsCount >= 3 && (
+
+      {lessonFrequency > 0 && (
         <>
-          <div className='flex flex-col gap-[8px] w-full'>
-            <span>Select when would you like to begin*</span>
+          <div className='relative flex flex-col gap-[8px] w-full'>
+            {registrationErrors?.customerWouldLikeToBegin && <ErrorHighlighter />}
+            <span className='font-medium'>Select when would you like to begin*</span>
 
             <div className='grid grid-cols-3 gap-[8px]'>
-              <CustomButton
-                text='ASAP'
-                onClick={() => setValue('whenToStart', WhenToStartEnum.ASAP)}
-                isActive={whenToStart === WhenToStartEnum.ASAP}
-                icon={calendarAlert}
-                className='flex-col-reverse !justify-end'
-              />
-              <CustomButton
-                text='Within two weeks'
-                onClick={() =>
-                  setValue('whenToStart', WhenToStartEnum.TwoWeeks)
-                }
-                isActive={whenToStart === WhenToStartEnum.TwoWeeks}
-                icon={calendarTwo}
-                className='flex-col-reverse justify-end'
-              />
-              <CustomButton
-                text='Specific date'
-                onClick={() =>
-                  setValue('whenToStart', WhenToStartEnum.Specific)
-                }
-                isActive={whenToStart === WhenToStartEnum.Specific}
-                icon={calendarDate}
-                className='flex-col-reverse justify-end'
-              />
-            </div>
-          </div>
-
-          {whenToStart === WhenToStartEnum.Specific && (
-            <CustomDateInput
-              placeholder='Choose Start Date'
-              value={specificDateToStart || undefined}
-              onChange={(e) => setValue('specificDateToStart', e.target.value)}
-            />
-          )}
-
-          <div className='flex flex-col gap-[16px] w-full'>
-            <span>Select ALL days you’re available for lessons</span>
-
-            <AlertBox
-              text='Please choose as many days as possible for quicker instructor matching'
-              type='info'
-            />
-
-            <div className='flex gap-[16px] self-start'>
-              <CustomCheckbox
-                checked={allWeekdaysSelected}
-                text='Weekdays'
-                onClick={() => selectDays(WEEKDAYS_SELECTED)}
-              />
-              <CustomCheckbox
-                checked={allWeekendDaysSelected}
-                text='Weekends'
-                onClick={() => selectDays(WEEKENDS_SELECTED)}
-              />
-              <CustomCheckbox
-                checked={allDaysSelected}
-                text='All'
-                onClick={() =>
-                  selectDays({ ...WEEKDAYS_SELECTED, ...WEEKENDS_SELECTED })
-                }
-              />
-            </div>
-
-            <div className='grid mt-[16px] grid-cols-7 gap-[12px] w-full'>
-              {Object.values(DaysEnum).map((el) => (
+              {whenToBeginCards.map((card) => (
                 <CustomButton
-                  key={el}
-                  text={el}
-                  isActive={selectedDays[el]}
-                  onClick={() =>
-                    selectDays({ [el]: !selectedDays[el] } as Record<
-                      DaysEnum,
-                      boolean
-                    >)
-                  }
-                  className='!px-0'
+                  key={card.value}
+                  text={card.text}
+                  onClick={() => handleWhenToBeginCardClick(card)}
+                  isActive={customerWouldLikeToBegin === card.value}
+                  icon={card.icon}
+                  className='flex-col-reverse !justify-end'
+                  textClassName='text-base font-medium'
                 />
               ))}
             </div>
           </div>
 
-          {someWeekdaysSelected && (
-            <div className='flex flex-col mt-[16px] gap-[16px] w-full'>
-              <span>
-                Select ALL times you’re available for lessons on weekdays
-              </span>
-              <CustomCheckbox
-                checked={allTimesInWeekdaysSelected}
-                text='Select All'
-                onClick={() => selectWeekdayTimes(ALL_TIMES_SELECTED)}
-              />
-
-              <div className='grid grid-cols-4 gap-[12px] w-full'>
-                {Object.values(TimesEnum).map((el) => (
-                  <CustomButton
-                    key={el}
-                    text={el}
-                    isActive={selectedWeekdayTimes[el]}
-                    onClick={() =>
-                      selectWeekdayTimes({
-                        [el]: !selectedWeekdayTimes[el],
-                      } as Record<TimesEnum, boolean>)
-                    }
-                    className='!px-0'
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {someWeekendDaysSelected && (
-            <div className='flex flex-col gap-[16px] w-full'>
-              <span>
-                Select ALL times you’re available for lessons on weekends
-              </span>
-              <CustomCheckbox
-                checked={allTimesInWeekendDaysSelected}
-                text='Select All'
-                onClick={() => selectWeekendTimes(ALL_TIMES_SELECTED)}
-              />
-
-              <div className='grid grid-cols-4 gap-[12px] w-full'>
-                {Object.values(TimesEnum).map((el) => (
-                  <CustomButton
-                    key={el}
-                    text={el}
-                    isActive={selectedWeekendTimes[el]}
-                    onClick={() =>
-                      selectWeekendTimes({
-                        [el]: !selectedWeekendTimes[el],
-                      } as Record<TimesEnum, boolean>)
-                    }
-                    className='!px-0'
-                  />
-                ))}
-              </div>
-            </div>
+          {showDatePicker && (
+            <CustomDateInput
+              error={Boolean(registrationErrors?.preferredLessonBeginDate)}
+              visibleValue={preferredLessonBeginDate ?? ''}
+              placeholder='Choose Start Date'
+              inputValue={inputDateValue ?? ''}
+              onChange={handleDateInputChange}
+              dateInputProps={{
+                min: new Intl.DateTimeFormat('en-CA').format(new Date()),
+              }}
+            />
           )}
         </>
       )}
 
-      <CustomCurveButton type='submit' text='Continue' icon={blackArrow} />
-      <GoBackTextButton
-        text='Back to package selection'
-        onClick={onPreviousClicked}
-        size='small'
-      />
+      {customerWouldLikeToBegin && (
+        <>
+          <DaysSelector
+            selectedDays={selectedDaysArray}
+            onChange={setSelectedDays}
+            error={registrationErrors?.selectedDays}
+          />
+
+          {someWeekDaysSelected && (
+            <TimesSelector
+              error={registrationErrors?.selectedWeekdayTimes}
+              title='Select ALL times you’re available for lessons on weekdays'
+              inputGroupName='weekdays_times'
+              times={ALL_TIMES_ARRAY}
+              initialSelectedTimes={selectedWeekdayTimesArray}
+              onChange={handleTimesChange('weekday')}
+            />
+          )}
+
+          {someWeekendDaysSelected && (
+            <TimesSelector
+              error={registrationErrors?.selectedWeekendTimes}
+              title='Select ALL times you’re available for lessons on weekends'
+              inputGroupName='weekend_times'
+              times={ALL_TIMES_ARRAY}
+              initialSelectedTimes={selectedWeekendTimesArray}
+              onChange={handleTimesChange('weekend')}
+            />
+          )}
+        </>
+      )}
+
+      {showFlexibleScheduling && (
+        <FlexibleSchedule
+          flexibleScheduleChecked={Boolean(flexibleSchedule)}
+          additionalSchedulingInformation={additionalSchedulingInformation ?? ''}
+          onAdditionalSchedulingInformationChange={setAdditionalSchedulingInformation}
+          onFlexibleScheduleCheckedChange={setFlexibleSchedule}
+        />
+      )}
+
+      {registrationErrorsText && (
+        <AlertBox
+          text={
+            registrationErrors?.selectedDays === 'lessonFrequency'
+              ? 'You have selected less days than the lesson frequency that you have specified. Woops, looks like some info is missing. Please provide what times are you available for lessons on weekdays.'
+              : registrationErrorsText
+          }
+          type='error'
+        />
+      )}
+
+      <div className='mt-12'>
+        <CustomCurveButton type='submit' text='Continue' icon={blackArrow} />
+      </div>
+
+      <GoBackTextButton text='Back to package selection' onClick={onPreviousClicked} size='small' />
     </form>
   );
 };

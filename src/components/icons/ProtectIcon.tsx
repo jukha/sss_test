@@ -2,9 +2,10 @@ import React from 'react';
 
 type Props = {
   hasWhiteBg?: boolean;
+  strokeColor?: string;
 };
 
-const ProtecIcon: React.FC<Props> = ({ hasWhiteBg = false }) => {
+const ProtectIcon: React.FC<Props> = ({ hasWhiteBg = false }) => {
   return (
     <svg
       width='100%'
@@ -50,4 +51,4 @@ const ProtecIcon: React.FC<Props> = ({ hasWhiteBg = false }) => {
   );
 };
 
-export default ProtecIcon;
+export default ProtectIcon;

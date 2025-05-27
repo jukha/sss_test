@@ -1,4 +1,16 @@
 'use client';
+// Example Usage
+{/* <CustomerReviewsSection
+  description='4.9 rating out of 1851 reviews'
+  heading='Sunsational Swim School - Home Swimming Lessons'
+  bgColor={'var(--color-lightBlue)'}
+  bgDecorationIcon={''}
+  hideButton={true}
+  decorationIconLeft={<BackgroundCircles />}
+  decorationIconRight={<BackgroundCircles />}
+  decorationIconLeftClasses='lg:right-0 lg:top-[-10%] w-[616px] h-[616px] lg:h-[800px]  lg:w-[800px] -rotate-45'
+  decorationIconRightClasses='left-[-5%] bottom-[-5%] h-[780px] w-[780px] hidden lg:block -rotate-45'
+/>; */}
 
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 
@@ -14,7 +26,7 @@ import { WaveIcon } from '@/components/icons';
 import {
   NextButton,
   PrevButton,
-  usePrevNextButtons,
+  useEmblaCarouselControls,
 } from '../widgets/EmblaCarouselArrowButton';
 import BackgroundSun from '../decoration/BackgroundSun';
 
@@ -97,7 +109,43 @@ type CustomerReviewType = {
   steps: ReviewStep[];
 };
 
-const CustomerReviewsSection = () => {
+type Props = {
+  heading?: string;
+  description?: string;
+  reviews?: ReviewStep[];
+  bgDecorationIcon?: React.ReactNode | string;
+  decorationIconLeft?: React.ReactNode;
+  decorationIconRight?: React.ReactNode;
+  decorationIconLeftClasses?: string;
+  decorationIconRightClasses?: string;
+  bgColor?: string;
+  buttonText?: string;
+  buttonClasses?: string;
+  shadowClasses?: string;
+  buttonIconClasses?: string;
+  buttonIconColor?: string;
+  hideButton?: boolean;
+  buttonLink?: string;
+};
+
+const CustomerReviewsSection = ({
+  heading,
+  description,
+  reviews,
+  bgDecorationIcon,
+  decorationIconLeft,
+  decorationIconLeftClasses,
+  decorationIconRightClasses,
+  decorationIconRight,
+  bgColor,
+  buttonText,
+  buttonClasses,
+  shadowClasses,
+  buttonIconClasses,
+  buttonIconColor,
+  hideButton,
+  buttonLink,
+}: Props) => {
   const OPTIONS: EmblaOptionsType = { slidesToScroll: 1, loop: true };
   const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS);
 
@@ -106,28 +154,31 @@ const CustomerReviewsSection = () => {
     nextBtnDisabled,
     onPrevButtonClick,
     onNextButtonClick,
-  } = usePrevNextButtons(emblaApi);
+  } = useEmblaCarouselControls(emblaApi);
 
   return (
-    <section className='my-[10em] md:px-[4em]  py-[8em] relative overflow-hidden flex flex-col bg-off-white gap-20 justify-start items-center'>
-      <div className='absolute top-0 w-full h-12 -translate-y-1/2'>
-        <WaveIcon color='#FFF9E1' />
+    <section
+      style={{ backgroundColor: bgColor }}
+      className='my-[10em] md:px-[4em]  py-[8em] relative bg-off-white flex flex-col gap-20 overflow-clip justify-start items-center'
+    >
+      <div className='absolute top-0 w-full h-6 md:h-12 -translate-y-1/2'>
+        <WaveIcon color={bgColor ?? '#FFF9E1'} />
       </div>
-      <div className='absolute bottom-0 w-full h-12 translate-y-1/2 rotate-180'>
-        <WaveIcon color='#FFF9E1' />
+      <div className='absolute bottom-0 w-full h-6 md:h-12 translate-y-1/2 rotate-180'>
+        <WaveIcon color={bgColor ?? '#FFF9E1'} />
       </div>
-      <div className='flex flex-col gap-6  justify-start items-center'>
+      <div className='flex flex-col gap-6  justify-start items-center z-10'>
         <Typography
           variant='h2'
           className='max-w-[354px] md:max-w-[842px] text-center'
         >
-          {content.title}
+          {heading ?? content.title}
         </Typography>
         <Typography
           variant='body1'
           className='max-w-[354px] md:max-w-[447px] text-center font-bold text-offBlack'
         >
-          {content.desc}
+          {description ?? content.desc}
         </Typography>
       </div>
 
@@ -162,7 +213,7 @@ const CustomerReviewsSection = () => {
         <div className='embla_review_section w-[100%]  z-30'>
           <div ref={emblaRef} className='embla__viewport_review_section'>
             <div className='embla__container_review_section '>
-              {content.steps.map((el, index) => {
+              {(reviews ?? content.steps).map((el, index) => {
                 return (
                   <div
                     key={index}
@@ -185,20 +236,35 @@ const CustomerReviewsSection = () => {
         </div>
       </div>
 
-      <div className='z-10'>
-        <ArrowButton
-          text={'See our splashing reviews'}
-          buttonClasses='bg-offBlack leading-[120%] text-base md:text-[20px] text-white font-primary'
-          IconClasses='bg-yellow'
-          shadow={true}
-          iconColor='black'
-          shadowClasses='bg-blue'
-          link={'/registration'}
-        />
-      </div>
+      {!hideButton && (
+        <div className='z-10'>
+          <ArrowButton
+            text={buttonText ?? 'See our splashing reviews'}
+            buttonClasses={
+              buttonClasses ??
+              'bg-offBlack leading-[120%] text-base md:text-[20px] text-white font-primary'
+            }
+            IconClasses={buttonIconClasses ?? 'bg-yellow'}
+            shadow={true}
+            iconColor={buttonIconColor ?? 'black'}
+            shadowClasses={shadowClasses ?? 'bg-blue'}
+            link={buttonLink ?? '/registration'}
+          />
+        </div>
+      )}
       <div className='absolute  h-full w-full m-0 inset-0'>
-        <BackgroundSun />
+        {bgDecorationIcon ?? <BackgroundSun />}
       </div>
+      {decorationIconLeft && (
+        <div className={`absolute ${decorationIconLeftClasses}`}>
+          {decorationIconLeft}
+        </div>
+      )}
+      {decorationIconRight && (
+        <div className={`absolute ${decorationIconRightClasses}`}>
+          {decorationIconRight}
+        </div>
+      )}
     </section>
   );
 };

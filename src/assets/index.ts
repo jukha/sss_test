@@ -42,6 +42,15 @@ import calendarIcon from './images/calendar.svg';
 import cardVerificationValueIcon from './images/cardVerificationValue.svg';
 import magneticCardIcon from './images/magneticCard.svg';
 import featuredBlogImg from './images/featuredBlogImg.png';
+import parentsGroupLessonImg from './images/parentsGroupLessonImg.png';
+import whySwimLessons from './images/whySwimLessons.png';
+import dolphinIcon from "./images/dolphin.png";
+import goldfishIcon from "./images/goldfish.png";
+import jellyfishIcon from "./images/jellyfish.png";
+import seahorseIcon from "./images/seahorse.png";
+import sealIcon from "./images/seal.png";
+import starfishIcon from "./images/starfish.png";
+import tadpoleIcon from "./images/tadpole.png";
 
 //pictures
 import girlAndMom from './images/girlAndMom.webp';
@@ -62,13 +71,13 @@ import homeHeroMobile from './images/homeHeroMobile.png';
 import stickerStamp from './images/stampSticker.svg';
 import homeFeatureSectionImage from './images/homeFeatureSectionImage.png';
 import whatMakesUsSunsationalFeatureImage from './images/whatMakesUsSunsationalFeatureImage.png';
-import aboutHero from "./images/aboutHero.png";
-import aboutHeroMobile from "./images/aboutHeroMobile.png";
-import aboutUsSectionImage2 from "./images/aboutUsSectionImage2.png";
-import aboutUsSectionImage3 from "./images/aboutUsSectionImage3.png";
-import aboutUsSectionImage4 from "./images/aboutUsSectionImage4.png";
-import instructorsHero from "./images/instructorsHero.png";
-import instructorsHeroMobile from "./images/instructorsHeroMobile.png";
+import aboutHero from './images/aboutHero.png';
+import aboutHeroMobile from './images/aboutHeroMobile.png';
+import aboutUsSectionImage2 from './images/aboutUsSectionImage2.png';
+import aboutUsSectionImage3 from './images/aboutUsSectionImage3.png';
+import aboutUsSectionImage4 from './images/aboutUsSectionImage4.png';
+import instructorsHero from './images/instructorsHero.png';
+import instructorsHeroMobile from './images/instructorsHeroMobile.png';
 import localSwimInstructorimg from './images/localSwimInstructorimg.png';
 import swimInstructorReviewImg1 from './images/swimInstructorReviewImg1.png';
 import swimInstructorReviewImg2 from './images/swimInstructorReviewImg2.png';
@@ -82,13 +91,40 @@ import howWeMatchYouImg from './images/howWeMatchYouImg.png';
 import nearbyInstructorHeroImg from './images/nearbyInstructorHeroImg.png';
 import nearbyInstructorHeroMobileImg from './images/nearbySwimInstructorHeroMobile.png';
 import areYouInstructor2Img from './images/areYouSwimInstructor2Img.png';
+import instructorProfileCardImage from './images/instructorProfileCardImage.png';
 import areasWeServiceFeatureImage from './images/areasWeServiceFeatureImage.png';
 import pricingHero from './images/pricingHero.png';
 import pricingHeroMobile from './images/pricingHeroMobile.png';
 import blogHeroImg from './images/blogHeroImg.png';
 import blogHeroMobileImg from './images/blogHerloMobileImg.png';
+import babyLessonsImg from './images/babyLessonsImg.png';
+import learnToSwimGuaranteeImg from './images/learnToSwimGuaranteeImg.png';
+import semiPrivateLessonsImg from './images/semiPrivateLessonsImg.png';
+import adultLessonsImg from './images/adultLessonsImg.png';
+import localPrivateHeroImg from './images/localPrivateHeroDesktop.png';
+import localPrivateHeroMobileImg from './images/localPrivateHeroMobile.png';
+import localBabyHero from './images/localBabyHero.png';
+import localBabyHeroMobile from './images/localBabyHeroMobile.png';
+import localBabyGeneralImage from './images/localBabyGeneralImage.png'
+import localBabySellingPointsImg from './images/localBabySellingPointSectionImg.png';
+import localBabySatisfactionGuaranteeImg from './images/localBabySatisfactionGuarantee.png';
+import bringYourPrivateSwimImg from './images/bringYourPrivateSwim.png';
+import benefitofPrivateswimLesson from './images/benefitofPrivateswimLesson.png';
+import localBabyFiveReasonsToStart from './images/localBabyFiveReasonsToStart.png';
+import localBabyWhyUs1 from './images/localBabyWhyUs1.png';
+import localBabyWhyUs2 from './images/localBabyWhyUs2.png';
+import localBabyWhyUs3 from './images/localBabyWhyUs3.png';
+import localBabyWhyUs4 from './images/localBabyWhyUs4.png';
+import socialMediaReviewCardDemoImg from './images/socialMediaReviewCardDemoImage.png';
+import localBabyStep2Img from './images/localBabyStep2Img.png';
+import localBabyStep3Img from './images/localBabyStep3Img.png';
+import howItWorksLocalPrivateImg2 from './images/howItWorksLocalPrivateImg2.png';
+import howItWorksLocalPrivateImg3 from './images/howItWorksLocalPrivateImg3.png';
+import satisfactionLocalPrivateImg from './images/satisfactionLocalPrivateImg.png';
+import suggestedArticle4 from './images/suggestedArticle4.png';
+import suggestedArticle5 from './images/suggestedArticle5.png';
 
-// figures  
+// figures
 import curveOval from './images/curveOval.svg';
 import curveCard1 from './images/curveCard1.svg';
 import curveCard2 from './images/curveCard2.svg';
@@ -97,7 +133,7 @@ import wavyBorder from './images/wavyBorder.svg';
 import howItWorksSectionImage1 from './images/howItWorksSectionImage1.png';
 import howItWorksSectionImage2 from './images/howItWorksSectionImage2.png';
 import howItWorksSectionImage3 from './images/howItWorksSectionImage3.png';
-import aboutUsSectionImage5 from "./images/aboutUsSectionImage5.png";
+import aboutUsSectionImage5 from './images/aboutUsSectionImage5.png';
 
 // brand partners
 import membersOfFemaleFounders from './images/membersOfFemaleFounders.svg';
@@ -203,10 +239,46 @@ export {
   nearbyInstructorHeroImg,
   nearbyInstructorHeroMobileImg,
   areYouInstructor2Img,
+  instructorProfileCardImage,
   areasWeServiceFeatureImage,
   pricingHero,
   pricingHeroMobile,
   blogHeroImg,
   blogHeroMobileImg,
   featuredBlogImg,
+  babyLessonsImg,
+  learnToSwimGuaranteeImg,
+  semiPrivateLessonsImg,
+  adultLessonsImg,
+  parentsGroupLessonImg,
+  localPrivateHeroImg,
+  localPrivateHeroMobileImg,
+  localBabyHero,
+  localBabyHeroMobile,
+  localBabyGeneralImage,
+  localBabySellingPointsImg,
+  localBabySatisfactionGuaranteeImg,
+  bringYourPrivateSwimImg,
+  whySwimLessons,
+  benefitofPrivateswimLesson,
+  dolphinIcon,
+  goldfishIcon,
+  jellyfishIcon,
+  seahorseIcon,
+  sealIcon,
+  starfishIcon,
+  tadpoleIcon,
+  localBabyFiveReasonsToStart,
+  localBabyWhyUs1,
+  localBabyWhyUs2,
+  localBabyWhyUs3,
+  localBabyWhyUs4,
+  socialMediaReviewCardDemoImg,
+  localBabyStep2Img,
+  localBabyStep3Img,
+  howItWorksLocalPrivateImg2,
+  howItWorksLocalPrivateImg3,
+  satisfactionLocalPrivateImg,
+  suggestedArticle4,
+  suggestedArticle5,
 };

@@ -3,12 +3,16 @@ import FeatureSection from '../FeatureSection';
 import { BackgroundCircles } from '../decoration';
 import { homeFeatureSectionImage } from '@/assets';
 import { StampIcon } from '../icons';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import FlexWrapper from '../layout/FlexWrapper';
 import Typography from '../semantics/Typography';
+import { Property } from 'csstype';
 
 type Props = {
   location?: string;
+  image?: StaticImageData;
+  bgColor?: Property.BackgroundColor;
+  bgCirclesColor?: Property.BackgroundColor;
 };
 
 const data = {
@@ -23,21 +27,26 @@ const data = {
   },
 };
 
-const SatisfactionGuaranteeSection: React.FC<Props> = ({ location }) => {
+const SatisfactionGuaranteeSection: React.FC<Props> = ({
+  location,
+  image = homeFeatureSectionImage,
+  bgColor = 'var(--color-yellow)',
+  bgCirclesColor,
+}) => {
   return (
     <FeatureSection
-      backgroundColor='var(--color-yellow)'
-      waveColor='var(--color-yellow)'
+      backgroundColor={bgColor || 'var(--yellow)'}
+      waveColor={bgColor || 'var(--yellow)'}
       className='my-28'
     >
       <FlexWrapper stackOrder='first-top'>
         <div className='lg:w-[60%] relative z-0'>
           {/* Background circles */}
           <div className='absolute w-full -top-[60px] lg:-top-[109px] -left-[100px] -z-[1]  lg:scale-[1.20]'>
-            <BackgroundCircles />
+            <BackgroundCircles color={bgCirclesColor}/>
           </div>
           <Image
-            src={homeFeatureSectionImage}
+            src={image}
             alt=''
             width={1000}
             className={'w-full'}

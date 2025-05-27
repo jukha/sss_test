@@ -196,6 +196,8 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       <RegistrationForm5
         onNextClicked={onNextClicked}
         onPreviousClicked={onPreviousClicked}
+        buildOnFieldChangedHandler={buildOnFieldChangedHandler}
+        buildOnFieldChangedEventHandler2={buildOnFieldChangedEventHandler2}
       />
     ),
     [RegistrationStepEnum.Step6]: (
