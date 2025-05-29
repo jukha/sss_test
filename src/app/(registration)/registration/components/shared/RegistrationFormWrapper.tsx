@@ -219,19 +219,19 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
   };
 
   return (
-    <div className='flex flex-col relative w-full max-w-[750px]'>
+    <div className='flex flex-col relative w-full max-w-[750px] h-full'>
       <Image
         src={girlAndMom}
         alt='image'
-        className='absolute h-[140px] w-[160px] top-[-140px] right-0 laptop:h-[200px] laptop:w-[250px] laptop:top-[-200px] laptop:right-[-30px]'
+        className='absolute w-[120px] -translate-y-[100%] right-0 laptop:w-[250px] object-contain'
       />
       <StepsIndicator
         steps={circleNavigationBarSteps}
         currentStep={registrationStep}
         setStep={setRegistrationStep}
       />
-      <div className='flex flex-col items-center w-full bg-white rounded-[16px] py-[50px] px-[25px] desktop:py-[65px]'>
-        <div className='desktop:max-w-[440px] w-full'>
+      <div className='flex flex-col items-center w-full h-full bg-white pt-[50px] pb-16 rounded-[16px] px-[25px] desktop:pt-[65px]'>
+        <div className='w-full pb-6 desktop:max-w-[590px] desktop:px-[71px] desktop:min-h-[100%] overflow-auto smallScroll'>
           {formsToRender[registrationStep]}
         </div>
       </div>

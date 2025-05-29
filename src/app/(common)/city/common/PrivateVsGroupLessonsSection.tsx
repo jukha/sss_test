@@ -86,7 +86,7 @@ const PrivateVsGroupLessonsSection = () => {
 
         {/* Decorative background circles (bottom left) */}
         <div className='absolute w-[214px] h-[214px] rotate-[70deg] -left-12 bottom-0 -z-[1]'>
-          <BackgroundCircles color='#fff' />
+          <BackgroundCircles circlesColor='#fff' />
         </div>
 
         {/* ********************* */}

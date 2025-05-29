@@ -13,6 +13,15 @@ import WhenBabiesStartSection from './components/WhenBabiesStartSection';
 import WhyChooseOurSwimSchool from './components/WhyChooseOurSwimSchool';
 import WhyParentsLoveSection from './components/WhyParentsLoveSection';
 import { SkillTitle } from '@/enum/skill-title.enum';
+import LocalBabyLessonsPricing from './components/LocalBabyLessonsPricing';
+import ParentsGroupsLessonPricingSection from './components/ParentsGroupsLessonPricingSection';
+import InfantSwimLessonsNearMe from './components/InfantSwimLessonsNearMe';
+import MembersOfSection from '@/components/sections/MembersOfSection';
+import HowToPrepareYourBaby from './components/HowToPrepareYouBabySection';
+import WaterSafeyPrioritySection from './components/WaterSafeyPrioritySection';
+import HowParentsAndBabySection from './components/HowParentsAndBabySection';
+import HowItWorksCitiesSection from '../common/HowItWorksCitiesSection';
+import FeaturedBabyInstructorsSection from './components/FeaturedBabyInstructorsSection';
 
 const LocalBaby = () => {
   return (
@@ -32,8 +41,22 @@ const LocalBaby = () => {
         <WhyParentsLoveSection />
         {/* When Babies start swim lessons - General section */}
         <WhenBabiesStartSection />
+        {/* How does Sunsational School work? - Section */}
+        <HowItWorksCitiesSection />
+        {/* Why choose Sunsational Swim School? - Section */}
+        <WhyChooseOurSwimSchool />
+        {/* 100% satisfaction guarantee - Section */}
+        <SatisfactionGuaranteeSection
+          image={localBabySatisfactionGuaranteeImg}
+        />
+        {/* Pricing for local baby swim lessons - Section */}
+        <LocalBabyLessonsPricing />
+        {/* Parents & Tots Group Lessons Pricing Section */}
+        <ParentsGroupsLessonPricingSection />
         {/*Private swim lessons vs group - section */}
         <PrivateVsGroupLessonsSection />
+        {/* Infant swim lessons near me - Section */}
+        <InfantSwimLessonsNearMe />
         {/* Levels we teach on our swim lesson programs - Section */}
         <SkillLevelsSection
           skillsToShow={[
@@ -43,14 +66,21 @@ const LocalBaby = () => {
             SkillTitle.Jellyfish,
           ]}
         />
+        {/* Members of section */}
+        <MembersOfSection />
         {/* 5 reasons to start swim lessons for your baby now - Section */}
         <FiveReasonsToStartSection />
-        {/* Why choose Sunsational Swim School? - Section */}
-        <WhyChooseOurSwimSchool />
-        {/* 100% satisfaction guarantee - Section */}
-        <SatisfactionGuaranteeSection
-          image={localBabySatisfactionGuaranteeImg}
-        />
+        {/* How parent and baby swim lessons help build confidence around the water - Section */}
+        <HowParentsAndBabySection/>
+        {/* How to prepare your baby for swim lessons - Section */}
+        <HowToPrepareYourBaby />
+        {/* Water Safety Priority Section */}
+        <WaterSafeyPrioritySection />
+        {/* Featured baby swim instructors in [city, state] - Section */}
+        <FeaturedBabyInstructorsSection />
+
+        {/*Featured Instructors with map will be added when api for it is ready */}
+
         {/* Service Locations - Section */}
         <ServiceLocationsSection />
         <LocationsListSection />

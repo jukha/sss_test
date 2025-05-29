@@ -1,7 +1,7 @@
 import React from 'react';
 import { whySwimLessons } from '@/assets';
 import { Bubbles } from '@/components/decoration';
-import WhySwimLessonsSection from '../../common/WhySwimLessonsSection';
+import LessonFactsSection from '../../common/LessonFactsSection';
 import { SwimLessonFact } from '@/types/swim-lesson.types';
 
 const data = {
@@ -31,7 +31,7 @@ const data = {
 
 const WhySwimLessonsImportantSection = () => {
 
-  return <WhySwimLessonsSection {...data} />;
+  return <LessonFactsSection {...data} />;
 };
 
 export default WhySwimLessonsImportantSection;

@@ -1,12 +1,15 @@
+import Link from 'next/link';
+import Wave from '@/components/icons/Wave';
 import {
   calendar,
   fiveStar,
+  logo,
+  logoMobile,
   poolStairs,
   waterBg,
   yellowCoin,
   yellowLike,
 } from '@/assets';
-import AbsoluteLogo from '@/components/AbsoluteLogo';
 import RegistrationFormWrapper from './RegistrationFormWrapper';
 import DropDownBlock from '@/components/DropDownBlock';
 import { DropDownType } from '@/types/dropdown.type';
@@ -16,6 +19,7 @@ import LessonsPackageSummary from './LessonsPackageSummary';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import ReviewsSlider from './ReviewsSlider';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
+import Image from 'next/image';
 
 const additionalCardsData = [
   { text: 'Thousands of 5-star reviews ', image: fiveStar },
@@ -97,33 +101,52 @@ const RegistrationPageLayout: React.FC<Props> = ({
   ].includes(registrationStep);
 
   return (
-    <div
-      className='flex items-stretch bg-yellow min-h-screen w-full bg-no-repeat bg-size-[100%] laptop:bg-size-[50%_100%]'
-      style={{
-        backgroundImage: `linear-gradient(180deg,rgba(255, 255, 255, 0) 0%, rgba(3, 61, 154, 1) 50%), url(${waterBg.src})`,
-      }}
-    >
-      <div className='max-w-[1440px] m-auto h-full'>
-        <AbsoluteLogo />
-        <div className='flex gap-24 laptop:gap-16 desktop:gap-40 flex-wrap laptop:p-0 laptop:flex-nowrap laptop:overflow-hidden laptop:max-h-[1150px]'>
-          {/* ----------- left side ---------- */}
-          <div className='flex-1/2 flex flex-col gap-[50px] py-8 laptop:px-2 laptop:pt-[100px] overflow-y-scroll overflow-x-hidden no-scrollbar desktop:px-2'>
-            <div className='flex flex-col gap-[14px] px-[20px] w-[70%] z-1'>
-              <h2 className='text-yellow'>Register Now</h2>
-              <h3 className='text-white'>
-                for At-home Swim Lessons with Sunsational
-              </h3>
-            </div>
+    <div className='relative desktop:h-[100vh] desktop:overflow-hidden'>
+      <Image
+        src={waterBg}
+        alt=''
+        className='w-full absolute top-0 left-0 desktop:w-[60vw] desktop:h-full -z-1'
+      />
+      <div className='absolute bg-yellow w-full h-full -z-2'></div>
 
+      <div className='relative flex flex-col desktop:flex-row desktop:max-w-[1440px] desktop:mx-auto desktop:h-[100vh]'>
+        <Link href='/' className='absolute top-0 left-0 z-2 desktop:translate-x-[100%]'>
+          <Image src={logoMobile} alt='' className='w-[180px] desktop:hidden' />
+          <Image src={logo} alt='' className='w-[80px] hidden desktop:block ' />
+        </Link>
+
+        {/* left */}
+        <div className='relative desktop:w-[55%]'>
+          <div className='absolute right-0 top-0 hidden desktop:block h-full w-6'>
+            <Wave className='text-yellow w-[110vh] h-6 absolute right-[15px] -top-1 origin-top-right rotate-[270deg]' />
+          </div>
+
+          <div className='flex px-6 desktop:px-28 pt-[90px] desktop:h-[280px]'>
+            <h1 className='font-bold font-primary max-w-[200px] leading-[1.15] sm:mx-auto xl:mx-[0] desktop:max-w-[300px]'>
+              <span className='block text-yellow text-[32px] desktop:text-5xl'>
+                Register Now
+              </span>
+              <span className='block text-off-white text-2xl desktop:text-[32px]'>
+                for At-Home Swim Lessons with Sunsational
+              </span>
+            </h1>
+          </div>
+
+          <div className='mt-12 mx-auto sm:max-w-[640px] desktop:h-[calc(100vh-280px)]'>
             <RegistrationFormWrapper
               databaseId={databaseId}
               secret={secret}
               formId={formId}
             />
           </div>
+        </div>
 
-          {/* ----------- right side ---------- */}
-          <div className='flex-1/2 flex flex-col items-center pt-16 px-8 sm:pb-8 bg-yellow overflow-y-scroll overflow-x-hidden no-scrollbar'>
+        {/* right */}
+        <div className='relative bg-yellow pt-16 px-2 desktop:w-[45%] desktop:px-6 desktop:pt-[185px] desktop:mt-0 desktop:h-full desktop:overflow-y-auto desktop:pb-14 orangeScroll'>
+          <div className='absolute left-0 top-0 w-full -translate-y-[90%] desktop:hidden'>
+            <Wave className='text-yellow w-full h-full' />
+          </div>
+          <div>
             {showLessonsPackageSummary ? (
               <LessonsPackageSummary
                 costPerLessonPerStudent='90.00'
@@ -146,6 +169,7 @@ const RegistrationPageLayout: React.FC<Props> = ({
             ) : (
               <ReviewsSlider withAutoplay={autoplaySliders} />
             )}
+
             <div className='w-max mx-[auto]'>
               <SmallCardSlider
                 cards={additionalCardsData}
@@ -158,14 +182,6 @@ const RegistrationPageLayout: React.FC<Props> = ({
             </div>
           </div>
         </div>
-
-        {/* <FilteredImage
-          src={wavyBorder}
-          filter={FilterClassEnum.None}
-          className={clsx(
-            'hidden absolute laptop:left-[-20px] laptop:top-0 laptop:h-full laptop:block'
-          )}
-        /> */}
       </div>
     </div>
   );

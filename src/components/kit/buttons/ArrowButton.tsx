@@ -32,7 +32,7 @@ const ArrowButton = (props: Props) => {
       className={`relative flex items-center justify-center font-semibold md:font-bold text-base md:text-[24px] group `}
     >
       <div
-        className={`flex relative z-10 justify-center items-center gap-4 arrow-button px-3 lg:px-5 py-[10px]  ${
+        className={`flex relative z-10 justify-center items-center gap-4 arrow-button min-w-[300px] px-3 lg:px-5 py-[10px]  ${
           props.buttonClasses ?? 'bg-brightYellow text-black'
         } duration-300`}
       >

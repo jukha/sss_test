@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from '../semantics/Typography';
 import { LessonOption, LessonPackage } from '@/types/lesson.types';
+import clsx from 'clsx';
 
 const PriceRow = ({ price, rate, discount }: LessonOption) => {
   if (!price) return null;
@@ -40,6 +41,7 @@ const LessonPricingCard = ({
   ribbonText,
   ribbonColor,
   cardColor,
+  blurPrice = true,
 }: LessonPackage) => {
   return (
     <div
@@ -55,7 +57,10 @@ const LessonPricingCard = ({
       </Typography>
 
       {/* Pricing Box */}
-      <div className='blur-lg lesson-pricing-card relative w-full p-8 gap-8 bg-white flex flex-col items-center overflow-hidden'>
+      <div className={clsx(
+        blurPrice && 'blur-lg',
+        'lesson-pricing-card relative w-full p-8 gap-8 bg-white flex flex-col items-center overflow-hidden'
+      )}>
         {options.map((option, index) => (
           <PriceRow
             key={index} // Consider a more stable key if options can be reordered/changed

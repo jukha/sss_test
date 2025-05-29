@@ -6,7 +6,6 @@ import React from 'react';
 import { SwimLessonFact } from '@/types/swim-lesson.types';
 import { Property } from 'csstype';
 import { FactBlock } from './FactBlock';
-import clsx from 'clsx';
 
 type Props = {
   decorationIconLeft?: React.ReactNode;
@@ -20,7 +19,7 @@ type Props = {
   imageAlt: string;
 };
 
-const WhySwimLessonsSection = ({
+const LessonFactsSection = ({
   decorationIconLeft,
   decorationIconRight,
   bgColor = 'var(--color-white)',
@@ -35,7 +34,7 @@ const WhySwimLessonsSection = ({
     <FeatureSection
       backgroundColor={bgColor}
       waveColor={bgColor}
-      className='mt-24'
+      className='my-24'
     >
       <Container className='flex flex-col justify-start items-center relative gap-10'>
         <Typography variant='h2' className='max-w-[837px] text-center z-10'>
@@ -48,13 +47,8 @@ const WhySwimLessonsSection = ({
           {descriptionTop}
         </Typography>
 
-        <div
-          className={clsx(
-            'w-full flex justify-center items-center relative overflow-x-clip lg:overflow-visible sm:my-24',
-            (facts?.length ?? 0) > 2 ? 'my-24' : 'my-12'
-          )}
-        >
-          <Image src={image} alt={imageAlt} className='z-20' />
+        <div className={`w-full flex justify-center items-center relative overflow-x-clip lg:overflow-visible ${(facts?.length??0)>2?"my-24":"my-12"} sm:my-24`}>
+          <Image src={image} alt={imageAlt} className='z-10' />
 
           {decorationIconLeft && (
             <div className='absolute w-[148px] h-[145px]  lg:h-[503px] lg:w-[592px] rotate-180 left-[-10%] top-[-20%] md:left-0 md:top-[-10%] opacity-50 '>
@@ -69,10 +63,9 @@ const WhySwimLessonsSection = ({
           )}
 
           <div
-            className={clsx(
-              'absolute w-full md:w-[80%] mobile:h-full inset-0 m-auto lg:-translate-y-1/12 z-20 flex flex-col',
+            className={`absolute w-full md:w-[80%] ${
               (facts?.length ?? 0) > 2 ? 'h-[200%]' : 'h-[150%]'
-            )}
+            }  mobile:h-full  inset-0 m-auto lg:-translate-y-1/12 z-20  flex flex-col`}
           >
             {facts?.map((fact, index) => (
               <FactBlock
@@ -97,4 +90,4 @@ const WhySwimLessonsSection = ({
   );
 };
 
-export default WhySwimLessonsSection;
+export default LessonFactsSection;

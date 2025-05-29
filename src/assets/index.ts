@@ -44,13 +44,13 @@ import magneticCardIcon from './images/magneticCard.svg';
 import featuredBlogImg from './images/featuredBlogImg.png';
 import parentsGroupLessonImg from './images/parentsGroupLessonImg.png';
 import whySwimLessons from './images/whySwimLessons.png';
-import dolphinIcon from "./images/dolphin.png";
-import goldfishIcon from "./images/goldfish.png";
-import jellyfishIcon from "./images/jellyfish.png";
-import seahorseIcon from "./images/seahorse.png";
-import sealIcon from "./images/seal.png";
-import starfishIcon from "./images/starfish.png";
-import tadpoleIcon from "./images/tadpole.png";
+import dolphinIcon from './images/dolphin.png';
+import goldfishIcon from './images/goldfish.png';
+import jellyfishIcon from './images/jellyfish.png';
+import seahorseIcon from './images/seahorse.png';
+import sealIcon from './images/seal.png';
+import starfishIcon from './images/starfish.png';
+import tadpoleIcon from './images/tadpole.png';
 
 //pictures
 import girlAndMom from './images/girlAndMom.webp';
@@ -105,7 +105,7 @@ import localPrivateHeroImg from './images/localPrivateHeroDesktop.png';
 import localPrivateHeroMobileImg from './images/localPrivateHeroMobile.png';
 import localBabyHero from './images/localBabyHero.png';
 import localBabyHeroMobile from './images/localBabyHeroMobile.png';
-import localBabyGeneralImage from './images/localBabyGeneralImage.png'
+import localBabyGeneralImage from './images/localBabyGeneralImage.png';
 import localBabySellingPointsImg from './images/localBabySellingPointSectionImg.png';
 import localBabySatisfactionGuaranteeImg from './images/localBabySatisfactionGuarantee.png';
 import bringYourPrivateSwimImg from './images/bringYourPrivateSwim.png';
@@ -123,6 +123,20 @@ import howItWorksLocalPrivateImg3 from './images/howItWorksLocalPrivateImg3.png'
 import satisfactionLocalPrivateImg from './images/satisfactionLocalPrivateImg.png';
 import suggestedArticle4 from './images/suggestedArticle4.png';
 import suggestedArticle5 from './images/suggestedArticle5.png';
+import localBabyLessonsPricingImg from './images/localBabyLessonsPricingImg.png';
+import localBabyLessonsNearMeImg from './images/localBabyLessonsNearMeImg.png';
+import howParentsAndBabySwimImg from './images/howParentsAndBabySwimImg.png';
+import featuredBabySwimInstructorImg from './images/featuredBabySwiminstructorImg.png';
+import featuredBabySwimInstructorImg2 from './images/featuredBabySwiminstructorImg2.png';
+import featuredBabySwimInstructorImg3 from './images/featuredBabySwiminstructorImg3.png';
+import localToddlerHero from './images/localToddlerHero.png';
+import localToddlerHeroMobile from './images/localToddlerHeroMobile.png';
+import localToddlerGeneralImage from './images/localToddlerGeneralImage.png'
+import localToddlerWhySwimLessons from './images/localToddlerWhySwimLessons.png';
+import localToddlerSatisfactionGuarantee from './images/localToddlerSatisfactionGuarantee.png';
+import localToddlerWhyUs from './images/localToddlerWhyUs.png';
+import benefitsOfKidsSwim from './images/benefitsOfkidsSwim.png';
+import benefitsOfKidsSwim2 from './images/benefitsOfKidsSwim2.png';
 
 // figures
 import curveOval from './images/curveOval.svg';
@@ -281,4 +295,18 @@ export {
   satisfactionLocalPrivateImg,
   suggestedArticle4,
   suggestedArticle5,
+  localBabyLessonsPricingImg,
+  localBabyLessonsNearMeImg,
+  howParentsAndBabySwimImg,
+  featuredBabySwimInstructorImg,
+  featuredBabySwimInstructorImg2,
+  featuredBabySwimInstructorImg3,
+  localToddlerHeroMobile,
+  localToddlerHero,
+  localToddlerGeneralImage,
+  localToddlerWhySwimLessons,
+  localToddlerSatisfactionGuarantee,
+  localToddlerWhyUs,
+  benefitsOfKidsSwim,
+  benefitsOfKidsSwim2
 };

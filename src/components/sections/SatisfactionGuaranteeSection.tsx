@@ -43,7 +43,7 @@ const SatisfactionGuaranteeSection: React.FC<Props> = ({
         <div className='lg:w-[60%] relative z-0'>
           {/* Background circles */}
           <div className='absolute w-full -top-[60px] lg:-top-[109px] -left-[100px] -z-[1]  lg:scale-[1.20]'>
-            <BackgroundCircles color={bgCirclesColor}/>
+            <BackgroundCircles circlesColor={bgCirclesColor}/>
           </div>
           <Image
             src={image}

@@ -7,6 +7,7 @@ import '@/utils/styles/common.path.css';
 import '@/utils/styles/buttons.css';
 import '@/utils/styles/embla.review-section.css';
 import '@/utils/styles/embla.social-media-reviews-section.css';
+import '@/utils/styles/embla.feature-swim-instructor-section.css';
 
 export const metadata: Metadata = {
   title: 'Sunsational Swim School - At-Home Private Swimming Lessons',

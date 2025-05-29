@@ -16,10 +16,10 @@ export const FactBlock = ({ position, title, text, color = 'var(--color-yellow)'
       <div
         style={{ backgroundColor: color }}
         className={
-          'flex flex-col justify-center items-center chip-bg  px-[1em] md:px-[2em] py-[1em] max-h-[120px] md:max-h-[200px]'
+          'flex flex-col justify-center items-center chip-bg  px-[1em] md:px-[2em] py-[1.5em] max-h-[120px] md:max-h-[250px]'
         }
       >
-        <span className='inline-block text-[42px] lg:text-[80px] max-w-[219px] md:max-w-[414px] text-center font-primary font-bold leading-[112%]'>
+        <span className='inline-block text-[42px] lg:text-[80px] max-w-[219px] md:max-w-[414px] text-center font-primary font-bold leading-[80%]'>
           {title}
         </span>
 

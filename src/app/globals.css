@@ -21,7 +21,7 @@
   --breakpoint-desktop: 1440px;
 
   --color-yellow: #fedf46;
-  --color-darkYellow: #FFCE00;
+  --color-darkYellow: #ffce00;
   --color-lightYellow: #fff9e1;
   --color-brightYellow: #fdd733;
   --color-orange: #f86008;
@@ -30,15 +30,18 @@
   --color-darkBlue: #033d9a;
   --color-blue: #1a8dc6;
   --color-lightBlue: #c7eaf3;
-  --color-midGray: #D9D9D9;
+  --color-iceBlue: #eefcff;
+  --color-midGray: #d9d9d9;
   --color-lightGray: #f4f4f4;
   --color-gray: #8e8e8e;
   --color-teal: #00acb6;
+  --color-paleTeal: #8bd7e1;
   --color-white: #ffffff;
   --color-off-white: #fff9e1;
   --color-black: #000000;
   --color-red: #d60009;
   --color-lightRed: #d600090d;
+  --color-lightPeach: #fff5ef;
 
   --font-primary: Grandstander, sans-serif;
   --font-secondary: 'Rethink Sans', san-serif, Arial, Helvetica, sans-serif;
@@ -92,7 +95,6 @@ body {
 * {
   box-sizing: border-box;
 }
-
 
 .reviewCardScroll::-webkit-scrollbar {
   width: 6px;
