@@ -131,12 +131,26 @@ import featuredBabySwimInstructorImg2 from './images/featuredBabySwiminstructorI
 import featuredBabySwimInstructorImg3 from './images/featuredBabySwiminstructorImg3.png';
 import localToddlerHero from './images/localToddlerHero.png';
 import localToddlerHeroMobile from './images/localToddlerHeroMobile.png';
-import localToddlerGeneralImage from './images/localToddlerGeneralImage.png'
+import localToddlerGeneralImage from './images/localToddlerGeneralImage.png';
 import localToddlerWhySwimLessons from './images/localToddlerWhySwimLessons.png';
 import localToddlerSatisfactionGuarantee from './images/localToddlerSatisfactionGuarantee.png';
 import localToddlerWhyUs from './images/localToddlerWhyUs.png';
 import benefitsOfKidsSwim from './images/benefitsOfkidsSwim.png';
 import benefitsOfKidsSwim2 from './images/benefitsOfKidsSwim2.png';
+import localKidsHeroDesktop from './images/localKidsHeroDesktop.png';
+import localKidsHeroMobile from './images/localKidsHeroMobile.png';
+import safeFunTaughtAtHome from './images/safeFunTaughtAtHome.png';
+import whySwimLessonsImportantLocalKids from './images/whySwimLessonsImportantLocalKids.png';
+import satisfactionGuaranteeLocalKids from './images/satisfactionGuaranteeLocalKids.png';
+import localKidPricingImg from './images/localKidPricingImg.png';
+import localTeenHero from './images/localTeenHero.png';
+import localTeenHeroMobile from './images/localTeenHeroMobile.png';
+import localTeenGeneralImage1 from './images/localTeenGeneralImage1.png';
+import localTeenGeneralImage2 from './images/localTeenGeneralImage2.png';
+import localTeenWhyChooseUs from './images/localTeenWhyChooseUs.png';
+import localTeenSatisfactionGuarantee from './images/localTeenSatisfactionGuarantee.png';
+import localTeenLessonPricingImg from './images/localTeenLessonPricingImg.png';
+import localTeenGeneralImage3 from './images/localTeenGeneralImage3.png';
 
 // figures
 import curveOval from './images/curveOval.svg';
@@ -308,5 +322,19 @@ export {
   localToddlerSatisfactionGuarantee,
   localToddlerWhyUs,
   benefitsOfKidsSwim,
-  benefitsOfKidsSwim2
+  benefitsOfKidsSwim2,
+  localKidsHeroDesktop,
+  localKidsHeroMobile,
+  safeFunTaughtAtHome,
+  whySwimLessonsImportantLocalKids,
+  satisfactionGuaranteeLocalKids,
+  localKidPricingImg,
+  localTeenHero,
+  localTeenHeroMobile,
+  localTeenGeneralImage1,
+  localTeenGeneralImage2,
+  localTeenWhyChooseUs,
+  localTeenSatisfactionGuarantee,
+  localTeenLessonPricingImg,
+  localTeenGeneralImage3
 };

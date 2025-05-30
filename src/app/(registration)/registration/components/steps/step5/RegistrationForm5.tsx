@@ -15,7 +15,6 @@ import { convertDateFromUSFormatToInputValue, convertDateToUSFormat } from '@/he
 
 import GoBackTextButton from '../../shared/GoBackTextButton';
 import AlertBox from '../../shared/AlertBox';
-import { BuildOnFieldChangedEventHandler2, BuildOnFieldChangedHandlerFunction } from '../../../types';
 import TimesSelector from './components/TimeSelector';
 import FlexibleSchedule from './components/FlexibleSchedule';
 import DaysSelector from './components/DaysSelector';
@@ -55,17 +54,18 @@ const whenToBeginCards: WhenToBeginCard[] = [
 type Props = {
   onNextClicked: () => void;
   onPreviousClicked: () => void;
-  buildOnFieldChangedHandler: BuildOnFieldChangedHandlerFunction;
-  buildOnFieldChangedEventHandler2: BuildOnFieldChangedEventHandler2;
 };
 
 const RegistrationForm5: React.FC<Props> = ({
   onNextClicked,
   onPreviousClicked,
-  buildOnFieldChangedHandler,
-  buildOnFieldChangedEventHandler2,
 }) => {
-  const { registrationForm, registrationErrors, registrationErrorsText } = useRegistrationForm();
+  const {
+    registrationForm,
+    setRegistrationFormField,
+    registrationErrors,
+    registrationErrorsText,
+  } = useRegistrationForm();
 
   const {
     lessonFrequency: formLessonsFrequency,
@@ -78,28 +78,28 @@ const RegistrationForm5: React.FC<Props> = ({
     additionalSchedulingInformation,
   } = registrationForm ?? {};
 
-  const setLessonFrequency = buildOnFieldChangedHandler('lessonFrequency');
-  const setCustomerWouldLikeToBegin = buildOnFieldChangedHandler('customerWouldLikeToBegin');
-  const setPreferredLessonBeginDate = buildOnFieldChangedHandler('preferredLessonBeginDate');
+  const setLessonFrequency = (value: number) => { setRegistrationFormField('lessonFrequency', value); };
+  const setCustomerWouldLikeToBegin = (value: string) => { setRegistrationFormField('customerWouldLikeToBegin', value); };
+  const setPreferredLessonBeginDate = (value: string) => { setRegistrationFormField('preferredLessonBeginDate', value); };
 
   const showDatePicker = customerWouldLikeToBegin === WhenToBeginEnum.Specific;
   const inputDateValue = convertDateFromUSFormatToInputValue(preferredLessonBeginDate ?? '');
   const lessonFrequency = !formLessonsFrequency ? 0 : formLessonsFrequency;
 
   const setSelectedDays = (days: DaysEnum[]) => {
-    buildOnFieldChangedHandler('selectedDays')(sortDays(days).join(' '));
+    setRegistrationFormField('selectedDays', sortDays(days).join(' '));
   };
 
   const setSelectedWeekdayTimes = (times: TimesEnum[]) => {
-    buildOnFieldChangedHandler('selectedWeekdayTimes')(sortTimes(times).join(' '));
+    setRegistrationFormField('selectedWeekdayTimes', sortTimes(times).join(' '));
   };
 
   const setSelectedWeekendTimes = (times: TimesEnum[]) => {
-    buildOnFieldChangedHandler('selectedWeekendTimes')(sortTimes(times).join(' '));
+    setRegistrationFormField('selectedWeekendTimes', sortTimes(times).join(' '));
   };
 
-  const setFlexibleSchedule = buildOnFieldChangedHandler('flexibleSchedule');
-  const setAdditionalSchedulingInformation = buildOnFieldChangedEventHandler2('additionalSchedulingInformation');
+  const setFlexibleSchedule = (value: boolean) => { setRegistrationFormField('flexibleSchedule', value); };
+  const setAdditionalSchedulingInformation = (e: React.ChangeEvent<HTMLTextAreaElement>) => { setRegistrationFormField('additionalSchedulingInformation', e.target.value); };
 
   const selectedWeekdayTimesArray = (selectedWeekdayTimes ? selectedWeekdayTimes.split(' ') : []) as TimesEnum[];
 

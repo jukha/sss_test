@@ -21,11 +21,6 @@ import useLessonsPackages from '@/hooks/use-lesson-packages';
 import { validateFormStep, validateFormField } from '../../logic/validation';
 import { sendDataToServer } from '../../logic/send.data';
 import {
-  OnFieldChangedHandlerFunction,
-  OnFieldChangedEventHandlerProps,
-  OnFieldChangedEventHandlerFunction,
-  OnFieldChangedEventHandlerProps2,
-  OnFieldChangedEventHandlerFunction2,
   OnFieldFocusLostHandlerFunction,
 } from '../../types';
 
@@ -38,7 +33,6 @@ type Props = {
 const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
   const {
     registrationForm,
-    setRegistrationForm,
     registrationStep,
     setRegistrationStep,
     switchToNextStep,
@@ -83,45 +77,6 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
     switchToPreviousStep();
   };
 
-  function setRegistrationFormField(fieldName: string, fieldValue: unknown) {
-    if (registrationForm) {
-      // @ts-expect-error Dynamic field name construction
-      registrationForm[fieldName] = fieldValue;
-    }
-
-    setRegistrationForm({
-      ...registrationForm!,
-      [fieldName]: fieldValue,
-    });
-
-    // @ts-expect-error Dynamic field name construction
-    clearFieldRegistrationErrors(fieldName);
-  }
-
-  function buildOnFieldChangedHandler(
-    fieldName: string
-  ): OnFieldChangedHandlerFunction {
-    return (fieldValue: unknown) => {
-      setRegistrationFormField(fieldName, fieldValue);
-    };
-  }
-
-  function buildOnFieldChangedEventHandler(
-    fieldName: string
-  ): OnFieldChangedEventHandlerFunction {
-    return (e: OnFieldChangedEventHandlerProps) => {
-      setRegistrationFormField(fieldName, e.target.value);
-    };
-  }
-
-  function buildOnFieldChangedEventHandler2(
-    fieldName: string
-  ): OnFieldChangedEventHandlerFunction2 {
-    return (e: OnFieldChangedEventHandlerProps2) => {
-      setRegistrationFormField(fieldName, e.target.value);
-    };
-  }
-
   function buildOnFieldFocusLostHandler(
     fieldName: keyof RegistrationForm
   ): OnFieldFocusLostHandlerFunction {
@@ -143,7 +98,6 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       <RegistrationForm1
         registrationDataIsLoading={false}
         onNextClicked={onNextClicked}
-        buildOnFieldChangedHandler={buildOnFieldChangedHandler}
         buildOnFieldFocusLostHandler={buildOnFieldFocusLostHandler}
       />
     ),
@@ -166,9 +120,6 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       <RegistrationForm2
         onNextClicked={onNextClicked}
         onPreviousClicked={onPreviousClicked}
-        buildOnFieldChangedHandler={buildOnFieldChangedHandler}
-        buildOnFieldChangedEventHandler={buildOnFieldChangedEventHandler}
-        buildOnFieldChangedEventHandler2={buildOnFieldChangedEventHandler2}
         buildOnFieldFocusLostHandler={buildOnFieldFocusLostHandler}
       />
     ),
@@ -176,8 +127,6 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       <RegistrationForm3
         onNextClicked={onNextClicked}
         onPreviousClicked={onPreviousClicked}
-        buildOnFieldChangedHandler={buildOnFieldChangedHandler}
-        buildOnFieldChangedEventHandler={buildOnFieldChangedEventHandler}
         buildOnFieldFocusLostHandler={buildOnFieldFocusLostHandler}
       />
     ),
@@ -196,15 +145,12 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       <RegistrationForm5
         onNextClicked={onNextClicked}
         onPreviousClicked={onPreviousClicked}
-        buildOnFieldChangedHandler={buildOnFieldChangedHandler}
-        buildOnFieldChangedEventHandler2={buildOnFieldChangedEventHandler2}
       />
     ),
     [RegistrationStepEnum.Step6]: (
       <RegistrationForm6
         onNextClicked={onNextClicked}
         onPreviousClicked={onPreviousClicked}
-        buildOnFieldChangedHandler={buildOnFieldChangedHandler}
         buildOnFieldFocusLostHandler={buildOnFieldFocusLostHandler}
       />
     ),
@@ -212,7 +158,6 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       <RegistrationForm7
         onNextClicked={onNextClicked}
         onPreviousClicked={onPreviousClicked}
-        buildOnFieldChangedHandler={buildOnFieldChangedHandler}
       />
     ),
     [RegistrationStepEnum.Step7OrderConfirmed]: <OrderConfirmed />,

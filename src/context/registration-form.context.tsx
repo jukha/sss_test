@@ -13,6 +13,8 @@ export interface RegistrationFormContextType {
   registrationForm: RegistrationForm | null;
   setRegistrationForm: (form: RegistrationForm) => void;
 
+  setRegistrationFormField: (fieldName: string, fieldValue: unknown) => void;
+
   registrationStep: RegistrationStepEnum;
   setRegistrationStep: (step: RegistrationStepEnum) => void;
   switchToNextStep: () => void;
@@ -120,11 +122,28 @@ export const RegistrationFormProvider = ({
     setRegistrationErrorsText(null);
   };
 
+  const setRegistrationFormField = (fieldName: string, fieldValue: unknown) => {
+    if (registrationForm) {
+      // @ts-expect-error Dynamic field name construction
+      registrationForm[fieldName] = fieldValue;
+    }
+
+    setRegistrationForm({
+      ...registrationForm!,
+      [fieldName]: fieldValue,
+    });
+
+    // @ts-expect-error Dynamic field name construction
+    clearFieldRegistrationErrors(fieldName);
+  };
+
   return (
     <RegistrationFormContext.Provider
       value={{
         registrationForm,
         setRegistrationForm,
+
+        setRegistrationFormField,
 
         registrationStep,
         setRegistrationStep,

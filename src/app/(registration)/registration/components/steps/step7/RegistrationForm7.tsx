@@ -10,7 +10,6 @@ import { accreditedBusinessLogo, blackArrow } from '@/assets';
 import GoBackTextButton from '../../shared/GoBackTextButton';
 import UpgradeLessonsCTA from './components/UpgradeLessonsCTA';
 import CreditCardDetails from './components/CreditCardDetails';
-import { BuildOnFieldChangedHandlerFunction } from '../../../types';
 
 const POLICY_URL =
   'https://legal-docs-public.s3.us-west-2.amazonaws.com/Swim+Lesson+Agreement+2023_website.pdf';
@@ -18,18 +17,18 @@ const POLICY_URL =
 type Props = {
   onNextClicked: () => void;
   onPreviousClicked: () => void;
-  buildOnFieldChangedHandler: BuildOnFieldChangedHandlerFunction;
 };
 
 const RegistrationForm7: React.FC<Props> = ({
   onNextClicked,
   onPreviousClicked,
-  buildOnFieldChangedHandler,
 }) => {
-  const { registrationForm } = useRegistrationForm();
+  const {
+    registrationForm,
+    setRegistrationFormField,
+  } = useRegistrationForm();
   const { policiesAgreement } = registrationForm ?? {};
 
-  const setPoliciesAgreement = buildOnFieldChangedHandler('policiesAgreement');
   const { creditCardData, setCreditCardData } = usePaymentDetails();
   const [showPromocodeInput, setShowPromocodeInput] = useState(false);
 
@@ -81,7 +80,7 @@ const RegistrationForm7: React.FC<Props> = ({
         <CustomCheckbox
           className='w-max'
           checked={policiesAgreement}
-          onClick={setPoliciesAgreement}
+          onClick={(value) => { setRegistrationFormField('policiesAgreement', value); }}
         />
         <p className='leading-[1.2] font-medium'>
           I have read and agree to the{' '}

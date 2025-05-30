@@ -122,7 +122,7 @@ const LessonPricingSection: React.FC<LessonPricingSectionType> = ({
           text={'Book Swimming Lessons'}
           buttonClasses='bg-offBlack text-white'
           IconClasses='bg-yellow'
-          iconColor='var(--color-white)'
+          iconColor='var(--color-offBlack)'
           link='/registration'
         />
       </div>
@@ -131,7 +131,7 @@ const LessonPricingSection: React.FC<LessonPricingSectionType> = ({
       {footerLessonSplitInfo && (
         <Typography
           variant='custom'
-          className='font-bold font-secondary leading-[120%] text-center text-[14px] uppercase text-offBlack'
+          className='font-bold font-secondary leading-[120%] text-center text-[14px] uppercase text-offBlack whitespace-pre-wrap'
         >
           {footerLessonSplitInfo}
         </Typography>

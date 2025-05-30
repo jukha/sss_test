@@ -16,13 +16,11 @@ import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import { validateFormStep } from '../../../logic/validation';
 // import { sendDataToServer } from '../../../logic/send.data';
 import {
-  BuildOnFieldChangedHandlerFunction,
   BuildOnFieldFocusLostHandlerFunction
 } from '../../../types';
 
 type Props = {
   onNextClicked: () => void;
-  buildOnFieldChangedHandler: BuildOnFieldChangedHandlerFunction;
   buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
   registrationDataIsLoading: boolean;
 };
@@ -31,13 +29,13 @@ const prepareZipValue = (v: string) => v.replace(/\D/gi, '').slice(0, 5);
 
 const RegistrationForm1 = ({
   onNextClicked,
-  buildOnFieldChangedHandler,
   buildOnFieldFocusLostHandler,
   registrationDataIsLoading
 }: Props) => {
 
   const {
     registrationForm,
+    setRegistrationFormField,
     registrationErrors,
     registrationErrorsText,
     // setZipCodeError,
@@ -49,8 +47,6 @@ const RegistrationForm1 = ({
 
   const [checkingServiceability, setCheckingServiceability] = useState(false);
 
-  const setZip = buildOnFieldChangedHandler('zip');
-  const setCustomerHasAccessToPool = buildOnFieldChangedHandler('customerHasAccessToPool');
   const onZipFocusLost = buildOnFieldFocusLostHandler('zip');
 
   const loading =
@@ -116,7 +112,7 @@ const RegistrationForm1 = ({
         value={getZipCodeValue()}
         error={registrationErrors?.zip}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setZip(prepareZipValue(e.target.value))
+          setRegistrationFormField('zip', prepareZipValue(e.target.value))
         }
         onBlur={onZipFocusLost}
         icon={placeMarker}
@@ -140,13 +136,13 @@ const RegistrationForm1 = ({
           <CustomButton
             text='Yes'
             width='50%'
-            onClick={() => setCustomerHasAccessToPool(true)}
+            onClick={() => setRegistrationFormField('customerHasAccessToPool', true)}
             isActive={registrationForm?.customerHasAccessToPool === true}
           />
           <CustomButton
             text='No'
             width='50%'
-            onClick={() => setCustomerHasAccessToPool(false)}
+            onClick={() => setRegistrationFormField('customerHasAccessToPool', false)}
             isActive={registrationForm?.customerHasAccessToPool === false}
           />
         </div>

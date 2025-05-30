@@ -24,7 +24,6 @@ import { useAddressSuggestions } from './hooks';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import { isZipCodeValid } from './helpers';
 import {
-  BuildOnFieldChangedHandlerFunction,
   BuildOnFieldFocusLostHandlerFunction,
 } from '../../../types';
 
@@ -89,7 +88,6 @@ const maxTravelDistance: SelectListCard[] = [
 
 type Props = {
   buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
-  buildOnFieldChangedHandler: BuildOnFieldChangedHandlerFunction;
   onNextClicked: () => void;
   onPreviousClicked: () => void;
 };
@@ -98,10 +96,14 @@ const RegistrationForm6: React.FC<Props> = ({
   onNextClicked,
   onPreviousClicked,
   buildOnFieldFocusLostHandler,
-  buildOnFieldChangedHandler,
 }) => {
-  const { registrationForm, registrationErrors, registrationErrorsText } =
-    useRegistrationForm();
+  const {
+    registrationForm,
+    setRegistrationFormField,
+    registrationErrors,
+    registrationErrorsText,
+  } = useRegistrationForm();
+
   const {
     zip: initialZip,
     poolAddress,
@@ -109,9 +111,7 @@ const RegistrationForm6: React.FC<Props> = ({
     customerHasAccessToPool,
   } = registrationForm ?? {};
 
-  const setZip = buildOnFieldChangedHandler('zip');
-  const setPoolAddress = buildOnFieldChangedHandler('poolAddress');
-  const setPoolType = buildOnFieldChangedHandler('poolType');
+  const setPoolAddress = (value: string) => { setRegistrationFormField('poolAddress', value); };
 
   const poolAddressInputRef = useRef<PoolAddressInputRef>(null);
 
@@ -182,7 +182,7 @@ const RegistrationForm6: React.FC<Props> = ({
     const zipFromSuggestion = suggestion.text.slice(-5);
 
     if (isZipCodeValid(zipFromSuggestion)) {
-      setZip(zipFromSuggestion);
+      setRegistrationFormField('zip', zipFromSuggestion);
       compareZipAndZipFromSuggestion(zipFromSuggestion);
     }
 
@@ -278,7 +278,7 @@ const RegistrationForm6: React.FC<Props> = ({
                 selectedCard={cardsSelectorsValues.poolType}
                 onChange={(card) => {
                   handleCardSelectorsChange('poolType')(card);
-                  setPoolType(card?.value);
+                  setRegistrationFormField('poolType', card?.value);
                 }}
               />
 

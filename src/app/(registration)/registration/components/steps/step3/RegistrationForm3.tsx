@@ -6,8 +6,6 @@ import AdditionalParentGuardian from './components/AdditionalParentGuardian';
 import {blackArrow, mail, mobile, personIcon} from '@/assets';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import {
-  BuildOnFieldChangedHandlerFunction,
-  BuildOnFieldChangedEventHandler,
   BuildOnFieldFocusLostHandlerFunction
 } from '../../../types';
 
@@ -15,8 +13,6 @@ import {
 type Props = {
   onNextClicked: () => void;
   onPreviousClicked: () => void;
-  buildOnFieldChangedHandler: BuildOnFieldChangedHandlerFunction;
-  buildOnFieldChangedEventHandler: BuildOnFieldChangedEventHandler;
   buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
 };
 
@@ -48,15 +44,14 @@ const formatPhoneNumber = (v: string | null | undefined) => {
 const RegistrationForm3: React.FC<Props> = ({
   onNextClicked,
   onPreviousClicked,
-  buildOnFieldChangedHandler,
-  buildOnFieldChangedEventHandler,
   buildOnFieldFocusLostHandler,
 }) => {
 
   const {
     registrationForm,
+    setRegistrationFormField,
     registrationErrors,
-    registrationErrorsText
+    registrationErrorsText,
   } = useRegistrationForm();
 
   const showAdditionalParentGuardians = !registrationForm?.isCustomerAParentGuardianOfAll;
@@ -64,39 +59,6 @@ const RegistrationForm3: React.FC<Props> = ({
   const getStudentsCount = () => {
     return registrationForm?.studentsCount || 0;
   };
-
-  const setFirstName = buildOnFieldChangedEventHandler('firstName');
-  const setLastName = buildOnFieldChangedEventHandler('lastName');
-  const setEmail = buildOnFieldChangedEventHandler('email');
-
-  const setPhoneHandler = buildOnFieldChangedHandler('phone');
-  const setPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneHandler(formatPhoneNumber(e.target.value));
-  };
-
-  const onParentGuardianNameChangeHandlers: ((e: React.ChangeEvent<HTMLInputElement>) => void)[] = [];
-  for (let i = 1; i <= getStudentsCount(); i++) {
-    // @ts-expect-error Dynamic field name construction
-    onParentGuardianNameChangeHandlers[i] = buildOnFieldChangedEventHandler(`parentGuardianName${i}`);
-  }
-
-  const onParentGuardianEmailChangeHandlers: ((e: React.ChangeEvent<HTMLInputElement>) => void)[] = [];
-  for (let i = 1; i <= getStudentsCount(); i++) {
-    // @ts-expect-error Dynamic field name construction
-    onParentGuardianEmailChangeHandlers[i] = buildOnFieldChangedEventHandler(`parentGuardianEmail${i}`);
-  }
-
-  const setParentGuardianNameHandlers: ((name: string) => void)[] = [];
-  for (let i = 1; i <= getStudentsCount(); i++) {
-    // @ts-expect-error Dynamic field name construction
-    setParentGuardianNameHandlers[i] = buildOnFieldChangedHandler(`parentGuardianName${i}`);
-  }
-
-  const setParentGuardianEmailHandlers: ((email: string) => void)[] = [];
-  for (let i = 1; i <= getStudentsCount(); i++) {
-    // @ts-expect-error Dynamic field name construction
-    setParentGuardianEmailHandlers[i] = buildOnFieldChangedHandler(`parentGuardianEmail${i}`);
-  }
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -118,7 +80,7 @@ const RegistrationForm3: React.FC<Props> = ({
               error={registrationErrors?.firstName}
               text='First Name*'
               icon={personIcon}
-              onChange={setFirstName}
+              onChange={(e) => { setRegistrationFormField('firstName', e.target.value); }}
               onBlur={buildOnFieldFocusLostHandler('firstName')}
             />
 
@@ -127,7 +89,7 @@ const RegistrationForm3: React.FC<Props> = ({
               error={registrationErrors?.lastName}
               text='Last Name*'
               icon={personIcon}
-              onChange={setLastName}
+              onChange={(e) => { setRegistrationFormField('lastName', e.target.value); }}
               onBlur={buildOnFieldFocusLostHandler('lastName')}
             />
           </div>
@@ -138,14 +100,14 @@ const RegistrationForm3: React.FC<Props> = ({
             text='Email Address*'
             icon={mail}
             type='email'
-            onChange={setEmail}
+            onChange={(e) => { setRegistrationFormField('email', e.target.value); }}
             onBlur={buildOnFieldFocusLostHandler('email')}
           />
 
           <CustomInput
             value={formatPhoneNumber(registrationForm?.phone)}
             error={registrationErrors?.phone}
-            onChange={setPhone}
+            onChange={(e) => { setRegistrationFormField('phone', formatPhoneNumber(e.target.value)); }}
             text='Phone Number*'
             icon={mobile}
             type='phone'
@@ -176,10 +138,10 @@ const RegistrationForm3: React.FC<Props> = ({
                   nameError={registrationErrors?.[`parentGuardianName${i+1}`]}
                   // @ts-expect-error Dynamic field name construction
                   emailError={registrationErrors?.[`parentGuardianEmail${i+1}`]}
-                  onNameChange={onParentGuardianNameChangeHandlers[i+1]}
-                  onEmailChange={onParentGuardianEmailChangeHandlers[i+1]}
-                  setName={setParentGuardianNameHandlers[i+1]}
-                  setEmail={setParentGuardianEmailHandlers[i+1]}
+                  onNameChange={(e) => { setRegistrationFormField(`parentGuardianName${i+1}`, e.target.value); }}
+                  onEmailChange={(e) => { setRegistrationFormField(`parentGuardianEmail${i+1}`, e.target.value); }}
+                  setName={(value) => { setRegistrationFormField(`parentGuardianName${i+1}`, value); }}
+                  setEmail={(value) => { setRegistrationFormField(`parentGuardianEmail${i+1}`, value); }}
                   // @ts-expect-error Dynamic field name construction
                   onNameBlur={buildOnFieldFocusLostHandler(`parentGuardianName${i+1}`)}
                   // @ts-expect-error Dynamic field name construction
