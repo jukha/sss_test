@@ -1,9 +1,9 @@
-import {z} from 'zod';
-import {extractZodErrors} from '@/utils/extract-zod-errors';
-import {CustomerRegistration} from '@/__generated__/prisma/client';
-import {registrationSettings} from '@/app/api/registration/settings';
-import {ValidationException} from '@/exceptions/validation.exception';
-import {updateRegistration, addRegistrationHistoryRecord} from '@/app/api/registration/utils/registration-record';
+import { z } from 'zod';
+import { extractZodErrors } from '@/utils/extract-zod-errors';
+import { CustomerRegistration } from '@/__generated__/prisma/client';
+import { registrationSettings } from '@/app/api/registration/settings';
+import { ValidationException } from '@/exceptions/validation.exception';
+import { addRegistrationHistoryRecord, updateRegistration } from '@/app/api/registration/utils/registration-record';
 
 
 type ConstructorOptions<S> = {
@@ -38,7 +38,7 @@ export class RegistrationStepController<S> {
   }
 
 
-  async post({registration, freshData}: PostOptions<S>) {
+  async put({registration, freshData}: PostOptions<S>) {
     this.throwIfValidationDoesNotPass(freshData);
 
     let data: Partial<CustomerRegistration> = {...freshData as Partial<CustomerRegistration>};

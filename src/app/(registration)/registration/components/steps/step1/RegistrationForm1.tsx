@@ -14,13 +14,15 @@ import { checkServiceabilityByZip } from '@/utils/check-serviceability-by-zip';
 import { ServiceabilityErrorEnum } from '@/enum/serviceability-error.enum';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import { validateFormStep } from '../../../logic/validation';
-// import { sendDataToServer } from '../../../logic/send.data';
-import {
-  BuildOnFieldFocusLostHandlerFunction
-} from '../../../types';
+import { BuildOnFieldFocusLostHandlerFunction } from '../../../types';
+
+const SERVICEABILITY_ERROR_TO_STEP_MAPPING = {
+  [ServiceabilityErrorEnum.NoPools]: RegistrationStepEnum.Step1NoPoolsError,
+  [ServiceabilityErrorEnum.OutsideArea]: RegistrationStepEnum.Step1OutsideAreaError,
+}
 
 type Props = {
-  onNextClicked: () => void;
+  onNextClicked: (options?: {shouldSwitchToNextStep?: boolean}) => Promise<void>;
   buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
   registrationDataIsLoading: boolean;
 };
@@ -43,6 +45,7 @@ const RegistrationForm1 = ({
     setRegistrationStep,
     setRegistrationErrors,
   } = useRegistrationForm();
+
   const locationsAndPricing = useLocationsAndPricing();
 
   const [checkingServiceability, setCheckingServiceability] = useState(false);
@@ -55,44 +58,38 @@ const RegistrationForm1 = ({
     checkingServiceability;
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    try {
-      e.preventDefault();
+    e.preventDefault();
 
-      if (!locationsAndPricing.data) {
-        throw new Error('Not loaded yet');
-      }
-
-      const validationErrors = validateFormStep(registrationForm, registrationStep);
-
-      if (validationErrors) {
-        setRegistrationErrors(validationErrors);
-        return;
-      } else {
-        setRegistrationErrors({});
-      }
-
-      setCheckingServiceability(true);
-
-      const zipCodeError = await checkServiceabilityByZip({
-        zipCode: registrationForm?.zip || '',
-        requirePool: !registrationForm?.customerHasAccessToPool,
-        locationsAndPricing: locationsAndPricing.data,
-      });
-
-      setCheckingServiceability(false);
-
-      if (zipCodeError == ServiceabilityErrorEnum.NoPools) {
-        setRegistrationStep(RegistrationStepEnum.Step1NoPoolsError);
-        return;
-      } else if (zipCodeError == ServiceabilityErrorEnum.OutsideArea) {
-        setRegistrationStep(RegistrationStepEnum.Step1OutsideAreaError);
-        return;
-      }
-
-      onNextClicked();
-    } catch (error) {
-      console.log(error);
+    if (!locationsAndPricing.data) {
+      throw new Error('Not loaded yet');
     }
+
+    const validationErrors = validateFormStep(registrationForm, registrationStep);
+
+    if (validationErrors) {
+      setRegistrationErrors(validationErrors);
+      return;
+    } else {
+      setRegistrationErrors({});
+    }
+
+    const serviceabilityCheckOptions = {
+      zipCode: registrationForm?.zip || '',
+      requirePool: !registrationForm?.customerHasAccessToPool,
+      locationsAndPricing: locationsAndPricing.data,
+    }
+
+    setCheckingServiceability(true);
+    const serviceabilityError = await checkServiceabilityByZip(serviceabilityCheckOptions);
+    setCheckingServiceability(false);
+
+    if (!serviceabilityError) {
+      await onNextClicked();
+      return;
+    }
+
+    setRegistrationStep(SERVICEABILITY_ERROR_TO_STEP_MAPPING[serviceabilityError]);
+    await onNextClicked({shouldSwitchToNextStep: false});
   };
 
   const getZipCodeValue = () => {

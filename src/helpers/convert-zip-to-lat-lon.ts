@@ -1,4 +1,4 @@
-import fetchData from '@/helpers/fetch-data';
+import { tryFetchData } from '@/helpers/fetch-data';
 
 const HERE_APP_ID = process.env.NEXT_PUBLIC_HERE_APP_ID;
 const HERE_APP_CODE = process.env.NEXT_PUBLIC_HERE_APP_CODE;
@@ -26,10 +26,10 @@ export async function convertZipToLatLon(zipCode: string) {
 
   const url = `https://geocoder.api.here.com/6.2/geocode.json?app_id=${HERE_APP_ID}&app_code=${HERE_APP_CODE}&postalcode=${zipCode}&country=USA`
 
-  const {data} = await fetchData<HereApiResponse, null>({
+  const {data} = await tryFetchData<HereApiResponse, null>({
     url,
     method: 'GET',
-    jsonHeaderInRequest: false
+    jsonHeaderInRequest: false,
   })
 
   if (!data) throw new Error('Error while calling HERE API');

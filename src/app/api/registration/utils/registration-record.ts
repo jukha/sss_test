@@ -8,12 +8,10 @@ import {RegistrationRecordIdentifier} from '@/app/api/registration/utils/types';
 import {sanitizeRegistration} from '@/app/api/registration/utils/sanitize-registration';
 
 
-export const createRegistration = async (data: Partial<CustomerRegistration>): Promise<CustomerRegistration> => {
+export const createRegistration = (data: Partial<CustomerRegistration>): Promise<CustomerRegistration> => {
   data.secret = generateRegistrationSecret();
-
-  return await prismaClient.customerRegistration.create({data});
+  return prismaClient.customerRegistration.create({data: {...data, version: data.version || 1}});
 };
-
 
 export const loadRegistration = async (recordIdentifier: RegistrationRecordIdentifier): Promise<CustomerRegistration | null> => {
   if (!recordIdentifier.id || !recordIdentifier.secret || !recordIdentifier.formTypeId) {
@@ -37,16 +35,16 @@ export type UpdateRegistrationParams = {
   data: Partial<CustomerRegistration>
 }
 
-export const updateRegistration = async ({id, data}: UpdateRegistrationParams): Promise<CustomerRegistration> => {
-  return await prismaClient.customerRegistration.update({
+export const updateRegistration = ({id, data}: UpdateRegistrationParams): Promise<CustomerRegistration> => {
+  return prismaClient.customerRegistration.update({
     where: {id},
     data: data
   });
 };
 
 
-export const addRegistrationHistoryRecord = async (registration: CustomerRegistration): Promise<CustomerRegistrationHistory> => {
-  return await prismaClient.customerRegistrationHistory.create({
+export const addRegistrationHistoryRecord = (registration: CustomerRegistration): Promise<CustomerRegistrationHistory> => {
+  return prismaClient.customerRegistrationHistory.create({
     data: {
       // timestamp: new Date(),
       data: JSON.stringify(sanitizeRegistration(registration)),

@@ -1,5 +1,5 @@
 import urlJoin from 'url-join';
-import fetchData from '@/helpers/fetch-data';
+import { tryFetchData } from '@/helpers/fetch-data';
 
 const SENDGRID_API_KEY = process.env.NEXT_PUBLIC_SENDGRID_API_KEY!;
 const SENDGRID_API = process.env.NEXT_PUBLIC_SENDGRID_API!;
@@ -18,13 +18,13 @@ class Sendgrid {
   async validateEmail(email: string) {
     const endpoint = urlJoin(SENDGRID_API, '/v3/validations/email');
 
-    const {data} = await fetchData<EmailValidationResponseDto, EmailValidationRequestDto>({
+    const {data} = await tryFetchData<EmailValidationResponseDto, EmailValidationRequestDto>({
       url: endpoint,
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${SENDGRID_API_KEY}`
       },
-      data: {email}
+      data: {email},
     })
 
     if (!data) throw new Error('Unable to validate email');

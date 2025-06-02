@@ -64,7 +64,7 @@ const FlexibleSchedule: React.FC<Props> = ({
         onClick={() => setShowTextArea((prev) => !prev)}
         icon={showTextArea ? minus : plus}
         className='text-start flex-row-reverse p-[16px] desktop:w-[90%] !bg-lightBlue !w-[226px]'
-        textClassName='text-sm leading-[120%]'
+        textClassName='text-sm leading-[120%] text-offBlack'
       />
 
       {showTextArea && (

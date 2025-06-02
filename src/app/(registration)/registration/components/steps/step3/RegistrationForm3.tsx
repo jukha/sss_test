@@ -3,16 +3,14 @@ import CustomCurveButton from '@/components/CustomCurveButton';
 import AlertBox from '../../shared/AlertBox';
 import GoBackTextButton from '../../shared/GoBackTextButton';
 import AdditionalParentGuardian from './components/AdditionalParentGuardian';
-import {blackArrow, mail, mobile, personIcon} from '@/assets';
+import { blackArrow, mail, mobile, personIcon } from '@/assets';
 import { useRegistrationForm } from '@/context/registration-form.context';
-import {
-  BuildOnFieldFocusLostHandlerFunction
-} from '../../../types';
+import { BuildOnFieldFocusLostHandlerFunction } from '../../../types';
 
 
 type Props = {
-  onNextClicked: () => void;
-  onPreviousClicked: () => void;
+  onNextClicked: () => Promise<void>;
+  onPreviousClicked: () => Promise<void>;
   buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
 };
 
@@ -46,7 +44,6 @@ const RegistrationForm3: React.FC<Props> = ({
   onPreviousClicked,
   buildOnFieldFocusLostHandler,
 }) => {
-
   const {
     registrationForm,
     setRegistrationFormField,
@@ -67,10 +64,7 @@ const RegistrationForm3: React.FC<Props> = ({
 
   return (
     <div className='flex flex-col gap-[34px]'>
-      <GoBackTextButton
-        text='Guardian/Parent Details'
-        onClick={onPreviousClicked}
-      />
+      <GoBackTextButton text='Guardian/Parent Details' onClick={onPreviousClicked} />
 
       <form onSubmit={submitHandler} className='flex flex-col gap-[34px]'>
         <div className='flex flex-col gap-8 font-secondary font-medium font-'>
@@ -171,11 +165,7 @@ const RegistrationForm3: React.FC<Props> = ({
       </form>
 
       <div className='flex justify-center'>
-        <GoBackTextButton
-          size='small'
-          text='Back to student details'
-          onClick={onPreviousClicked}
-        />
+        <GoBackTextButton size='small' text='Back to student details' onClick={onPreviousClicked} />
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ type Props = {
   onChange: (v: Choice) => void;
   onBlur?: (e: React.ChangeEvent<HTMLButtonElement>) => void;
   className?: string;
+  dropdownWrapperClassName?: string;
 };
 
 const DropDownSelect: React.FC<Props> = ({
@@ -30,22 +31,17 @@ const DropDownSelect: React.FC<Props> = ({
   onChange,
   onBlur,
   className,
+  dropdownWrapperClassName,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   return (
-    <div
-      className={clsx('flex flex-col w-full relative gap-[8px]', className)}
-      style={{ width }}
-      ref={ref}
-    >
+    <div className={clsx('flex flex-col w-full relative gap-[8px]', className)} style={{ width }} ref={ref}>
       <div className='flex justify-between w-full'>
         <label htmlFor={text} className='text-offBlack font-medium'>
           {text}
         </label>
-        <span className={clsx('text-red', error ? 'opacity-100' : 'opacity-0')}>
-          {error || 'error'}
-        </span>
+        <span className={clsx('text-red', error ? 'opacity-100' : 'opacity-0')}>{error || 'error'}</span>
       </div>
 
       <button
@@ -57,13 +53,12 @@ const DropDownSelect: React.FC<Props> = ({
         onClick={() => setIsOpen((prev) => !prev)}
         onBlur={onBlur}
       >
-        <span className='grow h-[24px] whitespace-nowrap overflow-clip max-w-[80%]'>
-          {value?.text}
-        </span>
+        <span className='grow h-[24px] whitespace-nowrap overflow-clip text-left'>{value?.text}</span>
         <FilteredImage
+          className='w-4 h-2 ml-auto mr-2'
           src={arrowUp}
           rotate={isOpen ? 'top' : 'bottom'}
-          filter={FilterClassEnum.Black}
+          filter={FilterClassEnum.Gray}
         />
       </button>
 
@@ -71,7 +66,10 @@ const DropDownSelect: React.FC<Props> = ({
         <ContextMenuWrapper
           refAttachTo={ref}
           onClose={() => setIsOpen(false)}
-          className='flex flex-col rounded-[10px] bg-white border-lightGray border-[1px]'
+          className={clsx(
+            'flex flex-col rounded-[10px] bg-white border-lightGray border-[1px]',
+            dropdownWrapperClassName
+          )}
         >
           {choices.map((el, i) => (
             <ContextMenuButton

@@ -51,6 +51,18 @@ import seahorseIcon from './images/seahorse.png';
 import sealIcon from './images/seal.png';
 import starfishIcon from './images/starfish.png';
 import tadpoleIcon from './images/tadpole.png';
+import learningIcon from './images/Learning.svg';
+import plusMathIcon from './images/PlusMath.svg';
+import mommyAndMeIcon from './images/MommyandMeClasses.svg';
+import electricityIcon from './images/Electricity.svg';
+import helpingHandIcon from './images/HelpingHand.svg';
+import brainIcon from './images/Brain.svg';
+import eyeIcon from './images/Eye.svg';
+import hearingIcon from './images/Hearing.svg';
+import oneStarLevelIcon from './images/oneStarLevelIcon.svg';
+import twoStarsLevelIcon from './images/twoStarsLevelIcon.svg';
+import threeStarsLevelIcon from './images/threeStarsLevelIcon.svg';
+import medalIcon from './images/medalIcon.svg';
 
 //pictures
 import girlAndMom from './images/girlAndMom.webp';
@@ -151,6 +163,66 @@ import localTeenWhyChooseUs from './images/localTeenWhyChooseUs.png';
 import localTeenSatisfactionGuarantee from './images/localTeenSatisfactionGuarantee.png';
 import localTeenLessonPricingImg from './images/localTeenLessonPricingImg.png';
 import localTeenGeneralImage3 from './images/localTeenGeneralImage3.png';
+import privateSwimLessonHeroDesktop from './images/privateSwimLessonHeroDesktop.png';
+import privateSwimLessonHeroMobile from './images/privateSwimLessonHeroMobile.png';
+import WhyOneonOneLessonsImg from './images/WhyOneonOneLessonsImg.png';
+import whyAllLovePrivateLessonsImg from './images/whyAllLovePrivateLessonsImg.png';
+import whyAllLovePrivateLessonsImg2 from './images/whyAllLovePrivateLessonsImg2.png';
+import localSpecialNeedsHero from './images/localSpecialNeedsHero.png';
+import localSpecialNeedsHeroMobile from './images/localSpecialNeedsHeroMobile.png';
+import satisfactionGuaranteeSpecialNeedsImg from './images/satisfactionGuaranteeSpecialNeedsImg.png';
+import privateSpecialNeedsImg from './images/privateSpecialNeedsImg.png';
+import whySnapSwimLessonsImportantImg from './images/whySnapSwimLessonsImportantImg.png';
+import startSwimmingFasterImg from './images/startSwimmingFasterImg.png';
+import benefitsOfSwimSpecialNeedsimg from './images/benefitsOfSwimSpecialNeedsimg.png';
+import specialNeedsAndAbilitiesPricingSectionImg from './images/specialNeedsAndAbilitiesPricingSectionImg.png';
+import localAdultHero from './images/localAdultHero.png';
+import localAdultHeroMobile from './images/localAdultHeroMobile.png';
+import localAdultSatisfactionGuarantee from './images/localAdultSatisfactionGuarantee.png';
+import localAdultSunsationalInstructorImg from './images/localAdultSunsationalInstructorImg.png';
+import localAdultSectionInfo1 from './images/localAdultSectionInfo1.png';
+import localAdultWhyChooseUs from './images/localAdultWhyChooseUs.png';
+import benefitsOfAdultSwim from './images/benefitsOfAdultSwim.png';
+import benefitsOfAdultSwim2 from './images/benefitsOfAdultSwim2.png';
+import recommendedLessonPlanImg from './images/recommendedLessonPlanImg.png';
+import recommendedLessonPlanImg2 from './images/recommendedLessonPlanImg2.png';
+import recommendedLessonPlanImg3 from './images/recommendedLessonPlanImg3.png';
+import adultLessonsPricingImg from './images/adultLessonsPricingImg.png';
+import kidsSwimLessonHero from './images/kidsSwimLessonHero.png';
+import kidsSwimLessonHeroMobile from './images/kidsSwimLessonHeroMobile.png';
+import satisfactionGuaranteeKidsSwimLesson from './images/satisfactionGuaranteeKidsSwimLesson.png';
+import kidsSwimLessonGeneralFeatureImg from './images/kidsSwimLessonGeneralFeatureImg.png';
+import kidsWhySwimLessonImportant from './images/kidsWhySwimLessonImportant.png';
+import kidsSwimLessonBenefitsImg1 from './images/kidsSwimLessonBenefitsImg1.png';
+import kidsSwimLessonBenefitsImg2 from './images/kidsSwimLessonBenefitsImg2.png';
+import kidsSwimLessonWhyChooseUs from './images/kidsSwimLessonWhyChooseUs.png';
+import toddlerSwimLessonHeroDesktop from './images/toddlerSwimLessonHeroDesktop.png';
+import toddlerSwimLessonHeroMobile from './images/toddlerSwimLessonHeroMobile.png';
+import satisfactionGuaranteeToddlerImg from './images/satisfactionGuaranteeToddlerImg.png';
+import safeFunTaughtAtHomeToddlerImg from './images/safeFunTaughtAtHomeToddlerImg.png';
+import whySwimLessonImportantForToddlersImg from './images/WhySwimLessonImportantForToddlersimg.png';
+import whySurvivalFloatLessonImg from './images/whySurvivalFloatLessonImg.png';
+import benefitsOfSwimLessonsForToddlersImg from './images/benefitsOfSwimLessonsForToddlersImg.png';
+import teenSwimLessonsHeroDesktop from './images/teenSwimLessonsHeroDesktop.png';
+import teenSwimLessonsHeroMobile from './images/teenSwimLessonsHeroMobile.png';
+import satisfactionGuaranteeTeenSwimLessonImg from './images/satisfactionGuaranteeTeenSwimLessonImg.png';
+import whyTeenSwimLessonsImportantImg from './images/whyTeenSwimLessonsImportantImg.png';
+import advancedBenefitsFromPrivateSwimLessonImg from './images/advancedBenefitsFromPrivateSwimLessonImg.png';
+import adultsSwimLessonHero from './images/adultsSwimLessonHero.png';
+import adultsSwimLessonHeroMobile from './images/adultsSwimLessonHeroMobile.png';
+import adultsSwimLessonWhyUs from './images/adultsSwimLessonWhyUs.png';
+import benefitsOfAdultLesson from './images/benefitsOfAdultLesson.png';
+import adultLessonsAreGreat from './images/adultLessonsAreGreat.png';
+import satisfactionGuaranteeAdultSwimLesson from './images/satisfactionGuaranteeAdultSwimLesson.png';
+import specialNeedsLessonSatisfactionGuarantee from './images/specialNeedsLessonSatisfactionGuarantee.png';
+import specialNeedsLessonHero from './images/specialNeedsLessonHero.png';
+import specialNeedsLessonHeroMobile from './images/specialNeedsLessonHeroMobile.png';
+import specialSwimLessonGeneralFeatureImg from './images/specialSwimLessonGeneralFeatureImg.png';
+import specialSwimLessonGeneralFeatureImg2 from './images/specialSwimLessonGeneralFeatureImg2.png';
+import whySnapSpecialNeedsLessonsImg from './images/WhySnapSpecialNeedsLessonsImg.png';
+import startSwimFasterSpecialNeedsSwimLessonImg from './images/startSwimFasterSpecialNeedsSwimLessonImg.png';
+import specialNeedsLessonBenefits from './images/specialNeedsLessonBenefits.png';
+import specialNeedsLessonPricing from './images/specialNeedsLessonPricing.png';
 
 // figures
 import curveOval from './images/curveOval.svg';
@@ -336,5 +408,77 @@ export {
   localTeenWhyChooseUs,
   localTeenSatisfactionGuarantee,
   localTeenLessonPricingImg,
-  localTeenGeneralImage3
+  localTeenGeneralImage3,
+  privateSwimLessonHeroDesktop,
+  privateSwimLessonHeroMobile,
+  WhyOneonOneLessonsImg,
+  whyAllLovePrivateLessonsImg,
+  whyAllLovePrivateLessonsImg2,
+  localSpecialNeedsHero,
+  localSpecialNeedsHeroMobile,
+  satisfactionGuaranteeSpecialNeedsImg,
+  privateSpecialNeedsImg,
+  learningIcon,
+  plusMathIcon,
+  mommyAndMeIcon,
+  electricityIcon,
+  helpingHandIcon,
+  brainIcon,
+  eyeIcon,
+  hearingIcon,
+  whySnapSwimLessonsImportantImg,
+  startSwimmingFasterImg,
+  benefitsOfSwimSpecialNeedsimg,
+  specialNeedsAndAbilitiesPricingSectionImg,
+  localAdultHero,
+  localAdultHeroMobile,
+  localAdultSatisfactionGuarantee,
+  localAdultSunsationalInstructorImg,
+  localAdultSectionInfo1,
+  localAdultWhyChooseUs,
+  benefitsOfAdultSwim,
+  benefitsOfAdultSwim2,
+  oneStarLevelIcon,
+  twoStarsLevelIcon,
+  threeStarsLevelIcon,
+  medalIcon,
+  recommendedLessonPlanImg,
+  recommendedLessonPlanImg2,
+  recommendedLessonPlanImg3,
+  adultLessonsPricingImg,
+  kidsSwimLessonHero,
+  kidsSwimLessonHeroMobile,
+  satisfactionGuaranteeKidsSwimLesson,
+  kidsSwimLessonGeneralFeatureImg,
+  kidsWhySwimLessonImportant,
+  kidsSwimLessonBenefitsImg1,
+  kidsSwimLessonBenefitsImg2,
+  kidsSwimLessonWhyChooseUs,
+  toddlerSwimLessonHeroDesktop,
+  toddlerSwimLessonHeroMobile,
+  satisfactionGuaranteeToddlerImg,
+  safeFunTaughtAtHomeToddlerImg,
+  whySwimLessonImportantForToddlersImg,
+  whySurvivalFloatLessonImg,
+  benefitsOfSwimLessonsForToddlersImg,
+  teenSwimLessonsHeroDesktop,
+  teenSwimLessonsHeroMobile,
+  satisfactionGuaranteeTeenSwimLessonImg,
+  whyTeenSwimLessonsImportantImg,
+  advancedBenefitsFromPrivateSwimLessonImg,
+  adultsSwimLessonHero,
+  adultsSwimLessonHeroMobile,
+  adultsSwimLessonWhyUs,
+  benefitsOfAdultLesson,
+  adultLessonsAreGreat,
+  satisfactionGuaranteeAdultSwimLesson,
+  specialNeedsLessonSatisfactionGuarantee,
+  specialNeedsLessonHero,
+  specialNeedsLessonHeroMobile,
+  specialSwimLessonGeneralFeatureImg,
+  specialSwimLessonGeneralFeatureImg2,
+  whySnapSpecialNeedsLessonsImg,
+  startSwimFasterSpecialNeedsSwimLessonImg,
+  specialNeedsLessonBenefits,
+  specialNeedsLessonPricing,
 };

@@ -26,16 +26,31 @@ export const POST = async (req: NextRequest, {params}: RequestParams) => {
 
   const registrationIdentifier = extractRegistrationIdentifierFromHeaders(req);
   const registration = await loadRegistration(registrationIdentifier);
+
   if (!registration) {
     return NextResponse.json({error: 'Pending registration not found'}, {status: 400});
   }
 
+  const newRegistrationVersion = Number(req.headers.get('X-Version') || '0');
+
+  if (!newRegistrationVersion) {
+    return NextResponse.json({error: 'Missing X-Version header'}, {status: 400});
+  }
+
+  if (registration.version > newRegistrationVersion) {
+    return NextResponse.json(sanitizeRegistration(registration));
+  }
+
   const body = await req.json();
   const controller = new RegistrationStepController({schema: registrationSchemas[step], step});
-  try {
-    const updatedRegistration = await controller.post({registration, freshData: body});
-    return NextResponse.json(sanitizeRegistration(updatedRegistration));
 
+  try {
+    const updatedRegistration = await controller.put({
+      registration,
+      freshData: { ...body, version: newRegistrationVersion }
+    });
+
+    return NextResponse.json(sanitizeRegistration(updatedRegistration));
   } catch (e) {
     if (e instanceof ValidationException) {
       return NextResponse.json({validationErrors: e.validationErrors}, {status: 400});

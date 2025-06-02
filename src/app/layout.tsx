@@ -8,6 +8,7 @@ import '@/utils/styles/buttons.css';
 import '@/utils/styles/embla.review-section.css';
 import '@/utils/styles/embla.social-media-reviews-section.css';
 import '@/utils/styles/embla.feature-swim-instructor-section.css';
+import GlobalErrors from '@/components/GlobalErrors';
 
 export const metadata: Metadata = {
   title: 'Sunsational Swim School - At-Home Private Swimming Lessons',
@@ -34,7 +35,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <RegistrationFormProvider>{children}</RegistrationFormProvider>
+        <RegistrationFormProvider>
+          {children}
+        </RegistrationFormProvider>
+        <GlobalErrors/>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
-import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
-import {LocationsAndPricingEntity} from '@/entities/locations-and-prices.entity';
-import {locationsAndPricingRepository} from '@/repositories/locations-and-pricing.repository';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { LocationsAndPricingEntity } from '@/entities/locations-and-prices.entity';
+import { locationsAndPricingRepository } from '@/repositories/locations-and-pricing.repository';
 
 const LocationsAndPricesContext = createContext<LocationsAndPricingEntity | null>(null);
 

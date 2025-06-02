@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@osx11/simple-event": "^1.0.4",
     "@prisma/client": "^6.6.0",
     "@react-google-maps/api": "^2.20.6",
     "clsx": "^2.1.1",

@@ -52,20 +52,13 @@ const whenToBeginCards: WhenToBeginCard[] = [
 ];
 
 type Props = {
-  onNextClicked: () => void;
-  onPreviousClicked: () => void;
+  onNextClicked: () => Promise<void>;
+  onPreviousClicked: () => Promise<void>;
 };
 
-const RegistrationForm5: React.FC<Props> = ({
-  onNextClicked,
-  onPreviousClicked,
-}) => {
-  const {
-    registrationForm,
-    setRegistrationFormField,
-    registrationErrors,
-    registrationErrorsText,
-  } = useRegistrationForm();
+const RegistrationForm5: React.FC<Props> = ({ onNextClicked, onPreviousClicked }) => {
+  const { registrationForm, setRegistrationFormField, registrationErrors, registrationErrorsText } =
+    useRegistrationForm();
 
   const {
     lessonFrequency: formLessonsFrequency,
@@ -78,9 +71,15 @@ const RegistrationForm5: React.FC<Props> = ({
     additionalSchedulingInformation,
   } = registrationForm ?? {};
 
-  const setLessonFrequency = (value: number) => { setRegistrationFormField('lessonFrequency', value); };
-  const setCustomerWouldLikeToBegin = (value: string) => { setRegistrationFormField('customerWouldLikeToBegin', value); };
-  const setPreferredLessonBeginDate = (value: string) => { setRegistrationFormField('preferredLessonBeginDate', value); };
+  const setLessonFrequency = (value: number) => {
+    setRegistrationFormField('lessonFrequency', value);
+  };
+  const setCustomerWouldLikeToBegin = (value: string) => {
+    setRegistrationFormField('customerWouldLikeToBegin', value);
+  };
+  const setPreferredLessonBeginDate = (value: string) => {
+    setRegistrationFormField('preferredLessonBeginDate', value);
+  };
 
   const showDatePicker = customerWouldLikeToBegin === WhenToBeginEnum.Specific;
   const inputDateValue = convertDateFromUSFormatToInputValue(preferredLessonBeginDate ?? '');
@@ -98,8 +97,12 @@ const RegistrationForm5: React.FC<Props> = ({
     setRegistrationFormField('selectedWeekendTimes', sortTimes(times).join(' '));
   };
 
-  const setFlexibleSchedule = (value: boolean) => { setRegistrationFormField('flexibleSchedule', value); };
-  const setAdditionalSchedulingInformation = (e: React.ChangeEvent<HTMLTextAreaElement>) => { setRegistrationFormField('additionalSchedulingInformation', e.target.value); };
+  const setFlexibleSchedule = (value: boolean) => {
+    setRegistrationFormField('flexibleSchedule', value);
+  };
+  const setAdditionalSchedulingInformation = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setRegistrationFormField('additionalSchedulingInformation', e.target.value);
+  };
 
   const selectedWeekdayTimesArray = (selectedWeekdayTimes ? selectedWeekdayTimes.split(' ') : []) as TimesEnum[];
 
@@ -141,7 +144,6 @@ const RegistrationForm5: React.FC<Props> = ({
   };
 
   const someWeekDaysSelected = WEEKDAYS_ARRAY.some((day) => selectedDaysArray.includes(day));
-
   const someWeekendDaysSelected = WEEKENDS_ARRAY.some((day) => selectedDaysArray.includes(day));
 
   useEffect(() => {

@@ -14,13 +14,13 @@ const AlertBox: React.FC<Props> = ({ text, type, bulletTexts }) => {
   const getColorScheme = () => {
     if (type === 'alert') return 'bg-lightYellow border-yellow';
     if (type === 'error') return 'bg-lightRed border-red';
-    if (type === 'info') return 'bg-blue border-darkBlue';
+    if (type === 'info') return 'bg-lightBlue border-blue';
   };
 
   const getIconFilter = () => {
     if (type === 'alert') return FilterClassEnum.Yellow;
     if (type === 'error') return FilterClassEnum.Red;
-    return FilterClassEnum.Blue;
+    return FilterClassEnum.DarkBlue;
   };
 
   return (

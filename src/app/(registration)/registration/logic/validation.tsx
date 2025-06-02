@@ -3,8 +3,7 @@ import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import { registrationSchemas } from '@/app/api/registration/step/schemas/step.schemas';
 import { extractZodErrors } from '@/utils/extract-zod-errors';
 
-
-function convertFormDataToRecord (formData: Partial<RegistrationForm> | null): Record<string, unknown> {
+export function convertFormDataToDto (formData: Partial<RegistrationForm> | null): Record<string, unknown> {
   const record: Record<string, unknown> = {};
 
   if (!formData) {
@@ -44,7 +43,7 @@ function validateRecord (record: Partial<RegistrationForm>, registrationStep: Re
 
 
 export function validateFormStep (formData: Partial<RegistrationForm> | null, registrationStep: RegistrationStepEnum) {
-  const record = convertFormDataToRecord(formData);
+  const record = convertFormDataToDto(formData);
   const zodErrors = validateRecord(record, registrationStep);
 
   if (!zodErrors) {

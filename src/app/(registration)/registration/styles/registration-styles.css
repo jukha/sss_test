@@ -37,36 +37,36 @@
   --text-head: 48px;
   --text-head-desktop: 96px;
 
-  --filter-yellow: brightness(0) saturate(100%) invert(100%) sepia(26%)
-    saturate(6061%) hue-rotate(323deg) brightness(105%) contrast(100%);
-  --filter-lightYellow: brightness(0) saturate(100%) invert(98%) sepia(46%)
-    saturate(666%) hue-rotate(313deg) brightness(110%) contrast(103%);
-  --filter-orange: brightness(0) saturate(100%) invert(43%) sepia(60%)
-    saturate(2642%) hue-rotate(357deg) brightness(98%) contrast(99%);
-  --filter-lightOrange: brightness(0) saturate(100%) invert(78%) sepia(88%)
-    saturate(4092%) hue-rotate(327deg) brightness(113%) contrast(104%);
-  --filter-offBlack: brightness(0) saturate(100%) invert(5%) sepia(89%)
-    saturate(4934%) hue-rotate(258deg) brightness(78%) contrast(108%);
-  --filter-darkBlue: brightness(0) saturate(100%) invert(16%) sepia(50%)
-    saturate(5369%) hue-rotate(207deg) brightness(86%) contrast(107%);
-  --filter-blue: brightness(0) saturate(100%) invert(45%) sepia(45%)
-    saturate(851%) hue-rotate(155deg) brightness(95%) contrast(93%);
-  --filter-lightBlue: brightness(0) saturate(100%) invert(90%) sepia(25%)
-    saturate(102%) hue-rotate(154deg) brightness(102%) contrast(95%);
-  --filter-lightGray: brightness(0) saturate(100%) invert(100%) sepia(54%)
-    saturate(73%) hue-rotate(188deg) brightness(112%) contrast(91%);
-  --filter-gray: brightness(0) saturate(100%) invert(54%) sepia(4%) saturate(6%)
-    hue-rotate(5deg) brightness(105%) contrast(82%);
-  --filter-teal: brightness(0) saturate(100%) invert(45%) sepia(54%)
-    saturate(2397%) hue-rotate(150deg) brightness(96%) contrast(101%);
-  --filter-white: brightness(0) saturate(100%) invert(100%) sepia(100%)
-    saturate(2%) hue-rotate(295deg) brightness(108%) contrast(101%);
-  --filter-black: brightness(0) saturate(100%) invert(0%) sepia(8%) saturate(8%)
-    hue-rotate(145deg) brightness(97%) contrast(102%);
-  --filter-red: brightness(0) saturate(100%) invert(9%) sepia(74%)
-    saturate(5568%) hue-rotate(346deg) brightness(120%) contrast(128%);
-  --filter-lightRed: brightness(0) saturate(100%) invert(91%) sepia(23%)
-    saturate(354%) hue-rotate(334deg) brightness(116%) contrast(106%);
+  --filter-yellow: brightness(0) saturate(100%) invert(100%) sepia(26%) saturate(6061%) hue-rotate(323deg)
+    brightness(105%) contrast(100%);
+  --filter-lightYellow: brightness(0) saturate(100%) invert(98%) sepia(46%) saturate(666%) hue-rotate(313deg)
+    brightness(110%) contrast(103%);
+  --filter-orange: brightness(0) saturate(100%) invert(43%) sepia(60%) saturate(2642%) hue-rotate(357deg)
+    brightness(98%) contrast(99%);
+  --filter-lightOrange: brightness(0) saturate(100%) invert(78%) sepia(88%) saturate(4092%) hue-rotate(327deg)
+    brightness(113%) contrast(104%);
+  --filter-offBlack: brightness(0) saturate(100%) invert(5%) sepia(89%) saturate(4934%) hue-rotate(258deg)
+    brightness(78%) contrast(108%);
+  --filter-darkBlue: brightness(0) saturate(100%) invert(16%) sepia(50%) saturate(5369%) hue-rotate(207deg)
+    brightness(86%) contrast(107%);
+  --filter-blue: brightness(0) saturate(100%) invert(45%) sepia(45%) saturate(851%) hue-rotate(155deg) brightness(95%)
+    contrast(93%);
+  --filter-lightBlue: brightness(0) saturate(100%) invert(90%) sepia(25%) saturate(102%) hue-rotate(154deg)
+    brightness(102%) contrast(95%);
+  --filter-lightGray: brightness(0) saturate(100%) invert(100%) sepia(54%) saturate(73%) hue-rotate(188deg)
+    brightness(112%) contrast(91%);
+  --filter-gray: brightness(0) saturate(100%) invert(54%) sepia(4%) saturate(6%) hue-rotate(5deg) brightness(105%)
+    contrast(82%);
+  --filter-teal: brightness(0) saturate(100%) invert(45%) sepia(54%) saturate(2397%) hue-rotate(150deg) brightness(96%)
+    contrast(101%);
+  --filter-white: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(2%) hue-rotate(295deg) brightness(108%)
+    contrast(101%);
+  --filter-black: brightness(0) saturate(100%) invert(0%) sepia(8%) saturate(8%) hue-rotate(145deg) brightness(97%)
+    contrast(102%);
+  --filter-red: brightness(0) saturate(100%) invert(9%) sepia(74%) saturate(5568%) hue-rotate(346deg) brightness(120%)
+    contrast(128%);
+  --filter-lightRed: brightness(0) saturate(100%) invert(91%) sepia(23%) saturate(354%) hue-rotate(334deg)
+    brightness(116%) contrast(106%);
 }
 
 body {
@@ -131,6 +131,11 @@ nav * {
 .orangeScroll::-webkit-scrollbar-track {
   background-color: var(--color-lightOrange);
   border-radius: 4px;
+}
+
+.smallScroll {
+  scrollbar-color: var(--color-gray) var(--color-lightGray);
+  scrollbar-width: thin;
 }
 
 .smallScroll::-webkit-scrollbar {

@@ -1,15 +1,18 @@
 import urlJoin from 'url-join';
-import fetchData from '@/helpers/fetch-data';
+import { tryFetchData } from '@/helpers/fetch-data';
+import { GlobalErrorType } from '@/enum/global-error-type.enum';
 
 type GetOptions = {
   endpoint?: string;
   headers?: Record<string, string>;
+  globalErrorType?: GlobalErrorType
 };
 
 type PostOptions<D> = {
   data: D;
   headers?: Record<string, string>;
   endpoint?: string;
+  globalErrorType?: GlobalErrorType
 };
 
 type ConstructorOptions = {
@@ -29,22 +32,23 @@ class MethodNotAllowedError extends Error {
 }
 
 export class GenericRepository<E> {
-  private readonly _baseEndpoint: string;
+  private readonly _baseEndpoint: ConstructorOptions['baseEndpoint'];
   private readonly _allowedMethods: ConstructorOptions['allowedMethods'];
 
   constructor({ baseEndpoint, allowedMethods }: ConstructorOptions) {
-    this._baseEndpoint = baseEndpoint;
+    this._baseEndpoint = baseEndpoint
     this._allowedMethods = allowedMethods;
   }
 
-  async get<T>({ endpoint, headers }: GetOptions): Promise<RepositoryResponse<T>> {
+  async get<T>({ endpoint, headers, globalErrorType = GlobalErrorType.Unknown }: GetOptions): Promise<RepositoryResponse<T>> {
     if (!this._allowedMethods.includes('get'))
       throw new MethodNotAllowedError('get');
 
-    const { data, response } = await fetchData<E, null>({
+    const { data, response } = await tryFetchData<E, null>({
       url: this.constructUrl(endpoint),
       method: 'GET',
       headers: headers,
+      globalErrorType: globalErrorType,
     });
 
     if (data) return { data: data as T };
@@ -56,16 +60,17 @@ export class GenericRepository<E> {
     return await this.get<E[]>({endpoint, headers});
   }
 
-  async post<D>({data, endpoint, headers}: PostOptions<D>): Promise<RepositoryResponse<E>> {
+  async post<D>({ data, endpoint, headers, globalErrorType = GlobalErrorType.Unknown }: PostOptions<D>): Promise<RepositoryResponse<E>> {
     if (!this._allowedMethods.includes('post'))
       throw new MethodNotAllowedError('post');
 
-    const { data: responseData, response: rawResponse } = await fetchData<E, D>(
+    const { data: responseData, response: rawResponse } = await tryFetchData<E, D>(
       {
         url: this.constructUrl(endpoint),
         data: data,
         headers: headers,
         method: 'POST',
+        globalErrorType: globalErrorType
       }
     );
 

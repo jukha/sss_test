@@ -12,10 +12,14 @@ import {
   dolphinIcon,
   goldfishIcon,
   jellyfishIcon,
+  medalIcon,
+  oneStarLevelIcon,
   seahorseIcon,
   sealIcon,
   starfishIcon,
   tadpoleIcon,
+  threeStarsLevelIcon,
+  twoStarsLevelIcon,
 } from '@/assets';
 import Image from 'next/image';
 import Typography from '../semantics/Typography';
@@ -116,6 +120,45 @@ const allSwimSkillsData = [
       'Butterfly',
     ],
   },
+  {
+    title: 'Adult Beginner',
+    icon: oneStarLevelIcon,
+    skills: [
+      'How to be comfortable in the water',
+      'Water safety/survival techniques',
+      'Introduction to treading water',
+      'Proper floating, kicking, and breathing underwater',
+      'Front crawl/freestyle swim stroke',
+    ],
+  },
+  {
+    title: 'Adult Intermediate',
+    icon: twoStarsLevelIcon,
+    skills: [
+      'Breaststroke, backstroke swimming techniques',
+      'Rotary breathing',
+      'Endurance building',
+      'Mechanical stroke refinement on established swim strokes',
+    ],
+  },
+  {
+    title: 'Adult Advanced',
+    icon: threeStarsLevelIcon,
+    skills: [
+      'Advanced stroke techniques for improved efficiency and speed',
+      'Butterfly arm and kick coordination, flip turns, and diving',
+      'Speed, endurance and stamina',
+    ],
+  },
+  {
+    title: 'Specialized Training',
+    icon: medalIcon,
+    skills: [
+      'Endurance-based interval training for long-distance and military swim tests',
+      'Swim training for swimmers participating in triathlons',
+      'Water aerobic exercise with stretching and strength training routines to improve all elements of fitness (flexibility, muscular strength, and cardiovascular fitness)',
+    ],
+  },
 ];
 
 const SkillLevelsSection: React.FC<Props> = ({
@@ -168,7 +211,7 @@ const SkillLevelsSection: React.FC<Props> = ({
             </span>
             <Typography
               variant='h6'
-              className='font-secondary !font-bold !text-2xl text-darkBlue leading-[125%] mt-2 mb-[26px]'
+              className='font-secondary !font-bold !text-2xl text-offBlack leading-[125%] mt-2 mb-[26px]'
             >
               {level.title}
             </Typography>
@@ -182,7 +225,7 @@ const SkillLevelsSection: React.FC<Props> = ({
                 </span>
                 <Typography
                   variant='custom'
-                  className='font-secondary font-medium text-base text-darkBlue leading-[120%]'
+                  className='font-secondary font-medium text-base text-offBlack leading-[120%]'
                 >
                   {skill}
                 </Typography>

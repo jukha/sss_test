@@ -9,38 +9,30 @@ type Props = {
   size?: 'large' | 'small';
 };
 
-const GoBackTextButton: React.FC<Props> = ({
-  text,
-  onClick,
-  size = 'large',
-}) => {
+const GoBackTextButton: React.FC<Props> = ({ text, onClick, size = 'large' }) => {
   return (
-    <button
+    <div
       className={clsx(
-        'group flex gap-[10px] items-center cursor-pointer font-bold leading-[120%] font-primary',
+        'flex gap-[10px] items-center font-bold leading-[1.2] font-primary',
         size === 'large' && 'self-start text-[24px]',
         size === 'small' && 'text-[20px]'
       )}
-      onClick={onClick}
-      type='button'
     >
       {onClick && (
-        <FilteredImage
-          src={arrowUp}
-          width={20}
-          height={20}
-          alt='arrow'
-          filter={FilterClassEnum.OffBlack}
-          rotate='left'
-          className={clsx(size === 'large' && 'mb-[6px]')}
-        />
+        <button onClick={onClick} type='button' className='cursor-pointer'>
+          <FilteredImage
+            src={arrowUp}
+            width={20}
+            height={20}
+            alt='arrow'
+            filter={FilterClassEnum.OffBlack}
+            rotate='left'
+            className={clsx(size === 'large' && 'mb-[6px]')}
+          />
+        </button>
       )}
-      <span
-        className={clsx('text-offBlack border-b-2 border-transparent group-hover:border-offBlack transition-[border]', size === 'small' && '!text-medium')}
-      >
-        {text}
-      </span>
-    </button>
+      <div className={clsx('text-offBlack', size === 'small' && '!text-medium')}>{text}</div>
+    </div>
   );
 };
 

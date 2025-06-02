@@ -20,9 +20,7 @@ import { useRegistrationForm } from '@/context/registration-form.context';
 import useLessonsPackages from '@/hooks/use-lesson-packages';
 import { validateFormStep, validateFormField } from '../../logic/validation';
 import { sendDataToServer } from '../../logic/send.data';
-import {
-  OnFieldFocusLostHandlerFunction,
-} from '../../types';
+import { OnFieldFocusLostHandlerFunction } from '../../types';
 
 type Props = {
   databaseId: string;
@@ -40,46 +38,54 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
     setRegistrationErrors,
     setOneFieldValidationErrors,
     clearFieldRegistrationErrors,
+    formVersion,
+    setFormVersion,
   } = useRegistrationForm();
 
   const lessonsPackages = useLessonsPackages();
 
-  const onNextClicked = () => {
+  const onNextClicked = async (options: {shouldSwitchToNextStep?: boolean} = {shouldSwitchToNextStep: true}) => {
     const validationErrors = validateFormStep(registrationForm, registrationStep);
 
     if (validationErrors) {
       setRegistrationErrors(validationErrors);
-      console.log(validationErrors);
       return;
     } else {
       setRegistrationErrors({});
     }
 
-    // [!!!] attention: Bulat asked not to wait for response. bugs are expected.
-    sendDataToServer({
+    setFormVersion(formVersion + 1);
+    if (options.shouldSwitchToNextStep) switchToNextStep();
+
+    await sendDataToServer({
       registrationRecordId: databaseId,
       registrationFormTypeId: formId,
       secret: secret,
       formData: registrationForm,
+      step: registrationStep,
+      version: formVersion,
     });
-
-    switchToNextStep();
   };
 
-  const onPreviousClicked = () => {
-    sendDataToServer({
-      registrationRecordId: databaseId,
-      registrationFormTypeId: formId,
-      secret: secret,
-      formData: registrationForm,
-    });
-
+  const onPreviousClicked = async () => {
     switchToPreviousStep();
+
+    const validationErrors = validateFormStep(registrationForm, registrationStep);
+    if (validationErrors) return;
+
+    setFormVersion(formVersion + 1);
+
+    await sendDataToServer({
+      registrationRecordId: databaseId,
+      registrationFormTypeId: formId,
+      secret: secret,
+      formData: registrationForm,
+      step: registrationStep,
+      version: formVersion
+    });
   };
 
-  function buildOnFieldFocusLostHandler(
-    fieldName: keyof RegistrationForm
-  ): OnFieldFocusLostHandlerFunction {
+  function buildOnFieldFocusLostHandler(fieldName: keyof RegistrationForm): OnFieldFocusLostHandlerFunction {
     return () => {
       const validationErrors = validateFormField({
         fieldName,
@@ -101,20 +107,12 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
         buildOnFieldFocusLostHandler={buildOnFieldFocusLostHandler}
       />
     ),
-    [RegistrationStepEnum.Step1Success]: (
-      <RegistrationForm1Success onNextClicked={onNextClicked} />
-    ),
+    [RegistrationStepEnum.Step1Success]: <RegistrationForm1Success onNextClicked={switchToNextStep} />,
     [RegistrationStepEnum.Step1NoPoolsError]: (
-      <RegistrationForm1Error
-        errorType='noPools'
-        onPreviousClicked={onPreviousClicked}
-      />
+      <RegistrationForm1Error errorType='noPools' onPreviousClicked={switchToPreviousStep} />
     ),
     [RegistrationStepEnum.Step1OutsideAreaError]: (
-      <RegistrationForm1Error
-        errorType='outsideArea'
-        onPreviousClicked={onPreviousClicked}
-      />
+      <RegistrationForm1Error errorType='outsideArea' onPreviousClicked={switchToPreviousStep} />
     ),
     [RegistrationStepEnum.Step2]: (
       <RegistrationForm2
@@ -142,10 +140,7 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       />
     ),
     [RegistrationStepEnum.Step5]: (
-      <RegistrationForm5
-        onNextClicked={onNextClicked}
-        onPreviousClicked={onPreviousClicked}
-      />
+      <RegistrationForm5 onNextClicked={onNextClicked} onPreviousClicked={onPreviousClicked} />
     ),
     [RegistrationStepEnum.Step6]: (
       <RegistrationForm6
@@ -155,10 +150,7 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       />
     ),
     [RegistrationStepEnum.Step7]: (
-      <RegistrationForm7
-        onNextClicked={onNextClicked}
-        onPreviousClicked={onPreviousClicked}
-      />
+      <RegistrationForm7 onNextClicked={onNextClicked} onPreviousClicked={onPreviousClicked} />
     ),
     [RegistrationStepEnum.Step7OrderConfirmed]: <OrderConfirmed />,
   };
@@ -173,10 +165,10 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       <StepsIndicator
         steps={circleNavigationBarSteps}
         currentStep={registrationStep}
-        setStep={setRegistrationStep}
+        setStep={(step) => setRegistrationStep(step, true)}
       />
       <div className='flex flex-col items-center w-full h-full bg-white pt-[50px] pb-16 rounded-[16px] px-[25px] desktop:pt-[65px]'>
-        <div className='w-full pb-6 desktop:max-w-[590px] desktop:px-[71px] desktop:min-h-[100%] overflow-auto smallScroll'>
+        <div className='w-full pb-6 desktop:max-w-[590px] desktop:px-[71px] desktop:min-h-[100%] overflow-y-auto overflow-x-hidden smallScroll'>
           {formsToRender[registrationStep]}
         </div>
       </div>

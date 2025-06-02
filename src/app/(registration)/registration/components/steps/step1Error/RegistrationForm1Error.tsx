@@ -1,22 +1,21 @@
 'use client';
 
-import {blackArrow, mail} from '@/assets';
+import { blackArrow, mail } from '@/assets';
 import CustomCurveButton from '@/components/CustomCurveButton';
 import CustomInput from '@/components/CustomInput';
-import {notifyMeRegistrationRepository} from '@/repositories/registration/notify-me-registration.repository';
-import {useForm} from 'react-hook-form';
+import { notifyMeRegistrationRepository } from '@/repositories/registration/notify-me-registration.repository';
+import { useForm } from 'react-hook-form';
 import GoBackTextButton from '../../shared/GoBackTextButton';
-import {useRegistrationForm} from '@/context/registration-form.context';
-import {useState} from 'react';
+import { useRegistrationForm } from '@/context/registration-form.context';
+import { useState } from 'react';
 import clsx from 'clsx';
-import {sendgrid} from '@/sendgrid';
+import { sendgrid } from '@/sendgrid';
 
 type ErrorType = 'outsideArea' | 'noPools';
 
 type Props = {
   errorType: ErrorType;
   onPreviousClicked: () => void;
-  // onBack: (options: {resetPool?: boolean, resetZip?: boolean}) => void;
 };
 
 const errorText: Record<ErrorType, string> = {
@@ -52,14 +51,14 @@ const RegistrationForm1Error: React.FC<Props> = ({
   errorType,
   onPreviousClicked
 }) => {
+  const { registrationForm } = useRegistrationForm();
+
   const { handleSubmit, register, setError, formState: {errors} } = useForm<FormValues>({
     defaultValues: formDefaultValues,
   });
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-
-  const { registrationForm } = useRegistrationForm();
 
   const validateEmail = async (email: FormValues['email']) => {
     if (!email) {
@@ -67,9 +66,7 @@ const RegistrationForm1Error: React.FC<Props> = ({
       return false;
     }
 
-    setLoading(true);
     const emailIsValid = await sendgrid.validateEmail(email);
-    setLoading(false);
 
     if (!emailIsValid) {
       setError('email', {type: 'custom', message: 'Email is invalid'});
@@ -80,10 +77,14 @@ const RegistrationForm1Error: React.FC<Props> = ({
   }
 
   const onSubmit = async (data: FormValues) => {
-    if (!await validateEmail(data.email)) return;
+    setLoading(true);
+    const emailIsValid = await validateEmail(data.email);
+    setLoading(false);
 
-    notifyMeRegistrationRepository.post({ data: {...data, zip: registrationForm?.zip} });
+    if (!emailIsValid) return;
     setShowSuccessMessage(true);
+
+    await notifyMeRegistrationRepository.post({ data: {...data, zip: registrationForm?.zip} })
   };
 
   return (
@@ -123,7 +124,6 @@ const RegistrationForm1Error: React.FC<Props> = ({
         <GoBackTextButton
           text={goBachButtonText[errorType]}
           onClick={onPreviousClicked}
-          // onClick={() => onBack({resetPool: errorType === 'noPools', resetZip: errorType === 'outsideArea'})}
           size='small'
         />
       </div>

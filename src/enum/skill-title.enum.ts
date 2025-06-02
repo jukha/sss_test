@@ -6,4 +6,8 @@ export enum SkillTitle {
   Seahorse = 'Seahorse Skills',
   Dolphin = 'Dolphin Skills',
   Seal = 'Seal Skills',
+  AdultBeginner = 'Adult Beginner',
+  AdultIntermediate = 'Adult Intermediate',
+  AdultAdvanced = 'Adult Advanced',
+  SpecializedTraining = 'Specialized Training',
 }

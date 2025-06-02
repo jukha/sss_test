@@ -108,6 +108,7 @@ model CustomerRegistration {
   termsFullName                                     String?                       @db.VarChar(200)
   flexibleSchedule                                  Boolean?
   customer_registration_record_history              CustomerRegistrationHistory[]
+  version                                           Int
 
   @@index([orderId], map: "orderId")
   @@map("customer_registration_records")

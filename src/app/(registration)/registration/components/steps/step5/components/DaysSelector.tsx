@@ -56,16 +56,19 @@ const DaysSelector: React.FC<Props> = ({ selectedDays, error, onChange }) => {
       <div className='flex gap-[16px] self-start'>
         <CustomCheckbox
           defaultChecked={allWeekDaysSelected}
+          checked={allWeekDaysSelected}
           text='Weekdays'
           onClick={handleDaysCheckboxesClick(WEEKDAYS_ARRAY)}
         />
         <CustomCheckbox
           defaultChecked={allWeekendDaysSelected}
+          checked={allWeekendDaysSelected}
           text='Weekends'
           onClick={handleDaysCheckboxesClick(WEEKENDS_ARRAY)}
         />
         <CustomCheckbox
           defaultChecked={allDaysSelected}
+          checked={allDaysSelected}
           text='All'
           onClick={handleDaysCheckboxesClick(ALL_DAYS_ARRAY)}
         />

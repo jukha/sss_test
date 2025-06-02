@@ -1,8 +1,13 @@
 'use client';
+import { ServiceLocations } from '@/enum/service-locations.enum';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-const MapWithStates = () => {
+type MapWithStatesProps = {
+  locationsToShow?: ServiceLocations[];
+};
+
+const MapWithStates = ({ locationsToShow }: MapWithStatesProps) => {
   const [textWidths, setTextWidths] = useState<Record<string, number>>({});
 
   const statesData = [
@@ -22,42 +27,55 @@ const MapWithStates = () => {
     { name: 'Washington', x: 200, y: 22, link: '/washington' },
   ];
 
+  const filteredStatesData = useMemo(() => {
+    if (locationsToShow && !locationsToShow.includes('All' as ServiceLocations)) {
+      return statesData
+        .filter((state) => locationsToShow.includes(state.name as ServiceLocations))
+    }
+
+    return statesData;
+  }, [locationsToShow, statesData])
+
   useEffect(() => {
     // Create a reference element that inherits your global styles
     const referenceLink = document.createElement('a');
+
     referenceLink.className = 'font-primary text-lg'; // Match your Link's classes
     referenceLink.style.visibility = 'hidden';
     referenceLink.style.position = 'absolute';
     referenceLink.style.whiteSpace = 'nowrap';
+
     document.body.appendChild(referenceLink);
 
     // Get computed styles once
     const computedStyles = window.getComputedStyle(referenceLink);
     const fontFamily = computedStyles.fontFamily;
     const fontSize = computedStyles.fontSize;
-    console.log('ff', fontFamily);
 
     const tempWidths: Record<string, number> = {};
 
-    statesData.forEach(({ name }) => {
+    filteredStatesData.forEach(({ name }) => {
       const span = document.createElement('span');
+
       span.style.visibility = 'hidden';
       span.style.position = 'absolute';
       span.style.whiteSpace = 'nowrap';
       span.style.fontFamily = fontFamily; // Use computed font
       span.style.fontSize = fontSize; // Use computed size
       span.textContent = name;
+
       document.body.appendChild(span);
 
       // Measure with padding that matches your Link component
       const padding = 32; // py-3 (12px top/bottom) + px-2 (8px left/right) = 20px total?
       tempWidths[name] = span.getBoundingClientRect().width + padding;
+
       document.body.removeChild(span);
     });
 
     // document.body.removeChild(referenceLink);
     setTextWidths(tempWidths);
-  }, []);
+  }, [filteredStatesData]);
 
   return (
     <svg
@@ -542,9 +560,9 @@ const MapWithStates = () => {
         strokeWidth='1.51179'
         strokeLinejoin='round'
       />
-      {statesData.map(({ x, y, link, name }) => (
+      {filteredStatesData.map(({ x, y, link, name }) => (
         <foreignObject
-            key={name}
+          key={name}
           x={x}
           y={y}
           // width={textWidths[name] || '100'}

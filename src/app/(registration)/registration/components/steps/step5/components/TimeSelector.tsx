@@ -17,6 +17,8 @@ type Props = {
 const TimesSelector: React.FC<Props> = ({ inputGroupName, times, title, error, initialSelectedTimes, onChange }) => {
   const [selectedTimes, setSelectedTimes] = useState(() => initialSelectedTimes ?? []);
 
+  const allTimesSelected = times.every((time) => selectedTimes.includes(time));
+
   const handleTimeChange = (time: TimesEnum) => (checked: boolean) => {
     let result: TimesEnum[] = [];
 
@@ -38,9 +40,11 @@ const TimesSelector: React.FC<Props> = ({ inputGroupName, times, title, error, i
 
       <div className='flex gap-2 items-center justify-items-start mb-8 font-medium'>
         <CustomCheckbox
+          checked={allTimesSelected}
           onClick={(selected) => {
             if (selected) {
               setSelectedTimes(times);
+              onChange?.(times);
             }
           }}
         />

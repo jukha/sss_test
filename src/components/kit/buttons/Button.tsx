@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import React from 'react';
+import clsx from 'clsx';
 
 type Props = {
   /** The text to display on the button. */
@@ -13,6 +14,9 @@ type Props = {
   buttonClasses?: string;
   /** Additional CSS classes for the shadow element, if shadow is true. */
   shadowClasses?: string;
+  /** Only works if link == false. */
+  onClick?: () => void;
+  disabled?: boolean;
 };
 // when adding hover effects: use group-hover:className
 
@@ -24,7 +28,7 @@ type Props = {
  */
 const Button: React.FC<Props> = (props) => {
   const buttonContent = (
-    <div className={`relative group`}>
+    <div className={clsx('relative group', props.disabled && 'opacity-50')}>
       <div
         className={`py-3 lg:py-4 px-3  lg:px-7 button  flex items-center justify-center duration-300   ${
           props.buttonClasses ?? 'bg-brightYellow text-black'
@@ -53,7 +57,7 @@ const Button: React.FC<Props> = (props) => {
   }
 
   return (
-    <button type='button' className='block w-full'>
+    <button type='button' className='block w-full cursor-pointer' onClick={props.onClick}>
       {buttonContent}
     </button>
   );

@@ -53,4 +53,5 @@ export type RegistrationForm = {
   poolType?: string | null;
 
   policiesAgreement?: boolean;
+  version: number;
 };

@@ -5,15 +5,15 @@ import IconFrame from '@/components/icons/IconFrame';
 import Container from '@/components/layout/Container';
 import Typography from '@/components/semantics/Typography';
 import clsx from 'clsx';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import React, { useEffect, useState } from 'react';
 import ThreeStars from '../decoration/ThreeStars';
 
 const content = {
-  heading: 'Swim Lessons With Local Swim Instructors You Can Trust',
-  heading2: 'What makes our Swim Instructors Sunsational?',
+  sectionHeading: 'Swim Lessons With Local Swim Instructors You Can Trust',
+  title: 'What makes our Swim Instructors Sunsational?',
   image: localSwimInstructorimg,
-  benefits: [
+  reasons: [
     'Passed Extensive Background Checks',
     'Minimum 2 Years Experience',
     'Current CPR/First Aid Certification',
@@ -23,7 +23,19 @@ const content = {
   ],
 };
 
-const WhatMakesOurInstructorsSection = () => {
+type Props = {
+  sectionHeading?: string;
+  title?: string; // send '' from outside to hide title
+  image?: StaticImageData;
+  reasons?: string[];
+};
+
+const WhatMakesOurInstructorsSection = ({
+  sectionHeading = content.sectionHeading,
+  title = content.title,
+  image = content.image,
+  reasons = content.reasons,
+}: Props) => {
   const [isMobile, setIsMobile] = useState(false); // Initialize with a default value
 
   useEffect(() => {
@@ -46,32 +58,37 @@ const WhatMakesOurInstructorsSection = () => {
   }, []);
 
   return (
-    <Container className='flex flex-col gap-12 justify-start items-center py-24'>
+    <Container className='flex flex-col gap-2 lg:gap-20 justify-start items-center py-24'>
       <Typography
         variant='h2'
         className='text-center max-w-[372px] md:max-w-[1020px] mb-[300px] lg:mb-0'
       >
-        {content.heading}
+        {sectionHeading}
       </Typography>
       <div className='flex justify-center items-center  relative  py-4 px-5 lg:px-16 md:py-8  md:max-w-[1450px]'>
         {/* more than 1024px */}
-        <div className='z-10 h-[770px] w-[473px]  absolute left-0  -translate-x-1/3 -translate-y-4 hidden xl:block'>
-          <Image fill src={content.image} className='' alt='instructor image' />
+        <div className='z-10 h-[770px] w-[473px]  absolute left-0  -translate-x-5/12 -translate-y-4 hidden xl:block'>
+          <Image fill src={image} className='' alt='instructor image' />
         </div>
         {/* less than 1024px */}
-        <div className='z-10 absolute h-[473px] w-[287px] -translate-y-[90%] lg:hidden'>
-          <Image fill src={content.image} className='' alt='instructor image' />
+        <div
+          className={clsx(
+            `z-10 absolute h-[473px] w-[287px] lg:hidden`,
+            title ? '-translate-y-[90%]' : '-translate-y-[70%]'
+          )}
+        >
+          <Image fill src={image} className='' alt='instructor image' />
         </div>
-        <div className='flex flex-col lg:flex-row  justify-between items-center relative  w-full  py-10 px-10  md:py-16'>
+        <div className='flex flex-col lg:flex-row lg:min-h-[530px] justify-between items-center relative  w-full  py-10 px-10  md:py-16'>
           <div className='flex flex-col gap-6 pt-16 lg:pt-0 lg:pl-44   z-10'>
             <Typography
               variant='custom'
               className='text-[32px] md:text-[40px] leading-[115%] font-primary font-bold text-offBlack text-center max-w-[287px] md:max-w-[595px]'
             >
-              {content.heading2}
+              {title}
             </Typography>
             <div className='flex flex-col max-w-[366px] md:max-w-none gap-5'>
-              {content.benefits.map((el, index) => {
+              {reasons.map((el, index) => {
                 return (
                   <div
                     key={`benefit-${index}`}
@@ -113,10 +130,10 @@ const WhatMakesOurInstructorsSection = () => {
           )}
         ></div>
         <div className='hidden lg:block absolute z-10 -right-[30px] w-[155px] bottom-40'>
-          <ThreeStars />
+          <ThreeStars color={'var(--color-blue)'} />
         </div>
         <div className='lg:hidden absolute z-10  w-[65px] bottom-0 left-[-25px]'>
-          <ThreeStars />
+          <ThreeStars color={'var(--color-blue)'} />
         </div>
       </div>
     </Container>

@@ -1,45 +1,31 @@
 import { RegistrationForm } from '@/entities/registration-form.entity';
 import { registrationStepRepository } from '@/repositories/registration/registration-step.repository';
-
-function convertFormDataToRecord (formData: Partial<RegistrationForm> | null): Record<string, unknown> {
-  const record: Record<string, unknown> = {};
-
-  if (!formData) {
-    return record;
-  }
-
-  for (const [k, v] of Object.entries(formData)) {
-    if (v !== null || (typeof v === 'string' && v !== '')) {
-      record[k] = v;
-    }
-  }
-
-  return record;
-}
-
+import { convertFormDataToDto } from '@/app/(registration)/registration/logic/validation';
+import { GlobalErrorType } from '@/enum/global-error-type.enum';
 
 type SendDataToServerParameters = {
   registrationRecordId: string,
   registrationFormTypeId: string,
   secret: string,
   formData: RegistrationForm | null
+  step: number;
+  version: number;
 };
 
+export async function sendDataToServer ({ registrationRecordId, registrationFormTypeId, secret, formData, step, version } : SendDataToServerParameters) {
+  const record = convertFormDataToDto(formData);
 
-export async function sendDataToServer ({ registrationRecordId, registrationFormTypeId, secret, formData } : SendDataToServerParameters) {
-  const record = convertFormDataToRecord(formData);
+  const {data, errorCode} = await registrationStepRepository.post({
+    data: record,
+    endpoint: `/${step}`,
+    headers: {
+      'X-RegFormType-Id': registrationFormTypeId,
+      'X-Registration-Secret': secret,
+      'X-Registration-Id': registrationRecordId,
+      'X-Version': version.toString(),
+    },
+    globalErrorType: GlobalErrorType.RegistrationStepRequest
+  });
 
-  try {
-    await registrationStepRepository.post({
-      data: record,
-      endpoint: `/1`,
-      headers: {
-        'X-RegFormType-Id': registrationFormTypeId,
-        'X-Registration-Secret': secret,
-        'X-Registration-Id': registrationRecordId,
-      },
-    }); // todo add error handling?
-  } catch (error) {
-    console.log(error);
-  }
+  if (!data) throw new Error((errorCode || 'unknown').toString());
 }

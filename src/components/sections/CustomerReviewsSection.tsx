@@ -159,7 +159,7 @@ const CustomerReviewsSection = ({
   return (
     <section
       style={{ backgroundColor: bgColor }}
-      className='my-[10em] md:px-[4em]  py-[8em] relative bg-off-white flex flex-col gap-20 overflow-clip justify-start items-center'
+      className='my-[10em] md:px-[4em]  py-[8em] relative bg-off-white flex flex-col gap-20 overflow-x-clip justify-start items-center'
     >
       <div className='absolute top-0 w-full h-6 md:h-12 -translate-y-1/2'>
         <WaveIcon color={bgColor ?? '#FFF9E1'} />

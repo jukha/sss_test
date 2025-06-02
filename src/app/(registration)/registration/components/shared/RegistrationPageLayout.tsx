@@ -1,18 +1,7 @@
 import Link from 'next/link';
 import Wave from '@/components/icons/Wave';
-import {
-  calendar,
-  fiveStar,
-  logo,
-  logoMobile,
-  poolStairs,
-  waterBg,
-  yellowCoin,
-  yellowLike,
-} from '@/assets';
+import { calendar, fiveStar, logo, logoMobile, poolStairs, waterBg, yellowCoin, yellowLike } from '@/assets';
 import RegistrationFormWrapper from './RegistrationFormWrapper';
-import DropDownBlock from '@/components/DropDownBlock';
-import { DropDownType } from '@/types/dropdown.type';
 import '../../styles/registration-styles.css';
 import SmallCardSlider from './SmallCardSlider';
 import LessonsPackageSummary from './LessonsPackageSummary';
@@ -20,6 +9,7 @@ import { useRegistrationForm } from '@/context/registration-form.context';
 import ReviewsSlider from './ReviewsSlider';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import Image from 'next/image';
+import CollapsibleList, { CollapsibleListItem } from '@/components/CollapsedList';
 
 const additionalCardsData = [
   { text: 'Thousands of 5-star reviews ', image: fiveStar },
@@ -29,52 +19,47 @@ const additionalCardsData = [
   { text: 'Flexible Scheduling', image: calendar },
 ];
 
-const dropDownData: DropDownType[] = [
+// TODO update list
+const faqList: CollapsibleListItem[] = [
   {
-    header: 'How long does it take to learn how to swim with private lessons?',
-    textArticles: [
-      'We require that a parent or guardian be present during all lessons. Parents can supervise lessons, either from inside the house, or from the pool deck. If your child starts acting out, we would recommend watching the lessons out of their sight, since young children perform better if there is only one authority figure to focus on at a time.',
-      'For children under 2 years we recommend a parent is in the water for the child to be the most comfortable. Children 2 years and older get the most out of lessons without the parent in the water and often with the parent out of direct sight (preschoolers often act up when the parent is in view).',
-    ],
+    title: 'How long does it take to learn how to swim with private lessons?',
+    description: (
+      <p>
+        We require that a parent or guardian be present during all lessons. Parents can supervise lessons, either from
+        inside the house, or from the pool deck. If your child starts acting out, we would recommend watching the
+        lessons out of their sight, since young children perform better if there is only one authority figure to focus
+        on at a time.
+        <br />
+        <br />
+        For children under 2 years we recommend a parent is in the water for the child to be the most comfortable.
+        Children 2 years and older get the most out of lessons without the parent in the water and often with the parent
+        out of direct sight (preschoolers often act up when the parent is in view).
+      </p>
+    ),
   },
   {
-    header: 'Where is your pool located?',
-    textArticles: [
-      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-      'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    ],
+    title: 'Where is your pool located?',
+    description: '',
   },
   {
-    header: 'What happens if I don’t have a pool at home?',
-    textArticles: [
-      'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
-      'Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
-    ],
+    title: 'What happens if I don’t have a pool at home?',
+    description: '',
   },
   {
-    header: 'What qualifications do your instructors have?',
-    textArticles: [
-      'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
-      'Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
-    ],
+    title: 'What qualifications do your instructors have?',
+    description: '',
   },
   {
-    header: 'What is your Learn to Swim Guarantee?',
-    textArticles: [
-      'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
-      'Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
-    ],
+    title: 'What is your Learn to Swim Guarantee?',
+    description: '',
   },
   {
-    header: 'What is the cost and how many lessons are typically required?',
-    textArticles: [
-      'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
-      'Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
-    ],
+    title: 'What is the cost and how many lessons are typically required?',
+    description: '',
   },
   {
-    header: 'When can I register? How?',
-    textArticles: [
+    title: 'When can I register? How?',
+    description: [
       'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
       'Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
     ],
@@ -87,26 +72,20 @@ type Props = {
   formId: string;
 };
 
-const RegistrationPageLayout: React.FC<Props> = ({
-  databaseId,
-  secret,
-  formId,
-}) => {
+const stepsWithAutoPlaySliders = [
+  RegistrationStepEnum.Step1,
+  RegistrationStepEnum.Step1NoPoolsError,
+  RegistrationStepEnum.Step1OutsideAreaError,
+  RegistrationStepEnum.Step1Success,
+]
+
+const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId }) => {
   const { showLessonsPackageSummary, registrationStep } = useRegistrationForm();
-  const autoplaySliders = [
-    RegistrationStepEnum.Step1,
-    RegistrationStepEnum.Step1NoPoolsError,
-    RegistrationStepEnum.Step1OutsideAreaError,
-    RegistrationStepEnum.Step1Success,
-  ].includes(registrationStep);
+  const withAutoPlay = stepsWithAutoPlaySliders.includes(registrationStep);
 
   return (
     <div className='relative desktop:h-[100vh] desktop:overflow-hidden'>
-      <Image
-        src={waterBg}
-        alt=''
-        className='w-full absolute top-0 left-0 desktop:w-[60vw] desktop:h-full -z-1'
-      />
+      <Image src={waterBg} alt='' className='w-full absolute top-0 left-0 desktop:w-[60vw] desktop:h-full -z-1' />
       <div className='absolute bg-yellow w-full h-full -z-2'></div>
 
       <div className='relative flex flex-col desktop:flex-row desktop:max-w-[1440px] desktop:mx-auto desktop:h-[100vh]'>
@@ -123,9 +102,7 @@ const RegistrationPageLayout: React.FC<Props> = ({
 
           <div className='flex px-6 desktop:px-28 pt-[90px] desktop:h-[280px]'>
             <h1 className='font-bold font-primary max-w-[200px] leading-[1.15] sm:mx-auto xl:mx-[0] desktop:max-w-[300px]'>
-              <span className='block text-yellow text-[32px] desktop:text-5xl'>
-                Register Now
-              </span>
+              <span className='block text-yellow text-[32px] desktop:text-5xl'>Register Now</span>
               <span className='block text-off-white text-2xl desktop:text-[32px]'>
                 for At-Home Swim Lessons with Sunsational
               </span>
@@ -133,11 +110,7 @@ const RegistrationPageLayout: React.FC<Props> = ({
           </div>
 
           <div className='mt-12 mx-auto sm:max-w-[640px] desktop:h-[calc(100vh-280px)]'>
-            <RegistrationFormWrapper
-              databaseId={databaseId}
-              secret={secret}
-              formId={formId}
-            />
+            <RegistrationFormWrapper databaseId={databaseId} secret={secret} formId={formId} />
           </div>
         </div>
 
@@ -161,25 +134,22 @@ const RegistrationPageLayout: React.FC<Props> = ({
                 }}
                 summary={{
                   totalPrice: '1640',
-                  countingString:
-                    '18 x  30 Minute Lesson @ $90 + 1 Student x $20',
+                  countingString: '18 x  30 Minute Lesson @ $90 + 1 Student x $20',
                   savingPercent: '10',
                 }}
               />
             ) : (
-              <ReviewsSlider withAutoplay={autoplaySliders} />
+              <ReviewsSlider withAutoplay={withAutoPlay} />
             )}
 
-            <div className='w-max mx-[auto]'>
-              <SmallCardSlider
-                cards={additionalCardsData}
-                withAutoplay={autoplaySliders}
-              />
+            <div className='w-max mx-[auto] mt-10 desktop:mt-28'>
+              <SmallCardSlider cards={additionalCardsData} withAutoplay={withAutoPlay} />
             </div>
-            <div className='pt-[50px] laptop:pt-[100px] flex flex-col gap-[30px] items-center'>
-              <h2>FAQ</h2>
-              <DropDownBlock dropDownBlocks={dropDownData} />
-            </div>
+
+            <section className='mt-[60px] flex flex-col gap-[30px] items-center'>
+              <h2 className='text-[40px] desktop:text-[48px]'>FAQ</h2>
+              <CollapsibleList items={faqList} />
+            </section>
           </div>
         </div>
       </div>

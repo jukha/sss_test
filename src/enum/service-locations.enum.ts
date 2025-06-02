@@ -1,0 +1,18 @@
+export enum ServiceLocations {
+  All = 'All',
+  Washington = 'Washington',
+  California = 'California',
+  Nevada = 'Nevada',
+  Arizona = 'Arizona',
+  Hawaii = 'Hawaii',
+  Colorado = 'Colorado',
+  Texas = 'Texas',
+  Missouri = 'Missouri',
+  Illinois = 'Illinois',
+  Pennsylvania = 'Pennsylvania',
+  Massachusetts = 'Massachusetts',
+  Virginia = 'Virginia',
+  NorthCarolina = 'North Carolina',
+  Florida = 'Florida',
+  WashingtonDC = 'Washington D.C.',
+}

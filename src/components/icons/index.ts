@@ -62,3 +62,6 @@ export { default as StarBlogIcon } from './StarBlogIcon';
 export { default as StreetViewIcon } from './StreetViewIcon';
 export { default as HappyIcon } from './HappyIcon';
 export { default as GraduationCapIcon } from './GraduationCapIcon';
+export { default as HandWithHeartIcon } from './HandWithHeartIcon';
+export { default as TrustIcon } from './TrustIcon';
+export { default as RunningManIcon } from './RunningManIcon';

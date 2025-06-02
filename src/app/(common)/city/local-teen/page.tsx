@@ -9,7 +9,7 @@ import MembersOfSection from '@/components/sections/MembersOfSection';
 import HowItWorksLocalTeenSection from './components/HowItWorksLocalTeenSection';
 import SatisfactionGuaranteeSection from '@/components/sections/SatisfactionGuaranteeSection';
 import { localTeenSatisfactionGuarantee } from '@/assets';
-import LocalTeensLessonsPricing from './components/LocalKidsLessonsPricing';
+import LocalTeensLessonsPricing from './components/LocalteensLessonsPricing';
 import SocialMediaReviewsSection from '@/components/sections/SocialMediaReviewsSection';
 import LocalTeenFaqsSection from './components/LocalTeenFaqsSection';
 import AdvancedAndCompetetiveSummersSection from './components/AdvancedAndCompetetiveSummersSection';

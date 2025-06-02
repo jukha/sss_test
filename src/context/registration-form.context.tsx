@@ -2,12 +2,9 @@
 
 import { RegistrationForm } from '@/entities/registration-form.entity';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
-import {
-  findNextStep,
-  findPreviousStep,
-} from '@/app/(registration)/registration/logic/navigation';
-import { createContext, useContext, useState } from 'react';
-
+import { findNextStep, findPreviousStep } from '@/app/(registration)/registration/logic/navigation';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { validateFormStep } from '@/app/(registration)/registration/logic/validation';
 
 export interface RegistrationFormContextType {
   registrationForm: RegistrationForm | null;
@@ -16,7 +13,7 @@ export interface RegistrationFormContextType {
   setRegistrationFormField: (fieldName: string, fieldValue: unknown) => void;
 
   registrationStep: RegistrationStepEnum;
-  setRegistrationStep: (step: RegistrationStepEnum) => void;
+  setRegistrationStep: (step: RegistrationStepEnum, pushToBrowserHistory?: boolean) => void;
   switchToNextStep: () => void;
   switchToPreviousStep: () => void;
 
@@ -32,31 +29,48 @@ export interface RegistrationFormContextType {
 
   showLessonsPackageSummary: boolean;
   setShowLessonsPackageSummary: (show: boolean) => void;
+
+  formVersion: number;
+  setFormVersion: (version: number) => void;
 }
 
 
+type Props = { children: React.ReactNode };
 type RegistrationFormErrors = Partial<Record<keyof RegistrationForm, string>>;
-
 
 const RegistrationFormContext = createContext<RegistrationFormContextType | undefined>(undefined);
 
+const pushStepToBrowserHistory = (stepForReturn?: RegistrationStepEnum) => {
+  const step1ReturnSteps = [
+    RegistrationStepEnum.Step1NoPoolsError,
+    RegistrationStepEnum.Step1OutsideAreaError,
+    RegistrationStepEnum.Step1Success,
+  ];
 
-export const RegistrationFormProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+  if (stepForReturn && step1ReturnSteps.includes(stepForReturn)) {
+    return;
+  }
+
+  window.history.pushState({ stepForReturn }, '');
+};
+
+export const RegistrationFormProvider = ({ children }: Props) => {
   const [registrationStep, internalSetRegistrationStep] = useState<RegistrationStepEnum>(RegistrationStepEnum.Step1);
   const [isStep1SuccessShown, setIsStep1SuccessShown] = useState<boolean | null | undefined>(undefined);
+  const [formVersion, setFormVersion] = useState(0);
 
-  const setRegistrationStep = (step: RegistrationStepEnum) => {
+  const setRegistrationStep = (step: RegistrationStepEnum, pushToBrowserHistory?: boolean) => {
     clearRegistrationErrors();
     internalSetRegistrationStep(step);
+    if (pushToBrowserHistory) {
+      pushStepToBrowserHistory(registrationStep);
+    }
   };
 
   const switchToNextStep = () => {
     if (registrationStep == RegistrationStepEnum.Step1) {
       if (!isStep1SuccessShown) {
+        pushStepToBrowserHistory(registrationStep);
         setRegistrationStep(RegistrationStepEnum.Step1Success);
         setIsStep1SuccessShown(true);
         return;
@@ -64,20 +78,18 @@ export const RegistrationFormProvider = ({
     }
 
     const nextStep = findNextStep(registrationStep);
-    if (!nextStep) {
-      return;
-    }
+    if (!nextStep) return;
 
     setRegistrationStep(nextStep);
+    pushStepToBrowserHistory(nextStep);
   };
 
   const switchToPreviousStep = () => {
     const previousStep = findPreviousStep(registrationStep);
-    if (!previousStep) {
-      return;
-    }
+    if (!previousStep) return;
 
     setRegistrationStep(previousStep);
+    pushStepToBrowserHistory(previousStep);
   };
 
   const [registrationForm, setRegistrationForm] = useState<RegistrationForm | null>(null);
@@ -104,38 +116,60 @@ export const RegistrationFormProvider = ({
   };
 
   const clearFieldRegistrationErrors = (fieldName: keyof RegistrationForm) => {
-    if (registrationErrors) {
-      delete registrationErrors[fieldName];
-    }
-    const newRegistrationErrors = {
-      ...registrationErrors,
-    };
-    internalSetRegistrationErrors(newRegistrationErrors);
+    internalSetRegistrationErrors(v => {
+      if (!v) return v;
+
+      const newRegistrationErrors = {...v};
+      delete newRegistrationErrors[fieldName];
+      return {...newRegistrationErrors, ...registrationErrors};
+    });
+
     setRegistrationErrorsText(null);
   };
 
   const setOneFieldValidationErrors = (fieldRegistrationErrors: RegistrationFormErrors | null) => {
-    internalSetRegistrationErrors({
-      ...registrationErrors,
+    internalSetRegistrationErrors(v => ({
+      ...(v || {}),
       ...fieldRegistrationErrors,
-    });
+    }));
+
     setRegistrationErrorsText(null);
   };
 
   const setRegistrationFormField = (fieldName: string, fieldValue: unknown) => {
-    if (registrationForm) {
-      // @ts-expect-error Dynamic field name construction
-      registrationForm[fieldName] = fieldValue;
-    }
-
-    setRegistrationForm({
-      ...registrationForm!,
-      [fieldName]: fieldValue,
+    setRegistrationForm(v => {
+      if (!v) return v;
+      return {... v, [fieldName]: fieldValue};
     });
 
     // @ts-expect-error Dynamic field name construction
     clearFieldRegistrationErrors(fieldName);
   };
+
+  useEffect(() => {
+    setFormVersion(registrationForm?.version || 1);
+  }, [registrationForm?.version])
+
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      const validationErrors = validateFormStep(registrationForm, registrationStep);
+      const { stepForReturn }: { stepForReturn: RegistrationStepEnum } = event.state;
+
+      if (validationErrors && stepForReturn >= registrationStep) {
+        return;
+      }
+
+      if (stepForReturn) {
+        setRegistrationStep(stepForReturn);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [registrationStep]);
 
   return (
     <RegistrationFormContext.Provider
@@ -162,13 +196,15 @@ export const RegistrationFormProvider = ({
 
         showLessonsPackageSummary,
         setShowLessonsPackageSummary,
+
+        formVersion,
+        setFormVersion,
       }}
     >
       {children}
     </RegistrationFormContext.Provider>
   );
 };
-
 
 export const useRegistrationForm = () => {
   const context = useContext(RegistrationFormContext);

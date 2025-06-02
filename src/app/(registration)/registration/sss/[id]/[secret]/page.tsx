@@ -4,6 +4,8 @@ import {
   loadRegistration,
 } from '@/app/api/registration/utils/registration-record';
 import { redirect } from 'next/navigation';
+import { CustomerRegistration } from '@/__generated__/prisma';
+import { Error500Page } from '@/components/error_pages/Error500Page';
 
 const REGISTRATION_FORM_TYPE = 'J';
 
@@ -13,12 +15,17 @@ type Props = {
 
 export default async function Registration({ params }: Props) {
   const { id, secret } = await params;
+  let registration: CustomerRegistration | undefined | null;
 
-  const registration = await loadRegistration({
-    secret,
-    id: BigInt(id),
-    formTypeId: REGISTRATION_FORM_TYPE,
-  });
+  try {
+    registration = await loadRegistration({
+      secret,
+      id: BigInt(id),
+      formTypeId: REGISTRATION_FORM_TYPE,
+    });
+  } catch {
+    return <Error500Page reason={'Database query failed'}/>
+  }
 
   if (!registration) {
     redirect('/registration');
