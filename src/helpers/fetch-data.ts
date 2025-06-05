@@ -15,6 +15,7 @@ type FetchDataOptions<D> = {
   headers?: Record<string, string>;
   data?: D;
   jsonHeaderInRequest?: boolean;
+  searchParams?: Record<string, unknown>;
 };
 
 type TryFetchDataOptions<D> = FetchDataOptions<D> & {
@@ -26,7 +27,8 @@ async function fetchData<E, D>({
   method,
   headers,
   data,
-  jsonHeaderInRequest = true
+  jsonHeaderInRequest = true,
+  searchParams,
 }: FetchDataOptions<D>): Promise<FetchDataResponse<E>> {
   const options: RequestInit = {
     method,
@@ -37,7 +39,7 @@ async function fetchData<E, D>({
     body: method === 'POST' && data ? JSON.stringify(data) : undefined,
   };
 
-  const response = await fetch(url, options);
+  const response = await fetch(url + (searchParams ? `?${searchParams.toString()}` : ''), options);
 
   if (response.status === 400) {
     const data = await response.json();

@@ -1,29 +1,25 @@
 import { SuggestedAddress } from '@/helpers/get-address-suggestions';
 
 export const convertSuggestedAddressToString = (address: SuggestedAddress) => {
-  let resultAddress = '';
+  const addressParts = [
+    `${address.houseNumber ?? ''} ${address.street ?? ''}`,
+    address.city,
+    `${address.state ?? ''}${address.postalCode ? ' ' + address.postalCode : ''}`,
+  ];
 
-  if (address.houseNumber) {
-    resultAddress += `${address.houseNumber} `;
-  }
-
-  if (address.street) {
-    resultAddress += `${address.street}`;
-  }
-
-  if (address.city) {
-    resultAddress += `${resultAddress ? ', ' : ''} ${address.city}`;
-  }
-
-  if (address.state) {
-    resultAddress += `${resultAddress ? ', ' : ''} ${address.state}`;
-  }
-
-  resultAddress += address.postalCode ? ` ${address.postalCode}` : '';
-
-  return resultAddress.trim();
+  return addressParts.join(', ').trim();
 };
 
 export const isZipCodeValid = (zipCode: string) => {
-  return /\d{5}$/g.test(zipCode);
+  return /(?<!\d)\d{5}$/g.test(zipCode);
+};
+
+export const foundUserAddressInSuggestions = (userAddress: string, suggestions: string[]) => {
+  const foundInSuggestion = suggestions.some(
+    (suggestedAddress) => suggestedAddress.toLowerCase() === userAddress.trim().toLowerCase()
+  );
+
+  return {
+    foundInSuggestion,
+  };
 };

@@ -8,11 +8,19 @@ import clsx from 'clsx';
 import Image, { StaticImageData } from 'next/image';
 import React, { useEffect, useState } from 'react';
 import ThreeStars from '../decoration/ThreeStars';
+import ArrowButton from '../kit/buttons/ArrowButton';
 
 const content = {
   sectionHeading: 'Swim Lessons With Local Swim Instructors You Can Trust',
   title: 'What makes our Swim Instructors Sunsational?',
   image: localSwimInstructorimg,
+  buttonText: undefined,
+  buttonLink: '#',
+  buttonClasses: 'bg-offBlack text-xl text-white',
+  shadowClasses: 'bg-blue',
+  buttonShadow: true,
+  iconClasses: 'bg-yellow',
+  iconColor: 'black',
   reasons: [
     'Passed Extensive Background Checks',
     'Minimum 2 Years Experience',
@@ -28,6 +36,13 @@ type Props = {
   title?: string; // send '' from outside to hide title
   image?: StaticImageData;
   reasons?: string[];
+  buttonLink?: string;
+  buttonText?: string;
+  buttonClasses?: string;
+  iconClasses?: string;
+  iconColor?: string;
+  buttonShadow?: boolean;
+  shadowClasses?: string;
 };
 
 const WhatMakesOurInstructorsSection = ({
@@ -35,6 +50,13 @@ const WhatMakesOurInstructorsSection = ({
   title = content.title,
   image = content.image,
   reasons = content.reasons,
+  buttonText = content.buttonText,
+  buttonLink = content.buttonLink,
+  buttonClasses = content.buttonClasses,
+  shadowClasses = content.shadowClasses,
+  buttonShadow = content.buttonShadow,
+  iconClasses = content.iconClasses,
+  iconColor = content.iconColor,
 }: Props) => {
   const [isMobile, setIsMobile] = useState(false); // Initialize with a default value
 
@@ -99,7 +121,7 @@ const WhatMakesOurInstructorsSection = ({
                     </span>
                     <Typography
                       variant='custom'
-                      className='w-[92%] md:w-auto text-base md:text-[30px] font-primary font-bold leading-[100%] md:leading-[113%] md:whitespace-nowrap'
+                      className='w-[92%] md:w-auto text-base md:text-[30px] font-primary font-bold leading-[100%] md:leading-[113%] max-w-[687px]'
                     >
                       {el}
                     </Typography>
@@ -136,6 +158,17 @@ const WhatMakesOurInstructorsSection = ({
           <ThreeStars color={'var(--color-blue)'} />
         </div>
       </div>
+      {buttonText && (
+        <ArrowButton
+          text={buttonText}
+          link={buttonLink}
+          buttonClasses={buttonClasses}
+          IconClasses={iconClasses}
+          iconColor={iconColor}
+          shadowClasses={shadowClasses}
+          shadow={buttonShadow}
+        />
+      )}
     </Container>
   );
 };

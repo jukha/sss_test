@@ -18,11 +18,7 @@ export default async function Registration({ params }: Props) {
   let registration: CustomerRegistration | undefined | null;
 
   try {
-    registration = await loadRegistration({
-      secret,
-      id: BigInt(id),
-      formTypeId: REGISTRATION_FORM_TYPE,
-    });
+    registration = await loadRegistration({ secret, id, formTypeId: REGISTRATION_FORM_TYPE, });
   } catch {
     return <Error500Page reason={'Database query failed'}/>
   }

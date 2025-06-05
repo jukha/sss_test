@@ -6,6 +6,7 @@ import { WhiteCurvySubstrate } from '@/components/icons';
 import clsx from 'clsx';
 
 type Props = {
+  id: number;
   isSelected: boolean;
   bgColor: string;
   mainColor: string;
@@ -16,8 +17,7 @@ type Props = {
   lessonMinutes: number;
   learnGuaranteed: boolean;
   otherCardSelected: boolean;
-  index: number;
-  onChange: (index: number) => void;
+  onChange: (id: number) => void;
   nameAttr: string;
   salePercent?: number;
 };
@@ -34,7 +34,7 @@ const LessonPackageCard = ({
   salePercent,
   learnGuaranteed,
   otherCardSelected,
-  index,
+  id,
   onChange,
 }: Props) => {
   const [hovered, setHovered] = useState(false);
@@ -43,8 +43,9 @@ const LessonPackageCard = ({
   return (
     <label
       className={clsx(
-        'flex flex-col items-center pt-[34px] pb-[30px] px-[16px] rounded-[32px] border-[2px] border-transparent relative leading-[1.2] desktop:pt-[22px] desktop:px-[6px] desktop:pb-4 transition-[border]',
-        !isSelected && 'cursor-pointer'
+        'flex flex-col items-center pt-[34px] pb-[30px] px-[16px] rounded-[32px] border-[2px] border-transparent relative leading-[1.2] desktop:pt-[22px] desktop:px-[6px] desktop:pb-4 transition-all',
+        !isSelected && 'cursor-pointer',
+        changeStyle && 'desktop:scale-[1.025]'
       )}
       style={{
         backgroundColor: bgColor,
@@ -54,7 +55,7 @@ const LessonPackageCard = ({
       onMouseLeave={() => setHovered(false)}
     >
       <div
-        className='absolute top-0 left-[50%] translate-[-50%] z-1 px-4 py-0.5 rounded-2xl font-bold text-[14px] uppercase text-white desktop:text-[10px] desktop:mt-0'
+        className='absolute w-max top-0 left-[50%] translate-[-50%] z-1 px-4 py-0.5 rounded-2xl font-bold text-[14px] uppercase text-white desktop:text-[10px] desktop:mt-0'
         style={{
           backgroundColor: mainColor,
         }}
@@ -62,23 +63,17 @@ const LessonPackageCard = ({
         {badgeText}
       </div>
 
-      <div className='font-bold text-[32px] font-primary text-center desktop:text-[16px]'>
-        {lessonsCount} lessons
-      </div>
+      <div className='font-bold text-[32px] font-primary text-center desktop:text-[29px]'>{lessonsCount} lessons</div>
 
-      <div className='font-semibold text-[16px] font-primary text-center mt-[6px] mb-[16px] desktop:text-[10px] desktop:mt-0 desktop:mb-2'>
+      <div className='font-semibold text-[16px] font-primary text-center mt-[6px] mb-[16px] desktop:text-[12px] desktop:mt-0 desktop:mb-2'>
         {description}
       </div>
 
       <div className='relative w-full h-[80px] mb-3 flex items-center justify-center desktop:w-[170px] desktop:h-[42px] desktop:mb-5'>
         <div className='relative z-1 flex items-center font-bold text-offBlack'>
           <div className='flex items-start text-black'>
-            <span className='text-[20px] mt-[12px] desktop:text-[10px] desktop:mt-[5px]'>
-              $
-            </span>
-            <span className='text-[48px] font-bold font-primary desktop:text-[22px]'>
-              {price}
-            </span>
+            <span className='text-[20px] mt-[12px] desktop:text-[10px] desktop:mt-[5px]'>$</span>
+            <span className='text-[48px] font-bold font-primary desktop:text-[22px]'>{price}</span>
           </div>
           <div className='uppercase text-[14px] mt-2 ml-1 mr-5 desktop:text-[10px] desktop:mt-0 desktop:ml-0 desktop:mr-2'>
             / {lessonMinutes} MINUTES
@@ -128,9 +123,9 @@ const LessonPackageCard = ({
         className='absolute w-0 h-0 invisible'
         type='radio'
         name='lesson_package'
-        value={index}
+        value={id}
         checked={isSelected}
-        onChange={() => onChange(index)}
+        onChange={() => onChange(id)}
       />
     </label>
   );

@@ -1,25 +1,17 @@
 'use client';
 
 import { InstructorEntity } from '@/entities/instructor.entity'; // Updated import
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from 'react';
-import { instructorsRepository } from '@/repositories/instructors.repository';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import serverDataApi from '@/actions/data/server-data-api';
 
-interface InstructorsContextType {
-  instructors: InstructorEntity[]; // Use updated InstructorEntity
+type InstructorsContextType = {
+  instructors: InstructorEntity[];
   loading: boolean;
   error: Error | null;
   refetchInstructors: () => Promise<void>;
 }
 
-const InstructorsContext = createContext<InstructorsContextType | undefined>(
-  undefined
-);
+const InstructorsContext = createContext<InstructorsContextType | undefined>(undefined);
 
 export const InstructorsProvider = ({ children }: { children: ReactNode }) => {
   const [instructors, setInstructors] = useState<InstructorEntity[]>([]); // Use updated InstructorEntity
@@ -31,14 +23,7 @@ export const InstructorsProvider = ({ children }: { children: ReactNode }) => {
     setError(null);
 
     try {
-      const response = await instructorsRepository.findAll({});
-
-      if (response.data) {
-        setInstructors(response.data);
-      } else {
-        console.error('Fetched instructors data is not in the expected format:', response);
-        setInstructors([]);
-      }
+      setInstructors(await serverDataApi.instructors.featured.get())
     } catch (err) {
       setError(err as Error);
       setInstructors([]);

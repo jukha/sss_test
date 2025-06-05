@@ -11,16 +11,14 @@ type Props = {
 };
 
 const InstructorProfileCards = ({ profile }: Props) => {
-  const name = `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || 'N/A';
+  const name = profile.name || 'N/A';
 
-  const location =
-    `${profile.city || ''}, ${profile.state || ''} ${profile.zip || ''}`
-      .trim()
-      .replace(/^, |, $/g, '') || 'N/A';
+  const location = profile.address?.replace(/^, |, $/g, '') || 'N/A';
 
   let certificationText = 'Certification N/A';
-  if (profile.hired_date) {
-    const year = new Date(profile.hired_date).getFullYear();
+
+  if (profile.registrationYear) {
+    const year = new Date(profile.registrationYear).getFullYear();
     if (!isNaN(year)) {
       certificationText = `Sunsational Certified Since ${year}`;
     }
@@ -29,13 +27,9 @@ const InstructorProfileCards = ({ profile }: Props) => {
   }
 
   const about = profile.biography || 'No biography available.';
-  const imageUrl =
-    profile.profile_pic_opt ||
-    profile.profile_pic ||
-    instructorProfileCardImage;
+  const imageUrl = profile.avatarUrl || instructorProfileCardImage;
 
-  const ratingValue = Number(profile.instructor_score);
-  const displayRating = Math.min(Math.max(Math.round(ratingValue), 0), 5); // Clamp to 0-5 for stars
+  const displayRating = 5 // we always show 5 stars
 
   return (
     <div className='mb-16'>

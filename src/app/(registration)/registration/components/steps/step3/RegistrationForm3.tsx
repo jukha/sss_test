@@ -6,14 +6,16 @@ import AdditionalParentGuardian from './components/AdditionalParentGuardian';
 import { blackArrow, mail, mobile, personIcon } from '@/assets';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import { BuildOnFieldFocusLostHandlerFunction } from '../../../types';
-
+import { RegistrationForm } from '@/entities/registration-form.entity';
+import { useState } from 'react';
+import { validateFormStep } from '../../../logic/validation';
+import { validateUserAndGuardiansEmails } from '../../../logic/emails-validation';
 
 type Props = {
-  onNextClicked: () => Promise<void>;
+  onNextClicked: (options?: { shouldNotSwitchToNextStep?: boolean }) => Promise<void>;
   onPreviousClicked: () => Promise<void>;
   buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
 };
-
 
 const formatPhoneNumber = (v: string | null | undefined) => {
   if (!v) {
@@ -38,28 +40,45 @@ const formatPhoneNumber = (v: string | null | undefined) => {
   return formatted;
 };
 
-
-const RegistrationForm3: React.FC<Props> = ({
-  onNextClicked,
-  onPreviousClicked,
-  buildOnFieldFocusLostHandler,
-}) => {
+const RegistrationForm3: React.FC<Props> = ({ onNextClicked, onPreviousClicked, buildOnFieldFocusLostHandler }) => {
   const {
     registrationForm,
     setRegistrationFormField,
+    registrationStep,
+    setRegistrationErrors,
+    setOneFieldValidationErrors,
     registrationErrors,
     registrationErrorsText,
   } = useRegistrationForm();
+  const [loading, setLoading] = useState(false);
 
   const showAdditionalParentGuardians = !registrationForm?.isCustomerAParentGuardianOfAll;
-
-  const getStudentsCount = () => {
-    return registrationForm?.studentsCount || 0;
-  };
+  const currentUserFullName = `${registrationForm?.firstName ?? ''} ${registrationForm?.lastName ?? ''}`;
+  const studentsCount = registrationForm?.studentsCount ?? 0;
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onNextClicked();
+
+    const validationErrors = validateFormStep(registrationForm, registrationStep);
+
+    if (validationErrors) {
+      setRegistrationErrors(validationErrors);
+      return;
+    } else {
+      setRegistrationErrors({});
+    }
+
+    setLoading(true);
+    const emailsErrors = await validateUserAndGuardiansEmails(registrationForm);
+    setLoading(false);
+    if (emailsErrors && Object.keys(emailsErrors).length) {
+      Object.entries(emailsErrors).forEach(([fieldName, errorMessage]) => {
+        setOneFieldValidationErrors({ [fieldName]: [errorMessage] });
+      });
+      return;
+    }
+
+    await onNextClicked();
   };
 
   return (
@@ -74,7 +93,9 @@ const RegistrationForm3: React.FC<Props> = ({
               error={registrationErrors?.firstName}
               text='First Name*'
               icon={personIcon}
-              onChange={(e) => { setRegistrationFormField('firstName', e.target.value); }}
+              onChange={(e) => {
+                setRegistrationFormField('firstName', e.target.value);
+              }}
               onBlur={buildOnFieldFocusLostHandler('firstName')}
             />
 
@@ -83,7 +104,9 @@ const RegistrationForm3: React.FC<Props> = ({
               error={registrationErrors?.lastName}
               text='Last Name*'
               icon={personIcon}
-              onChange={(e) => { setRegistrationFormField('lastName', e.target.value); }}
+              onChange={(e) => {
+                setRegistrationFormField('lastName', e.target.value);
+              }}
               onBlur={buildOnFieldFocusLostHandler('lastName')}
             />
           </div>
@@ -94,14 +117,18 @@ const RegistrationForm3: React.FC<Props> = ({
             text='Email Address*'
             icon={mail}
             type='email'
-            onChange={(e) => { setRegistrationFormField('email', e.target.value); }}
+            onChange={(e) => {
+              setRegistrationFormField('email', e.target.value);
+            }}
             onBlur={buildOnFieldFocusLostHandler('email')}
           />
 
           <CustomInput
             value={formatPhoneNumber(registrationForm?.phone)}
             error={registrationErrors?.phone}
-            onChange={(e) => { setRegistrationFormField('phone', formatPhoneNumber(e.target.value)); }}
+            onChange={(e) => {
+              setRegistrationFormField('phone', formatPhoneNumber(e.target.value));
+            }}
             text='Phone Number*'
             icon={mobile}
             type='phone'
@@ -112,52 +139,53 @@ const RegistrationForm3: React.FC<Props> = ({
 
         {showAdditionalParentGuardians && (
           <div>
-            <p className='text-2xl font-primary font-bold mb-4 desktop:mb-5'>
-              Additional Parent/Guardians
-            </p>
+            <p className='text-2xl font-primary font-bold mb-4 desktop:mb-5'>Additional Parent/Guardians</p>
 
             <div className='flex flex-col gap-8 desktop:gap-10'>
-              {Array.from({ length: getStudentsCount() }).map((_, i) => (
-                <AdditionalParentGuardian
-                  key={i}
-                  // @ts-expect-error Dynamic field name construction
-                  studentName={registrationForm?.[`studentName${i+1}`] || ''}
-                  currentUserName={`${registrationForm?.firstName || ''} ${registrationForm?.lastName || ''}`}
-                  currentUserEmail={registrationForm?.email || ''}
-                  // @ts-expect-error Dynamic field name construction
-                  name={registrationForm?.[`parentGuardianName${i+1}`] || ''}
-                  // @ts-expect-error Dynamic field name construction
-                  email={registrationForm?.[`parentGuardianEmail${i+1}`] || ''}
-                  // @ts-expect-error Dynamic field name construction
-                  nameError={registrationErrors?.[`parentGuardianName${i+1}`]}
-                  // @ts-expect-error Dynamic field name construction
-                  emailError={registrationErrors?.[`parentGuardianEmail${i+1}`]}
-                  onNameChange={(e) => { setRegistrationFormField(`parentGuardianName${i+1}`, e.target.value); }}
-                  onEmailChange={(e) => { setRegistrationFormField(`parentGuardianEmail${i+1}`, e.target.value); }}
-                  setName={(value) => { setRegistrationFormField(`parentGuardianName${i+1}`, value); }}
-                  setEmail={(value) => { setRegistrationFormField(`parentGuardianEmail${i+1}`, value); }}
-                  // @ts-expect-error Dynamic field name construction
-                  onNameBlur={buildOnFieldFocusLostHandler(`parentGuardianName${i+1}`)}
-                  // @ts-expect-error Dynamic field name construction
-                  onEmailBlur={buildOnFieldFocusLostHandler(`parentGuardianEmail${i+1}`)}
-                />
-              ))}
+              {Array.from({ length: studentsCount }).map((_, i) => {
+                const studentNameKey = `studentName${i + 1}` as keyof RegistrationForm;
+                const parentGuardianNameKey = `parentGuardianName${i + 1}` as keyof RegistrationForm;
+                const parentGuardianEmailKey = `parentGuardianEmail${i + 1}` as keyof RegistrationForm;
+
+                return (
+                  <AdditionalParentGuardian
+                    key={i}
+                    studentName={(registrationForm?.[studentNameKey] ?? '') as string}
+                    currentUserName={currentUserFullName}
+                    currentUserEmail={registrationForm?.email ?? ''}
+                    name={(registrationForm?.[parentGuardianNameKey] ?? '') as string}
+                    email={(registrationForm?.[parentGuardianEmailKey] ?? '') as string}
+                    nameError={registrationErrors?.[parentGuardianNameKey]}
+                    emailError={registrationErrors?.[parentGuardianEmailKey]}
+                    onNameChange={(e) => {
+                      setRegistrationFormField(parentGuardianNameKey, e.target.value);
+                    }}
+                    onEmailChange={(e) => {
+                      setRegistrationFormField(parentGuardianEmailKey, e.target.value);
+                    }}
+                    setName={(value) => {
+                      setRegistrationFormField(parentGuardianNameKey, value);
+                    }}
+                    setEmail={(value) => {
+                      setRegistrationFormField(parentGuardianEmailKey, value);
+                    }}
+                    onNameBlur={buildOnFieldFocusLostHandler(parentGuardianNameKey)}
+                    onEmailBlur={buildOnFieldFocusLostHandler(parentGuardianEmailKey)}
+                  />
+                );
+              })}
             </div>
           </div>
         )}
 
-        {registrationErrorsText && (
-          <AlertBox
-            type='error'
-            text={registrationErrorsText}
-          />
-        )}
+        {registrationErrorsText && <AlertBox type='error' text={registrationErrorsText} />}
 
         <div className='flex justify-center'>
           <div className='max-w-[251px] my-auto desktop:max-w-[342px]'>
             <CustomCurveButton
               type='submit'
-              text='Continue'
+              text={loading ? 'loading' : 'Continue'}
+              disabled={loading}
               icon={blackArrow}
             />
           </div>
@@ -170,6 +198,5 @@ const RegistrationForm3: React.FC<Props> = ({
     </div>
   );
 };
-
 
 export default RegistrationForm3;

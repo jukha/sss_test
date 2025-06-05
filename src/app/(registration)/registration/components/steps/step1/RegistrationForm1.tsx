@@ -22,7 +22,7 @@ const SERVICEABILITY_ERROR_TO_STEP_MAPPING = {
 }
 
 type Props = {
-  onNextClicked: (options?: {shouldSwitchToNextStep?: boolean}) => Promise<void>;
+  onNextClicked: (options?: {shouldNotSwitchToNextStep?: boolean}) => Promise<void>;
   buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
   registrationDataIsLoading: boolean;
 };
@@ -89,7 +89,7 @@ const RegistrationForm1 = ({
     }
 
     setRegistrationStep(SERVICEABILITY_ERROR_TO_STEP_MAPPING[serviceabilityError]);
-    await onNextClicked({shouldSwitchToNextStep: false});
+    await onNextClicked({shouldNotSwitchToNextStep: true});
   };
 
   const getZipCodeValue = () => {

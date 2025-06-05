@@ -33,6 +33,7 @@ export async function autoRetryCatchable<T>(fn: () => Promise<T>, options?: Omit
     try {
       return await fn();
     } catch (e) {
+      console.error(e);
       return e;
     }
   }

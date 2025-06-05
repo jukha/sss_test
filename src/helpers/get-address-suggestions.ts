@@ -1,3 +1,5 @@
+import { tryFetchData } from '@/helpers/fetch-data';
+
 const HERE_API_KEY = process.env.NEXT_PUBLIC_HERE_API_KEY;
 
 const API_URL = `https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json?apiKey=${HERE_API_KEY}&country=USA`;
@@ -14,7 +16,7 @@ export type SuggestedAddress = {
 };
 
 type SuggestionsResponse = {
-  suggestions: {
+  suggestions?: {
     label: string;
     language: string;
     countryCode: string;
@@ -24,8 +26,14 @@ type SuggestionsResponse = {
   }[];
 };
 
-export const getAddressSuggestions = async (
-  query: string
-): Promise<SuggestionsResponse> => {
-  return fetch(`${API_URL}&query=${query}`).then((r) => r.json());
+export const getAddressSuggestions = async (query: string): Promise<SuggestionsResponse> => {
+  const { data } = await tryFetchData<SuggestionsResponse, null>({
+    url: `${API_URL}&query=${query}`,
+    method: 'GET',
+    jsonHeaderInRequest: false
+  })
+
+  if (!data) throw new Error('Error while calling HERE API');
+
+  return data;
 };

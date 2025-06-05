@@ -17,7 +17,7 @@ const RegistrationForm1Success: React.FC<Props> = ({
 
   const findMetroAreaByZip = (zip: string | null | undefined) => {
     const zipCodeRecord = locationsAndPricing?.data?.zipCodesServiced?.find(d => d.zip === zip);
-    const metroAreaId = zipCodeRecord?.metro_area_id;
+    const metroAreaId = zipCodeRecord?.metroAreaId;
     return locationsAndPricing?.data?.metroAreas?.find(d => d.id === metroAreaId);
   };
 
@@ -25,7 +25,7 @@ const RegistrationForm1Success: React.FC<Props> = ({
 
   return (
     <div className='flex flex-col gap-[30px] items-center w-full'>
-      <span className="flex gap-[10px] items-center font-bold leading-[120%] font-primary self-start text-[24px] text-offBlack">Splashing! We have excellent Swim Instructors in {metroArea?.name || ''}, {metroArea?.state_abbreviation || ''}!</span>
+      <span className="flex gap-[10px] items-center font-bold leading-[120%] font-primary self-start text-[24px] text-offBlack">Splashing! We have excellent Swim Instructors in {metroArea?.name || ''}, {metroArea?.stateAbbreviation || ''}!</span>
 
       <Image src={boyAndMom} alt='picture' />
 

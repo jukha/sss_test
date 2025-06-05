@@ -3,8 +3,7 @@ import SelectDecorButton from './SelectDecorButton';
 import { CurvyBorderSquare, CurvySquare } from '@/components/icons';
 
 const LessonMinutesCard = ({
-  index,
-  time,
+  minutes,
   isSelected,
   otherCardSelected,
   isRecommended,
@@ -13,9 +12,8 @@ const LessonMinutesCard = ({
   nameAttr,
 }: {
   isSelected: boolean;
-  time: number;
   otherCardSelected: boolean;
-  index: number;
+  minutes: number;
   isRecommended: boolean;
   onChange: (v: number) => void;
   cardColor: string;
@@ -40,7 +38,7 @@ const LessonMinutesCard = ({
             otherCardSelected ? 'text-offBlack' : 'text-white'
           )}
         >
-          {time}
+          {minutes}
         </span>
         <span
           className={clsx(
@@ -62,21 +60,15 @@ const LessonMinutesCard = ({
         className='absolute invisible top-0 left-0 w-0 h-0'
         type='radio'
         name={nameAttr}
-        value={index}
-        onChange={() => onChange(index)}
+        value={minutes}
+        onChange={() => onChange(minutes)}
         checked={isSelected}
       />
 
       {otherCardSelected ? (
-        <CurvyBorderSquare
-          className='absolute top-0 left-0 w-full h-full'
-          strokeColor={cardColor}
-        />
+        <CurvyBorderSquare className='absolute top-0 left-0 w-full h-full' strokeColor={cardColor} />
       ) : (
-        <CurvySquare
-          className='absolute top-0 left-0 w-full h-full'
-          fillColor={cardColor}
-        />
+        <CurvySquare className='absolute top-0 left-0 w-full h-full' fillColor={cardColor} />
       )}
     </label>
   );

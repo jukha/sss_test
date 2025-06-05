@@ -48,7 +48,9 @@ const RegistrationForm2 = ({ onNextClicked, onPreviousClicked, buildOnFieldFocus
     const currentStudentsKeys = allStudentsKeys.slice(studentsCount);
 
     currentStudentsKeys.forEach((studentKey) => {
+      // @ts-expect-error Dynamic field name construction
       setRegistrationFormField(`studentName${studentKey}`, null);
+      // @ts-expect-error Dynamic field name construction
       setRegistrationFormField(`studentAge${studentKey}`, null);
     });
   };

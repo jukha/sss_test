@@ -1,8 +1,7 @@
 import CustomInput from '@/components/CustomInput';
-import {CustomCheckbox} from '@/components/CustomCheckbox';
-import { mail, personIcon} from '@/assets';
+import { CustomCheckbox } from '@/components/CustomCheckbox';
+import { mail, personIcon } from '@/assets';
 import { useState, useEffect } from 'react';
-
 
 type AdditionalParentGuardianProps = {
   studentName: string;
@@ -10,11 +9,10 @@ type AdditionalParentGuardianProps = {
   currentUserEmail: string;
   nameError?: string;
   emailError?: string;
-  // initialData?: { name: string; email: string };
   name: string;
   email: string;
-  setName: (name: string) => void,
-  setEmail: (email: string) => void,
+  setName: (name: string) => void;
+  setEmail: (email: string) => void;
   onNameChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onEmailChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onNameBlur?: () => void;
@@ -27,7 +25,6 @@ const AdditionalParentGuardian: React.FC<AdditionalParentGuardianProps> = ({
   currentUserEmail,
   nameError,
   emailError,
-  // initialData,
   name,
   email,
   setName,
@@ -35,11 +32,19 @@ const AdditionalParentGuardian: React.FC<AdditionalParentGuardianProps> = ({
   onNameChange,
   onNameBlur,
   onEmailChange,
-  onEmailBlur
+  onEmailBlur,
 }) => {
-  const [isCurrentUserParentOrGuard, setIsCurrentUserParentOrGuard] = useState(
-    () => Boolean(name && name === currentUserName && email && email === currentUserEmail)
+  const [isCurrentUserParentOrGuard, setIsCurrentUserParentOrGuard] = useState(() =>
+    Boolean(name && name === currentUserName && email && email === currentUserEmail)
   );
+
+  const handleParentGuardianCheckboxChange = (checked: boolean) => {
+    setIsCurrentUserParentOrGuard(checked);
+    if (!checked) {
+      setEmail('');
+      setName('');
+    }
+  };
 
   useEffect(() => {
     if (isCurrentUserParentOrGuard) {
@@ -55,7 +60,7 @@ const AdditionalParentGuardian: React.FC<AdditionalParentGuardianProps> = ({
         <div>
           <CustomCheckbox
             checked={isCurrentUserParentOrGuard}
-            onClick={(v) => setIsCurrentUserParentOrGuard(v)}
+            onClick={handleParentGuardianCheckboxChange}
             text='I am the parent/guardian'
           />
         </div>

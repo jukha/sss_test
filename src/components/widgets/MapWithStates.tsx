@@ -7,25 +7,25 @@ type MapWithStatesProps = {
   locationsToShow?: ServiceLocations[];
 };
 
+const statesData = [
+  { name: 'Arizona', x: 330, y: 420, link: '/arizona' },
+  { name: 'California', x: 150, y: 300, link: '/california' },
+  { name: 'Colorado', x: 470, y: 320, link: '/colorado' },
+  { name: 'Florida', x: 1030, y: 510, link: '/florida' },
+  { name: 'Hawaii', x: 420, y: 580, link: '/hawaii' },
+  { name: 'Illinois', x: 800, y: 240, link: '/illinois' },
+  { name: 'Massachusetts', x: 1130, y: 110, link: '/massachusetts' },
+  { name: 'Missouri', x: 680, y: 300, link: '/missouri' },
+  { name: 'Nevada', x: 250, y: 230, link: '/nevada' },
+  { name: 'North Carolina', x: 1000, y: 380, link: '/north-carolina' },
+  { name: 'Pennsylvania', x: 950, y: 190, link: '/pennsylvania' },
+  { name: 'Texas', x: 580, y: 520, link: '/texas' },
+  { name: 'Virginia', x: 960, y: 300, link: '/virginia' },
+  { name: 'Washington', x: 200, y: 22, link: '/washington' },
+];
+
 const MapWithStates = ({ locationsToShow }: MapWithStatesProps) => {
   const [textWidths, setTextWidths] = useState<Record<string, number>>({});
-
-  const statesData = [
-    { name: 'Arizona', x: 330, y: 420, link: '/arizona' },
-    { name: 'California', x: 150, y: 300, link: '/california' },
-    { name: 'Colorado', x: 470, y: 320, link: '/colorado' },
-    { name: 'Florida', x: 1030, y: 510, link: '/florida' },
-    { name: 'Hawaii', x: 420, y: 580, link: '/hawaii' },
-    { name: 'Illinois', x: 800, y: 240, link: '/illinois' },
-    { name: 'Massachusetts', x: 1130, y: 110, link: '/massachusetts' },
-    { name: 'Missouri', x: 680, y: 300, link: '/missouri' },
-    { name: 'Nevada', x: 250, y: 230, link: '/nevada' },
-    { name: 'North Carolina', x: 1000, y: 380, link: '/north-carolina' },
-    { name: 'Pennsylvania', x: 950, y: 190, link: '/pennsylvania' },
-    { name: 'Texas', x: 580, y: 520, link: '/texas' },
-    { name: 'Virginia', x: 960, y: 300, link: '/virginia' },
-    { name: 'Washington', x: 200, y: 22, link: '/washington' },
-  ];
 
   const filteredStatesData = useMemo(() => {
     if (locationsToShow && !locationsToShow.includes('All' as ServiceLocations)) {
@@ -34,7 +34,7 @@ const MapWithStates = ({ locationsToShow }: MapWithStatesProps) => {
     }
 
     return statesData;
-  }, [locationsToShow, statesData])
+  }, [locationsToShow])
 
   useEffect(() => {
     // Create a reference element that inherits your global styles
@@ -75,6 +75,10 @@ const MapWithStates = ({ locationsToShow }: MapWithStatesProps) => {
 
     // document.body.removeChild(referenceLink);
     setTextWidths(tempWidths);
+
+    return () => {
+      document.body.removeChild(referenceLink);
+    }
   }, [filteredStatesData]);
 
   return (

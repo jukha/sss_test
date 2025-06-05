@@ -10,6 +10,20 @@ import ReviewsSlider from './ReviewsSlider';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import Image from 'next/image';
 import CollapsibleList, { CollapsibleListItem } from '@/components/CollapsedList';
+import { useLocationsAndPricing } from '@/context/locations-and-prices.context';
+import { useEffect } from 'react';
+import { Prisma } from '@/__generated__/prisma';
+import { extractStudentAges } from '../../logic/utils/lesson-package/extract-students-data';
+import { generateLessonPackageSelectionOptions } from '../../logic/utils/lesson-package/lesson-packages-selection';
+import {
+  extractLocationPackages,
+  extractLocationPricing,
+} from '../../logic/utils/lesson-package/extract-location-data';
+import {
+  extractContactDetails,
+  generateLessonPackageSummary,
+} from '../../logic/utils/lesson-package/lesson-packages-summary';
+import { LessonType } from '@/entities/lesson-package.entity';
 
 const additionalCardsData = [
   { text: 'Thousands of 5-star reviews ', image: fiveStar },
@@ -72,16 +86,62 @@ type Props = {
   formId: string;
 };
 
-const stepsWithAutoPlaySliders = [
+const stepWithAutoPlaySliders = [
   RegistrationStepEnum.Step1,
   RegistrationStepEnum.Step1NoPoolsError,
   RegistrationStepEnum.Step1OutsideAreaError,
   RegistrationStepEnum.Step1Success,
-]
+];
 
 const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId }) => {
-  const { showLessonsPackageSummary, registrationStep } = useRegistrationForm();
-  const withAutoPlay = stepsWithAutoPlaySliders.includes(registrationStep);
+  const { registrationForm, setRegistrationFormField, registrationStep } = useRegistrationForm();
+  const { zip, lessonType, lessonTime, packageSize } = registrationForm ?? {};
+  const { data } = useLocationsAndPricing();
+
+  const studentAges = extractStudentAges(registrationForm);
+  const studentsCount = studentAges.length;
+  const isOrderConfirmed = registrationStep === RegistrationStepEnum.Step7OrderConfirmed;
+
+  const withAutoPlay = stepWithAutoPlaySliders.includes(registrationStep);
+
+  const packageSelectionOptions = generateLessonPackageSelectionOptions({
+    packages: extractLocationPackages({
+      zip,
+      zipCodesServiced: data?.zipCodesServiced,
+      metroAreas: data?.metroAreas,
+      pricing: data?.pricing,
+    }),
+    studentAges,
+    selectedLessonType: lessonType as LessonType,
+    selectedLessonLength: lessonTime,
+  });
+
+  const selectedLessonPackage = packageSelectionOptions.packages.find((pack) => pack.lessonQty === packageSize);
+  const pricing = extractLocationPricing({
+    zip,
+    zipCodesServiced: data?.zipCodesServiced,
+    metroAreas: data?.metroAreas,
+    pricing: data?.pricing,
+  });
+
+  const lessonPackageSummary = generateLessonPackageSummary({
+    studentsCount,
+    lessonPrice: selectedLessonPackage?.price || null,
+    registrationFee: pricing?.registrationFee || null,
+    availableLessonsPackages: packageSelectionOptions.packages,
+    selectedLessonPackage,
+  });
+
+  const contactDetails = extractContactDetails(registrationForm);
+
+  useEffect(() => {
+    setRegistrationFormField('orderTotal', lessonPackageSummary.orderTotal as unknown as Prisma.Decimal);
+    setRegistrationFormField('lessonCostBeforeDiscount', lessonPackageSummary.lessonPrice as unknown as Prisma.Decimal);
+    setRegistrationFormField(
+      'packageDiscount',
+      lessonPackageSummary.lessonDiscountPercent as unknown as Prisma.Decimal
+    );
+  }, [lessonPackageSummary.orderTotal, lessonPackageSummary.lessonDiscountPercent, lessonPackageSummary.lessonPrice]);
 
   return (
     <div className='relative desktop:h-[100vh] desktop:overflow-hidden'>
@@ -120,23 +180,12 @@ const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId })
             <Wave className='text-yellow w-full h-full' />
           </div>
           <div>
-            {showLessonsPackageSummary ? (
+            {registrationForm?.packageSize ? (
               <LessonsPackageSummary
-                costPerLessonPerStudent='90.00'
-                lessons={{
-                  totalPrice: '1620',
-                  countingString: '18 x  30 Minute Lesson @ $90',
-                  salePercent: '10',
-                }}
-                fee={{
-                  totalPrice: '20',
-                  countingString: '1 Student x $20',
-                }}
-                summary={{
-                  totalPrice: '1640',
-                  countingString: '18 x  30 Minute Lesson @ $90 + 1 Student x $20',
-                  savingPercent: '10',
-                }}
+                studentsCount={studentsCount}
+                summary={lessonPackageSummary}
+                contactDetails={contactDetails}
+                isOrderConfirmed={isOrderConfirmed}
               />
             ) : (
               <ReviewsSlider withAutoplay={withAutoPlay} />

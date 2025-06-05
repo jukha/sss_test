@@ -63,6 +63,9 @@ import oneStarLevelIcon from './images/oneStarLevelIcon.svg';
 import twoStarsLevelIcon from './images/twoStarsLevelIcon.svg';
 import threeStarsLevelIcon from './images/threeStarsLevelIcon.svg';
 import medalIcon from './images/medalIcon.svg';
+import glassdoorIcon from './images/glassdoorIcon.svg'
+import indeedIcon from './images/indeedIcon.svg'
+import logoSvg from './logos/main-logo.svg';
 
 //pictures
 import girlAndMom from './images/girlAndMom.webp';
@@ -223,6 +226,39 @@ import whySnapSpecialNeedsLessonsImg from './images/WhySnapSpecialNeedsLessonsIm
 import startSwimFasterSpecialNeedsSwimLessonImg from './images/startSwimFasterSpecialNeedsSwimLessonImg.png';
 import specialNeedsLessonBenefits from './images/specialNeedsLessonBenefits.png';
 import specialNeedsLessonPricing from './images/specialNeedsLessonPricing.png';
+import areasWeServiceHero from './images/areasWeServiceHero.png';
+import areasWeServiceHeroMobile from './images/areasWeServiceHeroMobile.png';
+import areasWeServiceLessonBenefitsImg1 from './images/areasWeServiceLessonBenefitsImg1.png';
+import areasWeServiceLessonBenefitsImg2 from './images/areasWeServiceLessonBenefitsImg2.png';
+import areasWeServiceLessonBenefitsImg3 from './images/areasWeServiceLessonBenefitsImg3.png';
+import areasWeServiceLessonBenefitsImg4 from './images/areasWeServiceLessonBenefitsImg4.png';
+import areasWeServiceLessonBenefitsImg5 from './images/areasWeServiceLessonBenefitsImg5.png';
+import areasWeServiceLessonBenefitsImg6 from './images/areasWeServiceLessonBenefitsImg6.png';
+import customerReviewsHero from './images/customerReviewsHero.png';
+import customerReviewsHeroMobile from './images/customerReviewsHeroMobile.png';
+import swimInstructorJobsHeroDesktop from './images/swimInstructorJobsHeroDesktop.png';
+import swimInstructorJobsHeroMobile from './images/swimInstructorJobsHeroMobile.png';
+import giftCertificateHeroDesktop from './images/giftCertificateHeroDesktop.png';
+import giftCertificateHeroMobile from './images/giftCertificateHeroMobile.png';
+import sunsationalGiftCertificateImg from './images/sunsationalGiftCertificateImg.png';
+import lessonsForWaterSafetyImg from './images/lessonsForWaterSafetyImg.png';
+import whyChooseToBuyGiftCertificateImg from './images/whyChooseToBuyGiftCertificateImg.png';
+import localInstructorJobsHeroDesktop from './images/localInstructorJobsHeroDesktop.png';
+import localInstructorJobsHeroMobile from './images/localInstructorJobsHeroMobile.png';
+import teachSwimChangeImg from './images/teachSwimChangeImg.png';
+import instructorLoveTeaching from './images/instructorLoveTeaching.png'
+import swimInstructorJobsInCityImg from './images/swimInstructorJobsInCityImg.png';
+import comeMeetWithTeamImg from './images/comeMeetWithTeamImg.png';
+import benefitsOfSwimInstructorImg from './images/benefitsOfSwimInstructorImg.png'
+import instructorsLoveTeachingInstructorJobImg from './images/instructorsLoveTeachingInstructorJobImg.png';
+import swimInstructorBenefitImg from './images/swimInstructorBenefitImg.png';
+import gotQuestionImg from './images/gotQuestionImg.png';
+import stepsToJoinTeamImg from './images/stepsToJoinTeamImg.png';
+import swimSchoolsNearMeHero from './images/swimSchoolsNearMeHero.png';
+import swimSchoolsNearMeHeroMobile from './images/swimSchoolsNearMeHeroMobile.png';
+import homeOrCommunityPoolImg from './images/homeOrCommunityPoolImg.png';
+import whatOthersConsiderSectionImg from './images/whatOthersConsiderSectionImg.png';
+import swimSchoolsNearMeWhyUs from './images/swimSchoolsNearMeWhyUs.png'
 
 // figures
 import curveOval from './images/curveOval.svg';
@@ -481,4 +517,40 @@ export {
   startSwimFasterSpecialNeedsSwimLessonImg,
   specialNeedsLessonBenefits,
   specialNeedsLessonPricing,
+  localInstructorJobsHeroDesktop,
+  localInstructorJobsHeroMobile,
+  teachSwimChangeImg,
+  glassdoorIcon,
+  indeedIcon,
+  instructorLoveTeaching,
+  swimInstructorJobsInCityImg,
+  comeMeetWithTeamImg,
+  benefitsOfSwimInstructorImg,
+  customerReviewsHero,
+  customerReviewsHeroMobile,
+  areasWeServiceHero,
+  areasWeServiceHeroMobile,
+  areasWeServiceLessonBenefitsImg1,
+  areasWeServiceLessonBenefitsImg2,
+  areasWeServiceLessonBenefitsImg3,
+  areasWeServiceLessonBenefitsImg4,
+  areasWeServiceLessonBenefitsImg5,
+  areasWeServiceLessonBenefitsImg6,
+  swimInstructorJobsHeroDesktop,
+  swimInstructorJobsHeroMobile,
+  instructorsLoveTeachingInstructorJobImg,
+  swimInstructorBenefitImg,
+  gotQuestionImg,
+  stepsToJoinTeamImg,
+  swimSchoolsNearMeHero,
+  swimSchoolsNearMeHeroMobile,
+  logoSvg,
+  homeOrCommunityPoolImg,
+  whatOthersConsiderSectionImg,
+  swimSchoolsNearMeWhyUs,
+  giftCertificateHeroDesktop,
+  giftCertificateHeroMobile,
+  sunsationalGiftCertificateImg,
+  lessonsForWaterSafetyImg,
+  whyChooseToBuyGiftCertificateImg
 };

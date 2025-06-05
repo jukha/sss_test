@@ -1,5 +1,5 @@
 export type RegistrationRecordIdentifier = {
-  id: bigint | null | undefined,
+  id: number | string | null | undefined,
   secret: string | null | undefined,
   formTypeId: string | null | undefined
 };

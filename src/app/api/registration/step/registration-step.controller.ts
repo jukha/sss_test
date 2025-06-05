@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { extractZodErrors } from '@/utils/extract-zod-errors';
 import { CustomerRegistration } from '@/__generated__/prisma/client';
-import { registrationSettings } from '@/app/api/registration/settings';
 import { ValidationException } from '@/exceptions/validation.exception';
 import { addRegistrationHistoryRecord, updateRegistration } from '@/app/api/registration/utils/registration-record';
 
@@ -30,6 +29,10 @@ export class RegistrationStepController<S> {
 
 
   throwIfValidationDoesNotPass(data: S) {
+    if (!this._schema) {
+      return;
+    }
+
     const validationResults = this._schema.safeParse(data);
     const validationErrors = extractZodErrors(validationResults);
     if (validationErrors) {
@@ -41,13 +44,10 @@ export class RegistrationStepController<S> {
   async put({registration, freshData}: PostOptions<S>) {
     this.throwIfValidationDoesNotPass(freshData);
 
-    let data: Partial<CustomerRegistration> = {...freshData as Partial<CustomerRegistration>};
-
-    if (!registration.isRegistrationComplete) {
-      const isLastStep = this._step === registrationSettings.maxStep;
-      data = {...data, isRegistrationComplete: isLastStep}
-      // data = {...data, isRegistrationComplete: isLastStep, lastCompletedStep: this._step}
-    }
+    // @ts-expect-error Remove this field as it does not exist in the DB.
+    delete freshData.policiesAgreement;
+    
+    const data: Partial<CustomerRegistration> = {...freshData as Partial<CustomerRegistration>};
 
     const updatedRegistration = await updateRegistration({id: registration.id, data});
     await addRegistrationHistoryRecord(updatedRegistration);

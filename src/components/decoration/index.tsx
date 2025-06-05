@@ -1,3 +1,5 @@
 export {default as Bubbles} from './Bubbles'
 export {default as BackgroundCircles} from './BackgroundCircles'
 export {default as ThreeStarsWide} from './ThreeStarsWide'
+export {default as StarSparkle} from './StarSparkle'
+export {default as StarFishes} from './StarFishes'

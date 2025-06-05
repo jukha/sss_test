@@ -5,13 +5,16 @@ import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import { findNextStep, findPreviousStep } from '@/app/(registration)/registration/logic/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { validateFormStep } from '@/app/(registration)/registration/logic/validation';
-
 export interface RegistrationFormContextType {
   registrationForm: RegistrationForm | null;
   setRegistrationForm: (form: RegistrationForm) => void;
 
-  setRegistrationFormField: (fieldName: string, fieldValue: unknown) => void;
+  setRegistrationFormField: <FieldName extends keyof RegistrationForm>(
+    fieldName: FieldName,
+    fieldValue: RegistrationForm[FieldName]
+  ) => void;
 
+  previousRegistrationStep?: RegistrationStepEnum;
   registrationStep: RegistrationStepEnum;
   setRegistrationStep: (step: RegistrationStepEnum, pushToBrowserHistory?: boolean) => void;
   switchToNextStep: () => void;
@@ -27,13 +30,9 @@ export interface RegistrationFormContextType {
   clearFieldRegistrationErrors: (fieldName: keyof RegistrationForm) => void;
   registrationErrorsText: string | null | undefined;
 
-  showLessonsPackageSummary: boolean;
-  setShowLessonsPackageSummary: (show: boolean) => void;
-
   formVersion: number;
   setFormVersion: (version: number) => void;
 }
-
 
 type Props = { children: React.ReactNode };
 type RegistrationFormErrors = Partial<Record<keyof RegistrationForm, string>>;
@@ -55,6 +54,8 @@ const pushStepToBrowserHistory = (stepForReturn?: RegistrationStepEnum) => {
 };
 
 export const RegistrationFormProvider = ({ children }: Props) => {
+  const [previousRegistrationStep, setPreviousRegistrationStep] = useState<RegistrationStepEnum>();
+
   const [registrationStep, internalSetRegistrationStep] = useState<RegistrationStepEnum>(RegistrationStepEnum.Step1);
   const [isStep1SuccessShown, setIsStep1SuccessShown] = useState<boolean | null | undefined>(undefined);
   const [formVersion, setFormVersion] = useState(0);
@@ -62,6 +63,7 @@ export const RegistrationFormProvider = ({ children }: Props) => {
   const setRegistrationStep = (step: RegistrationStepEnum, pushToBrowserHistory?: boolean) => {
     clearRegistrationErrors();
     internalSetRegistrationStep(step);
+
     if (pushToBrowserHistory) {
       pushStepToBrowserHistory(registrationStep);
     }
@@ -80,6 +82,7 @@ export const RegistrationFormProvider = ({ children }: Props) => {
     const nextStep = findNextStep(registrationStep);
     if (!nextStep) return;
 
+    setPreviousRegistrationStep(registrationStep);
     setRegistrationStep(nextStep);
     pushStepToBrowserHistory(nextStep);
   };
@@ -88,6 +91,7 @@ export const RegistrationFormProvider = ({ children }: Props) => {
     const previousStep = findPreviousStep(registrationStep);
     if (!previousStep) return;
 
+    setPreviousRegistrationStep(registrationStep);
     setRegistrationStep(previousStep);
     pushStepToBrowserHistory(previousStep);
   };
@@ -95,7 +99,6 @@ export const RegistrationFormProvider = ({ children }: Props) => {
   const [registrationForm, setRegistrationForm] = useState<RegistrationForm | null>(null);
   const [registrationErrors, internalSetRegistrationErrors] = useState<RegistrationFormErrors | null>(null);
   const [registrationErrorsText, setRegistrationErrorsText] = useState<string | null>(null);
-  const [showLessonsPackageSummary, setShowLessonsPackageSummary] = useState(false);
 
   const setRegistrationErrors = (registrationErrors: RegistrationFormErrors | null) => {
     let errorsText = null;
@@ -116,19 +119,19 @@ export const RegistrationFormProvider = ({ children }: Props) => {
   };
 
   const clearFieldRegistrationErrors = (fieldName: keyof RegistrationForm) => {
-    internalSetRegistrationErrors(v => {
+    internalSetRegistrationErrors((v) => {
       if (!v) return v;
 
-      const newRegistrationErrors = {...v};
+      const newRegistrationErrors = { ...v };
       delete newRegistrationErrors[fieldName];
-      return {...newRegistrationErrors, ...registrationErrors};
+      return newRegistrationErrors;
     });
 
     setRegistrationErrorsText(null);
   };
 
   const setOneFieldValidationErrors = (fieldRegistrationErrors: RegistrationFormErrors | null) => {
-    internalSetRegistrationErrors(v => ({
+    internalSetRegistrationErrors((v) => ({
       ...(v || {}),
       ...fieldRegistrationErrors,
     }));
@@ -136,19 +139,35 @@ export const RegistrationFormProvider = ({ children }: Props) => {
     setRegistrationErrorsText(null);
   };
 
-  const setRegistrationFormField = (fieldName: string, fieldValue: unknown) => {
-    setRegistrationForm(v => {
+  const setRegistrationFormField = <FieldName extends keyof RegistrationForm>(
+    fieldName: FieldName,
+    fieldValue: RegistrationForm[FieldName]
+  ) => {
+    setRegistrationForm((v) => {
       if (!v) return v;
-      return {... v, [fieldName]: fieldValue};
+      return { ...v, [fieldName]: fieldValue };
     });
 
-    // @ts-expect-error Dynamic field name construction
     clearFieldRegistrationErrors(fieldName);
   };
 
   useEffect(() => {
+    setRegistrationFormField('lessonType', null);
+    setRegistrationFormField('lessonTime', null);
+    setRegistrationFormField('packageSize', null);
+  }, [
+    registrationForm?.studentsCount,
+    registrationForm?.studentAge1,
+    registrationForm?.studentAge2,
+    registrationForm?.studentAge3,
+    registrationForm?.studentAge4,
+    registrationForm?.studentAge5,
+    registrationForm?.studentAge6,
+  ]);
+
+  useEffect(() => {
     setFormVersion(registrationForm?.version || 1);
-  }, [registrationForm?.version])
+  }, [registrationForm?.version]);
 
   useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
@@ -179,6 +198,7 @@ export const RegistrationFormProvider = ({ children }: Props) => {
 
         setRegistrationFormField,
 
+        previousRegistrationStep,
         registrationStep,
         setRegistrationStep,
         switchToNextStep,
@@ -193,9 +213,6 @@ export const RegistrationFormProvider = ({ children }: Props) => {
         clearRegistrationErrors,
         clearFieldRegistrationErrors,
         registrationErrorsText,
-
-        showLessonsPackageSummary,
-        setShowLessonsPackageSummary,
 
         formVersion,
         setFormVersion,

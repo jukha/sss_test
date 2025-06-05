@@ -3,13 +3,13 @@
 import { blackArrow, mail } from '@/assets';
 import CustomCurveButton from '@/components/CustomCurveButton';
 import CustomInput from '@/components/CustomInput';
-import { notifyMeRegistrationRepository } from '@/repositories/registration/notify-me-registration.repository';
 import { useForm } from 'react-hook-form';
 import GoBackTextButton from '../../shared/GoBackTextButton';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import { useState } from 'react';
 import clsx from 'clsx';
 import { sendgrid } from '@/sendgrid';
+import clientDataApi from '@/actions/data/client-data-api';
 
 type ErrorType = 'outsideArea' | 'noPools';
 
@@ -84,7 +84,7 @@ const RegistrationForm1Error: React.FC<Props> = ({
     if (!emailIsValid) return;
     setShowSuccessMessage(true);
 
-    await notifyMeRegistrationRepository.post({ data: {...data, zip: registrationForm?.zip} })
+    await clientDataApi.unservicedLeads.create({email: data.email!, zip: registrationForm?.zip || ''})
   };
 
   return (

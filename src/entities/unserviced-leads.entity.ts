@@ -1,5 +1,5 @@
 export type UnservicedLeadsEntity = {
-  id: bigint;
+  id: number;
   email: string;
   zip: string;
 }

@@ -35,11 +35,11 @@ const InstructorsLocationMap = ({ instructorProfiles }: Props) => {
   return (
     <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={7}>
       {instructorProfiles.map((inst) => (
-        inst.lat != null && inst.lng != null && ( // Check lat and lng from InstructorEntity
+        inst.lat != null && inst.lng != null && (
           <Marker
-            key={inst.id.toString()} // Ensure key is string
-            position={{ lat: inst.lat, lng: inst.lng }} // Use lat and lng
-            title={`${inst.first_name || ''} ${inst.last_name || ''}`.trim()} // Construct name
+            key={inst.id.toString()}
+            position={{ lat: inst.lat, lng: inst.lng }}
+            title={inst.name || ''}
           />
         )
       ))}

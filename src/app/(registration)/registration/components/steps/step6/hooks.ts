@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { getAddressSuggestions } from '@/helpers/get-address-suggestions';
+import { SuggestedAddress, getAddressSuggestions } from '@/helpers/get-address-suggestions';
 import useDebounce from '@/hooks/use-debounce';
 
 import { convertSuggestedAddressToString } from './helpers';
 
 type Suggestion = { text: string; value: string };
+
+const isSuggestionAddressValid = (address: SuggestedAddress) => {
+  return address.street && address.city && address.state && address.postalCode;
+};
 
 export const useAddressSuggestions = () => {
   const cached = useRef<Record<string, Suggestion[]>>({});
@@ -22,23 +26,24 @@ export const useAddressSuggestions = () => {
       return;
     }
 
-    if (!cached.current[debouncedQuery]) {
-      getAddressSuggestions(debouncedQuery).then((result) => {
-        const suggestions = result?.suggestions
-          ?.filter((suggestion) =>
-            convertSuggestedAddressToString(suggestion.address)
-          )
-          .map((suggestion) => ({
-            text: convertSuggestedAddressToString(suggestion.address),
-            value: suggestion.locationId,
-          }));
-
-        cached.current[debouncedQuery] = suggestions;
-        setFoundSuggestion(suggestions);
-      });
-    } else {
+    if (cached.current[debouncedQuery]) {
       setFoundSuggestion(cached.current[debouncedQuery]);
+      return;
     }
+
+    getAddressSuggestions(debouncedQuery).then((result) => {
+      if (!result.suggestions) return;
+
+      const suggestions = result.suggestions
+        .filter((suggestion) => isSuggestionAddressValid(suggestion.address))
+        .map((suggestion) => ({
+          text: convertSuggestedAddressToString(suggestion.address),
+          value: suggestion.locationId,
+        }));
+
+      cached.current[debouncedQuery] = suggestions;
+      setFoundSuggestion(suggestions);
+    });
   }, [debouncedQuery]);
 
   return {

@@ -23,8 +23,8 @@ const SelectableCard: React.FC<Props> = ({
   return (
     <label
       className={clsx(
-        'relative w-[110px] h-[80px] px-4 flex flex-col items-center justify-center rounded-[6px] bg-lightGray cursor-pointer',
-        'desktop:w-[140px] h-[105px] px-[30px]',
+        'relative w-full h-[80px] px-4 flex flex-col items-center justify-center rounded-[6px] bg-lightGray cursor-pointer',
+        'desktop:h-[105px] desktop:px-[30px]',
         selected && '!bg-darkBlue text-white'
       )}
     >

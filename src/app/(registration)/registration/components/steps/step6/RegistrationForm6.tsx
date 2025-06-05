@@ -10,22 +10,25 @@ import {
   twentyMilesIcon,
   fifteenMilesIcon,
   tenMilesIcon,
+  minus,
+  plus,
 } from '@/assets';
 import CustomCurveButton from '@/components/CustomCurveButton';
 import AlertBox from '../../shared/AlertBox';
 import GoBackTextButton from '../../shared/GoBackTextButton';
-import PoolAddressInput, {
-  PoolAddressInputRef,
-  Suggestion,
-} from './components/PoolAddressInput';
+import PoolAddressInput, { PoolAddressInputRef, Suggestion } from './components/PoolAddressInput';
 import CardsSelector, { SelectableCard } from './components/CardsSelector';
 import SelectCorrectAddress from './components/SelectCorrectAddress';
 import { useAddressSuggestions } from './hooks';
 import { useRegistrationForm } from '@/context/registration-form.context';
-import { isZipCodeValid } from './helpers';
-import {
-  BuildOnFieldFocusLostHandlerFunction,
-} from '../../../types';
+import { foundUserAddressInSuggestions, isZipCodeValid } from './helpers';
+import { BuildOnFieldFocusLostHandlerFunction } from '../../../types';
+import CustomButton from '@/components/CustomButton';
+import CustomTextArea from '@/components/CustomTextArea';
+import { useLocationsAndPricing } from '@/context/locations-and-prices.context';
+import { checkServiceabilityByZip } from '@/utils/check-serviceability-by-zip';
+import clsx from 'clsx';
+import { PoolTypesEnum } from '@/enum/pool-types.enum';
 
 type SelectListCard = SelectableCard & { warningMessage?: string };
 
@@ -33,42 +36,42 @@ const poolTypesList: SelectListCard[] = [
   {
     text: 'Home Pool',
     icon: home,
-    value: 'Home Pool',
+    value: PoolTypesEnum.HomePool,
   },
   {
     text: 'Housing Community Pool',
     icon: people,
-    value: 'Housing Community Pool',
+    value: PoolTypesEnum.HousingCommunityPool,
   },
   {
     text: 'Hotel Pool',
     icon: building,
-    value: 'Hotel Pool',
+    value: PoolTypesEnum.HotelPool,
     warningMessage:
       'Remember: Before your lessons begin, check with the hotel pool that lessons are permitted. Any fees required by the hotel pool are separate and not included in your registration with Sunsational.',
   },
   {
     text: 'Public Pool',
     icon: ladder,
-    value: 'Public Pool',
+    value: PoolTypesEnum.PublicPool,
     warningMessage:
       'Remember: Before your lessons begin, check with the public pool that lessons are permitted. Any fees required by the public pool are separate and not included with your registration with Sunsational.',
   },
   {
     text: 'Members Only Pool',
     icon: membershipCard,
-    value: 'Members Only Pool',
+    value: PoolTypesEnum.MembersOnlyPool,
   },
   {
-    text: 'Home Pool',
+    text: 'Other Pool',
     icon: waterPoloBall,
-    value: 'Other Pool',
+    value: PoolTypesEnum.OtherPool,
     warningMessage:
       'Remember: Before your lessons begin, check that lessons are allowed at the pool you plan to use. Any fees required by the facility are separate and not included in your registration with Sunsational.',
   },
 ];
 
-const maxTravelDistance: SelectListCard[] = [
+const maxTravelDistanceList: SelectListCard[] = [
   {
     text: '20 MILES',
     icon: twentyMilesIcon,
@@ -92,31 +95,37 @@ type Props = {
   onPreviousClicked: () => void;
 };
 
-const RegistrationForm6: React.FC<Props> = ({
-  onNextClicked,
-  onPreviousClicked,
-  buildOnFieldFocusLostHandler,
-}) => {
+const RegistrationForm6: React.FC<Props> = ({ onNextClicked, onPreviousClicked, buildOnFieldFocusLostHandler }) => {
   const {
     registrationForm,
     setRegistrationFormField,
     registrationErrors,
     registrationErrorsText,
+    setOneFieldValidationErrors,
   } = useRegistrationForm();
+  const { data: locationsAndPricingData } = useLocationsAndPricing();
 
   const {
     zip: initialZip,
     poolAddress,
     poolType,
     customerHasAccessToPool,
+    additionalPoolAccessDetails,
+    maxTravelDistance,
   } = registrationForm ?? {};
+  const [showTextArea, setShowTextArea] = useState(Boolean(additionalPoolAccessDetails));
+  const [checkingServiceability, setCheckingServiceability] = useState(false);
+  const [showZipNotServicedBanner, setShowZipNotServicedBanner] = useState(false);
+  const disableContinueBtn = checkingServiceability || showZipNotServicedBanner;
 
-  const setPoolAddress = (value: string) => { setRegistrationFormField('poolAddress', value); };
+  const setPoolAddress = (value: string) => {
+    setShowZipNotServicedBanner(false);
+    setRegistrationFormField('poolAddress', value);
+  };
 
   const poolAddressInputRef = useRef<PoolAddressInputRef>(null);
 
-  const { foundSuggestions, setFoundSuggestion, requestAddressSuggestions } =
-    useAddressSuggestions();
+  const { foundSuggestions, setFoundSuggestion, requestAddressSuggestions } = useAddressSuggestions();
   const [showSuggestionList, setShowSuggestionList] = useState(false);
   const [editSuggestedAddress, setEditSuggestedAddress] = useState({
     suggested: '',
@@ -125,9 +134,13 @@ const RegistrationForm6: React.FC<Props> = ({
     editAccepted: false,
   });
   const userChangeSuggestAddressWithoutAccept =
-    !editSuggestedAddress.editAccepted &&
-    editSuggestedAddress.suggested !== editSuggestedAddress.entered;
+    !editSuggestedAddress.editAccepted && editSuggestedAddress.suggested !== editSuggestedAddress.entered;
 
+  const [userEnterFullAddress, setUserEnterFullAddress] = useState({
+    isEntered: false,
+    showAddressNotFoundInSuggestionWarning: false,
+    confirmEnteredAddress: false,
+  });
   const [zipDifferentWarning, setZipDifferentWarning] = useState<{
     zip: string;
     show: boolean;
@@ -138,15 +151,56 @@ const RegistrationForm6: React.FC<Props> = ({
     alreadyShown: undefined,
   });
 
-  const [cardsSelectorsValues, setCardsSelectorsValues] = useState<
-    Record<string, SelectListCard | undefined>
-  >({
+  const [cardsSelectorsValues, setCardsSelectorsValues] = useState<Record<string, SelectListCard | undefined>>({
     poolType: poolTypesList.find((card) => card.value === poolType),
-    maxTravelDistance: undefined,
+    maxTravelDistance: maxTravelDistanceList.find((card) => card.value === maxTravelDistance),
   });
 
   const backClickHandler = () => {
     onPreviousClicked();
+  };
+
+  const validatePoolAddressZipServiceability = async (address: string) => {
+    if (!isZipCodeValid(address) || !locationsAndPricingData) {
+      return;
+    }
+
+    const extractedZip = address.slice(-5);
+    setCheckingServiceability(true);
+
+    const zipCodeError = await checkServiceabilityByZip({
+      zipCode: extractedZip,
+      requirePool: !registrationForm?.customerHasAccessToPool,
+      locationsAndPricing: locationsAndPricingData,
+    });
+
+    setCheckingServiceability(false);
+
+    if (zipCodeError) {
+      setShowZipNotServicedBanner(true);
+      return zipCodeError;
+    }
+  };
+
+  const resetUserEnterFullAddress = () => {
+    setUserEnterFullAddress({
+      isEntered: false,
+      confirmEnteredAddress: false,
+      showAddressNotFoundInSuggestionWarning: false,
+    });
+  };
+
+  const handleEditFullAddressClick = () => {
+    resetUserEnterFullAddress();
+    poolAddressInputRef.current?.focus();
+  };
+
+  const handleUserAcceptFullEnteredAddress = () => {
+    setUserEnterFullAddress({
+      ...userEnterFullAddress,
+      confirmEnteredAddress: true,
+      showAddressNotFoundInSuggestionWarning: false,
+    });
   };
 
   const handlePoolAddressChange = (enteredAddress: string) => {
@@ -162,6 +216,13 @@ const RegistrationForm6: React.FC<Props> = ({
           entered: enteredAddress,
           showCorrectVariantSelector: false,
         });
+        resetUserEnterFullAddress();
+      } else {
+        setUserEnterFullAddress({
+          isEntered: true,
+          showAddressNotFoundInSuggestionWarning: false,
+          confirmEnteredAddress: false,
+        });
       }
     } else {
       setFoundSuggestion([]);
@@ -171,6 +232,7 @@ const RegistrationForm6: React.FC<Props> = ({
         showCorrectVariantSelector: false,
         editAccepted: false,
       });
+      resetUserEnterFullAddress();
     }
 
     if (zipDifferentWarning.show && !zipDifferentWarning.alreadyShown) {
@@ -203,6 +265,7 @@ const RegistrationForm6: React.FC<Props> = ({
     });
     poolAddressInputRef.current?.focus();
   };
+
   const handleSelectCorrectAddress = (variant: 'entered' | 'suggested') => {
     setEditSuggestedAddress({
       editAccepted: true,
@@ -210,24 +273,15 @@ const RegistrationForm6: React.FC<Props> = ({
       suggested: '',
       showCorrectVariantSelector: false,
     });
-    setPoolAddress(
-      variant === 'entered'
-        ? editSuggestedAddress.entered
-        : editSuggestedAddress.suggested
-    );
+    setPoolAddress(variant === 'entered' ? editSuggestedAddress.entered : editSuggestedAddress.suggested);
   };
 
-  const handleCardSelectorsChange =
-    (key: string) => (cardData?: SelectListCard) => {
-      setCardsSelectorsValues({ ...cardsSelectorsValues, [key]: cardData });
-    };
+  const handleCardSelectorsChange = (key: string) => (cardData?: SelectListCard) => {
+    setCardsSelectorsValues({ ...cardsSelectorsValues, [key]: cardData });
+  };
 
   const compareZipAndZipFromSuggestion = (zipFromSuggestion: string) => {
-    if (
-      !zipDifferentWarning.alreadyShown &&
-      isZipCodeValid(zipFromSuggestion) &&
-      zipFromSuggestion !== initialZip
-    ) {
+    if (!zipDifferentWarning.alreadyShown && isZipCodeValid(zipFromSuggestion) && zipFromSuggestion !== initialZip) {
       setZipDifferentWarning({
         show: true,
         zip: zipFromSuggestion,
@@ -235,7 +289,8 @@ const RegistrationForm6: React.FC<Props> = ({
     }
   };
 
-  const handleContinueClick = async () => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (userChangeSuggestAddressWithoutAccept) {
       setEditSuggestedAddress({
         ...editSuggestedAddress,
@@ -243,11 +298,39 @@ const RegistrationForm6: React.FC<Props> = ({
       });
       return;
     }
+
+    if (poolAddress) {
+      const invalid = await validatePoolAddressZipServiceability(poolAddress);
+
+      if (invalid) {
+        setOneFieldValidationErrors({ poolAddress: 'Not supported zip' });
+        return;
+      }
+
+      if (userEnterFullAddress.isEntered && !userEnterFullAddress.confirmEnteredAddress) {
+        const { foundInSuggestion } = foundUserAddressInSuggestions(
+          poolAddress,
+          foundSuggestions.map((suggestion) => suggestion.text)
+        );
+
+        if (!foundInSuggestion) {
+          setUserEnterFullAddress({
+            ...userEnterFullAddress,
+            showAddressNotFoundInSuggestionWarning: true,
+          });
+        }
+        return;
+      }
+    }
+
     onNextClicked();
   };
 
   return (
-    <div className='flex flex-col gap-[34px]'>
+    <form
+      onSubmit={onSubmit}
+      className={clsx('flex flex-col gap-[34px]', checkingServiceability && 'pointer-events-none opacity-70')}
+    >
       <GoBackTextButton text='Pool' onClick={backClickHandler} />
 
       {customerHasAccessToPool && (
@@ -284,76 +367,106 @@ const RegistrationForm6: React.FC<Props> = ({
 
               {cardsSelectorsValues.poolType?.warningMessage && (
                 <div className='mt-4'>
-                  <AlertBox
-                    type='alert'
-                    text={cardsSelectorsValues.poolType.warningMessage}
-                  />
+                  <AlertBox type='alert' text={cardsSelectorsValues.poolType.warningMessage} />
                 </div>
               )}
             </div>
           </div>
+
+          {zipDifferentWarning.show && !zipDifferentWarning.alreadyShown && (
+            <div>
+              <AlertBox
+                type='error'
+                text={`Address verification has identified the correct zip code for your address is ${zipDifferentWarning.zip}. This zip code is different than the one you provided earlier. Please note, this could affect pricing. Please verify any change in pricing on the next page.`}
+              />
+            </div>
+          )}
+
+          <hr />
+
+          {poolType && poolType !== PoolTypesEnum.HomePool && (
+            <>
+              <CustomButton
+                text={'Additional pool access details'}
+                onClick={() => setShowTextArea((prev) => !prev)}
+                icon={showTextArea ? minus : plus}
+                className='text-start flex-row-reverse p-[16px] desktop:w-[90%] !bg-lightBlue !w-[260px] !text-offBlack'
+                textClassName='text-sm leading-[120%]'
+              />
+
+              {showTextArea && (
+                <CustomTextArea
+                  value={additionalPoolAccessDetails ?? ''}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    setRegistrationFormField('additionalPoolAccessDetails', e.target.value)
+                  }
+                  placeholder='Tell us about access restrictions, operating hours, key codes, etc.'
+                  rows={5}
+                />
+              )}
+            </>
+          )}
+
+          {editSuggestedAddress.showCorrectVariantSelector && (
+            <SelectCorrectAddress
+              enteredAddress={editSuggestedAddress.entered}
+              suggestedText={editSuggestedAddress.suggested}
+              onEditAddressClick={handleSelectCorrectAddressEditClick}
+              onAddressSelect={handleSelectCorrectAddress}
+              suggestSelectable
+              showWarningText
+            />
+          )}
+
+          {userEnterFullAddress.showAddressNotFoundInSuggestionWarning && (
+            <SelectCorrectAddress
+              enteredAddress={poolAddress ?? ''}
+              suggestedText={
+                'Your provided address was not found in the Maps database. Please double-check your address is entered correctly before continuing.'
+              }
+              onEditAddressClick={handleEditFullAddressClick}
+              onAddressSelect={handleUserAcceptFullEnteredAddress}
+            />
+          )}
+
+          {showZipNotServicedBanner && (
+            <AlertBox type='error' text='This zip code is not serviced. Please, change zip code.' />
+          )}
         </>
       )}
 
       {!customerHasAccessToPool && (
         <div className='relative'>
-          {/* if we need this selector? */}
-          {/* <div className='absolute top-0 left-0 w-full h-full scale-105 border-[2px] bg-[#f8f2f26d] border-red rounded-lg' /> */}
+          {registrationErrors?.maxTravelDistance && (
+            <div className='absolute top-0 left-0 w-full h-full scale-105 border-[2px] bg-[#f8f2f26d] border-red rounded-lg' />
+          )}
           <div className='relative z-1'>
-            <p className='font-secondary font-medium mb-4'>
-              Max Distance Willing to Travel *
-            </p>
+            <p className='font-secondary font-medium mb-4'>Max Distance Willing to Travel *</p>
             <CardsSelector
-              cardsList={maxTravelDistance}
+              cardsList={maxTravelDistanceList}
               radioGroupName='max_travel_distance'
               selectedCard={cardsSelectorsValues.maxTravelDistance}
-              onChange={handleCardSelectorsChange('maxTravelDistance')}
+              onChange={(card) => {
+                handleCardSelectorsChange('maxTravelDistance')(card);
+                setRegistrationFormField('maxTravelDistance', card?.value);
+              }}
             />
           </div>
         </div>
       )}
 
-      {zipDifferentWarning.show && !zipDifferentWarning.alreadyShown && (
-        <div>
-          <AlertBox
-            type='error'
-            text={`Address verification has identified the correct zip code for your address is ${zipDifferentWarning.zip}. This zip code is different than the one you provided earlier. Please note, this could affect pricing. Please verify any change in pricing on the next page.`}
-          />
-        </div>
-      )}
-
-      {editSuggestedAddress.showCorrectVariantSelector && (
-        <SelectCorrectAddress
-          enteredAddress={editSuggestedAddress.entered}
-          suggestedAddress={editSuggestedAddress.suggested}
-          onEditAddressClick={handleSelectCorrectAddressEditClick}
-          onAddressSelect={handleSelectCorrectAddress}
-        />
-      )}
-
-      {registrationErrorsText && (
-        <AlertBox type='error' text={registrationErrorsText} />
-      )}
+      {registrationErrorsText && <AlertBox type='error' text={registrationErrorsText} />}
 
       <div className='flex justify-center'>
         <div className='max-w-[251px] my-auto desktop:max-w-[342px]'>
-          <CustomCurveButton
-            type='submit'
-            text='Continue'
-            icon={blackArrow}
-            onClick={handleContinueClick}
-          />
+          <CustomCurveButton type='submit' text='Continue' icon={blackArrow} disabled={disableContinueBtn} />
         </div>
       </div>
 
       <div className='flex justify-center'>
-        <GoBackTextButton
-          size='small'
-          text='Back to schedule details'
-          onClick={backClickHandler}
-        />
+        <GoBackTextButton size='small' text='Back to schedule details' onClick={backClickHandler} />
       </div>
-    </div>
+    </form>
   );
 };
 

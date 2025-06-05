@@ -97,10 +97,7 @@ const step2SchemaStudents = z
     }
   });
 
-export const step2Schema = z.intersection(
-  step2SchemaPlain,
-  step2SchemaStudents
-);
+export const step2Schema = z.intersection(step2SchemaPlain, step2SchemaStudents);
 
 export const step3SchemaPlain = z.object({
   firstName: nameSchema,
@@ -143,9 +140,9 @@ const step3SchemaParentGuardians = z
       return;
     }
 
-    const maxStudents = studentsCount || 6;
+    const currentStudentsCount = studentsCount ?? 0;
 
-    for (let i = 1; i <= maxStudents; i++) {
+    for (let i = 1; i <= currentStudentsCount; i++) {
       // @ts-expect-error Dynamic field name construction
       const parentGuardianName = schema[`parentGuardianName${i}`]?.trim() || '';
       if (!parentGuardianName || parentGuardianName.length < 1) {
@@ -168,10 +165,28 @@ const step3SchemaParentGuardians = z
     }
   });
 
-export const step3Schema = z.intersection(
-  step3SchemaPlain,
-  step3SchemaParentGuardians
-);
+export const step3Schema = z.intersection(step3SchemaPlain, step3SchemaParentGuardians);
+
+export const step4_1Schema = z.object({
+  lessonType: z.string().min(1, ERROR_MESSAGES.required),
+});
+
+export const step4_2Schema = z
+  .object({
+    lessonTime: z.number().min(1, ERROR_MESSAGES.required),
+    packageSize: z.number().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.lessonTime) {
+      if (!data.packageSize) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['packageSize'],
+          message: ERROR_MESSAGES.required,
+        });
+      }
+    }
+  });
 
 export const step5Schema = z
   .object({
@@ -194,10 +209,7 @@ export const step5Schema = z
     }
 
     if (data.customerWouldLikeToBegin) {
-      if (
-        data.customerWouldLikeToBegin === WhenToBeginEnum.Specific &&
-        !data.preferredLessonBeginDate
-      ) {
+      if (data.customerWouldLikeToBegin === WhenToBeginEnum.Specific && !data.preferredLessonBeginDate) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ['preferredLessonBeginDate'],
@@ -218,9 +230,7 @@ export const step5Schema = z
       const minDays = data.lessonFrequency;
       const daysArray = data.selectedDays.split(' ') as DaysEnum[];
       const hasWeekdays = daysArray.some((day) => WEEKDAYS_ARRAY.includes(day));
-      const hasWeekendDays = daysArray.some((day) =>
-        WEEKENDS_ARRAY.includes(day)
-      );
+      const hasWeekendDays = daysArray.some((day) => WEEKENDS_ARRAY.includes(day));
 
       if (daysArray.length < minDays) {
         ctx.addIssue({
@@ -248,15 +258,53 @@ export const step5Schema = z
     }
   });
 
-export const step6Schema = z.object({
-  poolAddress: nameSchema.regex(/\d{5}$/gi, 'Invalid address'),
-  poolType: nameSchema,
-});
+export const step6Schema = z
+  .object({
+    customerHasAccessToPool: z.boolean().optional(),
+    poolAddress: nameSchema.regex(/(?<!\d)\d{5}$/g, 'Invalid address').optional(),
+    poolType: nameSchema.optional(),
+    maxTravelDistance: nameSchema.optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.customerHasAccessToPool === true) {
+      if (!data.poolAddress) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: ERROR_MESSAGES.required,
+          path: ['poolAddress'],
+        });
+      }
+      if (!data.poolType) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: ERROR_MESSAGES.required,
+          path: ['poolType'],
+        });
+      }
+    } else {
+      if (!data.maxTravelDistance) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: ERROR_MESSAGES.required,
+          path: ['maxTravelDistance'],
+        });
+      }
+    }
+  });
+
+export const step7Schema = z
+  .object({
+    policiesAgreement: z.literal(true),
+  });
+
 
 export const registrationSchemas: Record<number, z.ZodType> = {
   [RegistrationStepEnum.Step1]: step1Schema,
   [RegistrationStepEnum.Step2]: step2Schema,
   [RegistrationStepEnum.Step3]: step3Schema,
+  [RegistrationStepEnum.Step4_1]: step4_1Schema,
+  [RegistrationStepEnum.Step4_2]: step4_2Schema,
   [RegistrationStepEnum.Step5]: step5Schema,
   [RegistrationStepEnum.Step6]: step6Schema,
+  [RegistrationStepEnum.Step7]: step7Schema,
 };

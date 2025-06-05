@@ -1,3 +1,5 @@
+import { Decimal } from '@/__generated__/prisma/runtime/library';
+
 export type RegistrationForm = {
   id: bigint;
   isRegistrationComplete: boolean | null;
@@ -40,6 +42,14 @@ export type RegistrationForm = {
   parentGuardianEmail5: string | null;
   parentGuardianEmail6: string | null;
 
+  lessonType: string | null;
+  lessonTime: number | null;
+  packageSize: number | null;
+
+  orderTotal: Decimal | null;
+  lessonCostBeforeDiscount: Decimal | null;
+  packageDiscount: Decimal | null;
+
   lessonFrequency: number | null;
   customerWouldLikeToBegin: string | null;
   preferredLessonBeginDate: string | null;
@@ -51,7 +61,9 @@ export type RegistrationForm = {
 
   poolAddress: string | null;
   poolType?: string | null;
+  maxTravelDistance?: string | null;
 
   policiesAgreement?: boolean;
+  additionalPoolAccessDetails?: string;
   version: number;
 };

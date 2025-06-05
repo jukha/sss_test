@@ -1,8 +1,12 @@
+export type LessonType = 'private' | 'baby';
+
 export type LessonPackageEntity = {
-  badgeText: string;
-  lessonsCount: number;
-  description: string;
-  price: number;
-  salePercent?: number;
-  learnGuaranteed?: boolean;
+  id: number;
+  packagePriceTierId: number;
+  lessonType: LessonType;
+  lessonQty: number;
+  lessonDurationMinutes: number;
+  price: number | null;
+  priceUpsell: number | null;
+  basePay: number | null;
 };

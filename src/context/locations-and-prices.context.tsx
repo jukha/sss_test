@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { LocationsAndPricingEntity } from '@/entities/locations-and-prices.entity';
-import { locationsAndPricingRepository } from '@/repositories/locations-and-pricing.repository';
+import { LocationsAndPricingEntity } from '@/entities/locations-and-pricing.entity';
+import clientDataApi from '@/actions/data/client-data-api';
 
 const LocationsAndPricesContext = createContext<LocationsAndPricingEntity | null>(null);
 
@@ -8,8 +8,7 @@ export const LocationsAndPricesContextProvider = ({children}: {children: ReactNo
   const [state, setState] = useState<LocationsAndPricingEntity | null>(null);
 
   useEffect(() => {
-    // @ts-expect-error We use POST to retrieve data and not to send
-    locationsAndPricingRepository.post<LocationsAndPricingEntity>({data: {}}).then(({data}) => setState(data));
+    clientDataApi.registration.locationsAndPricing.get().then(setState);
   }, [])
 
   return(

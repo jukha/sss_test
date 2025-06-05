@@ -1,8 +1,7 @@
 import { convertZipToLatLon } from '@/helpers/convert-zip-to-lat-lon';
-import { instructorsRepository } from '@/repositories/instructors.repository';
-import { InstructorEntity } from '@/entities/instructor.entity';
 import { ServiceabilityErrorEnum } from '@/enum/serviceability-error.enum';
-import { LocationsAndPricingEntity } from '@/entities/locations-and-prices.entity';
+import { LocationsAndPricingEntity } from '@/entities/locations-and-pricing.entity';
+import clientDataApi from '@/actions/data/client-data-api';
 
 type Options = {
   zipCode: string;
@@ -17,15 +16,9 @@ export async function checkServiceabilityByZip({zipCode, requirePool, locationsA
 
   const {lng, lat} = await convertZipToLatLon(zipCode);
 
-  const {data} = await instructorsRepository.get<InstructorEntity[]>({
-    endpoint: `/search/count?lat=${lat}&lng=${lng}&radius=25`,
-  })
+  const instructors = await clientDataApi.instructors.nearbyLatLng.get({lat, lng});
 
-  if (!data) {
-    throw new Error('Instructors search API error');
-  }
-
-  if (data.length < 3) {
+  if (instructors.length < 3) {
     return ServiceabilityErrorEnum.OutsideArea;
   }
 
@@ -33,7 +26,7 @@ export async function checkServiceabilityByZip({zipCode, requirePool, locationsA
     return null;
   }
 
-  const hasInstructorsWithPool = data.find(i => i.number_of_pools_access || 0 > 0)
+  const hasInstructorsWithPool = instructors.find(i => i.numberOfPoolAccess || 0 > 0)
 
   if (!hasInstructorsWithPool) {
     return ServiceabilityErrorEnum.NoPools;

@@ -21,7 +21,7 @@ export const loadRegistration = async (recordIdentifier: RegistrationRecordIdent
   return prismaClient.customerRegistration.findFirst({
     where: {
       AND: [
-        {id: recordIdentifier.id},
+        {id: BigInt(recordIdentifier.id)},
         {secret: recordIdentifier.secret},
         {registrationFormType: recordIdentifier.formTypeId}
       ]
