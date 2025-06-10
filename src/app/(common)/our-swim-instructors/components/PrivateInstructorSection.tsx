@@ -13,7 +13,7 @@ const data = {
 
 const PrivateInstrucutorSection = () => {
   return (
-    <Container className='flex flex-col  justify-start items-center py-24'>
+    <Container className='flex flex-col  justify-start items-center'>
       <div className='flex flex-col justify-start items-center gap-4 max-w-[354px]  md:max-w-[837px]'>
         <Typography variant='h2' className=' text-center'>
           {data.heading}

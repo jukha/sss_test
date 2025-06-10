@@ -15,7 +15,7 @@ const SectionInfoCard: React.FC<SectionInfoCardType> = (props) => {
         {props.listItems.map((step, idx) => (
           <li
             key={idx}
-            className='flex gap-4 max-w-[351px]'
+            className='flex gap-4 max-w-[500px]'
             style={{ alignItems: props.listItemBulletIconAlignment }}
           >
             {props.useListIdxAsIcon && (

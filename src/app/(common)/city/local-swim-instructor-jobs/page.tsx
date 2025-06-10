@@ -13,12 +13,11 @@ import BenefitsOfSwimInstructorSection from './components/BenefitsOfSwimInstruct
 
 export default function LocalSwimInstructorJobs() {
   return (
-    <div>
-      <main className='flex flex-col'>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <LocalInstructorJobsHero />
         <TeachSwimChangeSection />
         <PartnerPerksSection />
-        <InlineRegistrationForm />
+        <InlineRegistrationForm title='Apply Now' />
         <InstructorsLoveTeachingSection />
         <FeaturedSwimInstructorsLocalJobsSection />
         <SwimInstructorsJobsInCitySection />
@@ -28,6 +27,5 @@ export default function LocalSwimInstructorJobs() {
         <BenefitsOfSwimInstructorSection />
         <LocalInstructorFaqsSection />
       </main>
-    </div>
   );
 }

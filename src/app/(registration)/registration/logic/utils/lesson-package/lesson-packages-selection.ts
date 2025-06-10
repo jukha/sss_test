@@ -4,20 +4,25 @@ import { generateRecommendedLessonLength } from './generate-recommended-lesson-l
 import { generateAvailableLessonTypes } from './lesson-types';
 import { generateAvailableLessonLengths } from './generate-available-lesson-lengths';
 import { selectAvailablePackages } from './select-available-packages';
-import { populatePackageDiscountValues } from './format-packages';
+import {
+  PopulatedLessonPackage,
+  populatePackageDiscountValues,
+  populatePackageLearntToSwimGuaranteed,
+} from './format-packages';
 
 type GenerateLessonPackageSelectionOptionsParams = {
   packages?: LessonPackageEntity[];
   studentAges?: StudentsAges[];
   selectedLessonType?: LessonType | null;
   selectedLessonLength?: number | null;
+  include25LessonsPackages?: boolean;
 };
 
 export type LessonPackageSelectionOptions = {
   recommendedLessonLength: number;
   lessonTypes: LessonType[];
   lessonLengths: number[];
-  packages: LessonPackageEntity[];
+  packages: PopulatedLessonPackage[];
 };
 
 export const generateLessonPackageSelectionOptions = ({
@@ -25,18 +30,25 @@ export const generateLessonPackageSelectionOptions = ({
   studentAges = [],
   selectedLessonType,
   selectedLessonLength,
+  include25LessonsPackages,
 }: GenerateLessonPackageSelectionOptionsParams): LessonPackageSelectionOptions => {
   const recommendedLessonLength = generateRecommendedLessonLength(studentAges);
   const lessonTypes = generateAvailableLessonTypes({ studentAges, packages });
   const lessonLengths = selectedLessonType === 'baby' ? [30] : generateAvailableLessonLengths(studentAges);
 
-  const availablePackages = selectAvailablePackages({ selectedLessonType, selectedLessonLength, packages });
+  const availablePackages = selectAvailablePackages({
+    selectedLessonType,
+    selectedLessonLength,
+    packages,
+    include25LessonsPackages,
+  });
   const packagesWithDiscountValues = populatePackageDiscountValues(availablePackages);
+  const packagesWithLTSGValues = populatePackageLearntToSwimGuaranteed(packagesWithDiscountValues, studentAges, selectedLessonType);
 
   return {
     recommendedLessonLength,
     lessonTypes,
     lessonLengths,
-    packages: packagesWithDiscountValues,
+    packages: packagesWithLTSGValues as PopulatedLessonPackage[],
   };
 };

@@ -1,5 +1,5 @@
-import { SimpleEvent, SimpleEventSubscribeOnly } from '@osx11/simple-event';
 import { globalErrorIsVersioning, GlobalErrorType } from '@/enum/global-error-type.enum';
+import { SimpleEvent, SimpleEventSubscribeOnly } from '@/simple-event';
 
 export type GlobalError<T> = {
   version?: number,
@@ -27,7 +27,7 @@ class GlobalErrorHandlerState {
 
     const retryResultEvent = new SimpleEvent<T>();
 
-    this._errors = [...this._errors, {...error, retryResultEvent}];
+    this._errors = [...this._errors, {...error, retryResultEvent: retryResultEvent as SimpleEvent<unknown>}];
     this._onErrorsUpdate.emit(this._errors);
 
     return retryResultEvent.asSubscribeOnlyEvent() as SimpleEventSubscribeOnly<T | Error>;
@@ -73,7 +73,7 @@ class GlobalErrorHandlerState {
       this.batchRemoveErrors([existingErrorIndex], false);
     }
 
-    this._errors = [...this._errors, {...error, retryResultEvent}];
+    this._errors = [...this._errors, {...error, retryResultEvent: retryResultEvent as SimpleEvent<unknown>}];
 
     this._onErrorsUpdate.emit(this._errors);
     return retryResultEvent.asSubscribeOnlyEvent() as SimpleEventSubscribeOnly<T | Error>;

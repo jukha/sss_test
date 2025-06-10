@@ -19,8 +19,7 @@ import AreYouInstructor2Section from '@/components/sections/AreYouInstructor2Sec
 
 const LocalTeen = () => {
   return (
-    <div>
-      <main>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <LocalTeenHero />
         {/*Bring your private swim lessons home with Sunsational Swim School* - section*/}
         <BringYourPrivateSection />
@@ -65,7 +64,6 @@ const LocalTeen = () => {
         <ServiceLocationsSection />
         <LocationsListSection />
       </main>
-    </div>
   );
 };
 

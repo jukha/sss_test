@@ -12,7 +12,6 @@ const HowWeMatchYouSection = () => {
     <FeatureSection
       backgroundColor='var(--color-darkBlue)'
       waveColor='var(--color-darkBlue)'
-      className='my-28'
     >
       <FlexWrapper stackOrder='second-top'>
         <div className='relative z-0 lg:w-[50%] p-1'>

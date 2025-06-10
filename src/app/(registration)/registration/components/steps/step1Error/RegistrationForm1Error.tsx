@@ -1,15 +1,15 @@
 'use client';
 
 import { blackArrow, mail } from '@/assets';
-import CustomCurveButton from '@/components/CustomCurveButton';
+import CustomCurveButton from '../../shared/CustomCurveButton';
 import CustomInput from '@/components/CustomInput';
 import { useForm } from 'react-hook-form';
 import GoBackTextButton from '../../shared/GoBackTextButton';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import { useState } from 'react';
 import clsx from 'clsx';
-import { sendgrid } from '@/sendgrid';
 import clientDataApi from '@/actions/data/client-data-api';
+import validateEmailApi from '@/actions/email_validation/client-data-api';
 
 type ErrorType = 'outsideArea' | 'noPools';
 
@@ -57,7 +57,7 @@ const RegistrationForm1Error: React.FC<Props> = ({
     defaultValues: formDefaultValues,
   });
 
-  const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const validateEmail = async (email: FormValues['email']) => {
@@ -66,10 +66,10 @@ const RegistrationForm1Error: React.FC<Props> = ({
       return false;
     }
 
-    const emailIsValid = await sendgrid.validateEmail(email);
+    const validationResult = await validateEmailApi.validateOneEmail(email);
 
-    if (!emailIsValid) {
-      setError('email', {type: 'custom', message: 'Email is invalid'});
+    if (!validationResult.isValid) {
+      setError('email', {type: 'custom', message: validationResult.errorMessage});
       return false;
     }
 
@@ -77,14 +77,23 @@ const RegistrationForm1Error: React.FC<Props> = ({
   }
 
   const onSubmit = async (data: FormValues) => {
-    setLoading(true);
-    const emailIsValid = await validateEmail(data.email);
-    setLoading(false);
+    try {
+      setSending(true);
+      const emailIsValid = await validateEmail(data.email);
 
-    if (!emailIsValid) return;
-    setShowSuccessMessage(true);
+      if (!emailIsValid) {
+        setSending(false);
+        return;
+      }
 
-    await clientDataApi.unservicedLeads.create({email: data.email!, zip: registrationForm?.zip || ''})
+      await clientDataApi.unservicedLeads.create({email: data.email!, zip: registrationForm?.zip || ''})
+      setSending(false);
+      setShowSuccessMessage(true);
+
+    } catch (err) {
+      console.log(err);
+      setSending(false);
+    }
   };
 
   return (
@@ -94,9 +103,13 @@ const RegistrationForm1Error: React.FC<Props> = ({
     >
       <div className='flex flex-col gap-[30px] items-center w-full'>
         <GoBackTextButton
-          text={errorText[errorType]}
+          text={'Zip code'}
           onClick={onPreviousClicked}
         />
+        
+        <h4 className='px-[20px] text-center'>
+          {errorText[errorType]}
+        </h4>
 
         <h4 className='px-[20px] text-center'>
           {showSuccessMessage ? successMessage : errorDescription[errorType]}
@@ -115,9 +128,9 @@ const RegistrationForm1Error: React.FC<Props> = ({
         {!showSuccessMessage &&
           <CustomCurveButton
             type='submit'
-            text={loading ? 'Loading...' : 'Notify Me'}
+            text={sending ? 'Sending...' : 'Notify Me'}
             icon={blackArrow}
-            disabled={loading}
+            disabled={sending}
           />
         }
 

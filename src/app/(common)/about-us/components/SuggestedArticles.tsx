@@ -10,6 +10,7 @@ import {
   suggestedArticle3,
 } from '@/assets';
 import SwimmersBlogCard from './SwimmersBlogCard';
+import FeatureSection from '@/components/FeatureSection';
 
 const content = {
   heading: 'Making Waves: The Blog for Happy, Confident Swimmers',
@@ -42,8 +43,12 @@ const content = {
 
 const SuggestedArticles = () => {
   return (
-    <div className='relative pt-[100px] lg:pt-[150px] mb-20 lg:mb-[100px]'>
-      <Container className='flex flex-col gap-8 justify-start items-center pb-24 '>
+    <FeatureSection
+      waveColor='var(--color-iceBlue)'
+      backgroundColor='var(--color-iceBlue)'
+      className='relative '
+    >
+      <Container className='flex flex-col gap-8 justify-start items-center pb-24 pt-[100px] lg:pt-[150px]'>
         {/* Top Wave */}
         <div className='absolute top-0 h-[16px] md:h-[54px] left-0 w-full -translate-y-1/2 opacity-30 z-[-3]'>
           <WaveIcon color='var(--color-blueSky)' />
@@ -83,7 +88,7 @@ const SuggestedArticles = () => {
         <div className='absolute w-full h-full top-0 left-0 bg-[#C7EAF3] opacity-30 z-[-1]'></div>
         <div className='absolute w-full h-full top-0 left-0 bg-white z-[-2]'></div>
       </Container>
-    </div>
+    </FeatureSection>
   );
 };
 

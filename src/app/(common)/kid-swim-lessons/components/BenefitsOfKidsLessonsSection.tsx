@@ -72,7 +72,7 @@ const benefitsShowCaseSectionData = {
 
 const BenefitsOfKidsLessonsSection = () => {
   return (
-    <div className='pt-[130px] lg:pt-[200px]'>
+    <div>
       <BenefitsShowCaseSection {...benefitsShowCaseSectionData} />;
     </div>
   );

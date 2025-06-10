@@ -10,7 +10,7 @@ const content = {
 
 const FindTheBestSchoolSection = () => {
   return (
-    <div className='pt-[116px] pb-[200px]'>
+    <div>
       <Container>
         <Typography
           variant='h2'

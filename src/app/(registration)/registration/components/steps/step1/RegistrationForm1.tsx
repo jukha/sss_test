@@ -1,7 +1,7 @@
 'use client';
 
-import CustomButton from '@/components/CustomButton';
-import CustomCurveButton from '@/components/CustomCurveButton';
+import CustomButton from '../../shared/CustomButton';
+import CustomCurveButton from '../../shared/CustomCurveButton';
 import CustomInput from '@/components/CustomInput';
 import { useState } from 'react';
 import { blackArrow, placeMarker } from '@/assets';
@@ -56,6 +56,11 @@ const RegistrationForm1 = ({
     locationsAndPricing.loading ||
     registrationDataIsLoading ||
     checkingServiceability;
+  
+  const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRegistrationFormField('zip', prepareZipValue(e.target.value));
+    setRegistrationFormField('poolAddress', null);
+  };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -80,8 +85,9 @@ const RegistrationForm1 = ({
     }
 
     setCheckingServiceability(true);
-    const serviceabilityError = await checkServiceabilityByZip(serviceabilityCheckOptions);
-    setCheckingServiceability(false);
+
+    const serviceabilityError = await checkServiceabilityByZip(serviceabilityCheckOptions)
+      .finally(() => setCheckingServiceability(false));
 
     if (!serviceabilityError) {
       await onNextClicked();
@@ -108,9 +114,7 @@ const RegistrationForm1 = ({
         maxLength={5}
         value={getZipCodeValue()}
         error={registrationErrors?.zip}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setRegistrationFormField('zip', prepareZipValue(e.target.value))
-        }
+        onChange={handleZipChange}
         onBlur={onZipFocusLost}
         icon={placeMarker}
         inputMode='numeric'
@@ -168,7 +172,7 @@ const RegistrationForm1 = ({
       <CustomCurveButton
         type='submit'
         disabled={loading}
-        text={loading ? 'Loading' : 'Continue'}
+        text={loading ? 'Loading...' : 'Continue'}
         icon={!loading && blackArrow}
       />
     </form>

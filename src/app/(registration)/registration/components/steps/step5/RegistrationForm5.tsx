@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { StaticImageData } from 'next/image';
 import { blackArrow, calendarAlert, calendarDate, calendarTwo, lock } from '@/assets';
-import CustomButton from '@/components/CustomButton';
-import CustomCurveButton from '@/components/CustomCurveButton';
-import CustomDateInput from '@/components/CustomDatePicker';
+import CustomButton from '../../shared/CustomButton';
+import CustomCurveButton from '../../shared/CustomCurveButton';
+import CustomDateInput from '../../shared/CustomDatePicker';
 import FilteredImage from '@/components/FilteredImage';
 import { FilterClassEnum } from '@/enum/filter-class.enum';
 import { DAY_ORDER, DaysEnum, WEEKDAYS_ARRAY, WEEKENDS_ARRAY } from '@/enum/days.enum';
@@ -12,6 +12,7 @@ import { ALL_TIMES_ARRAY, TIMES_ORDER, TimesEnum } from '@/enum/times.enum';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import { WhenToBeginEnum } from '@/enum/when-to-begin.enum';
 import { convertDateFromUSFormatToInputValue, convertDateToUSFormat } from '@/helpers/date';
+import { LessonType } from '@/entities/lesson-package.entity';
 
 import GoBackTextButton from '../../shared/GoBackTextButton';
 import AlertBox from '../../shared/AlertBox';
@@ -19,6 +20,8 @@ import TimesSelector from './components/TimeSelector';
 import FlexibleSchedule from './components/FlexibleSchedule';
 import DaysSelector from './components/DaysSelector';
 import ErrorHighlighter from './components/ErrorHighlighter';
+import { extractStudentAges } from '../../../logic/utils/lesson-package/extract-students-data';
+import { generateLearnToSwimGuaranteed } from '../../../logic/utils/lesson-package/generate-learn-to-swim-guaranteed';
 
 const sortDays = (days: DaysEnum[]) => {
   return days.sort((a, b) => DAY_ORDER[a] - DAY_ORDER[b]);
@@ -69,6 +72,8 @@ const RegistrationForm5: React.FC<Props> = ({ onNextClicked, onPreviousClicked }
     selectedWeekendTimes,
     flexibleSchedule,
     additionalSchedulingInformation,
+    lessonType,
+    packageSize,
   } = registrationForm ?? {};
 
   const setLessonFrequency = (value: number) => {
@@ -84,6 +89,24 @@ const RegistrationForm5: React.FC<Props> = ({ onNextClicked, onPreviousClicked }
   const showDatePicker = customerWouldLikeToBegin === WhenToBeginEnum.Specific;
   const inputDateValue = convertDateFromUSFormatToInputValue(preferredLessonBeginDate ?? '');
   const lessonFrequency = !formLessonsFrequency ? 0 : formLessonsFrequency;
+
+  const studentAges = extractStudentAges(registrationForm);
+  const isLTSG = generateLearnToSwimGuaranteed({ studentAges, lessonType: lessonType as LessonType });
+  const eligibleLsg = isLTSG && Number(packageSize) >= 12 && lessonFrequency >= 3;
+
+  const generateLTSGLockMessage = () => {
+    const messages = [];
+
+    if (Number(packageSize) < 12) {
+      messages.push('Upgrade to a 12+ lesson package');
+    }
+
+    if (lessonFrequency < 3) {
+      messages.push('pick 3 or more lessons per week to');
+    }
+
+    return messages.join(' and ');
+  };
 
   const setSelectedDays = (days: DaysEnum[]) => {
     setRegistrationFormField('selectedDays', sortDays(days).join(' '));
@@ -162,6 +185,10 @@ const RegistrationForm5: React.FC<Props> = ({ onNextClicked, onPreviousClicked }
     }
   }, [someWeekendDaysSelected]);
 
+  useEffect(() => {
+    setRegistrationFormField('eligibleLsg', eligibleLsg);
+  }, [eligibleLsg]);
+
   return (
     <form onSubmit={onSubmit} className='flex flex-col gap-[30px] items-center w-[calc(100vw-50px)] laptop:w-auto'>
       <GoBackTextButton text='Schedule' onClick={onPreviousClicked} />
@@ -171,21 +198,23 @@ const RegistrationForm5: React.FC<Props> = ({ onNextClicked, onPreviousClicked }
 
         <span className='font-medium'>How many lessons would like per week*</span>
 
-        <div className='flex flex-col gap-[6px] items-start desktop:flex-row desktop:items-center'>
-          {lessonFrequency < 3 && <div className='text-extraSmall text-gray'>Pick 3 or more lessons per week to</div>}
+        {isLTSG && (
+          <div className='flex flex-col gap-[6px] items-start desktop:flex-row desktop:items-center'>
+            {generateLTSGLockMessage() && <div className='text-extraSmall text-gray'>{generateLTSGLockMessage()}</div>}
 
-          <div
-            className={clsx(
-              'flex gap-[8px] px-[16px] py-[4px] rounded-[16px] bg-lightGray shrink',
-              lessonFrequency < 3 ? 'bg-gray' : 'bg-yellow'
-            )}
-          >
-            <FilteredImage src={lock} filter={lessonFrequency < 3 ? FilterClassEnum.Gray : FilterClassEnum.Orange} />
-            <span className={clsx('text-extraSmall font-[700]', lessonFrequency < 3 ? 'text-gray' : 'text-orange')}>
-              LEARN TO SWIM GUARANTEED
-            </span>
+            <div
+              className={clsx(
+                'flex gap-[8px] px-[16px] py-[4px] rounded-[16px] bg-lightGray shrink-0',
+                eligibleLsg ? 'bg-yellow' : 'bg-gray'
+              )}
+            >
+              <FilteredImage src={lock} filter={eligibleLsg ? FilterClassEnum.Orange : FilterClassEnum.Gray} />
+              <span className={clsx('text-extraSmall font-[700]', eligibleLsg ? 'text-orange' : 'text-gray')}>
+                LEARN TO SWIM GUARANTEED
+              </span>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className='flex gap-[10px] mt-[8px]'>
           {Array.from({ length: 7 }).map((_, i) => (

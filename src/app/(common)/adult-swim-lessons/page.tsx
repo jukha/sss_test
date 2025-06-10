@@ -11,28 +11,29 @@ import AdultsLessonsBenefitsSection from './components/AdultsLessonsBenefitsSect
 import NeverTooOldToLearnSection from './components/NeverTooOldToLearnSection';
 import PrivateLessonsAreGreatSection from './components/PrivateLessonsAreGreatSection';
 import AdultLessonSatisfactionGuaranteeSection from './components/AdultLessonSatisfactionGuaranteeSection';
+import StackedSections from '@/components/layout/StackedSections';
 
 const AdultsSwimmingLessons = () => {
   return (
-    <div>
-      <main>
-        <AdultsSwimmingLessonsHero />
-        {/* Adult swim lessons that come to you! - sections  */}
-        <AdultLessonsToYouSection />
-        {/* Get to your victory lap faster with a dedicated Sunsational private swim instructor - sections  */}
-        <GetYourVictoryTopSection />
-        {/* Get to your victory lap Bottom - sections  */}
-        <GetYourVictoryBottomSection />
-        {/* Why choose Sunsational Swim School to learn to swim - sections  */}
-        <AdultsLessonsWhyChooseUsSection />
-        {/* Benefits of adult swimming lessons with Sunsational - sections  */}
-        <AdultsLessonsBenefitsSection />
-        {/* You’re never too old to learn - sections  */}
-        <NeverTooOldToLearnSection />
-        {/* Private adult swimming lessons are great for… - sections  */}
-        <PrivateLessonsAreGreatSection />
-        {/* Recommended lesson plans for adult Swim Lessons - sections  */}
-        <AdultRecommendedLessonsSection />
+    <main className='flex flex-col gap-20 lg:gap-26'>
+      <AdultsSwimmingLessonsHero />
+      {/* Adult swim lessons that come to you! - sections  */}
+      <AdultLessonsToYouSection />
+      {/* Get to your victory lap faster with a dedicated Sunsational private swim instructor - sections  */}
+      <GetYourVictoryTopSection />
+      {/* Get to your victory lap Bottom - sections  */}
+      <GetYourVictoryBottomSection />
+      {/* Why choose Sunsational Swim School to learn to swim - sections  */}
+      <AdultsLessonsWhyChooseUsSection />
+      {/* Benefits of adult swimming lessons with Sunsational - sections  */}
+      <AdultsLessonsBenefitsSection />
+      {/* You’re never too old to learn - sections  */}
+      <NeverTooOldToLearnSection />
+      {/* Private adult swimming lessons are great for… - sections  */}
+      <PrivateLessonsAreGreatSection />
+      {/* Recommended lesson plans for adult Swim Lessons - sections  */}
+      <AdultRecommendedLessonsSection />
+      <StackedSections>
         {/* 100% Satisfaction Guarantee - sections  */}
         <AdultLessonSatisfactionGuaranteeSection />
         {/* Sunsational clients love our swimming lessons - sections  */}
@@ -43,11 +44,11 @@ const AdultsSwimmingLessons = () => {
           shadowClasses='bg-orange'
           buttonText='Book Swimming Lessons'
         />
-        {/* Search our Serviced Locations - sections  */}
-        <ServiceLocationsSection />
-        <LocationsListSection />
-      </main>
-    </div>
+      </StackedSections>
+      {/* Search our Serviced Locations - sections  */}
+      <ServiceLocationsSection />
+      <LocationsListSection />
+    </main>
   );
 };
 

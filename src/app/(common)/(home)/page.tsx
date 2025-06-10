@@ -15,8 +15,7 @@ import SatisfactionGuaranteeSection from '@/components/sections/SatisfactionGuar
  */
 export default function Home() {
   return (
-    <div>
-      <main className='flex flex-col'>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         {/* Hero Section - Main banner with call to action */}
         <HomeHero />
         {/* Take Stress Out Section - 3 cards */}
@@ -38,6 +37,5 @@ export default function Home() {
         {/* Available all across the USA - Lists all locations */}
         <LocationsListSection />
       </main>
-    </div>
   );
 }

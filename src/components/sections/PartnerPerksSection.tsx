@@ -70,7 +70,7 @@ const PartnerPerksSection: React.FC<Props> = ({
   descriptionBottom = 'Share your passion for swimming with students in the [city] area and find rewarding aquatic jobs this season. We can’t wait for you to join the Sunsational team.',
 }) => {
   return (
-    <Container className='my-[100px]'>
+    <Container>
       <Typography variant='h2' className='max-w-[837px] mx-auto mb-5'>
         Partner with Sunsational as a Swim Instructor for Spring/Summer 2025
       </Typography>

@@ -142,7 +142,7 @@ const SocialMediaReviewsSection = ({
   useEffect(() => {});
 
   return (
-    <section className='my-[10em] md:px-[4em]  py-[8em] relative flex flex-col gap-20 overflow-clip justify-start items-center'>
+    <section className='md:px-[4em] relative flex flex-col gap-20 overflow-clip justify-start items-center'>
       <div className='flex flex-col gap-6  justify-start items-center z-10'>
         <Typography
           variant='h2'

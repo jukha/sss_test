@@ -8,6 +8,7 @@ import { FilterClassEnum } from '@/enum/filter-class.enum';
 import FilteredImage from '@/components/FilteredImage';
 import { useInterval } from '@/hooks/use-interval';
 import Card from './Card';
+import clsx from 'clsx';
 
 type Props = {
   cards: CardType[];
@@ -41,7 +42,15 @@ const CardSlider: React.FC<Props> = ({ cards, withAutoplay }) => {
           rotate='left'
         />
       </div>
-      <Card cardInfo={cards[currentCard]} />
+      <div className='grid'>
+        {
+          cards.map((cardData, idx) => {
+            return <div key={idx} className={clsx('col-start-1 col-end-1 row-start-1 row-end-1 opacity-0', currentCard === idx && 'opacity-100')}>
+              <Card cardInfo={cardData} />
+            </div>
+          })
+        }
+      </div>
       <div
         className='curveCircle bg-orange min-w-[30px] h-[30px] flex items-center justify-center cursor-pointer'
         onClick={nextCard}

@@ -12,24 +12,22 @@ import WhyChooseToBuyGiftCertificate from './components/WhyChooseToBuyGiftCertif
 
 const GiftCertificate = () => {
   return (
-    <div>
-      <main>
-        <GiftCertificateHero />
-        <SunsationalGiftCertificatesSection />
-        <PerfectGiftSection />
-        <LessonsForWaterSafetySection />
-        <CustomerReviewsSection
-          heading='Why our students and parents love us!'
-          description='Check out our 4.9 rating out of 1852 reviews'
-          hideButton={true}
-        />
-        <TopSwimmingLessonsSection showButton={false} />
-        <PrivateVsGroupLessonsSection />
-        <WhyChooseToBuyGiftCertificate />
-        <ServiceLocationsSection />
-        <LocationsListSection />
-      </main>
-    </div>
+    <main className='flex flex-col gap-20 lg:gap-26'>
+      <GiftCertificateHero />
+      <SunsationalGiftCertificatesSection />
+      <PerfectGiftSection />
+      <LessonsForWaterSafetySection />
+      <CustomerReviewsSection
+        heading='Why our students and parents love us!'
+        description='Check out our 4.9 rating out of 1852 reviews'
+        hideButton={true}
+      />
+      <TopSwimmingLessonsSection showButton={false} />
+      <PrivateVsGroupLessonsSection />
+      <WhyChooseToBuyGiftCertificate />
+      <ServiceLocationsSection />
+      <LocationsListSection />
+    </main>
   );
 };
 

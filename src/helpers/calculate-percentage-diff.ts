@@ -4,5 +4,5 @@ export const calculatePercentageDiff = (val1: number, val2: number) => {
   const difference = Math.abs(val1 - val2);
   const average = Math.abs((val1 + val2) / 2);
 
-  return Math.round((difference / average) * 100);
+  return +((difference / average) * 100).toFixed(1);
 };

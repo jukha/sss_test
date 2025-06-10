@@ -10,4 +10,8 @@ export enum SkillTitle {
   AdultIntermediate = 'Adult Intermediate',
   AdultAdvanced = 'Adult Advanced',
   SpecializedTraining = 'Specialized Training',
+  BabyTadpole = 'Baby Tadpole Skills',
+  BabyStarfish = 'Baby Starfish Skills',
+  BabyGoldfish = 'Baby Goldfish Skills',
+  BabyJellyfish = 'Baby Jellyfish Skills',
 }

@@ -37,3 +37,15 @@ export const extractLocationPricing = ({
 
   return pricing?.find(({ id }) => id === packagePriceTierId);
 };
+
+type ExtractLocationMetroAreaParams = {
+  zip?: string | null;
+  zipCodesServiced?: ZipCodesServicedEntity[];
+  metroAreas?: MetroAreaEntity[];
+};
+
+export const extractLocationMetroArea = ({ zip, zipCodesServiced, metroAreas }: ExtractLocationMetroAreaParams) => {
+  const zipCodeMetroAreaId = zipCodesServiced?.find(({ zip: servicedZip }) => servicedZip === zip)?.metroAreaId;
+
+  return metroAreas?.find(({ id }) => id === zipCodeMetroAreaId);
+};

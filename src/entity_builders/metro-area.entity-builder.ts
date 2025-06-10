@@ -8,6 +8,8 @@ export class MetroAreaEntityBuilder {
       name: plainEntity.name,
       stateAbbreviation: plainEntity.state_abbreviation,
       packagePriceTierId: plainEntity.package_price_tier_id,
+      serviceAvailable: plainEntity.are_we_serving,
+      haveSIWithPool: plainEntity.have_sis_with_pool,
     }
 
     if (customMapper) {

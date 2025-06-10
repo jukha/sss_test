@@ -44,7 +44,6 @@ const WhySurvivalFloatLessonsSection = () => {
     <FeatureSection
       backgroundColor='var(--color-lightBlue)'
       waveColor='var(--color-lightBlue)'
-      className=''
     >
       <Container className='flex flex-col justify-start items-center relative overflow-x-clip mt-12'>
         <FlexWrapper

@@ -1,6 +1,8 @@
 import { LessonPackageEntity } from '@/entities/lesson-package.entity';
 import { RegistrationForm } from '@/entities/registration-form.entity';
 import { populatePackageDiscountValues } from './format-packages';
+import { calculatePercentageDiff } from '@/helpers/calculate-percentage-diff';
+import { extractPackageForUpgrade } from './extract-package-for-upgrade';
 
 type GenerateLessonPackageSummaryParams = {
   studentsCount: number;
@@ -8,6 +10,9 @@ type GenerateLessonPackageSummaryParams = {
   registrationFee: number | null;
   availableLessonsPackages?: LessonPackageEntity[];
   selectedLessonPackage?: LessonPackageEntity;
+  promocodeSalePrice?: number | null;
+  freeLessons?: number | null;
+  upgradedFromPackageSize?: number | null;
 };
 
 export type LessonPackageSummary = {
@@ -23,6 +28,12 @@ export type LessonPackageSummary = {
   registrationFee: number;
 
   orderTotal: number;
+  freeLessons: number | null;
+  totalDiscountPercent: number;
+  isUpgraded: boolean;
+
+  basePay: number;
+  totalBasePay: number;
 };
 
 export const generateLessonPackageSummary = ({
@@ -31,33 +42,52 @@ export const generateLessonPackageSummary = ({
   registrationFee,
   availableLessonsPackages,
   selectedLessonPackage,
+  promocodeSalePrice,
+  freeLessons,
+  upgradedFromPackageSize,
 }: GenerateLessonPackageSummaryParams): LessonPackageSummary => {
-  lessonPrice = lessonPrice && !Number.isNaN(+lessonPrice) ? +lessonPrice : 0;
-  registrationFee = registrationFee && !Number.isNaN(+registrationFee) ? +registrationFee : 0;
+  const lessonPriceForCalculations = lessonPrice ?? 0;
+  const registrationFeeForCalculations = registrationFee ?? 0;
   const lessonsQty = selectedLessonPackage?.lessonQty ?? 0;
+  const savedUSDFromPromocode = promocodeSalePrice ?? 0;
+  const basePay = selectedLessonPackage?.basePay ?? 0;
 
-  const totalLessonsPrice = lessonPrice * lessonsQty;
-  const totalRegistrationFee = registrationFee * studentsCount;
+  const totalLessonsPrice = lessonPriceForCalculations * lessonsQty;
+  const totalRegistrationFee = registrationFeeForCalculations * studentsCount;
 
   const populatedPackageDiscountValues = populatePackageDiscountValues(availableLessonsPackages ?? []);
 
   const packageWithDiscount = populatedPackageDiscountValues.find((pack) => pack.id === selectedLessonPackage?.id);
 
   const lessonDiscountPercent = packageWithDiscount?.discountPercent ?? 0;
+  const orderTotal = totalLessonsPrice + totalRegistrationFee;
 
+  const savedPercentWithPromocode = calculatePercentageDiff(orderTotal, orderTotal - savedUSDFromPromocode);
+  const packageForUpgrade = extractPackageForUpgrade({
+    initialPackageSize: upgradedFromPackageSize,
+    availablePackages: availableLessonsPackages,
+  });
+  
   return {
-    costPerLessonPerStudent: +(lessonPrice / studentsCount).toFixed(2),
+    costPerLessonPerStudent: +(lessonPriceForCalculations / studentsCount).toFixed(2),
 
-    lessonPrice: lessonPrice,
-    totalLessonsPrice,
+    lessonPrice: lessonPriceForCalculations,
+    totalLessonsPrice: totalLessonsPrice,
     packageSize: selectedLessonPackage?.lessonQty ?? 0,
     lessonTime: selectedLessonPackage?.lessonDurationMinutes ?? 0,
-    lessonDiscountPercent,
 
-    totalRegistrationFee: totalRegistrationFee,
-    registrationFee: registrationFee,
+    lessonDiscountPercent: +lessonDiscountPercent.toFixed(1),
+    freeLessons: freeLessons ?? null,
+    totalDiscountPercent: +(lessonDiscountPercent + savedPercentWithPromocode).toFixed(1),
 
-    orderTotal: totalLessonsPrice + totalRegistrationFee,
+    totalRegistrationFee,
+    registrationFee: registrationFeeForCalculations,
+
+    orderTotal: orderTotal - savedUSDFromPromocode,
+    isUpgraded: Boolean(upgradedFromPackageSize && selectedLessonPackage?.lessonQty === packageForUpgrade?.lessonQty),
+
+    basePay,
+    totalBasePay: basePay * ((selectedLessonPackage?.lessonQty ?? 0) + (freeLessons ?? 0)),
   };
 };
 

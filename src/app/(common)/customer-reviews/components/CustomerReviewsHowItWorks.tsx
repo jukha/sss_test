@@ -8,7 +8,7 @@ const footnote =
 
 const CustomerReviewsHowItWorks = () => {
   return (
-    <div className='pt-[163px] pb-[100px]'>
+    <div>
       <HowItWorksSection />
       <div className='flex justify-center mt-[65px] mb-10'>
         <ArrowButton

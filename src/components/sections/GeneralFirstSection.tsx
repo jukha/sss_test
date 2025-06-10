@@ -68,7 +68,7 @@ const GeneralFirstSection = ({
   };
 
   return (
-    <Container className='flex flex-col gap-10 justify-start items-center pt-[58px] pb-[84px] lg:pt-[145px] lg:pb-[60px]'>
+    <Container className='flex flex-col gap-10 justify-start items-center'>
       <TextBlock
         text={heading1}
         variant='h2'

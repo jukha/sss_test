@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AlertBox from '../../../shared/AlertBox';
-import { CustomCheckbox } from '@/components/CustomCheckbox';
+import { CustomCheckbox } from '../../../shared/CustomCheckbox';
 import { ALL_DAYS_ARRAY, DaysEnum, WEEKDAYS_ARRAY, WEEKENDS_ARRAY } from '@/enum/days.enum';
-import CustomButton from '@/components/CustomButton';
+import CustomButton from '../../../shared/CustomButton';
 import ErrorHighlighter from './ErrorHighlighter';
 
 type Props = {

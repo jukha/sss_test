@@ -54,14 +54,16 @@ const LessonPackageCard = ({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div
-        className='absolute w-max top-0 left-[50%] translate-[-50%] z-1 px-4 py-0.5 rounded-2xl font-bold text-[14px] uppercase text-white desktop:text-[10px] desktop:mt-0'
-        style={{
-          backgroundColor: mainColor,
-        }}
-      >
-        {badgeText}
-      </div>
+      {badgeText && (
+        <div
+          className='absolute w-max top-0 left-[50%] translate-[-50%] z-1 px-4 py-0.5 rounded-2xl font-bold text-[14px] uppercase text-white desktop:text-[10px] desktop:mt-0'
+          style={{
+            backgroundColor: mainColor,
+          }}
+        >
+          {badgeText}
+        </div>
+      )}
 
       <div className='font-bold text-[32px] font-primary text-center desktop:text-[29px]'>{lessonsCount} lessons</div>
 

@@ -22,7 +22,7 @@ const CardsSelector: React.FC<Props> = ({
   onChange,
 }) => {
   return (
-    <div className='relative grid grid-cols-2 gap-2 max-w-[220px] mx-auto desktop:grid-cols-3 desktop:max-w-[100%]'>
+    <div className='relative grid grid-cols-3 gap-2 max-w-[320px] mx-auto desktop:max-w-[100%]'>
       {cardsList.map((card) => (
         <SelectableCard
           key={card.value}

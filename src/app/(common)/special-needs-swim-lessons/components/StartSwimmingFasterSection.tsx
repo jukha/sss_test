@@ -21,7 +21,6 @@ const StartSwimmingFasterSection = () => {
     <FeatureSection
       waveColor='var(--color-lightBlue)'
       backgroundColor='var(--color-lightBlue)'
-      className=' -translate-y-28'
     >
       <Container className='flex max-lg:gap-10 max-lg:my-[130px_80px] flex-col-reverse lg:flex-row justify-center items-center overflow-x-clip'>
         <div className='flex flex-col justify-start items-start gap-6'>

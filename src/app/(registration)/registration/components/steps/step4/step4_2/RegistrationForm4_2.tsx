@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
 
-import CustomCurveButton from '@/components/CustomCurveButton';
+import CustomCurveButton from '../../../shared/CustomCurveButton';
 import { blackArrow } from '@/assets';
 import GoBackTextButton from '../../../shared/GoBackTextButton';
 import RecommendedTime from './../components/RecommendedTime';
@@ -18,6 +18,7 @@ import { generateLessonPackageSelectionOptions } from '@/app/(registration)/regi
 import { extractLocationPackages } from '@/app/(registration)/registration/logic/utils/lesson-package/extract-location-data';
 import { generatePackagesForDisplay } from '@/app/(registration)/registration/logic/utils/lesson-package/format-packages';
 import { byLessonQtyDesc } from '@/app/(registration)/registration/logic/utils/lesson-package/sort-packages';
+import clsx from 'clsx';
 
 const getStudentFirstName = (name: string) => {
   return name.split(' ')[0];
@@ -40,8 +41,14 @@ type Props = {
 };
 
 const RegistrationForm4_2: React.FC<Props> = ({ onNextClicked, onPreviousClicked }) => {
-  const { registrationForm, setRegistrationFormField, registrationErrors, registrationErrorsText } =
-    useRegistrationForm();
+  const {
+    registrationForm,
+    setRegistrationFormField,
+    registrationErrors,
+    registrationErrorsText,
+    setIsLessonPackageSizeUpgradeDeclined,
+    isUpgradedTo25LessonPackageSize,
+  } = useRegistrationForm();
 
   const { zip, lessonType, lessonTime, packageSize } = registrationForm ?? {};
   const { data } = useLocationsAndPricing();
@@ -58,12 +65,15 @@ const RegistrationForm4_2: React.FC<Props> = ({ onNextClicked, onPreviousClicked
     studentAges: extractStudentAges(registrationForm),
     selectedLessonType: lessonType as LessonType,
     selectedLessonLength: lessonTime,
+    include25LessonsPackages: isUpgradedTo25LessonPackageSize,
   });
 
   const onlyOneLessonLengthOption = packageSelectionOptions.lessonLengths.length === 1;
 
   const handleLessonPackageIdChange = (id?: number) => {
     setSelectedPackage(packageSelectionOptions.packages.find((pack) => pack.id === id));
+    setRegistrationFormField('upsell_from', null);
+    setIsLessonPackageSizeUpgradeDeclined(false);
   };
 
   const handleLessonLengthChange = (minutes: number) => {
@@ -79,12 +89,19 @@ const RegistrationForm4_2: React.FC<Props> = ({ onNextClicked, onPreviousClicked
     }
 
     if (packageSize) {
-      setSelectedPackage(packageSelectionOptions.packages.find((pack) => pack.lessonQty === packageSize));
+      const pack = packageSelectionOptions.packages.find((pack) => pack.lessonQty === packageSize);
+      setSelectedPackage(pack);
+
+      if (pack && packageSize !== pack.lessonQty) {
+        setRegistrationFormField('upsell_from', null);
+        setIsLessonPackageSizeUpgradeDeclined(false);
+      }
     }
   }, []);
 
   useLayoutEffect(() => {
     setRegistrationFormField('packageSize', selectedPackage?.lessonQty ?? null);
+    setRegistrationFormField('paidLessons', selectedPackage?.lessonQty ?? null);
   }, [selectedPackage?.id]);
 
   return (
@@ -119,17 +136,24 @@ const RegistrationForm4_2: React.FC<Props> = ({ onNextClicked, onPreviousClicked
       )}
 
       {lessonTime && packageSelectionOptions.packages && (
-        <div className='desktop:translate-x-[-68px] relative'>
-          <p className='font-bold text-2xl text-offBlack text-center mb-4 desktop:mb-[18px] desktop:translate-x-[68px]'>
-            Select a package
-          </p>
-          <LessonPackageSelector
-            lessonMinutes={lessonTime}
-            selectedPackageId={selectedPackage?.id}
-            packages={generatePackagesForDisplay(packageSelectionOptions.packages.toSorted(byLessonQtyDesc))}
-            error={registrationErrors?.packageSize}
-            onChange={handleLessonPackageIdChange}
-          />
+        <div>
+          <p className='font-bold text-2xl text-offBlack text-center mb-4 desktop:mb-[18px]'>Select a package</p>
+          <div className='relative desktop:h-[250px]'>
+            <div
+              className={clsx(
+                'desktop:absolute -left-[76px] w-[598px] py-2 px-2',
+                packageSelectionOptions.packages.length > 3 && 'overflow-x-auto smallScroll pr-8'
+              )}
+            >
+              <LessonPackageSelector
+                lessonMinutes={lessonTime}
+                selectedPackageId={selectedPackage?.id}
+                packages={generatePackagesForDisplay(packageSelectionOptions.packages.toSorted(byLessonQtyDesc))}
+                error={registrationErrors?.packageSize}
+                onChange={handleLessonPackageIdChange}
+              />
+            </div>
+          </div>
         </div>
       )}
 

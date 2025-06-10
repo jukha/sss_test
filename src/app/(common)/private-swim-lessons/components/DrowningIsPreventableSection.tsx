@@ -19,7 +19,7 @@ const content = {
 
 const DrowningIsPreventableSection = () => {
   return (
-    <Container className='flex flex-col gap-16 justify-start items-center mb-12'>
+    <Container className='flex flex-col gap-16 justify-start items-center'>
       <div className='flex flex-col gap-8'>
         <Typography variant='h2' className='max-w-[837px] text-center'>
           {content.heading}

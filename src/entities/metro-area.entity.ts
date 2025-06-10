@@ -3,4 +3,6 @@ export type MetroAreaEntity = {
   name: string;
   stateAbbreviation: string;
   packagePriceTierId: number | null;
-}
+  haveSIWithPool: boolean | null;
+  serviceAvailable: boolean | null;
+};

@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { blackArrow, orderConfirmed } from '@/assets';
-import CustomCurveButton from '@/components/CustomCurveButton';
+import CustomCurveButton from '../shared/CustomCurveButton';
 import { CurvySubstrate } from '@/components/icons';
 import { useRegistrationForm } from '@/context/registration-form.context';
 

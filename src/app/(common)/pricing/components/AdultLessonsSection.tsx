@@ -43,7 +43,7 @@ export const data = {
 
 const AdultLessonsSection = () => {
   return (
-    <Container className='flex flex-col justify-start items-center gap-10 mb-16'>
+    <Container className='flex flex-col justify-start items-center gap-10'>
       <FlexWrapper className='md:gap-16'>
         <div>
           <Image alt='instructor image' src={data.image} />

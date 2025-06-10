@@ -48,7 +48,7 @@ const features = [
 
 const PrivateVsGroupLessonsSection = () => {
   return (
-    <div className='max-w-[1200px] mx-auto py-[91px_116px] lg:py-[152px_148px]'>
+    <div className='max-w-[1200px] mx-auto'>
       {/* ************* */}
       {/* Section Title */}
       {/* ************* */}

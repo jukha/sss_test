@@ -20,8 +20,7 @@ import AreYouInstructor2Section from '@/components/sections/AreYouInstructor2Sec
 
 export default function LocalPrivate() {
   return (
-    <div>
-      <main className='flex flex-col'>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <LocalPrivateHero />
         {/* Bring Your Private Swim Lesson home  */}
         <BringYourPrivateSwimSection />
@@ -74,6 +73,5 @@ export default function LocalPrivate() {
         <ServiceLocationsSection />
         <LocationsListSection />
       </main>
-    </div>
   );
 }

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { FilterClassEnum } from '@/enum/filter-class.enum';
 import { calendarDate } from '@/assets';
-import FilteredImage from './FilteredImage';
+import FilteredImage from '@/components/FilteredImage';
 
 type Props = {
   inputValue: string;

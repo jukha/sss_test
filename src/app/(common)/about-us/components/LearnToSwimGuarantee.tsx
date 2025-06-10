@@ -16,7 +16,7 @@ const content = {
 
 const LearnToSwimGuarantee = () => {
   return (
-    <section className='bg-darkBlue relative my-28 pb-11 lg:py-11 lg:p-0'>
+    <section className='bg-darkBlue relative py-20 lg:py-32'>
       {/* Top Wave */}
       <div className='absolute top-0 h-[16px] md:h-[54px] left-0 w-full -translate-y-1/2 z-[-3]'>
         <WaveIcon color='var(--color-darkBlue)' />

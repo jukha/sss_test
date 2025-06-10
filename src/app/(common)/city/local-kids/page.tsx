@@ -20,8 +20,7 @@ import FeaturedKidsInstructorsSection from './components/FeaturedKidsInstructors
 
 export default function LocalPrivate() {
   return (
-    <div>
-      <main className='flex flex-col'>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <LocalKidsHero />
         {/* Safe, fun, and taught at home! - section */}
         <SafeFunTaughtAtHomeSection />
@@ -66,6 +65,5 @@ export default function LocalPrivate() {
         <ServiceLocationsSection />
         <LocationsListSection />
       </main>
-    </div>
   );
 }

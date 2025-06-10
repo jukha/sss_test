@@ -30,7 +30,6 @@ const WhyChooseToBuyGiftCertificate = () => {
     <FeatureSection
       backgroundColor={'var(--color-off-white)'}
       waveColor={'var(--color-off-white)'}
-      className='my-28'
     >
       <FlexWrapper stackOrder='first-top'>
         <div className='lg:w-[60%] relative z-0'>

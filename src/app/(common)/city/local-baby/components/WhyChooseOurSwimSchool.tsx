@@ -46,7 +46,7 @@ const WhyChooseOurSwimSchool = () => {
     <FeatureSection
       backgroundColor='var(--color-lightBlue)'
       waveColor='var(--color-lightBlue)'
-      className='mb-[-120px] pb-16'
+      className='pb-16'
     >
       <Container className='relative z-[2]'>
         <Typography

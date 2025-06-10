@@ -15,14 +15,13 @@ import StepsToJoinSection from './components/StepsToJoinSection';
 
 export default function InstructorJobs() {
   return (
-    <div>
-      <main className='flex flex-col'>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         {/* Hero section for swim instructor jobs - grabs attention with headline and call to action */}
         <SwimInstructorJobsHero />
         {/* Information on partnering with Sunsational - encourages instructors to join the platform */}
         <PartnerPerksSection />
         {/* Inline registration form for instructors to apply - easy access to sign up */}
-        <InlineRegistrationForm />
+        <InlineRegistrationForm title='Apply Now' />
         {/* Highlights testimonials or reasons why current instructors enjoy teaching */}
         <OurInstructorsLoveTeachingSection />
         {/* Overview of available swim instructor job opportunities */}
@@ -46,6 +45,5 @@ export default function InstructorJobs() {
         {/* Available all across the USA - Lists all locations */}
         <LocationsListSection />
       </main>
-    </div>
   );
 }

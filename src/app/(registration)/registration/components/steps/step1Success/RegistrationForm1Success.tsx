@@ -1,6 +1,6 @@
 import React from 'react';
 import {blackArrow, boyAndMom} from '@/assets';
-import CustomCurveButton from '@/components/CustomCurveButton';
+import CustomCurveButton from '../../shared/CustomCurveButton';
 import Image from 'next/image';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import { useLocationsAndPricing } from '@/context/locations-and-prices.context';

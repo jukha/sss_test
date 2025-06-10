@@ -1,7 +1,6 @@
 import { autoRetryCatchable } from '@/utils/retry';
 import { globalErrorHandlerState } from '@/state/global-error-handler.state';
 import { GlobalErrorType } from '@/enum/global-error-type.enum';
-import promisifySimpleEvent from '@/utils/promisify-simple-event';
 
 export type WithAutoRetryOptions = {
   version: number;
@@ -23,7 +22,7 @@ function withAutoRetry<T, A>(callback: (...args: A[]) => Promise<T>, options?: W
         },
       )
 
-      const r = await promisifySimpleEvent(event)();
+      const r = await event.promisify()();
 
       if (r instanceof Error) throw r;
       return r;

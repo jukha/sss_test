@@ -14,7 +14,7 @@ const WhoWeAre = () => {
   return (
     <Container>
       {/* Section title */}
-      <div className='pb-10 lg:pt-28 lg:pb-16'>
+      <div>
         <Typography variant='h2' className='text-center mb-2'>
           Who we are
         </Typography>
@@ -156,7 +156,7 @@ const WhoWeAre = () => {
       </FlexWrapper>
 
       {/* Our Sunsational Team */}
-      <div className='pt-24 lg:pt-[162px] pb-[105px] lg:max-w-[80%] mx-auto'>
+      <div className='pt-24 lg:pt-[162px] lg:max-w-[80%] mx-auto'>
         <FlexWrapper>
           <div>
             <div>

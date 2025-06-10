@@ -105,7 +105,7 @@ const BenefitsShowCaseSection: React.FC<BenefitsShowCaseProps> = ({
         </Typography>
       </div>
 
-      <div className='py-24 flex flex-wrap justify-center items-center gap-y-14 md:gap-y-28 gap-x-6'>
+      <div className='pt-24 pb-10 flex flex-wrap justify-center items-center gap-y-14 md:gap-y-28 gap-x-6'>
         {data.map((item, index) => (
           <BenefitsContentCard key={index} {...item} />
         ))}

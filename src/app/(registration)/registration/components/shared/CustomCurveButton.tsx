@@ -1,8 +1,8 @@
 import { StaticImageData } from 'next/image';
-import FilteredImage from './FilteredImage';
 import { FilterClassEnum } from '@/enum/filter-class.enum';
 import { curveOval } from '@/assets';
 import clsx from 'clsx';
+import FilteredImage from '@/components/FilteredImage';
 
 type Props = {
   onClick?: () => void;

@@ -64,6 +64,32 @@ export type RegistrationForm = {
   maxTravelDistance?: string | null;
 
   policiesAgreement?: boolean;
+  youngstersPoliciesAgreement?: boolean;
+  haveCustomerBeenHelpedBy?: string | null;
   additionalPoolAccessDetails?: string;
   version: number;
+
+  validatedPromoCode: string | null;
+  freeLessons: number | null;
+  paidLessons: number | null;
+  promoDiscount: Decimal | null;
+  upsell_from: bigint | null;
+
+  hasStudentsAboveThreeYearsOld: boolean | null;
+
+  eligibleLsg: boolean | null;
+
+  basePay: Decimal | null;
+  totalBasePay: Decimal | null;
+
+  doWeHaveSIWithPool: boolean | null;
+  canWeServe: boolean | null;
+  additionalPayForSI: Decimal | null;
+  premiumAreaFee: Decimal | null;
+
+  registrationDate: string | null;
+
+  stripeToken: string | null;
+
+  canWeServeText: string | null;
 };

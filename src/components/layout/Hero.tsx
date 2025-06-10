@@ -56,6 +56,7 @@ const Hero: React.FC<Props> = ({
         width={900}
         alt=''
         className='relative hidden lg:block z-[-100] lg:absolute lg:top-0 lg:right-0 lg:object-cover w-full h-full lg:w-[75%] lg:-z-20'
+        priority={true}
       />
       {!hasBottomBar && (
         <div className='w-full hidden lg:block absolute h-[54px] translate-y-1/3 bottom-0 z-10'>

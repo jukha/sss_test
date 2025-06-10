@@ -11,7 +11,7 @@ const data = {
 
 const VideoFrameGenericSsection = () => {
   return (
-    <Container className=' flex flex-col justify-start items-center gap-10 py-24'>
+    <Container className=' flex flex-col justify-start items-center gap-10'>
       <div className='relative flex flex-col justify-center items-center gap-10'>
         <div className='flex justify-center items-center max-w-[678px]'>
           <Typography

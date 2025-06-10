@@ -39,7 +39,7 @@ const TakeStressOutSection = () => {
 
     return (
         <Container>
-            <div className='flex flex-col gap-16 py-[100px] justify-start items-center'>
+            <div className='flex flex-col gap-16 justify-start items-center'>
                 <div className='flex flex-col gap-2'>
                     <Typography variant='h2' className='max-w-[837px] text-center'>
                         Take the Stress Out of Learning to Swim

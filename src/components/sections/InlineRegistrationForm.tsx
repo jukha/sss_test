@@ -19,7 +19,7 @@ const InlineRegistrationForm = ({
   buttonLink,
 }: Props) => {
   return (
-    <div className='section relative max-w-[920px] w-full mx-auto px-4 max-lg:py-32 py-24 max-lg:overflow-hidden'>
+    <div className='relative max-w-[920px] w-full mx-auto px-4 max-lg:py-32 py-24 max-lg:overflow-hidden'>
       <div className='absolute z-[-1] w-full h-full inline-register-form-bg bg-orange right-0 top-0 lg:right-[unset] lg:top-[unset] lg:-bottom-5 lg:-left-5'></div>
       <div className='absolute z-[-1] w-full inset-0 max-lg:h-[96%] h-full max-lg:w-[96%] inline-register-form-bg bg-yellow'>
         {/* Wave */}

@@ -5,7 +5,7 @@ import React from 'react';
 
 const NeedHelpSection = () => {
   return (
-    <section className='section'>
+    <section>
       <FeaturedBannerSection
         bgColor='var(--color-lightBlue)'
         borderColor='var(--color-blue)'

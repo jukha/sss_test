@@ -20,7 +20,7 @@ const ServiceLocationsSection = ({
   locationsToShow = [ServiceLocations.All],
 }: ServiceLocationsProps) => {
   return (
-    <Container className='w-full py-28'>
+    <Container className='w-full'>
       <Typography
         variant='h2'
         className='max-w-[982px] text-center mx-auto mb-9'

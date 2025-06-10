@@ -47,7 +47,7 @@ const LessonFactsSection = ({
           {descriptionTop}
         </Typography>
 
-        <div className={`w-full flex justify-center items-center relative overflow-x-clip lg:overflow-visible ${(facts?.length??0)>2?"my-24":"my-12"} sm:my-24`}>
+        <div className='w-full flex justify-center items-center relative overflow-x-clip lg:overflow-visible'>
           <Image src={image} alt={imageAlt} className='z-10' />
 
           {decorationIconLeft && (

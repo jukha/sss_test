@@ -80,7 +80,7 @@ const WhatMakesOurInstructorsSection = ({
   }, []);
 
   return (
-    <Container className='flex flex-col gap-2 lg:gap-20 justify-start items-center py-24'>
+    <Container className='flex flex-col gap-2 lg:gap-20 justify-start items-center'>
       <Typography
         variant='h2'
         className='text-center max-w-[372px] md:max-w-[1020px] mb-[300px] lg:mb-0'

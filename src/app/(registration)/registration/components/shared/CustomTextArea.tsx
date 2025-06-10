@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import { StaticImageData } from 'next/image';
 import { HTMLAttributes } from 'react';
-import FilteredImage from './FilteredImage';
 import { FilterClassEnum } from '@/enum/filter-class.enum';
+import FilteredImage from '@/components/FilteredImage';
 
 type Props = HTMLAttributes<HTMLTextAreaElement> & {
   text?: string;

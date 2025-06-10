@@ -32,6 +32,14 @@ export interface RegistrationFormContextType {
 
   formVersion: number;
   setFormVersion: (version: number) => void;
+
+  isLessonPackageSizeUpgradeDeclined: boolean;
+  setIsLessonPackageSizeUpgradeDeclined: (isUpgradeDeclined: boolean) => void;
+  isUpgradedTo25LessonPackageSize: boolean;
+  setIsUpgradedTo25LessonPackageSize: (isUpgraded: boolean) => void;
+
+  forcePreviousStep?: RegistrationStepEnum;
+  setForcePreviousStep: (step?: RegistrationStepEnum) => void;
 }
 
 type Props = { children: React.ReactNode };
@@ -59,6 +67,9 @@ export const RegistrationFormProvider = ({ children }: Props) => {
   const [registrationStep, internalSetRegistrationStep] = useState<RegistrationStepEnum>(RegistrationStepEnum.Step1);
   const [isStep1SuccessShown, setIsStep1SuccessShown] = useState<boolean | null | undefined>(undefined);
   const [formVersion, setFormVersion] = useState(0);
+  const [isUpgradedTo25LessonPackageSize, setIsUpgradedTo25LessonPackageSize] = useState(false);
+  const [isLessonPackageSizeUpgradeDeclined, setIsLessonPackageSizeUpgradeDeclined] = useState(false);
+  const [forcePreviousStep, setForcePreviousStep] = useState<RegistrationStepEnum | undefined>();
 
   const setRegistrationStep = (step: RegistrationStepEnum, pushToBrowserHistory?: boolean) => {
     clearRegistrationErrors();
@@ -216,6 +227,14 @@ export const RegistrationFormProvider = ({ children }: Props) => {
 
         formVersion,
         setFormVersion,
+
+        isLessonPackageSizeUpgradeDeclined,
+        setIsLessonPackageSizeUpgradeDeclined,
+        isUpgradedTo25LessonPackageSize,
+        setIsUpgradedTo25LessonPackageSize,
+
+        forcePreviousStep,
+        setForcePreviousStep,
       }}
     >
       {children}

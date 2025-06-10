@@ -33,7 +33,6 @@ const content = {
 const StepsToJoinSection = () => {
   return (
     <FeatureSection
-      className='my-24'
       backgroundColor='var(--color-offBlack)'
       waveColor='var(--color-offBlack)'
     >

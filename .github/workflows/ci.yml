@@ -1,0 +1,38 @@
+name: CI
+on: push
+
+env:
+  JAWSDB_URL: mysql://root:root@127.0.0.1:3800/test
+  STRIPE_SECRET_KEY: sk_
+  NEXT_PUBLIC_STRIPE_PUBLIC_KEY: pk_
+
+jobs:
+  typecheck:
+    name: Try build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3800
+          container port: 3307
+          character set server: 'utf8'
+          collation server: 'utf8_general_ci'
+          mysql version: '8.0'
+          mysql database: 'test'
+          mysql root password: root
+          mysql user: 'developer'
+          mysql password: root
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Try build
+        run: npm run build

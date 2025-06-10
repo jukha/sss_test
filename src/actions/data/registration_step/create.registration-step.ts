@@ -1,7 +1,6 @@
 'use server';
 
 import { loadRegistration } from '@/app/api/registration/utils/registration-record';
-import { sanitizeRegistration } from '@/app/api/registration/utils/sanitize-registration';
 import { RegistrationStepController } from '@/app/api/registration/step/registration-step.controller';
 import { registrationSchemas } from '@/app/api/registration/step/schemas/step.schemas';
 import { CustomerRegistration } from '@/__generated__/prisma';
@@ -29,23 +28,21 @@ const createRegistrationStep = async ({step, registrationIdentifier, version, da
   const registration = await loadRegistration(registrationIdentifier);
 
   if (!registration) {
-    return null;
+    return;
   }
 
   const newRegistrationVersion = version;
 
   if (registration.version > newRegistrationVersion) {
-    return sanitizeRegistration(registration);
+    return;
   }
 
   const controller = new RegistrationStepController({schema: registrationSchemas[step], step});
 
-  const updatedRegistration = await controller.put({
+  await controller.put({
     registration,
     freshData: { ...data, version: newRegistrationVersion }
   });
-
-  return sanitizeRegistration(updatedRegistration);
 }
 
 export default createRegistrationStep;

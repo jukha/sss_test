@@ -84,7 +84,7 @@ const TopSwimmingLessonsSection = ({
   showButton = true,
 }: Props) => {
   return (
-    <Container className='mb-[200px]'>
+    <Container>
       <Typography
         variant='h3'
         className='mb-10 font-primary max-w-[551px] mx-auto text-center'

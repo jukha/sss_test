@@ -18,8 +18,7 @@ import ToddlerLessonsFaqSection from './components/ToddlerLessonsFaqSection';
 
 export default function ToddlerSwimLessons() {
   return (
-    <div>
-      <main>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <ToddlerSwimLessonHero />
         {/* Safe, fun, and taught at home! - section */}
         <SafeFunTaughtAtHomeToddlerSection />
@@ -65,6 +64,5 @@ export default function ToddlerSwimLessons() {
         <ServiceLocationsSection />
         <LocationsListSection />
       </main>
-    </div>
   );
 }

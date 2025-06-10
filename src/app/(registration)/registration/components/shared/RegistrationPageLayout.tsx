@@ -9,13 +9,14 @@ import { useRegistrationForm } from '@/context/registration-form.context';
 import ReviewsSlider from './ReviewsSlider';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import Image from 'next/image';
-import CollapsibleList, { CollapsibleListItem } from '@/components/CollapsedList';
+import CollapsibleList, { CollapsibleListItem } from './CollapsedList';
 import { useLocationsAndPricing } from '@/context/locations-and-prices.context';
 import { useEffect } from 'react';
 import { Prisma } from '@/__generated__/prisma';
 import { extractStudentAges } from '../../logic/utils/lesson-package/extract-students-data';
 import { generateLessonPackageSelectionOptions } from '../../logic/utils/lesson-package/lesson-packages-selection';
 import {
+  extractLocationMetroArea,
   extractLocationPackages,
   extractLocationPricing,
 } from '../../logic/utils/lesson-package/extract-location-data';
@@ -24,6 +25,7 @@ import {
   generateLessonPackageSummary,
 } from '../../logic/utils/lesson-package/lesson-packages-summary';
 import { LessonType } from '@/entities/lesson-package.entity';
+import { generateCanWeServeText } from '../../logic/utils/lesson-package/generate-can-we-serve-text';
 
 const additionalCardsData = [
   { text: 'Thousands of 5-star reviews ', image: fiveStar },
@@ -73,10 +75,7 @@ const faqList: CollapsibleListItem[] = [
   },
   {
     title: 'When can I register? How?',
-    description: [
-      'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.',
-      'Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.',
-    ],
+    description: '',
   },
 ];
 
@@ -94,8 +93,19 @@ const stepWithAutoPlaySliders = [
 ];
 
 const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId }) => {
-  const { registrationForm, setRegistrationFormField, registrationStep } = useRegistrationForm();
-  const { zip, lessonType, lessonTime, packageSize } = registrationForm ?? {};
+  const { registrationForm, setRegistrationFormField, registrationStep, isUpgradedTo25LessonPackageSize } =
+    useRegistrationForm();
+  const {
+    zip,
+    lessonType,
+    lessonTime,
+    packageSize,
+    promoDiscount,
+    freeLessons,
+    upsell_from,
+    customerHasAccessToPool,
+    isRegistrationComplete,
+  } = registrationForm ?? {};
   const { data } = useLocationsAndPricing();
 
   const studentAges = extractStudentAges(registrationForm);
@@ -114,14 +124,22 @@ const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId })
     studentAges,
     selectedLessonType: lessonType as LessonType,
     selectedLessonLength: lessonTime,
+    include25LessonsPackages: isUpgradedTo25LessonPackageSize,
   });
 
   const selectedLessonPackage = packageSelectionOptions.packages.find((pack) => pack.lessonQty === packageSize);
+
   const pricing = extractLocationPricing({
     zip,
     zipCodesServiced: data?.zipCodesServiced,
     metroAreas: data?.metroAreas,
     pricing: data?.pricing,
+  });
+
+  const metroArea = extractLocationMetroArea({
+    zip,
+    zipCodesServiced: data?.zipCodesServiced,
+    metroAreas: data?.metroAreas,
   });
 
   const lessonPackageSummary = generateLessonPackageSummary({
@@ -130,6 +148,9 @@ const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId })
     registrationFee: pricing?.registrationFee || null,
     availableLessonsPackages: packageSelectionOptions.packages,
     selectedLessonPackage,
+    promocodeSalePrice: promoDiscount ? (promoDiscount as unknown as number) : null,
+    freeLessons,
+    upgradedFromPackageSize: upsell_from ? Number(upsell_from) : undefined,
   });
 
   const contactDetails = extractContactDetails(registrationForm);
@@ -141,7 +162,45 @@ const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId })
       'packageDiscount',
       lessonPackageSummary.lessonDiscountPercent as unknown as Prisma.Decimal
     );
-  }, [lessonPackageSummary.orderTotal, lessonPackageSummary.lessonDiscountPercent, lessonPackageSummary.lessonPrice]);
+
+    setRegistrationFormField('basePay', lessonPackageSummary.basePay as unknown as Prisma.Decimal);
+    setRegistrationFormField('totalBasePay', lessonPackageSummary.totalBasePay as unknown as Prisma.Decimal);
+  }, [
+    lessonPackageSummary.orderTotal,
+    lessonPackageSummary.lessonDiscountPercent,
+    lessonPackageSummary.lessonPrice,
+    lessonPackageSummary.basePay,
+    lessonPackageSummary.totalBasePay,
+  ]);
+
+  useEffect(() => {
+    const haveSIWithPool = metroArea?.haveSIWithPool ?? null;
+    const canWeServe = (metroArea?.serviceAvailable && (customerHasAccessToPool || haveSIWithPool)) ?? null;
+
+    setRegistrationFormField('doWeHaveSIWithPool', haveSIWithPool);
+    setRegistrationFormField('canWeServe', canWeServe);
+
+    setRegistrationFormField(
+      'canWeServeText',
+      generateCanWeServeText({
+        isRegistrationComplete: isRegistrationComplete,
+        doWeHaveSIWithPool: metroArea?.haveSIWithPool,
+        serviceAvailable: metroArea?.serviceAvailable,
+        customerHasAccessToPool: customerHasAccessToPool,
+      })
+    );
+  }, [
+    customerHasAccessToPool,
+    metroArea?.haveSIWithPool,
+    metroArea?.serviceAvailable,
+    isRegistrationComplete,
+  ]);
+
+  useEffect(() => {
+    if (registrationForm) {
+      setRegistrationFormField('registrationDate', new Date().toISOString());
+    }
+  }, [registrationForm?.id]);
 
   return (
     <div className='relative desktop:h-[100vh] desktop:overflow-hidden'>
@@ -175,7 +234,7 @@ const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId })
         </div>
 
         {/* right */}
-        <div className='relative bg-yellow pt-16 px-2 desktop:w-[45%] desktop:px-6 desktop:pt-[185px] desktop:mt-0 desktop:h-full desktop:overflow-y-auto desktop:pb-14 orangeScroll'>
+        <div className='relative bg-yellow pt-16 px-2 desktop:w-[45%] desktop:px-6 desktop:pt-[185px] desktop:mt-0 desktop:h-full desktop:overflow-y-auto desktop:pb-14 orangeScroll mobile:mb-[6px]'>
           <div className='absolute left-0 top-0 w-full -translate-y-[90%] desktop:hidden'>
             <Wave className='text-yellow w-full h-full' />
           </div>

@@ -1,8 +1,8 @@
 'use client';
-import React, { JSX } from 'react';
+import React, { JSX, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { girlAndMom } from '@/assets';
-import { circleNavigationBarSteps } from '../../logic/navigation';
+import { circleNavigationBarSteps, isNavigationAllowed } from '../../logic/navigation';
 import StepsIndicator from './StepsIndicator';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import { RegistrationForm } from '@/entities/registration-form.entity';
@@ -40,7 +40,11 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
     clearFieldRegistrationErrors,
     formVersion,
     setFormVersion,
+    forcePreviousStep,
+    setForcePreviousStep,
   } = useRegistrationForm();
+  const formTopElementRef = useRef<HTMLImageElement >(null)
+  const formScrollableWrapperRef = useRef<HTMLDivElement>(null);
 
   const onNextClicked = async (options?: { shouldNotSwitchToNextStep?: boolean }) => {
     const validationErrors = validateFormStep(registrationForm, registrationStep);
@@ -53,7 +57,8 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
     }
 
     setFormVersion(formVersion + 1);
-    if (options?.shouldNotSwitchToNextStep !== false) {
+
+    if (options?.shouldNotSwitchToNextStep !== true) {
       switchToNextStep();
     }
 
@@ -70,7 +75,12 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
   };
 
   const onPreviousClicked = async () => {
-    switchToPreviousStep();
+    if (forcePreviousStep) {
+      setRegistrationStep(forcePreviousStep)
+      setForcePreviousStep(undefined)
+    } else {
+      switchToPreviousStep();
+    }
 
     const validationErrors = validateFormStep(registrationForm, registrationStep);
     if (validationErrors) return;
@@ -151,25 +161,40 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
     [RegistrationStepEnum.Step7OrderConfirmed]: <OrderConfirmed />,
   };
 
+  useEffect(() => {
+    if (formScrollableWrapperRef.current) {
+      formScrollableWrapperRef.current.scrollTop = 0
+    }
+    if (formTopElementRef.current && document.body.clientWidth < 1440) {
+      formTopElementRef.current.scrollIntoView({ inline: 'center' })
+    }
+  },[registrationStep])
+
   return (
     <div className='flex flex-col relative w-full max-w-[750px] h-full'>
       <Image
         src={girlAndMom}
         alt='image'
         className='absolute w-[120px] -translate-y-[100%] right-0 laptop:w-[250px] object-contain'
+        ref={formTopElementRef}
       />
       <StepsIndicator
+        isNavigationAllowed={isNavigationAllowed(registrationStep)}
         steps={circleNavigationBarSteps}
         currentStep={registrationStep}
         setStep={(step) => setRegistrationStep(step, true)}
+        availableMaxStep={forcePreviousStep}
       />
       <div className='flex flex-col items-center w-full h-full bg-white pt-[50px] pb-16 rounded-[16px] px-[25px] desktop:pt-[65px]'>
-        <div className='w-full pb-6 desktop:max-w-[590px] desktop:px-[71px] desktop:min-h-[100%] overflow-y-auto overflow-x-hidden smallScroll'>
+        <div 
+          ref={formScrollableWrapperRef} 
+          className='w-full pb-6 desktop:max-w-[590px] desktop:px-[71px] desktop:min-h-[100%] overflow-y-auto overflow-x-hidden smallScroll'
+        >
           {formsToRender[registrationStep]}
 
           {/*Make Step7 be never detached in order to Stripe PaymentElement iframe to always stay attached and never re-load. Otherwise it looses CC data previously entered. And loads slowly, BTW. :)*/}
           <div style={{display: registrationStep == RegistrationStepEnum.Step7 ? 'block' : 'none'}}>
-            <RegistrationForm7 onNextClicked={onNextClicked} onPreviousClicked={onPreviousClicked} />
+            <RegistrationForm7 onNextClicked={onNextClicked} onPreviousClicked={onPreviousClicked} buildOnFieldFocusLostHandler={buildOnFieldFocusLostHandler} />
           </div>
         </div>
       </div>

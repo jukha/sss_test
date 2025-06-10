@@ -17,6 +17,8 @@ const Divider = () => <div className='h-0.5 bg-orange opacity-25 desktop:h-1' />
 const LessonsPackageSummary = ({ studentsCount, summary, contactDetails, isOrderConfirmed }: Props) => {
   const lessonsCountingStr = `${summary.packageSize} x ${summary.lessonTime} Minutes Lessons @ $${summary.lessonPrice}`;
   const studentsCountingStr = `${studentsCount} Students x $${summary.registrationFee}`;
+  const lessonsWord = summary.freeLessons === 1 ? 'lesson' : 'lessons';
+  const freeLessonsStr = summary.freeLessons ? `+ ${summary.freeLessons} free ${lessonsWord}` : '';
 
   return (
     <div className='max-w-[540] mx-auto'>
@@ -39,7 +41,14 @@ const LessonsPackageSummary = ({ studentsCount, summary, contactDetails, isOrder
       <div className='relative py-[32px] px-[24px] desktop:py-[32px] desktop:px-[45px]'>
         <div className={clsx('relative z-1 ', isOrderConfirmed && 'h-[320px] overflow-y-scroll desktop:h-[400px]')}>
           <div>
-            <p className='font-bold font-primary text-[24px] desktop:text-[32px]'>Lesson package summary</p>
+            <p className='flex flex-col font-bold font-primary text-[24px] desktop:text-[32px]'>
+              {summary.isUpgraded && (
+                <span className='w-max mx-auto px-[5px] py-[1px] rounded-[24px] font-semibold bg-yellow text-red font-primary'>
+                  upgraded
+                </span>
+              )}
+              Lesson package summary
+            </p>
 
             <Divider />
 
@@ -51,6 +60,9 @@ const LessonsPackageSummary = ({ studentsCount, summary, contactDetails, isOrder
                 Boolean(summary.lessonDiscountPercent) ? `${summary.lessonDiscountPercent}` : undefined
               }
               className='mt-4 desktop:mt-5'
+              underCountingChildren={
+                freeLessonsStr && <div className='font-medium text-darkBlue'>{freeLessonsStr}</div>
+              }
             />
 
             <PriceSummaryBlock
@@ -69,11 +81,11 @@ const LessonsPackageSummary = ({ studentsCount, summary, contactDetails, isOrder
               className='mt-4'
             />
 
-            {Boolean(summary.lessonDiscountPercent) && (
+            {Boolean(summary.totalDiscountPercent) && (
               <div className='font-semibold font-primary text-[12px] desktop:text-base'>
                 You&apos;re{' '}
                 <span className='inline-block px-1 leading-4 rounded-[12px] bg-yellow text-red desktop:py-0.5 desktop:px-1.5'>
-                  saving {summary.lessonDiscountPercent}%
+                  saving {summary.totalDiscountPercent}%
                 </span>{' '}
                 with this package!
               </div>

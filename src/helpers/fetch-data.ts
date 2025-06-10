@@ -1,6 +1,5 @@
 import { autoRetryCatchable } from '@/utils/retry';
 import { globalErrorHandlerState } from '@/state/global-error-handler.state';
-import promisifySimpleEvent from '@/utils/promisify-simple-event';
 import { GlobalErrorType } from '@/enum/global-error-type.enum';
 
 type FetchDataResponse<T> = {
@@ -74,7 +73,7 @@ export async function tryFetchData<E, D>({globalErrorType = GlobalErrorType.Unkn
       },
     )
 
-    const r = await promisifySimpleEvent(event)();
+    const r = await event.promisify()();
 
     if (r instanceof Error) throw r;
     return r;

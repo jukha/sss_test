@@ -13,7 +13,7 @@ import {
   minus,
   plus,
 } from '@/assets';
-import CustomCurveButton from '@/components/CustomCurveButton';
+import CustomCurveButton from '../../shared/CustomCurveButton';
 import AlertBox from '../../shared/AlertBox';
 import GoBackTextButton from '../../shared/GoBackTextButton';
 import PoolAddressInput, { PoolAddressInputRef, Suggestion } from './components/PoolAddressInput';
@@ -23,12 +23,13 @@ import { useAddressSuggestions } from './hooks';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import { foundUserAddressInSuggestions, isZipCodeValid } from './helpers';
 import { BuildOnFieldFocusLostHandlerFunction } from '../../../types';
-import CustomButton from '@/components/CustomButton';
-import CustomTextArea from '@/components/CustomTextArea';
+import CustomButton from '../../shared/CustomButton';
+import CustomTextArea from '../../shared/CustomTextArea';
 import { useLocationsAndPricing } from '@/context/locations-and-prices.context';
 import { checkServiceabilityByZip } from '@/utils/check-serviceability-by-zip';
 import clsx from 'clsx';
 import { PoolTypesEnum } from '@/enum/pool-types.enum';
+import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 
 type SelectListCard = SelectableCard & { warningMessage?: string };
 
@@ -102,6 +103,7 @@ const RegistrationForm6: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
     registrationErrors,
     registrationErrorsText,
     setOneFieldValidationErrors,
+    setForcePreviousStep,
   } = useRegistrationForm();
   const { data: locationsAndPricingData } = useLocationsAndPricing();
 
@@ -203,7 +205,9 @@ const RegistrationForm6: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
     });
   };
 
-  const handlePoolAddressChange = (enteredAddress: string) => {
+  const handlePoolAddressChange = (inputAddress: string) => {
+    const enteredAddress = inputAddress.trim();
+
     setPoolAddress(enteredAddress);
     requestAddressSuggestions(enteredAddress);
 
@@ -304,7 +308,10 @@ const RegistrationForm6: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
 
       if (invalid) {
         setOneFieldValidationErrors({ poolAddress: 'Not supported zip' });
+        setForcePreviousStep(RegistrationStepEnum.Step1);
         return;
+      } else {
+        setForcePreviousStep(undefined);
       }
 
       if (userEnterFullAddress.isEntered && !userEnterFullAddress.confirmEnteredAddress) {

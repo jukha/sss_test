@@ -29,7 +29,7 @@ const SellingPointsSection: React.FC<SellingPointsSectionType> = ({
   const finalArrowProps = { ...defaultArrowProps, ...arrowButtonProps };
 
   return (
-    <section className='py-[90px] lg:py-[200px]'>
+    <section>
       <Typography
         variant='h2'
         className={clsx('mx-auto text-center', sectionTitleMaxWidth)}

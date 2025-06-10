@@ -40,13 +40,14 @@ export class RegistrationStepController<S> {
     }
   }
 
-
   async put({registration, freshData}: PostOptions<S>) {
-    this.throwIfValidationDoesNotPass(freshData);
+    // this.throwIfValidationDoesNotPass(freshData);
 
     // @ts-expect-error Remove this field as it does not exist in the DB.
     delete freshData.policiesAgreement;
-    
+    // @ts-expect-error Remove this field as it does not exist in the DB.
+    delete freshData.youngstersPoliciesAgreement;
+
     const data: Partial<CustomerRegistration> = {...freshData as Partial<CustomerRegistration>};
 
     const updatedRegistration = await updateRegistration({id: registration.id, data});

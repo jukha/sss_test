@@ -49,7 +49,7 @@ const content = {
 
 const AdultRecommendedLessonsSection: React.FC<HowItWorksType> = () => {
   return (
-    <Container className='py-[120px_200px]'>
+    <Container>
       <div className='lg:px-20 flex flex-col gap-12'>
         <div className='flex flex-col items-center gap-6  md:mb-8'>
           <Typography

@@ -54,7 +54,7 @@ const sectionInfoCardData: SectionInfoCardType = {
 
 const AdultsLessonsWhyChooseUsSection = () => {
   return (
-    <div className='py-[150px]'>
+    <div>
       <Typography variant='h2' className='max-w-[940px] mx-auto text-center'>
         {content.title}
       </Typography>

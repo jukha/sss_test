@@ -35,7 +35,6 @@ const content = {
 const WhoBenefitMostFromPrivateLessonSection = () => {
   return (
     <FeatureSection
-      className='my-24'
       backgroundColor='var(--color-lightBlue)'
       waveColor='var(--color-lightBlue) '
     >

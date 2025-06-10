@@ -15,8 +15,7 @@ import KidLessonsFaqSection from './components/KidLessonsFaqSection';
 
 export default function KidSwimLessons() {
   return (
-    <div>
-      <main>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <KidsSwimmingLessonHero />
         {/*Safe, fun, and taught at home! - section*/}
         <KidsSafeFunSection />
@@ -49,6 +48,5 @@ export default function KidSwimLessons() {
         <ServiceLocationsSection />
         <LocationsListSection />
       </main>
-    </div>
   );
 }

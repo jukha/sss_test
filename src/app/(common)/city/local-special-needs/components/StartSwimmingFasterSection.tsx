@@ -23,7 +23,7 @@ const StartSwimmingFasterSection = () => {
     <FeatureSection
       waveColor='var(--color-lightBlue)'
       backgroundColor='var(--color-lightBlue)'
-      className=' -translate-y-28'
+      className='relative z-0'
     >
       <Container className='flex flex-col-reverse lg:flex-row justify-center items-center overflow-x-clip'>
         <GeneralFirstSection

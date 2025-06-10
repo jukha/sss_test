@@ -2,11 +2,11 @@
 
 import clsx from 'clsx';
 import { useRef, useState } from 'react';
-import FilteredImage from './FilteredImage';
 import { FilterClassEnum } from '@/enum/filter-class.enum';
 import { arrowUp } from '@/assets';
 import ContextMenuWrapper from './ContextMenuWrapper';
 import ContextMenuButton from './ContextMenuButton';
+import FilteredImage from '@/components/FilteredImage';
 
 type Choice = { index: number; text: string };
 

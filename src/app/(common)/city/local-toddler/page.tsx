@@ -18,8 +18,7 @@ import LocalToddlerLessonsPricing from './components/LocalToddlerLessonsPricing'
 
 const LocalToddler = () => {
   return (
-    <div>
-      <main>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <LocalToddlerHero />
         {/* Safe, fun, and taught at home! - section */}
         <SafeFunLessonsAtHomeSection />
@@ -71,7 +70,6 @@ const LocalToddler = () => {
         <ServiceLocationsSection />
         <LocationsListSection />
       </main>
-    </div>
   );
 };
 

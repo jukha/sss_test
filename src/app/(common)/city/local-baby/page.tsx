@@ -22,11 +22,11 @@ import WaterSafeyPrioritySection from './components/WaterSafeyPrioritySection';
 import HowParentsAndBabySection from './components/HowParentsAndBabySection';
 import HowItWorksCitiesSection from '../common/HowItWorksCitiesSection';
 import FeaturedBabyInstructorsSection from './components/FeaturedBabyInstructorsSection';
+import StackedSections from '@/components/layout/StackedSections';
 
 const LocalBaby = () => {
   return (
-    <div>
-      <main>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <LocalBabyHero />
         {/* Fun, safe & effective baby swim lessons section */}
         <FunSafeEffectiveLessonsSection />
@@ -43,12 +43,14 @@ const LocalBaby = () => {
         <WhenBabiesStartSection />
         {/* How does Sunsational School work? - Section */}
         <HowItWorksCitiesSection />
-        {/* Why choose Sunsational Swim School? - Section */}
-        <WhyChooseOurSwimSchool />
-        {/* 100% satisfaction guarantee - Section */}
-        <SatisfactionGuaranteeSection
-          image={localBabySatisfactionGuaranteeImg}
-        />
+        <StackedSections>
+          {/* Why choose Sunsational Swim School? - Section */}
+          <WhyChooseOurSwimSchool />
+          {/* 100% satisfaction guarantee - Section */}
+          <SatisfactionGuaranteeSection
+            image={localBabySatisfactionGuaranteeImg}
+          />
+        </StackedSections>
         {/* Pricing for local baby swim lessons - Section */}
         <LocalBabyLessonsPricing />
         {/* Parents & Tots Group Lessons Pricing Section */}
@@ -85,7 +87,6 @@ const LocalBaby = () => {
         <ServiceLocationsSection />
         <LocationsListSection />
       </main>
-    </div>
   );
 };
 

@@ -16,8 +16,7 @@ import LocalAdultLessonsPricing from './components/LocalAdultLessonsPricing';
 
 const LocalAdult = () => {
   return (
-    <div>
-      <main>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <LocalAdultHero />
         {/* For total beginners or advanced swimmers! - section */}
         <ForTotalBeginnersSection />
@@ -54,7 +53,6 @@ const LocalAdult = () => {
         <ServiceLocationsSection />
         <LocationsListSection />
       </main>
-    </div>
   );
 };
 

@@ -40,9 +40,9 @@ const ExperienceSunsationalDiffSection = () => {
     <FeatureSection
       backgroundColor={'var(--color-lightBlue)'}
       waveColor={'var(--color-lightBlue)'}
-      className='my-24 relative'
+      className='relative'
     >
-      <Container className='flex flex-col justify-start items-center gap-16'>
+      <Container className='flex flex-col justify-start items-center gap-16 max-lg:py-20'>
         <Typography
           variant='h2'
           className='max-w-[354px] md:max-w-[842px] text-center z-10'

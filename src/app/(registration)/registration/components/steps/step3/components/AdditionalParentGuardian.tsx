@@ -1,5 +1,5 @@
 import CustomInput from '@/components/CustomInput';
-import { CustomCheckbox } from '@/components/CustomCheckbox';
+import { CustomCheckbox } from '../../../shared/CustomCheckbox';
 import { mail, personIcon } from '@/assets';
 import { useState, useEffect } from 'react';
 
@@ -78,7 +78,7 @@ const AdditionalParentGuardian: React.FC<AdditionalParentGuardianProps> = ({
         />
         <CustomInput
           value={email || ''}
-          error={emailError}
+          error={(emailError && emailError.length > 15) ? 'Invalid E-mail' : emailError}
           type='email'
           text='Parent email*'
           icon={mail}

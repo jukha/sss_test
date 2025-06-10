@@ -39,7 +39,7 @@ const faqData = [
 
 const LocalTeenFaqsSection = () => {
   return (
-    <div className='py-16'>
+    <div>
       <FeaturedBannerSection
         bgColor='var(--color-lightYellow)'
         borderColor='var(--color-yellow)'

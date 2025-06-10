@@ -9,7 +9,7 @@ import Typography from '../semantics/Typography';
 
 const MainFooter = () => {
   return (
-    <div className='relative  flex flex-col lg:flex-row justify-center lg:items-start  gap-[74px] bg-[#FFF9E1] p-[3em]'>
+    <div className='relative  flex flex-col lg:flex-row justify-center lg:items-start  gap-[74px] bg-[#FFF9E1] p-[3em] mt-30'>
       <svg
         className='w-full absolute top-[-2.5%] left-0'
         width='1440'

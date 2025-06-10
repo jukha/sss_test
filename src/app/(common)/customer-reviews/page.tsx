@@ -8,22 +8,20 @@ import ExperienceSunsationalDiffSection from './components/ExperienceSunsational
 
 export default function CustomerReviews() {
   return (
-    <div>
-      <main>
-        {/* Hero Section */}
-        <CustomerReviewsHero />
-        {/* Masonry Grid Custom Reviews - Section */}
-        <RatingsFromHappySwimmersSection />
-        {/* Get private swimming lessons at home! - Section */}
-        <CustomerReviewsHowItWorks />
-        {/* Experience the Sunsational Difference  */}
-        <ExperienceSunsationalDiffSection />
-        {/* Popular Swimming Lesson Programs - Section */}
-        <TopSwimmingLessonsSection />
-        {/*Service Locations - Section*/}
-        <ServiceLocationsSection />
-        <LocationsListSection />
-      </main>
-    </div>
+    <main className='flex flex-col gap-20 lg:gap-26'>
+      {/* Hero Section */}
+      <CustomerReviewsHero />
+      {/* Masonry Grid Custom Reviews - Section */}
+      <RatingsFromHappySwimmersSection />
+      {/* Get private swimming lessons at home! - Section */}
+      <CustomerReviewsHowItWorks />
+      {/* Experience the Sunsational Difference  */}
+      <ExperienceSunsationalDiffSection />
+      {/* Popular Swimming Lesson Programs - Section */}
+      <TopSwimmingLessonsSection />
+      {/*Service Locations - Section*/}
+      <ServiceLocationsSection />
+      <LocationsListSection />
+    </main>
   );
 }

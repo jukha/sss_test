@@ -1,7 +1,7 @@
 import { arrowUp } from '@/assets';
-import FilteredImage from './FilteredImage';
 import { FilterClassEnum } from '@/enum/filter-class.enum';
 import clsx from 'clsx';
+import FilteredImage from '@/components/FilteredImage';
 
 export type CollapsibleListItem = { title: string; description: React.ReactNode };
 

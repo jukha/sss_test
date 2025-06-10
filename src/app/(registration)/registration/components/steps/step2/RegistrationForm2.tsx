@@ -1,11 +1,11 @@
 'use client';
 
 import { blackArrow, minus, personIcon, plus } from '@/assets';
-import CustomButton from '@/components/CustomButton';
-import CustomCurveButton from '@/components/CustomCurveButton';
+import CustomButton from '../../shared/CustomButton';
+import CustomCurveButton from '../../shared/CustomCurveButton';
 import CustomInput from '@/components/CustomInput';
-import CustomTextArea from '@/components/CustomTextArea';
-import DropDownSelect from '@/components/DropDownSelect';
+import CustomTextArea from '../../shared/CustomTextArea';
+import DropDownSelect from '../../shared/DropDownSelect';
 import AlertBox from '../../shared/AlertBox';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
@@ -13,6 +13,8 @@ import GoBackTextButton from '../../shared/GoBackTextButton';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import { BuildOnFieldFocusLostHandlerFunction } from '../../../types';
 import { RegistrationForm } from '@/entities/registration-form.entity';
+import { extractStudentAges } from '../../../logic/utils/lesson-package/extract-students-data';
+import { hasStudentsAboveThreeYearsOld } from '../../../logic/utils/lesson-package/has-students-above-3-years-old';
 
 const ageChoices = [
   '6-8 Months',
@@ -60,10 +62,16 @@ const RegistrationForm2 = ({ onNextClicked, onPreviousClicked, buildOnFieldFocus
   useEffect(() => {
     clearRestStudentsData(studentsCount);
 
-    if (studentsCount == 0) {
-      setRegistrationFormField('studentsCount', 1);
-    }
+    // if (studentsCount == 0) {
+    //   setRegistrationFormField('studentsCount', 1);
+    // }
   }, [studentsCount]);
+
+  const studentsAges = extractStudentAges(registrationForm)
+
+  useEffect(() => {
+    setRegistrationFormField('hasStudentsAboveThreeYearsOld', hasStudentsAboveThreeYearsOld(studentsAges))
+  }, [JSON.stringify(studentsAges)])
 
   const [howManyButtonsShown, setHowManyButtonsShown] = useState<3 | 6>(3);
 
@@ -81,7 +89,18 @@ const RegistrationForm2 = ({ onNextClicked, onPreviousClicked, buildOnFieldFocus
       <GoBackTextButton text='Student Details' onClick={onPreviousClicked} />
 
       <div className='flex flex-col w-full gap-[16px]'>
-        <span className='font-medium'>Select how many students need swim lessons</span>
+        <div className='flex justify-between w-full'>
+          <span className='font-medium'>Select how many students need swim lessons</span>
+          <span
+            className={clsx(
+              'text-red',
+              registrationErrors?.studentsCount ? 'opacity-100' : 'opacity-0'
+            )}
+          >
+            {registrationErrors?.studentsCount || 'error'}
+          </span>
+        </div>
+
         <div className='flex gap-[8px] w-full flex-wrap'>
           {Array.from({ length: howManyButtonsShown }).map((_, i) => (
             <CustomButton

@@ -58,7 +58,7 @@ const HowItWorksCitiesSection: React.FC<HowItWorksType> = ({
 }) => {
   const finalSteps = steps?.length ? steps : defaultSwimSteps;
   return (
-    <Container className='py-[120px_200px]'>
+    <Container>
       <div className='lg:px-20'>
         <Typography
           variant='h2'

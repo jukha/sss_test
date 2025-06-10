@@ -17,9 +17,8 @@ const AdvancedBenefitsFromPrivateLessonSection = () => {
     <FeatureSection
       waveColor='var(--color-lightBlue)'
       backgroundColor='var(--color-lightBlue)'
-      className='my-24'
     >
-      <Container className='flex flex-col justify-start overflow-x-clip items-center relative gap-8'>
+      <Container className='flex flex-col justify-start overflow-x-clip items-center relative gap-8 max-lg:py-20'>
         <Typography variant='h2' className='text-center max-w-[911px]'>
           {content.title}
         </Typography>

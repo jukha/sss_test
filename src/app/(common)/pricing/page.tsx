@@ -13,14 +13,13 @@ import ParentsGroupLessonsSection from './components/ParentsGroupLessonsSection'
 
 export default function Pricing() {
   return (
-    <div>
-      <main className='flex flex-col'>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <PricingHero />
         <PricingPageHeadingSection />
         {/*Need help -section */}
         <NeedHelpSection />
         {/*Swim Lessons -section */}
-        <BabyLessonsSection/>
+        <BabyLessonsSection />
         {/*Learn to swim Guarantee -section */}
         <SwimGuaranteePackageSection />
         {/*Private or semi private lessons -section */}
@@ -37,6 +36,5 @@ export default function Pricing() {
         <ServiceLocationsSection />
         <LocationsListSection />
       </main>
-    </div>
   );
 }

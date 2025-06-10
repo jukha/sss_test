@@ -15,23 +15,25 @@ import WhyOneOnOneLessonsSection from './components/WhyOneOnOneLessonsSection';
 import DrowningIsPreventableSection from './components/DrowningIsPreventableSection';
 import WhyAllLovePrivateLessonsSection from './components/WhyAllLovePrivateLessonsSection';
 import WhoBenefitMostFromPrivateLessonSection from './components/WhoBenefitMostFromPrivateLessonSection';
+import StackedSections from '@/components/layout/StackedSections';
 
 const PrivateSwimLessons = () => {
   return (
-    <div>
-      <main>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <PrivateSwimLessonHero />
         {/* Are private swim lessons better than group lessons for your child? - section */}
         <ArePrivateLessonsBetterSection />
         {/* Private swim lessons vs. Group swim lessons - section */}
         <PrivateVsGroupLessonsSection />
-        {/* Why our students and parents love us - section */}
-        <CustomerReviewsSection
-          heading='Why our students and parents love us'
-          description='Check out our 4.9 rating out of 1852 reviews'
-        />
-        {/* Why are one-on-one lessons more effective for water safety? - Section */}
-        <WhyOneOnOneLessonsSection />
+        <StackedSections>
+          {/* Why our students and parents love us - section */}
+          <CustomerReviewsSection
+            heading='Why our students and parents love us'
+            description='Check out our 4.9 rating out of 1852 reviews'
+          />
+          {/* Why are one-on-one lessons more effective for water safety? - Section */}
+          <WhyOneOnOneLessonsSection />
+        </StackedSections>
         {/* Drowning is preventable - section */}
         <DrowningIsPreventableSection />
         {/* Members of - section */}
@@ -54,7 +56,6 @@ const PrivateSwimLessons = () => {
         <ServiceLocationsSection />
         <LocationsListSection />
       </main>
-    </div>
   );
 };
 

@@ -20,6 +20,10 @@ const nextConfig: NextConfig = {
           destination: '/registration/:path*',
         },
         {
+          source: '/blog/:article*',
+          destination: '/blog/:article*',
+        },
+        {
           source: '/:path*',
           destination: 'https://www.sunsationalswimschool.com/:path*',
         },

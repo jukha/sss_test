@@ -15,7 +15,7 @@ const generalFirstSectionData: GeneralFirstSectionType = {
 
 const GetYourVictoryTopSection = () => {
   return (
-    <div className='pb-[153px]'>
+    <div>
       <GeneralFirstSection {...generalFirstSectionData} />;
     </div>
   );

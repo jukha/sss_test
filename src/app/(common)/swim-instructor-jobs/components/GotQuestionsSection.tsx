@@ -1,10 +1,8 @@
 import { gotQuestionImg } from '@/assets';
-import FeatureSection from '@/components/FeatureSection';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import Container from '@/components/layout/Container';
 import Typography from '@/components/semantics/Typography';
 import Image from 'next/image';
-import React from 'react';
 
 const content = {
   description:
@@ -13,7 +11,6 @@ const content = {
 
 const GotQuestionsSection = () => {
   return (
-    <FeatureSection waveColor='white' backgroundColor='' className='my-20'>
       <Container className='flex flex-col-reverse lg:flex-row justify-center items-center overflow-x-clip mb-12 md:mb-0'>
         <div className='flex flex-col gap-6 justify-start items-start max-w-[467px]'>
           <Typography
@@ -44,7 +41,7 @@ const GotQuestionsSection = () => {
           />
         </div>
       </Container>
-    </FeatureSection>
+    
   );
 };
 

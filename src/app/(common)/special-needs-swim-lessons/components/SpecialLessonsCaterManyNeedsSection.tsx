@@ -55,7 +55,7 @@ const content = {
 
 const SpecialLessonsCaterManyNeedsSection = () => {
   return (
-    <Container className='flex flex-col justify-start items-center gap-8 my-24'>
+    <Container className='flex flex-col justify-start items-center gap-8'>
       <Typography variant='h3' className='font-primary text-center'>
         {content.heading}
       </Typography>

@@ -4,7 +4,7 @@ import { useLocationsAndPricing } from '@/context/locations-and-prices.context';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import LessonsTypeSelector from '../components/LessonTypeSelector';
 import { LessonType } from '@/entities/lesson-package.entity';
-import CustomCurveButton from '@/components/CustomCurveButton';
+import CustomCurveButton from '../../../shared/CustomCurveButton';
 import { blackArrow } from '@/assets';
 import GoBackTextButton from '../../../shared/GoBackTextButton';
 import AlertBox from '../../../shared/AlertBox';

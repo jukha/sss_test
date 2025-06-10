@@ -8,31 +8,31 @@ import VideoFrameGenericSsection from '@/components/sections/VideoFrameGenericSs
 import HowWeMatchYouSection from './components/HowWeMatchYouSection';
 import AreYouInstructor2Section from '@/components/sections/AreYouInstructor2Section';
 import CustomerReviewsSection from '@/components/sections/CustomerReviewsSection';
+import StackedSections from '@/components/layout/StackedSections';
 
 export default function OurSwimInstructors() {
   return (
-    <div>
-      <main>
-        <HeroInstructors />
-
-        {/*Looking for a Private Swim Instructor? - Section */}
-        <PrivateInstrucutorSection />
-        {/*See our Sunsational instructors in Action - Section */}
-        <VideoFrameGenericSsection />
-        {/*The Faces Behind Sunsational Lessons - Section */}
-        <FeaturedSwimInstructorsSection />
-        {/*Swim Lessons With Local Swim Instructors - Section */}
-        <WhatMakesOurInstructorsSection />
+    <main className='flex flex-col gap-20 lg:gap-26'>
+      <HeroInstructors />
+      {/*Looking for a Private Swim Instructor? - Section */}
+      <PrivateInstrucutorSection />
+      {/*See our Sunsational instructors in Action - Section */}
+      <VideoFrameGenericSsection />
+      {/*The Faces Behind Sunsational Lessons - Section */}
+      <FeaturedSwimInstructorsSection />
+      {/*Swim Lessons With Local Swim Instructors - Section */}
+      <WhatMakesOurInstructorsSection />
+      <StackedSections>
         {/*How We Match You With the Perfect Swim Instructor - Section */}
         <HowWeMatchYouSection />
         {/*Thousands Of Five Stars - Section */}
         <CustomerReviewsSection />
-        {/*Are You A Swim Instructor? - Section */}
-        <AreYouInstructor2Section />
-        {/*Service Locations - Section */}
-        <ServiceLocationsSection />
-        <LocationsListSection />
-      </main>
-    </div>
+      </StackedSections>
+      {/*Are You A Swim Instructor? - Section */}
+      <AreYouInstructor2Section />
+      {/*Service Locations - Section */}
+      <ServiceLocationsSection />
+      <LocationsListSection />
+    </main>
   );
 }

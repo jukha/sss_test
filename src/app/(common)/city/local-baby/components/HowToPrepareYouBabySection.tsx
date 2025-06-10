@@ -48,7 +48,7 @@ const HowToPrepareYourBaby = () => {
       backgroundColor='var(--color-lightBlue)'
       waveColor='var(--color-lightBlue)'
     >
-      <FlexWrapper className='overflow-hidden lg:p-20 items-stretch'>
+      <FlexWrapper className='overflow-hidden lg:p-20 items-stretch max-lg:py-20'>
         <div className='lg:w-[50%] relative z-0'>
           <Typography
             variant='h3'

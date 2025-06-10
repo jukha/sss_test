@@ -39,7 +39,7 @@ const LessonPricingSection: React.FC<LessonPricingSectionType> = ({
   }
 
   return (
-    <Container className='flex flex-col justify-start items-center gap-10 mb-16'>
+    <Container className='flex flex-col justify-start items-center gap-10'>
       {/* Section 1: Instructor Image and Lesson Meta Info */}
       <FlexWrapper className='md:gap-16'>
         <div>

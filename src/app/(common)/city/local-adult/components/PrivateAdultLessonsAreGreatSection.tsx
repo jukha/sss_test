@@ -46,7 +46,7 @@ const sectionInfoCardData: SectionInfoCardType = {
 };
 const PrivateAdultLessonsAreGreatSection = () => {
   return (
-    <FlexWrapper className='items-start py-[200px] justify-evenly'>
+    <FlexWrapper className='items-start justify-evenly'>
       <div className='relative z-[1]'>
         {/* Background Circles Top Left */}
         <div className='hidden lg:block absolute w-full h-full -left-[20%] scale-[1.35] z-[-1]'>

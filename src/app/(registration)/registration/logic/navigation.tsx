@@ -59,6 +59,10 @@ export const circleNavigationBarSteps = [
   { image: registrationStep7, steps: [RegistrationStepEnum.Step7] },
 ];
 
+export function isNavigationAllowed(currentStep: RegistrationStepEnum): boolean {
+  return currentStep !== RegistrationStepEnum.Step7OrderConfirmed;
+};
+
 export function findNextStep(currentStep: RegistrationStepEnum): RegistrationStepEnum {
   return nextSteps[currentStep];
 }

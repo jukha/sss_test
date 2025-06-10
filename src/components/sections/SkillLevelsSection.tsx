@@ -83,6 +83,54 @@ const allSwimSkillsData = [
     ],
   },
   {
+    title: 'Baby Tadpole Skills',
+    icon: tadpoleIcon,
+    skills: [
+      'Cue words to learn to hold breath underwater',
+      'Assisted back float',
+      'Assisted front float/submersion',
+      'Developing underwater comfort & water acclimation',
+      'Assisted Kicking',
+      'Introduction of Water Safety Skills (based on age)',
+      'Blowing bubbles',
+      'Assisted "monkey crawl" along pool wall',
+    ],
+  },
+  {
+    title: 'Baby Starfish Skills',
+    icon: starfishIcon,
+    skills: [
+      'Unassisted backfloat',
+      'Underwater swim (person to person & to wall)',
+      '"Monkey Crawl" holding the side of the pool wall',
+      'Reach for the side of the pool after submersion',
+      'Assisted roll to back float',
+      'Assisted climb out of pool',
+    ],
+  },
+  {
+    title: 'Baby Goldfish Skills',
+    icon: goldfishIcon,
+    skills: [
+      'Unassisted kicking underwater',
+      'Underwater turn to grab wall (near edge)',
+      'Roll to back float (less assistance)',
+      'Unassisted 15+ second back float',
+      'Assisted fall into water and roll to back float',
+      'Unassisted climb out of pool',
+    ],
+  },
+  {
+    title: 'Baby Jellyfish Skills',
+    icon: jellyfishIcon,
+    skills: [
+      'Unassisted roll to back float',
+      'Drop in from pool edge, turn around and kick back to wall',
+      'Unassisted 30+ second back float',
+      'Unassisted roll to back float after fall in water',
+    ],
+  },
+  {
     title: 'Seahorse Skills',
     icon: seahorseIcon,
     skills: [
@@ -179,7 +227,7 @@ const SkillLevelsSection: React.FC<Props> = ({
   }`;
 
   return (
-    <Container className='relative py-[160px]'>
+    <Container className='relative'>
       {showDecorationElements && (
         <>
           {/* Top right decoration icon */}

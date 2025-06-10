@@ -7,7 +7,7 @@ import { WhenToBeginEnum } from '@/enum/when-to-begin.enum';
 const ERROR_MESSAGES = {
   required: 'Required',
   invalidZip: 'Must be exactly 5 digits', //'Invalid ZIP'
-  invalidEmail: 'Invalid email',
+  invalidEmail: 'Invalid E-mail',
   invalidPhone: 'Invalid phone',
 };
 
@@ -72,7 +72,7 @@ const step2SchemaStudents = z
   .partial()
   .superRefine((schema, ctx) => {
     const { studentsCount } = schema;
-    const maxStudents = studentsCount || 6;
+    const maxStudents = studentsCount || 0;
 
     for (let i = 1; i <= maxStudents; i++) {
       // @ts-expect-error Dynamic field name construction

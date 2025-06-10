@@ -37,7 +37,6 @@ const SatisfactionGuaranteeSection: React.FC<Props> = ({
     <FeatureSection
       backgroundColor={bgColor || 'var(--yellow)'}
       waveColor={bgColor || 'var(--yellow)'}
-      className='my-28'
     >
       <FlexWrapper stackOrder='first-top'>
         <div className='lg:w-[60%] relative z-0'>

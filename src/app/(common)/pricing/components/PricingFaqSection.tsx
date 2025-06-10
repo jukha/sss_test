@@ -24,7 +24,7 @@ const faqData = [
 
 const PricingFaqSection = () => {
   return (
-    <section className='section'>
+    <section>
       <FeaturedBannerSection
         bgColor='var(--color-lightYellow)'
         borderColor='var(--color-yellow)'

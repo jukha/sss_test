@@ -35,7 +35,6 @@ const WhySwimLessonsSection = ({
     <FeatureSection
       backgroundColor={bgColor}
       waveColor={bgColor}
-      className='mt-24'
     >
       <Container className='flex flex-col justify-start items-center relative gap-10'>
         <Typography variant='h2' className='max-w-[837px] text-center z-10'>
@@ -49,10 +48,7 @@ const WhySwimLessonsSection = ({
         </Typography>
 
         <div
-          className={clsx(
-            'w-full flex justify-center items-center relative overflow-x-clip lg:overflow-visible sm:my-24',
-            (facts?.length ?? 0) > 2 ? 'my-24' : 'my-12'
-          )}
+          className='w-full flex justify-center items-center relative overflow-x-clip lg:overflow-visible'
         >
           <Image src={image} alt={imageAlt} className='z-20' />
 

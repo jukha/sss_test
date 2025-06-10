@@ -8,6 +8,7 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
   text: string;
   icon?: StaticImageData;
   value?: string;
+  placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
@@ -22,6 +23,7 @@ const CustomInput: React.FC<Props> = (props) => {
     text,
     icon,
     value,
+    placeholder,
     onChange,
     onBlur,
     disabled,
@@ -69,6 +71,7 @@ const CustomInput: React.FC<Props> = (props) => {
             inputClassName
           )}
           value={value}
+          placeholder={placeholder}
           onChange={onChange}
           onBlur={onBlur}
           disabled={disabled}

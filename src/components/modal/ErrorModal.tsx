@@ -1,11 +1,9 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Button from '@/components/kit/buttons/Button';
 import AlertBox from '@/app/(registration)/registration/components/shared/AlertBox';
 import { useState } from 'react';
-
-const ModalLayout = dynamic(() => import('./ModalLayout'), {ssr: false});
+import ModalLayout from '@/components/modal/ModalLayout';
 
 type Props = {
   text?: string;

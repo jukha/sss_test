@@ -10,14 +10,6 @@ export const generateWeightFromStudentsAge = (studentsAges: StudentsAges[]) => {
     return 0;
   }
 
-  const onlyInfants: Record<string, number> = {
-    ...Object.fromEntries(Weight30StudentsAges.map((age) => [age, 30])),
-  };
-
-  if (studentsAges.every((age) => onlyInfants[age])) {
-    return 30;
-  }
-
   const ageWeightMapping: Record<string, number> = {
     ...Object.fromEntries(Weight30StudentsAges.map((age) => [age, 30])),
     ...Object.fromEntries(Weight45StudentsAges.map((age) => [age, 45])),

@@ -15,8 +15,7 @@ import LocationsListSection from '@/components/sections/LocationsListSection';
 
 export default function TeenSwimLessons() {
   return (
-    <div>
-      <main className='flex flex-col'>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <TeenSwimLessonsHero />
         {/* Why are teen swimming lessons so important? - section */}
         <WhyTeensSwimLessonsImportantSection />
@@ -59,6 +58,5 @@ export default function TeenSwimLessons() {
           showButton={false}
         />
       </main>
-    </div>
   );
 }

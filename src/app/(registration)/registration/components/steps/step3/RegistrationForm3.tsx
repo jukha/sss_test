@@ -1,5 +1,5 @@
 import CustomInput from '@/components/CustomInput';
-import CustomCurveButton from '@/components/CustomCurveButton';
+import CustomCurveButton from '../../shared/CustomCurveButton';
 import AlertBox from '../../shared/AlertBox';
 import GoBackTextButton from '../../shared/GoBackTextButton';
 import AdditionalParentGuardian from './components/AdditionalParentGuardian';
@@ -46,11 +46,10 @@ const RegistrationForm3: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
     setRegistrationFormField,
     registrationStep,
     setRegistrationErrors,
-    setOneFieldValidationErrors,
     registrationErrors,
     registrationErrorsText,
   } = useRegistrationForm();
-  const [loading, setLoading] = useState(false);
+  const [validating, setValidating] = useState(false);
 
   const showAdditionalParentGuardians = !registrationForm?.isCustomerAParentGuardianOfAll;
   const currentUserFullName = `${registrationForm?.firstName ?? ''} ${registrationForm?.lastName ?? ''}`;
@@ -68,14 +67,24 @@ const RegistrationForm3: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
       setRegistrationErrors({});
     }
 
-    setLoading(true);
-    const emailsErrors = await validateUserAndGuardiansEmails(registrationForm);
-    setLoading(false);
-    if (emailsErrors && Object.keys(emailsErrors).length) {
-      Object.entries(emailsErrors).forEach(([fieldName, errorMessage]) => {
-        setOneFieldValidationErrors({ [fieldName]: [errorMessage] });
-      });
-      return;
+    try {
+      setValidating(true);
+      const emailValidationErrors = await validateUserAndGuardiansEmails(registrationForm);
+      // console.log('emailValidationErrors:', emailValidationErrors);
+
+      if (emailValidationErrors && Object.keys(emailValidationErrors).length) {
+        setRegistrationErrors(emailValidationErrors);
+        setValidating(false);
+        //Implement validating e-mail when focus leaves the input.
+        //Implement setting focus to the first erronous e-mail field?
+        //Implement validation on input. when value.endsWith('.com') || value.endsWith('.co') || value.endsWith('.org') || value.endsWith('.net') ?
+        return;
+      }
+
+      setValidating(false);
+    } catch (err) {
+      setValidating(false);
+      console.log(err);
     }
 
     await onNextClicked();
@@ -184,8 +193,8 @@ const RegistrationForm3: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
           <div className='max-w-[251px] my-auto desktop:max-w-[342px]'>
             <CustomCurveButton
               type='submit'
-              text={loading ? 'loading' : 'Continue'}
-              disabled={loading}
+              text={validating ? 'Validating...' : 'Continue'}
+              disabled={validating}
               icon={blackArrow}
             />
           </div>

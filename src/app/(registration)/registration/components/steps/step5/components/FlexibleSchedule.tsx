@@ -1,9 +1,9 @@
-import CustomButton from '@/components/CustomButton';
-import CustomSwitcher from '@/components/CustomSwitcher';
+import CustomButton from '../../../shared/CustomButton';
+import CustomSwitcher from '../../../shared/CustomSwitcher';
 import React, { useState } from 'react';
 import AlertBox from '../../../shared/AlertBox';
 import { minus, plus } from '@/assets';
-import CustomTextArea from '@/components/CustomTextArea';
+import CustomTextArea from '../../../shared/CustomTextArea';
 
 type Props = {
   flexibleScheduleChecked?: boolean;

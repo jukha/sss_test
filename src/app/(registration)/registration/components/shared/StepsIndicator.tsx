@@ -10,18 +10,22 @@ type CircleNavigationBarStep = {
 };
 
 type Props = {
+  isNavigationAllowed: boolean;
   steps: CircleNavigationBarStep[];
   currentStep: RegistrationStepEnum;
   setStep: (n: RegistrationStepEnum) => void;
+  availableMaxStep?: RegistrationStepEnum;
 };
 
-const StepsIndicator: React.FC<Props> = ({ steps, currentStep, setStep }) => {
+const StepsIndicator: React.FC<Props> = ({ isNavigationAllowed, steps, currentStep, setStep, availableMaxStep }) => {
   const [hoverIndex, setHoverIndex] = useState<number>();
 
   return (
     <div className='absolute top-[-20px] tablet:top-[-25px] laptop:top-[-32px] w-full max-w-[750px] self-center flex justify-evenly px-[10px] laptop:px-[1%]'>
       {steps.map((el, i) => {
-        const stepCanBeSet = el.steps.every((elStep) => elStep.toString() < currentStep.toString());
+        const isLowerThanMaxStep = !availableMaxStep || el.steps.some((elStep) => elStep === availableMaxStep);
+        const isStepPrevious = el.steps.every((elStep) => elStep.toString() < currentStep.toString());
+        const stepCanBeSet = isNavigationAllowed && isLowerThanMaxStep && isStepPrevious;
         const canBeHighlighted = hoverIndex === i && stepCanBeSet;
 
         return (

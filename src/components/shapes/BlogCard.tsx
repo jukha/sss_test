@@ -9,6 +9,7 @@ type Props = {
   description: string;
   img: StaticImageData;
   link: string;
+  hideButton?: boolean;
 };
 
 const BlogCard = (props: Props) => {
@@ -39,13 +40,15 @@ const BlogCard = (props: Props) => {
         >
           {props.description}
         </Typography>
-        <ArrowButton
-          link={props.link}
-          buttonClasses='bg-offBlack h-14 font-primary font-semibold text-[20px] text-white'
-          iconColor='black'
-          IconClasses='bg-brightYellow scale-[0.75]'
-          text='Read More'
-        />
+        {!props.hideButton && (
+          <ArrowButton
+            link={props.link}
+            buttonClasses='bg-offBlack h-14 font-primary font-semibold text-[20px] text-white'
+            iconColor='black'
+            IconClasses='bg-brightYellow scale-[0.75]'
+            text='Read More'
+          />
+        )}
       </div>
     </div>
   );

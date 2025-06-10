@@ -69,9 +69,8 @@ const OurInstructorsLoveTeachingSection = () => {
     <FeatureSection
       backgroundColor='var(--color-lightBlue)'
       waveColor='var(--color-lightBlue)'
-      className='my-24'
     >
-      <Container className='flex flex-col justify-start overflow-clip items-center relative  gap-10'>
+      <Container className='flex flex-col justify-start overflow-clip items-center relative gap-10 max-lg:py-20'>
         <Typography variant='h2' className='max-w-[837px] text-center z-10'>
           {content.heading}
         </Typography>

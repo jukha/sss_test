@@ -56,7 +56,7 @@ const content = {
 
 const PrivateSwimLessonBenefitsSection = () => {
   return (
-    <Container className='my-[200px] lg:relative'>
+    <Container className='lg:relative'>
       <Typography
         variant='h2'
         className='max-w-[842px] mx-auto text-center mb-20 lg:mb-[100px]'

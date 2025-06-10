@@ -1,5 +1,6 @@
 import ClientRegistrationPage from './ClientRegistrationPage';
 import { createRegistration } from '@/app/api/registration/utils/registration-record';
+// import { loadRegistration } from '@/app/api/registration/utils/registration-record';
 import { CustomerRegistration } from '@/__generated__/prisma';
 import { Error500Page } from '@/components/error_pages/Error500Page';
 
@@ -11,8 +12,15 @@ const RegistrationPage = async () => {
   let registrationData: CustomerRegistration | undefined;
 
   try {
+    //Used for debugging:
+    // registrationData = await loadRegistration({
+    //   id: '510',
+    //   secret: '20ffa5f8e166687824b56de8b5944a',
+    //   formTypeId: 'J'
+    // });
     registrationData = await createRegistration({
       registrationFormType: REGISTRATION_FORM_TYPE,
+      flexibleSchedule: true,
     });
   } catch (e) {
     console.error(e);

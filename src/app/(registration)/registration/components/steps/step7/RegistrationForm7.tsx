@@ -6,6 +6,7 @@
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe, StripeElementsOptionsMode } from '@stripe/stripe-js';
 
+import { BuildOnFieldFocusLostHandlerFunction } from '../../../types';
 import RegistrationForm7Internals from './RegistrationForm7Internals';
 
 const STRIPE_PUBLIC_KEY: string = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || '';
@@ -14,19 +15,20 @@ const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 type Props = {
   onNextClicked: () => void;
   onPreviousClicked: () => void;
+  buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
 };
 
-const RegistrationForm7: React.FC<Props> = ({
-  onNextClicked,
-  onPreviousClicked,
-}) => {
+const RegistrationForm7: React.FC<Props> = ({ onNextClicked, onPreviousClicked, buildOnFieldFocusLostHandler }) => {
   const stripeOptions: StripeElementsOptionsMode = {
     mode: 'setup',
     currency: 'usd',
     paymentMethodCreation: 'manual',
     loader: 'always',
     fonts: [
-      { cssSrc: 'https://fonts.googleapis.com/css2?family=Grandstander:ital,wght@0,100..900;1,100..900&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap', },
+      {
+        cssSrc:
+          'https://fonts.googleapis.com/css2?family=Grandstander:ital,wght@0,100..900;1,100..900&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap',
+      },
     ],
     appearance: {
       theme: 'stripe',
@@ -58,10 +60,9 @@ const RegistrationForm7: React.FC<Props> = ({
 
   return (
     <Elements stripe={stripePromise} options={stripeOptions}>
-      <RegistrationForm7Internals onNextClicked={onNextClicked} onPreviousClicked={onPreviousClicked} />
+      <RegistrationForm7Internals onNextClicked={onNextClicked} onPreviousClicked={onPreviousClicked} buildOnFieldFocusLostHandler={buildOnFieldFocusLostHandler} />
     </Elements>
   );
 };
-
 
 export default RegistrationForm7;

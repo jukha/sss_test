@@ -5,6 +5,8 @@ import useDebounce from '@/hooks/use-debounce';
 
 import { convertSuggestedAddressToString } from './helpers';
 
+const REQUEST_DELAY = Number(process.env.NEXT_PUBLIC_HERE_REQUEST_DELAY || '0');
+
 type Suggestion = { text: string; value: string };
 
 const isSuggestionAddressValid = (address: SuggestedAddress) => {
@@ -15,7 +17,7 @@ export const useAddressSuggestions = () => {
   const cached = useRef<Record<string, Suggestion[]>>({});
   const [foundSuggestions, setFoundSuggestion] = useState<Suggestion[]>([]);
   const [query, setQuery] = useState('');
-  const debouncedQuery = useDebounce(query, 500);
+  const debouncedQuery = useDebounce(query, REQUEST_DELAY);
 
   const requestAddressSuggestions = (query: string) => {
     setQuery(query);

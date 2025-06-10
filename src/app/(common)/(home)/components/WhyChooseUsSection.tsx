@@ -1,7 +1,6 @@
 import { groupedWomen } from '@/assets';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import CardHorizontal from '@/components/shapes/CardHorizontal';
-import Container from '@/components/layout/Container';
 import { Bubbles } from '@/components/decoration';
 import {
   ApprovalIcon,
@@ -13,6 +12,7 @@ import IconFrame from '@/components/icons/IconFrame';
 import Typography from '@/components/semantics/Typography';
 import Image from 'next/image';
 import React from 'react';
+import FeatureSection from '@/components/FeatureSection';
 
 const whyChooseSunsationalSection = {
   title: 'Why Choose Sunsational Swim School?',
@@ -56,8 +56,8 @@ const whyChooseSunsationalSection = {
 
 const WhyChooseUsSection = () => {
   return (
-    <Container>
-      <section className='relative flex flex-col md:gap-20 py-[100px] justify-start items-center bg-[#ffffffa9]'>
+    <FeatureSection waveColor='var(--color-iceBlue)' backgroundColor='var(--color-iceBlue)'>
+      <section className='relative flex flex-col md:gap-20 py-[100px] justify-start items-center bg-iceBlue'>
         {/* Decorative bubbles - only visible on large screens */}
         <div className='hidden lg:block lg:absolute top-[-8%] right-0 scale-x-[-1] '>
           <Bubbles />
@@ -143,7 +143,7 @@ const WhyChooseUsSection = () => {
           link='/get-started'
         />
       </section>
-    </Container>
+    </FeatureSection>
   );
 };
 

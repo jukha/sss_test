@@ -16,11 +16,11 @@ import FeatureInstructorsSliderSection from './components/FeatureInstructorsSlid
 import StartSwimmingFasterSection from './components/StartSwimmingFasterSection';
 import SpecialSwimLessonsBenefitsSection from './components/SpecialSwimLessonsBenefitsSection';
 import SpecialNeedsLessonPricingSection from './components/SpecialNeedsLessonPricingSection';
+import StackedSections from '@/components/layout/StackedSections';
 
 const SpecialNeedsSwimmingLessons = () => {
   return (
-    <div>
-      <main>
+      <main className='flex flex-col gap-20 lg:gap-26'>
         <SpecialNeedsLessonHero />
         {/* Safe, Fun & taught at home special needs swim lessons! - Section */}
         <SafeFunAtHomeSection />
@@ -33,11 +33,13 @@ const SpecialNeedsSwimmingLessons = () => {
         {/* Featured special needs swim instructors! - Section */}
         <FeatureInstructorsSliderSection />
         {/* 100% Satisfaction Guarantee - Section */}
-        <SatisfactionGuaranteeSection
-          image={specialNeedsLessonSatisfactionGuarantee}
-        />
-        {/* Start swimming faster with personalized special needs swim lessons in [city] - Section */}
-        <StartSwimmingFasterSection />
+        <StackedSections>
+          <SatisfactionGuaranteeSection
+            image={specialNeedsLessonSatisfactionGuarantee}
+          />
+          {/* Start swimming faster with personalized special needs swim lessons in [city] - Section */}
+          <StartSwimmingFasterSection />
+        </StackedSections>
         {/* Benefits of swimming lessons for special needs students - Section */}
         <SpecialSwimLessonsBenefitsSection />
         {/* Special Needs And Abilities/SNAP Swim Lesson Pricing - Section */}
@@ -53,7 +55,6 @@ const SpecialNeedsSwimmingLessons = () => {
         <LocationsListSection />
         {/* Got Questions - Section */}
       </main>
-    </div>
   );
 };
 

@@ -4,7 +4,7 @@ import React from 'react';
 
 const AdultLessonSatisfactionGuaranteeSection = () => {
   return (
-    <section className='-mb-40 z-10'>
+    <section className='z-10'>
       <SatisfactionGuaranteeSection
         image={satisfactionGuaranteeAdultSwimLesson}
         bgCirclesColor='teal'

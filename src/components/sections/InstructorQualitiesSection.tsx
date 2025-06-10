@@ -63,7 +63,7 @@ const InstructorQualitiesSection: React.FC<Props> = ({ page = 'homepage' }) => {
 
   return (
     <Container>
-      <div className='pt-28'>
+      <div>
         <Typography
           variant='h2'
           className='text-center mb-2 max-w-[842px] mx-auto'

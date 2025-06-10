@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { CustomCheckbox } from '@/components/CustomCheckbox';
+import { CustomCheckbox } from '../../../shared/CustomCheckbox';
 import { TimesEnum } from '@/enum/times.enum';
 import TimeSelectorCard from './TimeSelectorCard';
 import ErrorHighlighter from './ErrorHighlighter';

@@ -68,7 +68,7 @@ const benefitsShowCaseSectionData = {
 
 const BenefitsOfAdultSwimSection = () => {
   return (
-    <div className='pt-[130px] lg:pt-[200px]'>
+    <div>
       <BenefitsShowCaseSection {...benefitsShowCaseSectionData} />;
     </div>
   );
