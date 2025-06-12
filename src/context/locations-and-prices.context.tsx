@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { LocationsAndPricingEntity } from '@/entities/locations-and-pricing.entity';
-import clientDataApi from '@/actions/data/client-data-api';
+import { apiClient } from '@/api_client/api.client';
 
 const LocationsAndPricesContext = createContext<LocationsAndPricingEntity | null>(null);
 
@@ -8,7 +8,7 @@ export const LocationsAndPricesContextProvider = ({children}: {children: ReactNo
   const [state, setState] = useState<LocationsAndPricingEntity | null>(null);
 
   useEffect(() => {
-    clientDataApi.registration.locationsAndPricing.get().then(setState);
+    apiClient.registration.locationsAndPricing.get().then(({ data }) => setState(data))
   }, [])
 
   return(

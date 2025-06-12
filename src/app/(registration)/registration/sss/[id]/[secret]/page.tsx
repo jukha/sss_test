@@ -6,6 +6,7 @@ import {
 import { redirect } from 'next/navigation';
 import { CustomerRegistration } from '@/__generated__/prisma';
 import { Error500Page } from '@/components/error_pages/Error500Page';
+import { RegistrationFormEntityBuilder } from '@/entity_builders/registration-form.entity-builder';
 
 const REGISTRATION_FORM_TYPE = 'J';
 
@@ -31,7 +32,7 @@ export default async function Registration({ params }: Props) {
 
   return (
     <ClientRegistrationPage
-      registration={registrationClone}
+      registration={new RegistrationFormEntityBuilder().build(registrationClone)}
       registrationFormType={REGISTRATION_FORM_TYPE}
     />
   );

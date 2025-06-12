@@ -26,11 +26,12 @@ type SuggestionsResponse = {
   }[];
 };
 
-export const getAddressSuggestions = async (query: string): Promise<SuggestionsResponse> => {
+export const getAddressSuggestions = async (query: string, abortController?: AbortController): Promise<SuggestionsResponse> => {
   const { data } = await tryFetchData<SuggestionsResponse, null>({
     url: `${API_URL}&query=${query}`,
     method: 'GET',
-    jsonHeaderInRequest: false
+    jsonHeaderInRequest: false,
+    abortController
   })
 
   if (!data) throw new Error('Error while calling HERE API');

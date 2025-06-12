@@ -1,9 +1,11 @@
 import { sleep } from '@/utils/sleep';
+import { AbortError } from '@/errors/abort.error';
 
 type Options<T> = {
   attempts?: number;
   delayMs?: number;
   retryIf: (res: T) => boolean;
+  abortController?: AbortController;
 }
 
 const DEFAULT_ATTEMPTS = Number(process.env.NEXT_PUBLIC_AUTO_RETRY_ATTEMPTS || '3');
@@ -11,12 +13,22 @@ const DEFAULT_DELAY = Number(process.env.NEXT_PUBLIC_AUTO_RETRY_DELAY_MS || '500
 
 export async function autoRetry<T>(
   fn: () => Promise<T>,
-  { attempts = DEFAULT_ATTEMPTS, delayMs = DEFAULT_DELAY, retryIf }: Options<T>
+  { attempts = DEFAULT_ATTEMPTS, delayMs = DEFAULT_DELAY, retryIf, abortController }: Options<T>
 ) {
   let res;
+  let aborted = false;
+
+  const onAbort = () => {
+    abortController?.signal.removeEventListener('abort', onAbort);
+    aborted = true;
+  }
+
+  abortController?.signal.addEventListener('abort', onAbort);
 
   for (let i = 0; i < attempts + 1; i++) {
     res = await fn();
+
+    if (aborted) throw new AbortError();
     if (!retryIf(res)) break;
 
     if (delayMs && i < attempts) {

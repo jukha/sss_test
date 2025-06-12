@@ -1,16 +1,22 @@
-import {prismaClient} from '@/prisma';
-import {
-  CustomerRegistration,
-  CustomerRegistrationHistory
-} from '@/__generated__/prisma/client';
-import {generateRegistrationSecret} from '@/app/api/registration/utils/secret';
-import {RegistrationRecordIdentifier} from '@/app/api/registration/utils/types';
-import {sanitizeRegistration} from '@/app/api/registration/utils/sanitize-registration';
+import { prismaClient } from '@/prisma';
+import { CustomerRegistration, CustomerRegistrationHistory } from '@/__generated__/prisma/client';
+import { generateRegistrationSecret } from '@/app/api/registration/utils/secret';
+import { RegistrationRecordIdentifier } from '@/app/api/registration/utils/types';
+import { sanitizeRegistration } from '@/app/api/registration/utils/sanitize-registration';
+import { RecordSequenceEnum } from '@/enum/record-sequence.enum';
+import incrementSequence from '@/app/api/registration/utils/record-sequence';
 
+export const createRegistration = async (data: Partial<CustomerRegistration>): Promise<CustomerRegistration> => {
+  const newSequenceVal = await incrementSequence(RecordSequenceEnum.CustomerRegistration)
 
-export const createRegistration = (data: Partial<CustomerRegistration>): Promise<CustomerRegistration> => {
-  data.secret = generateRegistrationSecret();
-  return prismaClient.customerRegistration.create({data: {...data, version: data.version || 1}});
+  return prismaClient.customerRegistration.create({
+    data: {
+      ...data,
+      secret: generateRegistrationSecret(),
+      version: data.version || 1,
+      orderId: newSequenceVal.val
+    }
+  });
 };
 
 export const loadRegistration = async (recordIdentifier: RegistrationRecordIdentifier): Promise<CustomerRegistration | null> => {

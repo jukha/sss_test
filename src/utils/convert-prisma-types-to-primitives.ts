@@ -1,6 +1,6 @@
 import { Prisma } from '@/__generated__/prisma';
 
-type Primitive<T> = {
+export type Primitive<T> = {
   [K in keyof T]:
     T[K] extends Prisma.Decimal | null ? number :
         T[K] extends bigint | null ? number :

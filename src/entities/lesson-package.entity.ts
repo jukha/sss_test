@@ -9,4 +9,6 @@ export type LessonPackageEntity = {
   price: number | null;
   priceUpsell: number | null;
   basePay: number | null;
+  discount?: number | null;
+  discountUpsell?: number | null;
 };

@@ -1,7 +1,8 @@
 import { LocationZipCodeServiced } from '@/__generated__/prisma';
 import { ZipCodesServicedEntity } from '@/entities/zip-codes-serviced.entity';
+import { IEntityBuilder } from './entity-builder.interface';
 
-export class ZipCodeServicedEntityBuilder {
+export class ZipCodeServicedEntityBuilder implements IEntityBuilder<LocationZipCodeServiced, ZipCodesServicedEntity> {
   build(plainEntity: LocationZipCodeServiced, customMapper?: (x: LocationZipCodeServiced, y: ZipCodesServicedEntity) => void): ZipCodesServicedEntity {
     const dto: ZipCodesServicedEntity = {
       id: plainEntity.id,

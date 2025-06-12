@@ -1,7 +1,8 @@
 import { PackagePriceMatrix } from '@/__generated__/prisma';
 import { LessonType, LessonPackageEntity } from '@/entities/lesson-package.entity';
+import { IEntityBuilder } from './entity-builder.interface';
 
-export class LessonPackageEntityBuilder {
+export class LessonPackageEntityBuilder implements IEntityBuilder<PackagePriceMatrix, LessonPackageEntity> {
   build(plainEntity: PackagePriceMatrix, customMapper?: (x: PackagePriceMatrix, y: LessonPackageEntity) => void): LessonPackageEntity {
     const dto: LessonPackageEntity = {
       id: plainEntity.id,

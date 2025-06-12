@@ -1,43 +1,10 @@
 import ThreeStareSlim from '@/components/decoration/ThreeStareSlim';
-import FAQsSection from '@/components/sections/FaqSection';
+import { ServerFaqSection } from '@/components/sections/faq_section';
 import FeaturedBannerSection from '@/components/sections/FeaturedBannerSection';
 import Typography from '@/components/semantics/Typography';
 import React from 'react';
 
 const BabyLessonsFaqSection = () => {
-  const faqData = [
-    {
-      question:
-        'How long does it take to learn how to swim with private lessons?',
-      answer:
-        'We require that a parent or guardian be present during all lessons. Parents can supervise lessons, either from inside the house, or from the pool deck. If your child starts acting out, we would recommend watching the lessons out of their sight, since young children perform better if there is only one authority figure to focus on at a time.\n\nFor children under 2 years we recommend a parent is in the water for the child to be the most comfortable. Children 2 years and older get the most out of lessons without the parent in the water and often with the parent out of direct sight (preschoolers often act up when the parent is in view).',
-    },
-    {
-      question: 'Where is your pool located?',
-      answer: '',
-    },
-    {
-      question: "What happens if I don't have a pool at home?",
-      answer: '',
-    },
-    {
-      question: 'What qualifications do your instructors have?',
-      answer: '',
-    },
-    {
-      question: 'What is your Learn to Swim Guarantee?',
-      answer: '',
-    },
-    {
-      question: 'What is the cost and how many lessons are typically required?',
-      answer: '',
-    },
-    {
-      question: 'When can I register? How?',
-      answer: '',
-    },
-  ];
-
   return (
     <div className='py-16'>
       <FeaturedBannerSection
@@ -65,7 +32,8 @@ const BabyLessonsFaqSection = () => {
           </Typography>
         </div>
       </FeaturedBannerSection>
-      <FAQsSection data={faqData} />
+
+      <ServerFaqSection categoryName='baby' />
     </div>
   );
 };

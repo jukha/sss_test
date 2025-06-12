@@ -33,7 +33,9 @@ export const useAddressSuggestions = () => {
       return;
     }
 
-    getAddressSuggestions(debouncedQuery).then((result) => {
+    const abortController = new AbortController();
+
+    getAddressSuggestions(debouncedQuery, abortController).then((result) => {
       if (!result.suggestions) return;
 
       const suggestions = result.suggestions
@@ -46,6 +48,10 @@ export const useAddressSuggestions = () => {
       cached.current[debouncedQuery] = suggestions;
       setFoundSuggestion(suggestions);
     });
+
+    return () => {
+      abortController.abort('Canceled by debounce');
+    }
   }, [debouncedQuery]);
 
   return {

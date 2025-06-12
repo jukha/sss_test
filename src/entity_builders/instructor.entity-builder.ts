@@ -1,9 +1,10 @@
 import { Instructor } from '@/__generated__/prisma';
 import { InstructorEntity } from '@/entities/instructor.entity';
+import { IEntityBuilder } from './entity-builder.interface';
 
 const ALL_CATEGORIES = ['Infants', 'Toddlers', 'Preschoolers', 'Adults', 'Special needs'];
 
-export class InstructorEntityBuilder {
+export class InstructorEntityBuilder implements IEntityBuilder<Instructor, InstructorEntity> {
   build(plainEntity: Instructor, customMapper?: (x: Instructor, y: InstructorEntity) => void): InstructorEntity {
     const addressExists = plainEntity.city || plainEntity.state || plainEntity.zip;
     const lastNameFormatted = plainEntity.last_name ? `${plainEntity.last_name[0]}.` : ''

@@ -24,5 +24,5 @@ export const generateCanWeServeText = ({
     cannotServeType = 'No SI with pool';
   }
 
-  return [regType, leadType, poolType, cannotServeType].join(', ');
+  return [regType, leadType, poolType, cannotServeType].filter(Boolean).join(', ');
 };

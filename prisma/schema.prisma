@@ -283,6 +283,38 @@ model PackagePriceTier {
   @@map("package_price_tier")
 }
 
+model CustomerReviews {
+  id              BigInt    @id @default(autoincrement())
+  customer_email  String?   @db.VarChar(150)
+  first_name      String?   @db.VarChar(255)
+  last_name       String?   @db.VarChar(255)
+  customer_photo  String?   @db.Text
+  customer_review String?   @db.Text
+  instructor      String?   @db.VarChar(150)
+  review_type     String?   @db.VarChar(150)
+  review_rank     String?   @db.VarChar(150)
+  review_platform String?   @db.VarChar(150)
+  review_url      String?   @db.Text
+  lat             Decimal?  @db.Decimal(10, 7)
+  lng             Decimal?  @db.Decimal(10, 7)
+  top             Int?      @db.SmallInt
+  age_group       String?   @db.VarChar(64)
+  designation     String?   @db.VarChar(64)
+  city            String?   @db.VarChar(200)
+  state           String?   @db.VarChar(200)
+  metro           String?   @db.VarChar(200)
+  review_date     DateTime? @db.Date
+  review_id       Int?      @db.SmallInt
+
+  @@index([city(length: 40), state(length: 40), review_type(length: 40), review_rank(length: 40), review_date], map: "cr_idx1")
+  @@index([city(length: 40), state(length: 40), review_rank(length: 40), review_date], map: "cr_idx1_1")
+  @@index([metro(length: 40), city(length: 40), review_type(length: 40), review_rank(length: 40), review_date], map: "cr_idx2")
+  @@index([metro(length: 40), city(length: 40), review_type(length: 40), review_rank(length: 40), review_date], map: "cr_idx2_1")
+  @@index([review_type(length: 40), review_rank(length: 40), metro(length: 40)], map: "cr_idx3")
+  @@index([review_rank(length: 40), metro(length: 40)], map: "cr_idx4")
+  @@map("customer_reviews")
+}
+
 model PackagePromoCode {
   id         Int       @id @default(autoincrement())
   promo      String    @unique(map: "uq_promo") @db.VarChar(255)
@@ -337,4 +369,92 @@ model UnservicedLeads {
   timestamp DateTime? @db.Timestamp(0)
 
   @@map("unserviced_leads")
+}
+
+model Faq {
+  id              Int    @id @default(autoincrement())
+  question        String @db.VarChar(255)
+  answer          String @db.Text
+  index           Int
+  faqCategoriesId Int    @map("faq_categories_id")
+
+  faqCategories FaqCategories @relation(fields: [faqCategoriesId], references: [id])
+
+  @@map("faq")
+}
+
+model FaqCategories {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(16)
+  Faq  Faq[]
+
+  @@map("faq_categories")
+}
+
+model BlogCategories {
+  id                      BigInt                  @id @default(autoincrement())
+  title                   String?                 @db.VarChar(64)
+  url_part                String?                 @db.Text
+  order_num               BigInt?
+  blog_records_categories BlogRecordsCategories[]
+
+  @@index([order_num], map: "order_num")
+  @@index([url_part(length: 200)], map: "url_part")
+  @@map("blog_categories")
+}
+
+model BlogRecords {
+  id                                  BigInt                  @id @default(autoincrement())
+  blog_title                          String?                 @db.Text
+  blog_featured_image                 String?                 @db.Text
+  blog_teaser                         String?                 @db.Text
+  blog_body                           String?                 @db.Text
+  blog_author_name                    String?                 @db.Text
+  blog_author_photo                   String?                 @db.Text
+  blog_author_social_handle           String?                 @db.Text
+  blog_author_social_url              String?                 @db.Text
+  blog_publication_date               DateTime?               @db.Date
+  blog_read_time                      String?                 @db.Text
+  blog_meta_description               String?                 @db.Text
+  blog_meta_title                     String?                 @db.Text
+  blog_meta_tags                      String?                 @db.Text
+  blog_is_published                   Boolean?
+  blog_is_featured                    Boolean?
+  blog_hyphenated_title               String?                 @db.Text
+  url_over_first                      String?                 @db.Text
+  url_over_second                     String?                 @db.Text
+  url_over_third                      String?                 @db.Text
+  submission_id                       String?                 @db.VarChar(255)
+  blog_featured_image_alt_description String?                 @db.Text
+  blog_records_categories             BlogRecordsCategories[]
+
+  @@index([blog_hyphenated_title(length: 200)], map: "blog_hyphenated_title")
+  @@index([blog_publication_date], map: "blog_publication_date")
+  @@index([url_over_first(length: 4), url_over_second(length: 2), url_over_third(length: 200)], map: "url_over_first")
+  @@fulltext([blog_body], map: "blog_body_ftxt")
+  @@fulltext([blog_teaser], map: "blog_teaser_ftxt")
+  @@fulltext([blog_title], map: "blog_title_ftxt")
+  @@fulltext([blog_title], map: "blog_titles_idx")
+  @@fulltext([blog_title, blog_teaser, blog_body], map: "blog_ttb_ftxt")
+  @@map("blog_records")
+}
+
+model BlogRecordsCategories {
+  id              BigInt          @id @default(autoincrement())
+  record_id       BigInt?
+  category_id     BigInt?
+  blog_records    BlogRecords?    @relation(fields: [record_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "blog_records_categories_ibfk_1")
+  blog_categories BlogCategories? @relation(fields: [category_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "blog_records_categories_ibfk_2")
+
+  @@index([category_id], map: "category_id")
+  @@index([record_id], map: "record_id")
+  @@map("blog_records_categories")
+}
+
+model Sequence {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  val  BigInt @default(60000)
+
+  @@map("sequences")
 }

@@ -1,11 +1,11 @@
 import { autoRetryCatchable } from '@/utils/retry';
 import { globalErrorHandlerState } from '@/state/global-error-handler.state';
 import { GlobalErrorType } from '@/enum/global-error-type.enum';
+import { AbortError } from '@/errors/abort.error';
 
-type FetchDataResponse<T> = {
-  data: T | null;
+export type FetchDataResponse<T> = {
+  data: T;
   response: Response;
-  validationErrors?: Record<keyof T, string>;
 };
 
 type FetchDataOptions<D> = {
@@ -15,6 +15,7 @@ type FetchDataOptions<D> = {
   data?: D;
   jsonHeaderInRequest?: boolean;
   searchParams?: Record<string, unknown>;
+  abortController?: AbortController;
 };
 
 type TryFetchDataOptions<D> = FetchDataOptions<D> & {
@@ -40,14 +41,6 @@ async function fetchData<E, D>({
 
   const response = await fetch(url + (searchParams ? `?${searchParams.toString()}` : ''), options);
 
-  if (response.status === 400) {
-    const data = await response.json();
-
-    if ('validationErrors' in data) {
-      return { data: null, response, validationErrors: data.validationErrors };
-    }
-  }
-
   if (!response.ok) {
     console.error(`Received response code ${response.status} (${response.statusText}) on ${method} ${url}`)
     throw new Error();
@@ -61,8 +54,12 @@ export async function tryFetchData<E, D>({globalErrorType = GlobalErrorType.Unkn
   const callback = () => fetchData<E, D>(options)
 
   try {
-    return await autoRetryCatchable(callback);
-  } catch {
+    return await autoRetryCatchable(callback, {abortController: options.abortController});
+  } catch (e) {
+    if (e instanceof AbortError) {
+      throw e; // don't add error to error store if retry was aborted
+    }
+
     const version = Number(options.headers?.['X-Version']);
 
     const event = globalErrorHandlerState.addError<FetchDataResponse<E>>(

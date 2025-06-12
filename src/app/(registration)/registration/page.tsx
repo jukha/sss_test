@@ -3,6 +3,7 @@ import { createRegistration } from '@/app/api/registration/utils/registration-re
 // import { loadRegistration } from '@/app/api/registration/utils/registration-record';
 import { CustomerRegistration } from '@/__generated__/prisma';
 import { Error500Page } from '@/components/error_pages/Error500Page';
+import { RegistrationFormEntityBuilder } from '@/entity_builders/registration-form.entity-builder';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,7 +31,7 @@ const RegistrationPage = async () => {
 
   return (
     <ClientRegistrationPage
-      registration={registrationData}
+      registration={new RegistrationFormEntityBuilder().build(registrationData)}
       registrationFormType={REGISTRATION_FORM_TYPE}
     />
   );

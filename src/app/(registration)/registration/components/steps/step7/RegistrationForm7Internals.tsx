@@ -1,8 +1,7 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import Image from 'next/image';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { StripePaymentElementOptions } from '@stripe/stripe-js';
-import { Prisma } from '@/__generated__/prisma';
 
 import CustomCurveButton from '../../shared/CustomCurveButton';
 import CustomInput from '@/components/CustomInput';
@@ -26,6 +25,7 @@ import { extractLocationPackages } from '../../../logic/utils/lesson-package/ext
 import { extractStudentAges } from '../../../logic/utils/lesson-package/extract-students-data';
 import { extractPackageForUpgrade } from '../../../logic/utils/lesson-package/extract-package-for-upgrade';
 import { isEveryoneAdults } from '../../../logic/is-everyone-adults';
+import { CustomCheckbox } from '../../shared/CustomCheckbox';
 
 const POLICY_URL = 'https://legal-docs-public.s3.us-west-2.amazonaws.com/Swim+Lesson+Agreement+2023_website.pdf';
 
@@ -60,11 +60,16 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
     validatedPromoCode,
     promoDiscount,
     upsell_from,
+    ad_call,
   } = registrationForm ?? {};
+  const [triggerNextClick, setTriggerNextClick] = useState(false)
 
   const [paymentErrorText, setPaymentErrorText] = useState<string | null>(null);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const showPromocodeInput = !upsell_from || isLessonPackageSizeUpgradeDeclined;
+
+  const shouldShowAquaticsLines2Checkbox = haveCustomerBeenHelpedBy?.toLowerCase().includes('registered by')
+  const aquaticsLines2Checked = ad_call === 'yes'
 
   const [promocode, setPromocode] = useState(() => validatedPromoCode ?? '');
   const debouncedPromocode = useDebounce(promocode, 500);
@@ -93,7 +98,7 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
 
   const handleUpgradeClick = () => {
     if (selectedPackage && packageForUpgrade) {
-      setRegistrationFormField('upsell_from', BigInt(selectedPackage.lessonQty));
+      setRegistrationFormField('upsell_from', selectedPackage.lessonQty);
       setIsLessonPackageSizeUpgradeDeclined(false);
       setRegistrationFormField('packageSize', packageForUpgrade.lessonQty);
       setRegistrationFormField('paidLessons', packageForUpgrade.lessonQty ?? null);
@@ -197,7 +202,8 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
       }
 
       setRegistrationFormField('isRegistrationComplete', true);
-      onNextClicked();
+
+      setTriggerNextClick(true)
       setIsProcessingPayment(false);
     } catch (err) {
       console.log(err);
@@ -215,6 +221,10 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
     },
     paymentMethodOrder: ['applePay', 'googlePay', 'card'],
   };
+
+  const handleAquaticLines2CheckboxChange = (checked:boolean) => {
+    setRegistrationFormField('ad_call', checked ? 'yes' : 'no')
+  }
 
   useLayoutEffect(() => {
     if (!data?.promoCodes) {
@@ -235,9 +245,37 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
     setRegistrationFormField('freeLessons', promocodeResult?.freeLessons ?? null);
     setRegistrationFormField(
       'promoDiscount',
-      promocodeResult?.salePrice ? (promocodeResult.salePrice as unknown as Prisma.Decimal) : null
+      promocodeResult?.salePrice ? promocodeResult.salePrice : null
     );
   }, [debouncedPromocode, packageSize]);
+
+  useEffect(() => {
+    let lg1Signed = false;
+    let lg1SigningDate = null;
+
+    if (haveCustomerBeenHelpedBy) {
+      if (haveCustomerBeenHelpedBy.toLowerCase().includes('registered')) {
+        lg1Signed = true
+        lg1SigningDate = new Date().toISOString()
+      }
+    } 
+
+    setRegistrationFormField('lg1Signed', lg1Signed)
+    setRegistrationFormField('lg1SigningDate', lg1SigningDate)
+  }, [haveCustomerBeenHelpedBy])
+
+  useEffect(() => {
+    if (!shouldShowAquaticsLines2Checkbox) {
+      setRegistrationFormField('ad_call', 'no')
+    }
+  }, [shouldShowAquaticsLines2Checkbox])
+
+  useEffect(() => {
+    if (triggerNextClick) {
+      onNextClicked();
+      setTriggerNextClick(false)
+    }
+  },[triggerNextClick])
 
   return (
     <div className='flex flex-col gap-8 desktop:gap-6'>
@@ -333,6 +371,13 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
           className='w-full opacity-40'
         />
       )}
+
+      {
+        shouldShowAquaticsLines2Checkbox && <label className='px-4 py-2 flex items-center gap-2 border-2 border-lightGray rounded-lg cursor-pointer text-blue'>
+          <CustomCheckbox checked={aquaticsLines2Checked} onClick={handleAquaticLines2CheckboxChange} />
+          <p>Check this box if this call from aquatics lines 2</p>
+        </label>
+      }
 
       {registrationErrorsText && <AlertBox type='error' text={registrationErrorsText} />}
 

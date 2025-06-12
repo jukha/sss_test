@@ -1,7 +1,5 @@
-import { Decimal } from '@/__generated__/prisma/runtime/library';
-
 export type RegistrationForm = {
-  id: bigint;
+  id: number;
   isRegistrationComplete: boolean | null;
   registrationFormType: string | null;
   secret: string | null;
@@ -46,9 +44,9 @@ export type RegistrationForm = {
   lessonTime: number | null;
   packageSize: number | null;
 
-  orderTotal: Decimal | null;
-  lessonCostBeforeDiscount: Decimal | null;
-  packageDiscount: Decimal | null;
+  orderTotal: number | null;
+  lessonCostBeforeDiscount: number | null;
+  packageDiscount: number | null;
 
   lessonFrequency: number | null;
   customerWouldLikeToBegin: string | null;
@@ -72,24 +70,29 @@ export type RegistrationForm = {
   validatedPromoCode: string | null;
   freeLessons: number | null;
   paidLessons: number | null;
-  promoDiscount: Decimal | null;
-  upsell_from: bigint | null;
+  promoDiscount: number | null;
+  upsell_from: number | null;
 
   hasStudentsAboveThreeYearsOld: boolean | null;
 
   eligibleLsg: boolean | null;
 
-  basePay: Decimal | null;
-  totalBasePay: Decimal | null;
+  basePay: number | null;
+  totalBasePay: number | null;
 
   doWeHaveSIWithPool: boolean | null;
   canWeServe: boolean | null;
-  additionalPayForSI: Decimal | null;
-  premiumAreaFee: Decimal | null;
+  additionalPayForSI: number | null;
+  premiumAreaFee: number | null;
 
   registrationDate: string | null;
 
   stripeToken: string | null;
 
   canWeServeText: string | null;
+
+  lg1Signed: boolean | null;
+  lg1SigningDate: string | null;
+
+  ad_call: string | null;
 };

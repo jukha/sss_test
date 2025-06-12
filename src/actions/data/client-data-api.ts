@@ -1,15 +1,15 @@
 import { instructorsClientApi } from '@/actions/data/instructors';
-import { unservicedLeadsClientApi } from '@/actions/data/unserviced_leads';
-import { registrationStepClientApi } from '@/actions/data/registration_step';
-import { registrationClientApi } from '@/actions/data/registration';
+import { reviewsClientApi } from './customer_reviews';
 import { locationCityPageClientApi } from './location_city_page';
+import { blogsClientApi } from './blogs';
+import { groupedLessonsPricingClientApi } from './grouped_lessons_pricing';
 
 const clientDataApi = {
+  customerReviews: reviewsClientApi,
   instructors: instructorsClientApi,
+  groupedLessonsPricing: groupedLessonsPricingClientApi,
   locationCityPage: locationCityPageClientApi,
-  unservicedLeads: unservicedLeadsClientApi,
-  registrationStep: registrationStepClientApi,
-  registration: registrationClientApi,
+  blogs: blogsClientApi,
 };
 
 export default clientDataApi;

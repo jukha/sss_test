@@ -8,8 +8,7 @@ import GoBackTextButton from '../../shared/GoBackTextButton';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import { useState } from 'react';
 import clsx from 'clsx';
-import clientDataApi from '@/actions/data/client-data-api';
-import validateEmailApi from '@/actions/email_validation/client-data-api';
+import { apiClient } from '@/api_client/api.client';
 
 type ErrorType = 'outsideArea' | 'noPools';
 
@@ -66,7 +65,7 @@ const RegistrationForm1Error: React.FC<Props> = ({
       return false;
     }
 
-    const validationResult = await validateEmailApi.validateOneEmail(email);
+    const validationResult = (await apiClient.emailValidation.validateSingle(email)).data;
 
     if (!validationResult.isValid) {
       setError('email', {type: 'custom', message: validationResult.errorMessage});
@@ -86,7 +85,7 @@ const RegistrationForm1Error: React.FC<Props> = ({
         return;
       }
 
-      await clientDataApi.unservicedLeads.create({email: data.email!, zip: registrationForm?.zip || ''})
+      await apiClient.notifyMe.notify({email: data.email!, zip: registrationForm?.zip || ''});
       setSending(false);
       setShowSuccessMessage(true);
 

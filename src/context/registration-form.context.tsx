@@ -5,7 +5,13 @@ import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import { findNextStep, findPreviousStep } from '@/app/(registration)/registration/logic/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { validateFormStep } from '@/app/(registration)/registration/logic/validation';
-export interface RegistrationFormContextType {
+
+type SetRegistrationStepOptions = {
+  pushToBrowserHistory?: boolean;
+  setPreviousAsCurrent?: boolean;
+}
+
+type RegistrationFormContextType = {
   registrationForm: RegistrationForm | null;
   setRegistrationForm: (form: RegistrationForm) => void;
 
@@ -16,7 +22,7 @@ export interface RegistrationFormContextType {
 
   previousRegistrationStep?: RegistrationStepEnum;
   registrationStep: RegistrationStepEnum;
-  setRegistrationStep: (step: RegistrationStepEnum, pushToBrowserHistory?: boolean) => void;
+  setRegistrationStep: (step: RegistrationStepEnum, options?: SetRegistrationStepOptions) => void;
   switchToNextStep: () => void;
   switchToPreviousStep: () => void;
 
@@ -61,6 +67,46 @@ const pushStepToBrowserHistory = (stepForReturn?: RegistrationStepEnum) => {
   window.history.pushState({ stepForReturn }, '');
 };
 
+
+const CONTROLLED_FIELDS_CLEAR_PACKAGE_SELECTION = [
+  'studentsCount',
+  'studentAge1',
+  'studentAge2',
+  'studentAge3',
+  'studentAge4',
+  'studentAge5',
+  'studentAge6',
+];
+
+const setRegistrationFormControlledFields = <FieldName extends keyof RegistrationForm>({
+  fieldName,
+  fieldValue,
+  previousState,
+  newState,
+} : {
+  fieldName: FieldName,
+  fieldValue: RegistrationForm[FieldName],
+  previousState: RegistrationForm,
+  newState: RegistrationForm,
+}) => {
+  if (!previousState || !newState) {
+    return;
+  }
+
+  if (!CONTROLLED_FIELDS_CLEAR_PACKAGE_SELECTION.includes(fieldName)) {
+    return;
+  }
+
+  if (previousState[fieldName] == fieldValue) {
+    return;
+  }
+
+  newState.lessonType = null;
+  newState.lessonTime = null;
+  newState.packageSize = null;
+};
+
+
 export const RegistrationFormProvider = ({ children }: Props) => {
   const [previousRegistrationStep, setPreviousRegistrationStep] = useState<RegistrationStepEnum>();
 
@@ -71,13 +117,12 @@ export const RegistrationFormProvider = ({ children }: Props) => {
   const [isLessonPackageSizeUpgradeDeclined, setIsLessonPackageSizeUpgradeDeclined] = useState(false);
   const [forcePreviousStep, setForcePreviousStep] = useState<RegistrationStepEnum | undefined>();
 
-  const setRegistrationStep = (step: RegistrationStepEnum, pushToBrowserHistory?: boolean) => {
+  const setRegistrationStep = (step: RegistrationStepEnum, options?: SetRegistrationStepOptions) => {
     clearRegistrationErrors();
     internalSetRegistrationStep(step);
 
-    if (pushToBrowserHistory) {
-      pushStepToBrowserHistory(registrationStep);
-    }
+    if (options?.pushToBrowserHistory) pushStepToBrowserHistory(registrationStep);
+    if (options?.setPreviousAsCurrent) setPreviousRegistrationStep(registrationStep);
   };
 
   const switchToNextStep = () => {
@@ -150,31 +195,25 @@ export const RegistrationFormProvider = ({ children }: Props) => {
     setRegistrationErrorsText(null);
   };
 
+
   const setRegistrationFormField = <FieldName extends keyof RegistrationForm>(
     fieldName: FieldName,
     fieldValue: RegistrationForm[FieldName]
   ) => {
-    setRegistrationForm((v) => {
-      if (!v) return v;
-      return { ...v, [fieldName]: fieldValue };
+    setRegistrationForm((previousState) => {
+      if (!previousState) {
+        return previousState;
+      }
+
+      const newState = { ...previousState };
+      newState[fieldName] = fieldValue;
+      setRegistrationFormControlledFields({ fieldName, fieldValue, previousState, newState });
+
+      return newState;
     });
 
     clearFieldRegistrationErrors(fieldName);
   };
-
-  useEffect(() => {
-    setRegistrationFormField('lessonType', null);
-    setRegistrationFormField('lessonTime', null);
-    setRegistrationFormField('packageSize', null);
-  }, [
-    registrationForm?.studentsCount,
-    registrationForm?.studentAge1,
-    registrationForm?.studentAge2,
-    registrationForm?.studentAge3,
-    registrationForm?.studentAge4,
-    registrationForm?.studentAge5,
-    registrationForm?.studentAge6,
-  ]);
 
   useEffect(() => {
     setFormVersion(registrationForm?.version || 1);

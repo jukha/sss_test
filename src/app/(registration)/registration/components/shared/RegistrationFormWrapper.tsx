@@ -14,13 +14,16 @@ import RegistrationForm3 from '../steps/step3/RegistrationForm3';
 import RegistrationForm5 from '../steps/step5/RegistrationForm5';
 import RegistrationForm6 from '../steps/step6/RegistrationForm6';
 import RegistrationForm7 from '../steps/step7/RegistrationForm7';
-import OrderConfirmed from './OrderConfirmed';
+import RegistrationForm7OrderConfirmed from '../steps/step7OrderConfirmed/RegistrationForm7OrderConfirmed';
 import { useRegistrationForm } from '@/context/registration-form.context';
 import { validateFormField, validateFormStep } from '../../logic/validation';
 import { OnFieldFocusLostHandlerFunction } from '../../types';
-import clientDataApi from '@/actions/data/client-data-api';
 import RegistrationForm4_1 from '@/app/(registration)/registration/components/steps/step4/step4_1/RegistrationForm4_1';
 import RegistrationForm4_2 from '@/app/(registration)/registration/components/steps/step4/step4_2/RegistrationForm4_2';
+import { useLocationsAndPricing } from '@/context/locations-and-prices.context';
+import { extractLocationMetroArea } from '../../logic/utils/lesson-package/extract-location-data';
+import { generateCanWeServeText } from '../../logic/utils/lesson-package/generate-can-we-serve-text';
+import { apiClient } from '@/api_client/api.client';
 
 type Props = {
   databaseId: string;
@@ -31,6 +34,7 @@ type Props = {
 const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
   const {
     registrationForm,
+    setRegistrationFormField,
     registrationStep,
     setRegistrationStep,
     switchToNextStep,
@@ -43,8 +47,46 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
     forcePreviousStep,
     setForcePreviousStep,
   } = useRegistrationForm();
+  const { data } = useLocationsAndPricing()
+  const { zip, customerHasAccessToPool, isRegistrationComplete } = registrationForm ?? {}
+
   const formTopElementRef = useRef<HTMLImageElement >(null)
   const formScrollableWrapperRef = useRef<HTMLDivElement>(null);
+
+  const metroArea = extractLocationMetroArea({
+    zip,
+    zipCodesServiced: data?.zipCodesServiced,
+    metroAreas: data?.metroAreas,
+  });
+
+  const injectCanWeServeTextValue = () => {
+    // always get actual text, because isRegistrationComplete actual only on submit
+    const canWeServeText = generateCanWeServeText({
+      isRegistrationComplete: isRegistrationComplete,
+      doWeHaveSIWithPool: metroArea?.haveSIWithPool,
+      serviceAvailable: metroArea?.serviceAvailable,
+      customerHasAccessToPool: customerHasAccessToPool,
+    })
+
+    // update if need it somewhere else on next step
+    setRegistrationFormField('canWeServeText', canWeServeText);
+
+    return canWeServeText;
+  }
+
+  const sendRegistrationFormToServer = async () => {
+    setFormVersion(formVersion + 1);
+
+    await apiClient.registration.step.create({
+      registrationIdentifier: {
+        id: databaseId,
+        secret: secret,
+        formTypeId: formId
+      },
+      version: formVersion,
+      data: { ...registrationForm!, canWeServeText: injectCanWeServeTextValue() },
+    });
+  }
 
   const onNextClicked = async (options?: { shouldNotSwitchToNextStep?: boolean }) => {
     const validationErrors = validateFormStep(registrationForm, registrationStep);
@@ -56,22 +98,11 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       setRegistrationErrors({});
     }
 
-    setFormVersion(formVersion + 1);
-
     if (options?.shouldNotSwitchToNextStep !== true) {
       switchToNextStep();
     }
 
-    await clientDataApi.registrationStep.create({version: formVersion})({
-      registrationIdentifier: {
-        id: databaseId,
-        secret: secret,
-        formTypeId: formId
-      },
-      version: formVersion,
-      step: registrationStep,
-      data: registrationForm!,
-    })
+    await sendRegistrationFormToServer();
   };
 
   const onPreviousClicked = async () => {
@@ -82,21 +113,7 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       switchToPreviousStep();
     }
 
-    const validationErrors = validateFormStep(registrationForm, registrationStep);
-    if (validationErrors) return;
-
-    setFormVersion(formVersion + 1);
-
-    await clientDataApi.registrationStep.create({version: formVersion})({
-      registrationIdentifier: {
-        id: databaseId,
-        secret: secret,
-        formTypeId: formId
-      },
-      version: formVersion,
-      step: registrationStep,
-      data: registrationForm!,
-    })
+    await sendRegistrationFormToServer();
   };
 
   function buildOnFieldFocusLostHandler(fieldName: keyof RegistrationForm): OnFieldFocusLostHandlerFunction {
@@ -158,7 +175,9 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
         buildOnFieldFocusLostHandler={buildOnFieldFocusLostHandler}
       />
     ),
-    [RegistrationStepEnum.Step7OrderConfirmed]: <OrderConfirmed />,
+    [RegistrationStepEnum.Step7OrderConfirmed]: (
+      <RegistrationForm7OrderConfirmed />
+    ),
   };
 
   useEffect(() => {
@@ -182,12 +201,15 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
         isNavigationAllowed={isNavigationAllowed(registrationStep)}
         steps={circleNavigationBarSteps}
         currentStep={registrationStep}
-        setStep={(step) => setRegistrationStep(step, true)}
+        setStep={async (step) => {
+          setRegistrationStep(step, { pushToBrowserHistory: true, setPreviousAsCurrent: true });
+          await sendRegistrationFormToServer();
+        }}
         availableMaxStep={forcePreviousStep}
       />
       <div className='flex flex-col items-center w-full h-full bg-white pt-[50px] pb-16 rounded-[16px] px-[25px] desktop:pt-[65px]'>
-        <div 
-          ref={formScrollableWrapperRef} 
+        <div
+          ref={formScrollableWrapperRef}
           className='w-full pb-6 desktop:max-w-[590px] desktop:px-[71px] desktop:min-h-[100%] overflow-y-auto overflow-x-hidden smallScroll'
         >
           {formsToRender[registrationStep]}

@@ -1,7 +1,8 @@
 import { PackagePriceTier } from '@/__generated__/prisma';
 import { PackagePriceTierEntity } from '@/entities/package-price-tier.entity';
+import { IEntityBuilder } from './entity-builder.interface';
 
-export class PackagePriceTierEntityBuilder {
+export class PackagePriceTierEntityBuilder implements IEntityBuilder<PackagePriceTier, PackagePriceTierEntity> {
   build(plainEntity: PackagePriceTier, customMapper?: (x: PackagePriceTier, y: PackagePriceTierEntity) => void): PackagePriceTierEntity {
     const dto: PackagePriceTierEntity = {
       id: plainEntity.id,

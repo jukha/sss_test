@@ -5,4 +5,5 @@ export type MetroAreaEntity = {
   packagePriceTierId: number | null;
   haveSIWithPool: boolean | null;
   serviceAvailable: boolean | null;
+  matchRate30Day: number | null;
 };

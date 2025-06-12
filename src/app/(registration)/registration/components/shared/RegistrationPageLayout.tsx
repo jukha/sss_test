@@ -12,20 +12,18 @@ import Image from 'next/image';
 import CollapsibleList, { CollapsibleListItem } from './CollapsedList';
 import { useLocationsAndPricing } from '@/context/locations-and-prices.context';
 import { useEffect } from 'react';
-import { Prisma } from '@/__generated__/prisma';
 import { extractStudentAges } from '../../logic/utils/lesson-package/extract-students-data';
 import { generateLessonPackageSelectionOptions } from '../../logic/utils/lesson-package/lesson-packages-selection';
 import {
   extractLocationMetroArea,
   extractLocationPackages,
-  extractLocationPricing,
+  extractLocationPricing
 } from '../../logic/utils/lesson-package/extract-location-data';
 import {
   extractContactDetails,
-  generateLessonPackageSummary,
+  generateLessonPackageSummary
 } from '../../logic/utils/lesson-package/lesson-packages-summary';
 import { LessonType } from '@/entities/lesson-package.entity';
-import { generateCanWeServeText } from '../../logic/utils/lesson-package/generate-can-we-serve-text';
 
 const additionalCardsData = [
   { text: 'Thousands of 5-star reviews ', image: fiveStar },
@@ -104,7 +102,6 @@ const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId })
     freeLessons,
     upsell_from,
     customerHasAccessToPool,
-    isRegistrationComplete,
   } = registrationForm ?? {};
   const { data } = useLocationsAndPricing();
 
@@ -156,15 +153,15 @@ const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId })
   const contactDetails = extractContactDetails(registrationForm);
 
   useEffect(() => {
-    setRegistrationFormField('orderTotal', lessonPackageSummary.orderTotal as unknown as Prisma.Decimal);
-    setRegistrationFormField('lessonCostBeforeDiscount', lessonPackageSummary.lessonPrice as unknown as Prisma.Decimal);
+    setRegistrationFormField('orderTotal', lessonPackageSummary.orderTotal);
+    setRegistrationFormField('lessonCostBeforeDiscount', lessonPackageSummary.lessonPrice);
     setRegistrationFormField(
       'packageDiscount',
-      lessonPackageSummary.lessonDiscountPercent as unknown as Prisma.Decimal
+      lessonPackageSummary.lessonDiscountPercent
     );
 
-    setRegistrationFormField('basePay', lessonPackageSummary.basePay as unknown as Prisma.Decimal);
-    setRegistrationFormField('totalBasePay', lessonPackageSummary.totalBasePay as unknown as Prisma.Decimal);
+    setRegistrationFormField('basePay', lessonPackageSummary.basePay);
+    setRegistrationFormField('totalBasePay', lessonPackageSummary.totalBasePay);
   }, [
     lessonPackageSummary.orderTotal,
     lessonPackageSummary.lessonDiscountPercent,
@@ -179,21 +176,10 @@ const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId })
 
     setRegistrationFormField('doWeHaveSIWithPool', haveSIWithPool);
     setRegistrationFormField('canWeServe', canWeServe);
-
-    setRegistrationFormField(
-      'canWeServeText',
-      generateCanWeServeText({
-        isRegistrationComplete: isRegistrationComplete,
-        doWeHaveSIWithPool: metroArea?.haveSIWithPool,
-        serviceAvailable: metroArea?.serviceAvailable,
-        customerHasAccessToPool: customerHasAccessToPool,
-      })
-    );
   }, [
     customerHasAccessToPool,
     metroArea?.haveSIWithPool,
     metroArea?.serviceAvailable,
-    isRegistrationComplete,
   ]);
 
   useEffect(() => {
@@ -234,7 +220,7 @@ const RegistrationPageLayout: React.FC<Props> = ({ databaseId, secret, formId })
         </div>
 
         {/* right */}
-        <div className='relative bg-yellow pt-16 px-2 desktop:w-[45%] desktop:px-6 desktop:pt-[185px] desktop:mt-0 desktop:h-full desktop:overflow-y-auto desktop:pb-14 orangeScroll mobile:mb-[6px]'>
+        <div className='relative bg-yellow pt-16 pb-8 px-2 desktop:w-[45%] desktop:px-6 desktop:pt-[185px] desktop:mt-0 desktop:h-full desktop:overflow-y-auto desktop:pb-14 orangeScroll mobile:mb-[6px]'>
           <div className='absolute left-0 top-0 w-full -translate-y-[90%] desktop:hidden'>
             <Wave className='text-yellow w-full h-full' />
           </div>

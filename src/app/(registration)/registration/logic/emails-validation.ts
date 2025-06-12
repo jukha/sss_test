@@ -1,6 +1,6 @@
 import { RegistrationForm } from '@/entities/registration-form.entity';
-import validateEmailApi, { ValidationRecord } from '@/actions/email_validation/client-data-api';
-
+import { ValidationRecord } from '@/utils/email-validation';
+import { apiClient } from '@/api_client/api.client';
 
 const extractValidationErrors = (validationResults: ValidationRecord[]) => {
   const errors = {};
@@ -44,7 +44,7 @@ export const validateUserAndGuardiansEmails = async (registrationForm: Registrat
     }
   }
 
-  const validationResults = await validateEmailApi.validateEmailsMap(emailsByField);
+  const validationResults = (await apiClient.emailValidation.validateMap(emailsByField)).data;
   // console.log('validationResults', validationResults);
 
   const errors = extractValidationErrors(validationResults);
