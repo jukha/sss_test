@@ -26,11 +26,12 @@ import { extractStudentAges } from '../../../logic/utils/lesson-package/extract-
 import { extractPackageForUpgrade } from '../../../logic/utils/lesson-package/extract-package-for-upgrade';
 import { isEveryoneAdults } from '../../../logic/is-everyone-adults';
 import { CustomCheckbox } from '../../shared/CustomCheckbox';
+import { ErrorMessagesEnum } from '@/enum/error-messages.enum';
 
 const POLICY_URL = 'https://legal-docs-public.s3.us-west-2.amazonaws.com/Swim+Lesson+Agreement+2023_website.pdf';
 
 type Props = {
-  onNextClicked: () => void;
+  onNextClicked: (options?: { awaitBeforeSwitchToNextStep?: boolean }) => Promise<void>;
   onPreviousClicked: () => void;
   buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
 };
@@ -112,10 +113,17 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
   const elements = useElements();
   const stripe = useStripe();
 
+  const showPaymentError = () => {
+    const genericErrorMessage = 'An unexpected error has occured. Pls, try again.';
+
+    setPaymentErrorText(genericErrorMessage);
+    setIsProcessingPayment(false);
+  }
+
   const handlePayAndConfirmClick = async () => {
     setPaymentErrorText(null);
     setIsProcessingPayment(true);
-    const genericErrorMessage = 'An unexpected error has occured. Pls, try again.';
+
     try {
       let hasError = false;
       let validationErrors = validateFormStep(registrationForm, registrationStep);
@@ -123,8 +131,8 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
       if (shouldShowYoungsterPoliciesAgreementCheckbox && !registrationForm?.youngstersPoliciesAgreement) {
         if (!validationErrors) {
           validationErrors = {}
-        } 
-        validationErrors['youngstersPoliciesAgreement'] = "Required"
+        }
+        validationErrors['youngstersPoliciesAgreement'] = ErrorMessagesEnum.Check
       }
 
       if (validationErrors) {
@@ -134,27 +142,15 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
         setRegistrationErrors({});
       }
 
-      if (elements == null) {
-        setPaymentErrorText(genericErrorMessage);
-        setIsProcessingPayment(false);
-        return;
-      }
-
-      if (stripe == null) {
-        setPaymentErrorText(genericErrorMessage);
-        setIsProcessingPayment(false);
-        return;
-      }
-
-      if (registrationForm == null) {
-        setPaymentErrorText(genericErrorMessage);
-        setIsProcessingPayment(false);
+      if (elements == null || stripe == null || registrationForm == null) {
+        showPaymentError();
         return;
       }
 
       console.log('starting validation...');
       const paymentMethodValidationResult = await elements.submit();
       console.log('PaymentMethod validation: ', paymentMethodValidationResult);
+
       if (paymentMethodValidationResult == null || paymentMethodValidationResult?.error) {
         console.log("Couldn't validate payment method.");
         console.log(paymentMethodValidationResult?.error?.message);
@@ -166,25 +162,18 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
         return;
       }
 
-      const paymentMethodRegistrationResult = await stripe.createPaymentMethod({
-        elements,
-      });
+      const paymentMethodRegistrationResult = await stripe.createPaymentMethod({ elements, });
+
       console.log('Payment method registration: ', paymentMethodRegistrationResult);
-      if (paymentMethodRegistrationResult == null) {
+
+      if (paymentMethodRegistrationResult == null || paymentMethodRegistrationResult.paymentMethod == null) {
         console.log("Couldn't register payment method.");
-        setPaymentErrorText(genericErrorMessage);
-        setIsProcessingPayment(false);
+        showPaymentError();
         return;
       }
 
-      if (paymentMethodRegistrationResult.paymentMethod == null) {
-        console.log("Couldn't register payment method.");
-        setPaymentErrorText(genericErrorMessage);
-        setIsProcessingPayment(false);
-        return;
-      }
       setRegistrationFormField('stripeToken', paymentMethodRegistrationResult.paymentMethod.id)
-      
+
       const finalResult = await createCustomerAndAttachPaymentMethod({
         firstName: registrationForm.firstName!,
         lastName: registrationForm.lastName!,
@@ -192,23 +181,21 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
         orderId: `${registrationForm.id}`,
         paymentMethodId: paymentMethodRegistrationResult.paymentMethod.id,
       });
+
       console.log('Customer creation and payment method attaching: ', finalResult);
 
       if (!finalResult?.success) {
         console.log("Couldn't create customer or attach payment method.");
-        setPaymentErrorText(genericErrorMessage);
-        setIsProcessingPayment(false);
+        showPaymentError();
         return;
       }
 
       setRegistrationFormField('isRegistrationComplete', true);
 
       setTriggerNextClick(true)
-      setIsProcessingPayment(false);
     } catch (err) {
       console.log(err);
-      setPaymentErrorText(genericErrorMessage);
-      setIsProcessingPayment(false);
+      showPaymentError();
     }
   };
 
@@ -222,7 +209,7 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
     paymentMethodOrder: ['applePay', 'googlePay', 'card'],
   };
 
-  const handleAquaticLines2CheckboxChange = (checked:boolean) => {
+  const handleAquaticLines2CheckboxChange = (checked: boolean) => {
     setRegistrationFormField('ad_call', checked ? 'yes' : 'no')
   }
 
@@ -258,7 +245,7 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
         lg1Signed = true
         lg1SigningDate = new Date().toISOString()
       }
-    } 
+    }
 
     setRegistrationFormField('lg1Signed', lg1Signed)
     setRegistrationFormField('lg1SigningDate', lg1SigningDate)
@@ -271,11 +258,13 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
   }, [shouldShowAquaticsLines2Checkbox])
 
   useEffect(() => {
-    if (triggerNextClick) {
-      onNextClicked();
-      setTriggerNextClick(false)
-    }
-  },[triggerNextClick])
+    if (!triggerNextClick) return;
+
+    onNextClicked({ awaitBeforeSwitchToNextStep: true })
+      .finally(() => setIsProcessingPayment(false));
+
+    setTriggerNextClick(false);
+  }, [triggerNextClick])
 
   return (
     <div className='flex flex-col gap-8 desktop:gap-6'>
@@ -350,14 +339,14 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
       <PaymentElement options={options} />
 
       <div className='flex flex-col gap-4 desktop:flex-row desktop:gap-6'>
-      <Image src={accreditedBusinessLogo} alt='' className='w-[200px] h-[60px]' />
-      <p className='w-[270px] flex items-start px-4 py-2 bg-lightGray rounded-lg text-xs font-medium leading-[1.2]'>
-      🔒&nbsp;
-      <span>View our privacy policy for more information on how we securely collect and store your data</span>
-      </p>
+        <Image src={accreditedBusinessLogo} alt='' className='w-[200px] h-[60px]' />
+        <p className='w-[270px] flex items-start px-4 py-2 bg-lightGray rounded-lg text-xs font-medium leading-[1.2]'>
+          🔒&nbsp;
+          <span>View our privacy policy for more information on how we securely collect and store your data</span>
+        </p>
       </div>
 
-      { policiesAgreement && (
+      {policiesAgreement && (
         <CustomInput
           text='Have you been helped by a Sunsational representative?'
           name='haveCustomerBeenHelpedBy'
@@ -379,7 +368,7 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
         </label>
       }
 
-      {registrationErrorsText && <AlertBox type='error' text={registrationErrorsText} />}
+      {registrationErrorsText && <AlertBox type='error' text={<div className='whitespace-pre-line'>{registrationErrorsText}</div>} />}
 
       {paymentErrorText && <AlertBox type='error' text={paymentErrorText} />}
 
@@ -388,7 +377,7 @@ const RegistrationForm7Internals: React.FC<Props> = ({ onNextClicked, onPrevious
           <CustomCurveButton
             onClick={handlePayAndConfirmClick}
             disabled={isProcessingPayment || !elements || !stripe}
-            text={isProcessingPayment ? 'Processing...' : 'Pay & Confirm'}
+            text={isProcessingPayment ? 'Processing...' : 'Register!'}
             icon={blackArrow}
           />
         </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import PrivateVsGroupLessonsSection from '../city/common/PrivateVsGroupLessonsSection';
-import CustomerReviewsSection from '@/components/sections/CustomerReviewsSection';
 import TopSwimmingLessonsSection from '@/components/sections/TopSwimmingLessonsSection';
 import SkillLevelsSection from '@/components/sections/SkillLevelsSection';
 import WhatMakesOurInstructorsSection from '@/components/sections/WhatMakesOurInstructorsSection';
@@ -16,6 +15,7 @@ import DrowningIsPreventableSection from './components/DrowningIsPreventableSect
 import WhyAllLovePrivateLessonsSection from './components/WhyAllLovePrivateLessonsSection';
 import WhoBenefitMostFromPrivateLessonSection from './components/WhoBenefitMostFromPrivateLessonSection';
 import StackedSections from '@/components/layout/StackedSections';
+import { ServerCustomerReviewsSection } from '@/components/sections/customer_reviews';
 
 const PrivateSwimLessons = () => {
   return (
@@ -27,9 +27,11 @@ const PrivateSwimLessons = () => {
         <PrivateVsGroupLessonsSection />
         <StackedSections>
           {/* Why our students and parents love us - section */}
-          <CustomerReviewsSection
+          <ServerCustomerReviewsSection
+            designation='private'
             heading='Why our students and parents love us'
             description='Check out our 4.9 rating out of 1852 reviews'
+            hideButton={true}
           />
           {/* Why are one-on-one lessons more effective for water safety? - Section */}
           <WhyOneOnOneLessonsSection />

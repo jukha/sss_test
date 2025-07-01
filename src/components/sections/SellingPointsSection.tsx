@@ -55,7 +55,7 @@ const SellingPointsSection: React.FC<SellingPointsSectionType> = ({
         </div>
       </FlexWrapper>
       <div className='flex justify-center'>
-        <ArrowButton {...finalArrowProps} />
+        <ArrowButton {...finalArrowProps} shadow={true}/>
       </div>
     </section>
   );

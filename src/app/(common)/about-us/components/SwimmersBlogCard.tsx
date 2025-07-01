@@ -1,26 +1,32 @@
 import Typography from '@/components/semantics/Typography';
-import Image, { StaticImageData } from 'next/image';
+import { BlogRecordEntity } from '@/entities/blog-record.entity';
+import Image from 'next/image';
 import React from 'react';
 
-type Blog = {
-  category: string;
-  title: string;
-  description: string;
-  img: StaticImageData;
-}
+type SwimmersBlogCardProps = {
+  blog: BlogRecordEntity;
+};
 
-const SwimmersBlogCard = ({ blog }: { blog: Blog }) => {
+const SwimmersBlogCard = ({ blog }: SwimmersBlogCardProps) => {
   return (
     <>
-      <div className=''>
-        <Image alt={`Image for blog: ${blog.title}`} src={blog.img} />
-      </div>
+      {blog.featuredImage && (
+        <div>
+          <Image
+            src={blog.featuredImage}
+            width={360}
+            height={230}
+            alt={`Image for blog: ${blog.title}`}
+          />
+        </div>
+      )}
+
       <div className='flex flex-col'>
         <Typography
           variant='custom'
           className='text-[13px] md:text-[14px] font-secondary font-bold leading-[120%] text-start text-offBlack mb-1'
         >
-          {blog.category}
+          {blog.categories[0].name}
         </Typography>
         <Typography
           variant='custom'
@@ -32,7 +38,7 @@ const SwimmersBlogCard = ({ blog }: { blog: Blog }) => {
           variant='custom'
           className='text-[14px] md:text-[16px] font-secondary font-medium text-start text-offBlack leading-[120%]'
         >
-          {blog.description}
+          {blog.body}
         </Typography>
       </div>
     </>

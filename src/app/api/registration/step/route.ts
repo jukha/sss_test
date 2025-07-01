@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { RegistrationRecordIdentifier } from '@/app/api/registration/utils/types';
 import createRegistrationStep from '@/repositories/registration_step/create.registration-step';
+import {
+  extractRegistrationIdentifierFromRequest
+} from '@/app/api/registration/helpers/extract-registration-identifier';
 
 const versionHeaderIsValid = (versionStr: string) => {
   const version = Number(versionStr);
@@ -10,25 +12,23 @@ const versionHeaderIsValid = (versionStr: string) => {
 export const POST = async (req: NextRequest) => {
   const data = await req.json();
 
-  const registrationId = req.headers.get('X-Registration-Id');
-  const secret = req.headers.get('X-Registration-Secret');
-  const formTypeId = req.headers.get('X-Form-TypeId');
+  const registrationIdentifier = extractRegistrationIdentifierFromRequest(req);
 
-  if (!registrationId || !secret || !formTypeId) {
+  if (!registrationIdentifier) {
     return NextResponse.json({ error: 'Registration identifier headers are incomplete' }, { status: 400 });
   }
 
+  const sendWebhook = req.nextUrl.searchParams.get('sendWebhook') === 'true';
   const formVersion = req.headers.get('X-Version');
 
   if (!formVersion || !versionHeaderIsValid(formVersion)) {
     return NextResponse.json({ error: 'Form version header was not provided, or it is incorrect' }, { status: 400 });
   }
 
-  const registrationIdentifier: RegistrationRecordIdentifier = { id: registrationId, secret: secret, formTypeId: formTypeId };
-
   const registrationRecord = await createRegistrationStep({
     data,
     registrationIdentifier,
+    sendWebhook,
     version: Number(formVersion),
   });
 

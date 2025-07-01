@@ -1,21 +1,26 @@
 import ServiceLocationsSection from '@/components/sections/ServiceLocationsSection';
 import LocationsListSection from '@/components/sections/LocationsListSection';
 import BlogHero from './components/HeroBlog';
-import FeaturedArticleSection from './components/FeaturedArticleSection';
-import BrowseArticlesSection from './components/BrowseArticlesSection';
-import PopularTopicsSection from './components/PopularTopicsSection';
+import { ServerFeaturedArticleSection } from './components/featured-article-section';
+import { ServerBrowseArticlesSection } from './components/browse-articles-section';
+import { ServerPopularTopicsSection } from './components/popular-topics-section';
+import { BlogRecordsProvider } from '@/context/blogs.context';
+import SearchResultsSection from './components/SearchResultsSection';
 
 export default function Pricing() {
   return (
     <div>
       <main className='flex flex-col'>
-        <BlogHero />
+        <BlogRecordsProvider>
+          <BlogHero />
+          <SearchResultsSection />
+        </BlogRecordsProvider>
         {/* How to do flutter kicks - section */}
-        <FeaturedArticleSection />
+        <ServerFeaturedArticleSection />
         {/*Popular categories - section */}
-        <PopularTopicsSection /> 
+        <ServerPopularTopicsSection />
         {/*Browse all content - section */}
-        <BrowseArticlesSection />
+        <ServerBrowseArticlesSection />
         {/*Service Locations - Section*/}
         <ServiceLocationsSection />
         <LocationsListSection />

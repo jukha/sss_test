@@ -4,9 +4,9 @@ import ServiceLocationsSection from '@/components/sections/ServiceLocationsSecti
 import TopSwimmingLessonsSection from '@/components/sections/TopSwimmingLessonsSection';
 import AreasWeServiceHero from './components/AreasWeServiceHero';
 import GetSwimLessonsNearSection from './components/GetSwimLessonsNearSection';
-import CustomerReviewsSection from '@/components/sections/CustomerReviewsSection';
 import { BackgroundCircles } from '@/components/decoration';
 import PrivateSwimLessonBenefitsSection from './components/PrivateSwimLessonBenefitsSection';
+import { ServerCustomerReviewsSection } from '@/components/sections/customer_reviews';
 
 export default function AreasWeService() {
   return (
@@ -27,8 +27,9 @@ export default function AreasWeService() {
       {/* Popular Swimming Lesson Programs - Section */}
       <TopSwimmingLessonsSection />
       {/* Thousands of Five Star Reviews and counting! - Section */}
-      <CustomerReviewsSection
+      <ServerCustomerReviewsSection
         bgDecorationIcon=''
+        hideButton={true}
         bgColor='var(--color-lightBlue)'
         decorationIconLeft={<BackgroundCircles />}
         decorationIconLeftClasses='absolute lg:w-[803px] lg:scale-[1.5] h-1/2 max-lg:right-0 max-lg:top-[10%] lg:bottom-[15%] lg:left-[7vw]'

@@ -1,13 +1,18 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
 import { FacebookIcon, InstaIcon, LinkedInIcon } from '@/components/icons';
 import { imageSun } from '@/assets';
-import CustomInputForm from '../shapes/CustomInputForm';
 import Typography from '../semantics/Typography';
+import { ZipCodeInput } from '@/components/ZipCodeInput';
+import { useLocalPhoneNumber } from '@/context/phone.context';
 
 const MainFooter = () => {
+  const phoneNumber = useLocalPhoneNumber();
+
   return (
     <div className='relative  flex flex-col lg:flex-row justify-center lg:items-start  gap-[74px] bg-[#FFF9E1] p-[3em] mt-30'>
       <svg
@@ -265,7 +270,7 @@ const MainFooter = () => {
           </p>
           <p className='font-medium text-[#808080] text-xs'>
             Proudly founded in Los Angeles, Headquartered in San Diego & Serving
-            All America Business 1-888-788-2140
+            All America Business {phoneNumber.formatted}
           </p>
         </div>
       </div>
@@ -278,11 +283,7 @@ const MainFooter = () => {
         </Typography>
 
         <div className='relative z-10'>
-          <CustomInputForm
-            placeholder='Your Zip Code'
-            outlineColor='var(--color-orange)'
-            submitText='Submit'
-          />
+          <ZipCodeInput autoNavigate={true} outlineColor='var(--color-orange)'/>
         </div>
         {/* logo */}
         <div className='flex lg:-translate-y-20  items-center justify-start lg:justify-center'>
@@ -297,7 +298,7 @@ const MainFooter = () => {
         </p>
         <p className='font-medium text-[#808080] text-xs'>
           Proudly founded in Los Angeles, Headquartered in San Diego & Serving
-          All America Business 1-888-788-2140
+          All America Business {phoneNumber.formatted}
         </p>
       </div>
 

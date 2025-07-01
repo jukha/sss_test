@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
-        "Sunsational",
+        "embla",
+        "Sunsational"
     ],
     // signle quotes for javascript/typescript in this project
     "prettier.singleQuote": true,

@@ -10,6 +10,7 @@ import { RegistrationForm } from '@/entities/registration-form.entity';
 import { useState } from 'react';
 import { validateFormStep } from '../../../logic/validation';
 import { validateUserAndGuardiansEmails } from '../../../logic/emails-validation';
+import { apiClient } from '@/api_client/api.client';
 
 type Props = {
   onNextClicked: (options?: { shouldNotSwitchToNextStep?: boolean }) => Promise<void>;
@@ -49,7 +50,8 @@ const RegistrationForm3: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
     registrationErrors,
     registrationErrorsText,
   } = useRegistrationForm();
-  const [validating, setValidating] = useState(false);
+  const [validating, setValidating] = useState(false)
+  const [emailsBottomErrors, setEmailsBottomErrors]=useState<Partial<Record<keyof RegistrationForm, string>>>({})
 
   const showAdditionalParentGuardians = !registrationForm?.isCustomerAParentGuardianOfAll;
   const currentUserFullName = `${registrationForm?.firstName ?? ''} ${registrationForm?.lastName ?? ''}`;
@@ -57,38 +59,64 @@ const RegistrationForm3: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
 
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const validationErrors = validateFormStep(registrationForm, registrationStep);
 
-    if (validationErrors) {
-      setRegistrationErrors(validationErrors);
+    if (validationErrors || (registrationErrors && Object.keys(registrationErrors).length !== 0)) {
+      setRegistrationErrors({ ...registrationErrors, ...validationErrors });
       return;
     } else {
       setRegistrationErrors({});
     }
 
+    setValidating(true);
+
     try {
-      setValidating(true);
       const emailValidationErrors = await validateUserAndGuardiansEmails(registrationForm);
-      // console.log('emailValidationErrors:', emailValidationErrors);
 
       if (emailValidationErrors && Object.keys(emailValidationErrors).length) {
         setRegistrationErrors(emailValidationErrors);
-        setValidating(false);
-        //Implement validating e-mail when focus leaves the input.
-        //Implement setting focus to the first erronous e-mail field?
-        //Implement validation on input. when value.endsWith('.com') || value.endsWith('.co') || value.endsWith('.org') || value.endsWith('.net') ?
-        return;
+        // Implement setting focus to the first erronous e-mail field?
       }
-
+    } finally {
       setValidating(false);
-    } catch (err) {
-      setValidating(false);
-      console.log(err);
     }
 
     await onNextClicked();
   };
+
+  const validateSingleEmail = async (fieldName: keyof RegistrationForm, value?: string) => {
+    const email = value ?? (registrationForm?.[fieldName] ?? '') as string
+    if (!email.trim().length || validating) return;
+
+    const { data } = await apiClient.emailValidation.validateSingle(email);
+    if (validating || registrationErrors?.[fieldName] || !data.errorMessage) return;
+
+    if (!data.isValid) {
+      // TODO replace with errors enum
+      setRegistrationErrors({ ...registrationErrors, [fieldName]: 'Invalid E-mail' })
+    } else {
+      // suggest replace mail->gmail etc
+      setEmailsBottomErrors(prev => ({ ...prev, [fieldName]: data.errorMessage }))
+    }
+  }
+
+  const removeEmailBottomError = (fieldName: keyof RegistrationForm) => {
+    setEmailsBottomErrors(prev => ({ ...prev, [fieldName]: '' }))
+  }
+
+  const handleEmailChange = (fieldName: keyof RegistrationForm) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRegistrationFormField(fieldName, e.target.value);
+    removeEmailBottomError(fieldName);
+
+    if (/.*@.*\.(com|co|org|net)$/.test(e.target.value)) {
+      validateSingleEmail(fieldName, e.target.value);
+    }
+  }
+
+  const handleEmailFieldBlur = (fieldName: keyof RegistrationForm) => () => {
+    buildOnFieldFocusLostHandler(fieldName)
+    validateSingleEmail(fieldName)
+  }
 
   return (
     <div className='flex flex-col gap-[34px]'>
@@ -126,10 +154,9 @@ const RegistrationForm3: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
             text='Email Address*'
             icon={mail}
             type='email'
-            onChange={(e) => {
-              setRegistrationFormField('email', e.target.value);
-            }}
-            onBlur={buildOnFieldFocusLostHandler('email')}
+            onChange={handleEmailChange('email')}
+            onBlur={handleEmailFieldBlur('email')}
+            bottomError={emailsBottomErrors.email}
           />
 
           <CustomInput
@@ -169,17 +196,17 @@ const RegistrationForm3: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
                     onNameChange={(e) => {
                       setRegistrationFormField(parentGuardianNameKey, e.target.value);
                     }}
-                    onEmailChange={(e) => {
-                      setRegistrationFormField(parentGuardianEmailKey, e.target.value);
-                    }}
+                    onEmailChange={handleEmailChange(parentGuardianEmailKey)}
                     setName={(value) => {
                       setRegistrationFormField(parentGuardianNameKey, value);
                     }}
                     setEmail={(value) => {
                       setRegistrationFormField(parentGuardianEmailKey, value);
+                      removeEmailBottomError(parentGuardianEmailKey)
                     }}
                     onNameBlur={buildOnFieldFocusLostHandler(parentGuardianNameKey)}
-                    onEmailBlur={buildOnFieldFocusLostHandler(parentGuardianEmailKey)}
+                    onEmailBlur={handleEmailFieldBlur(parentGuardianEmailKey)}
+                    emailBottomError={emailsBottomErrors[parentGuardianEmailKey]}
                   />
                 );
               })}

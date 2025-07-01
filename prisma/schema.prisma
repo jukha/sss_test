@@ -107,52 +107,54 @@ model CustomerRegistration {
   payMultiplier                                     Decimal?                      @db.Decimal(10, 2)
   termsFullName                                     String?                       @db.VarChar(200)
   flexibleSchedule                                  Boolean?
-  customer_registration_record_history              CustomerRegistrationHistory[]
+  is_prefilled_record_expired                       Boolean?
   version                                           Int
+  customer_registration_record_history              CustomerRegistrationHistory[]
 
   @@index([orderId], map: "orderId")
   @@map("customer_registration_records")
 }
 
 model Instructor {
-  id                       BigInt    @id @default(autoincrement())
-  email                    String?   @unique(map: "email") @db.VarChar(150)
-  first_name               String?   @db.VarChar(255)
-  last_name                String?   @db.VarChar(255)
-  profile_pic              String?   @db.Text
-  biography                String?   @db.Text
-  base_address             String?   @db.Text
-  city                     String?   @db.VarChar(200)
-  state                    String?   @db.VarChar(200)
-  zip                      String?   @db.VarChar(200)
-  lat                      Decimal?  @db.Decimal(10, 7)
-  lng                      Decimal?  @db.Decimal(10, 7)
-  certifications           String?   @db.Text
-  featured_feedback_1      String?   @db.Text
-  featured_feedback_2      String?   @db.Text
-  featured_feedback_3      String?   @db.Text
-  exp_infants              String?   @db.VarChar(20)
-  exp_toddlers             String?   @db.VarChar(20)
-  exp_preschoolers         String?   @db.VarChar(20)
-  exp_adults               String?   @db.VarChar(20)
-  exp_special_needs        String?   @db.VarChar(255)
-  activity_status          String?   @db.VarChar(255)
-  location_metro_area_id   String?   @db.VarChar(200)
-  location_metro_area_name String?   @db.VarChar(200)
+  id                       BigInt            @id @default(autoincrement())
+  email                    String?           @unique(map: "email") @db.VarChar(150)
+  first_name               String?           @db.VarChar(255)
+  last_name                String?           @db.VarChar(255)
+  profile_pic              String?           @db.Text
+  biography                String?           @db.Text
+  base_address             String?           @db.Text
+  city                     String?           @db.VarChar(200)
+  state                    String?           @db.VarChar(200)
+  zip                      String?           @db.VarChar(200)
+  lat                      Decimal?          @db.Decimal(10, 7)
+  lng                      Decimal?          @db.Decimal(10, 7)
+  certifications           String?           @db.Text
+  featured_feedback_1      String?           @db.Text
+  featured_feedback_2      String?           @db.Text
+  featured_feedback_3      String?           @db.Text
+  exp_infants              String?           @db.VarChar(20)
+  exp_toddlers             String?           @db.VarChar(20)
+  exp_preschoolers         String?           @db.VarChar(20)
+  exp_adults               String?           @db.VarChar(20)
+  exp_special_needs        String?           @db.VarChar(255)
+  activity_status          String?           @db.VarChar(255)
+  location_metro_area_id   String?           @db.VarChar(200)
+  location_metro_area_name String?           @db.VarChar(200)
   is_public                Boolean?
-  instructor_score         BigInt?   @default(0)
+  instructor_score         BigInt?           @default(0)
   number_of_pools_access   Int?
-  knack_uid                String?   @db.VarChar(200)
-  profile_pic_opt          String?   @db.Text
-  profile_pic_sm           String?   @db.Text
-  profile_pic_sm_opt       String?   @db.Text
-  neighborhood             String?   @db.VarChar(255)
-  profile_img_score        Decimal   @default(0.00) @db.Decimal(3, 2)
-  hired_date               DateTime? @db.Date
-  political_seo_city_name  String?   @db.VarChar(255)
-  last_updated             DateTime? @db.Timestamp(0)
-  created                  DateTime? @db.DateTime(0)
+  knack_uid                String?           @db.VarChar(200)
+  profile_pic_opt          String?           @db.Text
+  profile_pic_sm           String?           @db.Text
+  profile_pic_sm_opt       String?           @db.Text
+  neighborhood             String?           @db.VarChar(255)
+  profile_img_score        Decimal           @default(0.00) @db.Decimal(3, 2)
+  hired_date               DateTime?         @db.Date
+  political_seo_city_name  String?           @db.VarChar(255)
+  last_updated             DateTime?         @db.Timestamp(0)
+  created                  DateTime?         @db.DateTime(0)
   max_driving_range        Int?
+  customer_reviews         CustomerReviews[]
 
   @@index([is_public, activity_status, city, state, biography(length: 10), profile_pic(length: 10), instructor_score], map: "instructor_city_state_score")
   @@index([is_public, activity_status], map: "instructor_is_public")
@@ -162,24 +164,20 @@ model Instructor {
 }
 
 model LocationCityPage {
-  id                    Int                   @id @default(autoincrement())
-  name                  String                @db.VarChar(255)
-  metro_area_id         Int
-  metro_area_name       String?               @db.VarChar(255)
-  state_id              Int
-  state_abbreviation    String                @db.VarChar(2)
-  neighborhood_id       Int?
-  neighborhood_name     String?               @db.VarChar(255)
-  serve_page            Boolean?              @default(true)
-  lat                   Decimal?              @db.Decimal(10, 7)
-  lng                   Decimal?              @db.Decimal(10, 7)
-  template_id           Int?
-  location_metro_area   LocationMetroArea     @relation(fields: [metro_area_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_city_page_ibfk_1")
-  location_state        LocationState         @relation(fields: [state_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_city_page_ibfk_2")
-  location_neighborhood LocationNeighborhood? @relation(fields: [neighborhood_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_city_page_ibfk_3")
+  id                  Int               @id @default(autoincrement())
+  name                String            @db.VarChar(255)
+  metro_area_id       Int
+  metro_area_name     String?           @db.VarChar(255)
+  state_id            Int
+  state_abbreviation  String            @db.VarChar(2)
+  serve_page          Boolean?          @default(true)
+  lat                 Decimal?          @db.Decimal(10, 7)
+  lng                 Decimal?          @db.Decimal(10, 7)
+  template_id         Int?
+  location_metro_area LocationMetroArea @relation(fields: [metro_area_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_city_page_ibfk_1")
+  location_state      LocationState     @relation(fields: [state_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_city_page_ibfk_2")
 
   @@index([metro_area_id], map: "metro_area_id")
-  @@index([neighborhood_id], map: "neighborhood_id")
   @@index([state_id], map: "state_id")
   @@map("location_city_page")
 }
@@ -212,6 +210,7 @@ model LocationMetroArea {
   location_state             LocationState             @relation(fields: [state_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_metro_area_ibfk_1")
   location_neighborhood      LocationNeighborhood[]
   location_zip_code_serviced LocationZipCodeServiced[]
+  customer_reviews           CustomerReviews[]
 
   @@index([package_price_tier_id], map: "fk_price_tier_id")
   @@index([state_id], map: "state_id")
@@ -219,11 +218,11 @@ model LocationMetroArea {
 }
 
 model LocationNeighborhood {
-  id                  Int                @id @default(autoincrement())
-  name                String             @db.VarChar(255)
+  id                  Int               @id @default(autoincrement())
+  name                String            @db.VarChar(255)
   metro_area_id       Int
-  location_city_page  LocationCityPage[]
-  location_metro_area LocationMetroArea  @relation(fields: [metro_area_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_neighborhood_ibfk_1")
+  location_metro_area LocationMetroArea @relation(fields: [metro_area_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "location_neighborhood_ibfk_1")
+  customer_reviews    CustomerReviews[]
 
   @@index([metro_area_id], map: "metro_area_id")
   @@map("location_neighborhood")
@@ -250,10 +249,10 @@ model LocationZipCodeServiced {
 }
 
 model LocationZipCodeUnserviced {
-  id    Int    @id @default(autoincrement())
-  zip   String @db.Char(5)
-  count Int?   @default(0)
-  state String @db.VarChar(255)
+  id    Int     @id @default(autoincrement())
+  zip   String  @unique @db.Char(5)
+  count Int     @default(0)
+  state String? @db.VarChar(255)
 
   @@map("location_zip_code_unserviced")
 }
@@ -277,6 +276,7 @@ model PackagePriceTier {
   id                   Int                  @id @default(autoincrement())
   name                 String               @unique(map: "name") @db.VarChar(255)
   registration_fee     Decimal?             @db.Decimal(10, 2)
+  fallback             Boolean              @default(false)
   location_metro_area  LocationMetroArea[]
   package_price_matrix PackagePriceMatrix[]
 
@@ -284,35 +284,38 @@ model PackagePriceTier {
 }
 
 model CustomerReviews {
-  id              BigInt    @id @default(autoincrement())
-  customer_email  String?   @db.VarChar(150)
-  first_name      String?   @db.VarChar(255)
-  last_name       String?   @db.VarChar(255)
-  customer_photo  String?   @db.Text
-  customer_review String?   @db.Text
-  instructor      String?   @db.VarChar(150)
-  review_type     String?   @db.VarChar(150)
-  review_rank     String?   @db.VarChar(150)
-  review_platform String?   @db.VarChar(150)
-  review_url      String?   @db.Text
-  lat             Decimal?  @db.Decimal(10, 7)
-  lng             Decimal?  @db.Decimal(10, 7)
-  top             Int?      @db.SmallInt
-  age_group       String?   @db.VarChar(64)
-  designation     String?   @db.VarChar(64)
-  city            String?   @db.VarChar(200)
-  state           String?   @db.VarChar(200)
-  metro           String?   @db.VarChar(200)
-  review_date     DateTime? @db.Date
-  review_id       Int?      @db.SmallInt
+  id                     BigInt                @id @default(autoincrement())
+  instructor_id          BigInt
+  metro_area_id          Int
+  neighborhood_id        Int
+  city_name              String?               @db.VarChar(255)
+  knack_id               String?               @db.VarChar(255)
+  customer_address_city  String?               @db.VarChar(255)
+  customer_address_state String?               @db.VarChar(2)
+  customer_address_zip   String?               @db.VarChar(5)
+  lat                    Decimal?              @db.Decimal(10, 7)
+  lng                    Decimal?              @db.Decimal(10, 7)
+  age_group              String?               @db.VarChar(255)
+  designation            String?               @db.VarChar(255)
+  review_text            String                @db.Text()
+  review_date            DateTime?             @db.Date()
+  rating                 Int                   @db.UnsignedTinyInt()
+  top                    Boolean               @default(false)
+  source_url             String?               @db.VarChar(500)
+  source_platform        String?               @db.VarChar(255)
+  customer_email         String?               @db.VarChar(255)
+  customer_fist_name     String?               @db.VarChar(255)
+  customer_last_name     String?               @db.VarChar(255)
+  customer_photo_url     String?               @db.VarChar(500)
+  public                 Boolean               @default(false)
+  instructor             Instructor            @relation(fields: [instructor_id], references: [id], map: "customer_review_instructor_id_fkey")
+  metro_area             LocationMetroArea     @relation(fields: [metro_area_id], references: [id], map: "customer_review_metro_area_id_fkey")
+  LocationNeighborhood   LocationNeighborhood? @relation(fields: [locationNeighborhoodId], references: [id])
+  locationNeighborhoodId Int?
 
-  @@index([city(length: 40), state(length: 40), review_type(length: 40), review_rank(length: 40), review_date], map: "cr_idx1")
-  @@index([city(length: 40), state(length: 40), review_rank(length: 40), review_date], map: "cr_idx1_1")
-  @@index([metro(length: 40), city(length: 40), review_type(length: 40), review_rank(length: 40), review_date], map: "cr_idx2")
-  @@index([metro(length: 40), city(length: 40), review_type(length: 40), review_rank(length: 40), review_date], map: "cr_idx2_1")
-  @@index([review_type(length: 40), review_rank(length: 40), metro(length: 40)], map: "cr_idx3")
-  @@index([review_rank(length: 40), metro(length: 40)], map: "cr_idx4")
-  @@map("customer_reviews")
+  @@index([instructor_id], map: "customer_review_instructor_id_fkey")
+  @@index([metro_area_id], map: "customer_review_metro_area_id_fkey")
+  @@map("customer_review")
 }
 
 model PackagePromoCode {
@@ -371,84 +374,89 @@ model UnservicedLeads {
   @@map("unserviced_leads")
 }
 
-model Faq {
-  id              Int    @id @default(autoincrement())
-  question        String @db.VarChar(255)
-  answer          String @db.Text
-  index           Int
-  faqCategoriesId Int    @map("faq_categories_id")
+model FaqRecord {
+  id                    Int                   @id @default(autoincrement())
+  question              String                @db.VarChar(255)
+  answer                String                @db.Text
+  index                 Int
+  faq_record_categories FaqRecordCategories[]
 
-  faqCategories FaqCategories @relation(fields: [faqCategoriesId], references: [id])
-
-  @@map("faq")
+  @@map("faq_record")
 }
 
 model FaqCategories {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(16)
-  Faq  Faq[]
+  id                    Int                   @id @default(autoincrement())
+  name                  String                @db.VarChar(255)
+  faq_record_categories FaqRecordCategories[]
 
-  @@map("faq_categories")
+  @@map("faq_category")
+}
+
+model FaqRecordCategories {
+  id              Int @id @default(autoincrement())
+  faq_record_id   Int
+  faq_category_id Int
+
+  faq_record   FaqRecord     @relation(fields: [faq_record_id], references: [id], map: "faq_record_category_ibfk_1")
+  faq_category FaqCategories @relation(fields: [faq_category_id], references: [id], map: "faq_record_category_ibfk_2")
+
+  @@index([faq_record_id], map: "faq_record_id")
+  @@index([faq_category_id], map: "faq_category_id")
+  @@map("faq_record_category")
 }
 
 model BlogCategories {
-  id                      BigInt                  @id @default(autoincrement())
-  title                   String?                 @db.VarChar(64)
-  url_part                String?                 @db.Text
-  order_num               BigInt?
+  id                      Int                     @id @default(autoincrement())
+  name                    String                  @db.VarChar(255)
+  url                     String                  @db.VarChar(255)
+  icon_url                String?                 @db.VarChar(255)
+  hex_color               String?                 @db.VarChar(32)
+  display_order           Int
+  description             String?                 @db.Text
   blog_records_categories BlogRecordsCategories[]
 
-  @@index([order_num], map: "order_num")
-  @@index([url_part(length: 200)], map: "url_part")
-  @@map("blog_categories")
+  @@index([display_order], map: "display_order")
+  @@index([url(length: 200)], map: "url")
+  @@map("blog_category")
 }
 
 model BlogRecords {
-  id                                  BigInt                  @id @default(autoincrement())
-  blog_title                          String?                 @db.Text
-  blog_featured_image                 String?                 @db.Text
-  blog_teaser                         String?                 @db.Text
-  blog_body                           String?                 @db.Text
-  blog_author_name                    String?                 @db.Text
-  blog_author_photo                   String?                 @db.Text
-  blog_author_social_handle           String?                 @db.Text
-  blog_author_social_url              String?                 @db.Text
-  blog_publication_date               DateTime?               @db.Date
-  blog_read_time                      String?                 @db.Text
-  blog_meta_description               String?                 @db.Text
-  blog_meta_title                     String?                 @db.Text
-  blog_meta_tags                      String?                 @db.Text
-  blog_is_published                   Boolean?
-  blog_is_featured                    Boolean?
-  blog_hyphenated_title               String?                 @db.Text
-  url_over_first                      String?                 @db.Text
-  url_over_second                     String?                 @db.Text
-  url_over_third                      String?                 @db.Text
-  submission_id                       String?                 @db.VarChar(255)
-  blog_featured_image_alt_description String?                 @db.Text
-  blog_records_categories             BlogRecordsCategories[]
+  id                             Int                     @id @default(autoincrement())
+  title                          String                  @db.VarChar(255)
+  featured_image                 String?                 @db.VarChar(500)
+  teaser                         String?                 @db.Text
+  body                           String?                 @db.Text
+  author_name                    String?                 @db.VarChar(255)
+  author_photo                   String?                 @db.VarChar(500)
+  author_social_handle           String?                 @db.VarChar(255)
+  author_social_url              String?                 @db.VarChar(500)
+  created_date                   DateTime?
+  publish_date                   DateTime?
+  read_time                      Int?                    @db.UnsignedSmallInt
+  meta_description               String?                 @db.Text
+  url                            String?                 @db.VarChar(255)
+  knack_submission_id            String?                 @db.VarChar(255)
+  featured_image_alt_description String?                 @db.VarChar(255)
+  is_featured                    Boolean?
+  url_over_first                 String?                 @db.VarChar(255)
+  url_over_second                String?                 @db.VarChar(255)
+  url_over_third                 String?                 @db.VarChar(255)
+  blog_records_categories        BlogRecordsCategories[]
 
-  @@index([blog_hyphenated_title(length: 200)], map: "blog_hyphenated_title")
-  @@index([blog_publication_date], map: "blog_publication_date")
-  @@index([url_over_first(length: 4), url_over_second(length: 2), url_over_third(length: 200)], map: "url_over_first")
-  @@fulltext([blog_body], map: "blog_body_ftxt")
-  @@fulltext([blog_teaser], map: "blog_teaser_ftxt")
-  @@fulltext([blog_title], map: "blog_title_ftxt")
-  @@fulltext([blog_title], map: "blog_titles_idx")
-  @@fulltext([blog_title, blog_teaser, blog_body], map: "blog_ttb_ftxt")
-  @@map("blog_records")
+  @@index([publish_date], map: "blog_publication_date")
+  @@map("blog_record")
 }
 
 model BlogRecordsCategories {
-  id              BigInt          @id @default(autoincrement())
-  record_id       BigInt?
-  category_id     BigInt?
-  blog_records    BlogRecords?    @relation(fields: [record_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "blog_records_categories_ibfk_1")
-  blog_categories BlogCategories? @relation(fields: [category_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "blog_records_categories_ibfk_2")
+  id              Int             @id @default(autoincrement())
+  blog_record_id  Int
+  category_id     Int
+  blog_records    BlogRecords?    @relation(fields: [blog_record_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "blog_record_category_ibfk_1")
+  blog_categories BlogCategories? @relation(fields: [category_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "blog_record_category_ibfk_2")
 
   @@index([category_id], map: "category_id")
-  @@index([record_id], map: "record_id")
-  @@map("blog_records_categories")
+  @@index([blog_record_id], map: "blog_record_id")
+  @@map("blog_record_category")
 }
 
 model Sequence {
@@ -457,4 +465,28 @@ model Sequence {
   val  BigInt @default(60000)
 
   @@map("sequences")
+}
+
+model LocationCompetitor {
+  id                          BigInt   @id @default(autoincrement())
+  use_in_comparison           Boolean  @default(true)
+  metro_area_id               Int
+  name                        String   @db.VarChar(255)
+  lesson_types                String?  @db.VarChar(191)
+  address                     String?  @db.VarChar(191)
+  ages                        String?  @db.VarChar(255)
+  learn_to_swim_guarantee     Boolean?
+  flexible_scheduling         Boolean?
+  scheduling                  String?  @db.VarChar(191)
+  monthly_membership_required Boolean?
+  costs_per_lesson            String?  @db.VarChar(255)
+  stars_count                 Decimal? @db.Decimal(2, 1)
+  yelp_reviews_id             String?  @db.VarChar(255)
+  google_reviews_id           String?  @db.VarChar(255)
+  customer_review_text        String?  @db.Text
+  lat                         Decimal? @db.Decimal(10, 7)
+  lng                         Decimal? @db.Decimal(10, 7)
+
+  @@index([metro_area_id], map: "metro_area_id")
+  @@map("location_competitor")
 }

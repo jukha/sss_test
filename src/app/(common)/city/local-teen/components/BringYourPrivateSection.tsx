@@ -1,14 +1,17 @@
+'use client';
+
 import { localTeenGeneralImage1 } from '@/assets';
 import GeneralFirstSection from '@/components/sections/GeneralFirstSection';
 import { GeneralFirstSectionType } from '@/types/general-section.types';
+import { useCityPageContext } from '@/app/(common)/city/context';
 
-const generalFirstSectionData: GeneralFirstSectionType = {
+const generateGeneralFirstSectionData = (options: { cityName: string }): GeneralFirstSectionType => ({
   heading1: 'Bring your private swim lessons home with Sunsational Swim School',
   media: localTeenGeneralImage1,
   mediaAlt: 'Baby enjoying a swim lesson',
   descriptionTop: (
     <>
-      Sunsational Swim School offers private teen swim lessons in Los Angeles
+      Sunsational Swim School offers private teen swim lessons in {options.cityName}{' '}
       for beginner, intermediate, and competitive swimmers. If your teen hasn’t
       learned to swim yet,&nbsp;
       <a href='#' className='text-off-black font-bold md:font-medium underline'>
@@ -33,12 +36,13 @@ const generalFirstSectionData: GeneralFirstSectionType = {
     'Some teens may feel embarrassed about learning to swim. That’s why private swim lessons are so effective—no audience, no pressure, just one-on-one guidance from a skilled instructor focused on helping your teen succeed.',
   ],
   buttonType: 'black',
-  buttonLink: '#',
+  buttonLink: '/registration',
   buttonText: 'Get Started',
-};
+});
 
 const BringYourPrivateSection = () => {
-  return <GeneralFirstSection {...generalFirstSectionData} />;
+  const { cityName } = useCityPageContext();
+  return <GeneralFirstSection {...generateGeneralFirstSectionData({ cityName })} />;
 };
 
 export default BringYourPrivateSection;

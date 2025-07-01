@@ -1,6 +1,5 @@
 import SkillLevelsSection from '@/components/sections/SkillLevelsSection';
 import { SkillTitle } from '@/enum/skill-title.enum';
-import CustomerReviewsSection from '@/components/sections/CustomerReviewsSection';
 import MembersOfSection from '@/components/sections/MembersOfSection';
 import SatisfactionGuaranteeSection from '@/components/sections/SatisfactionGuaranteeSection';
 import { satisfactionGuaranteeBaby } from '@/assets';
@@ -17,7 +16,8 @@ import WhyChooseUsForBabySection from './components/WhyChooseUsForBabySection';
 import HowToPrepareYourBabySection from './components/HowToPrepareYourBabySection';
 import WaterSafetySection from './components/WaterSafetySection';
 import BabyLessonsFaqSection from './components/BabyLessonsFaqSection';
-import SocialMediaReviewsSection from '@/components/sections/SocialMediaReviewsSection';
+import { ServerSocialMediaReviewsSection } from '@/components/sections/customer_reviews';
+import { ServerCustomerReviewsSection } from '@/components/sections/customer_reviews';
 
 export default function BabySwimLessons() {
   return (
@@ -43,7 +43,9 @@ export default function BabySwimLessons() {
         sectionHeader=''
       />
       {/* Customer reviews for baby swim lessons - section */}
-      <CustomerReviewsSection
+      <ServerCustomerReviewsSection
+        ageGroup='baby'
+        hideButton={true}
         heading='Parents are raving about our baby swim lessons'
         description='Check out our 4.9 rating out of 1852 reviews'
       />
@@ -68,7 +70,7 @@ export default function BabySwimLessons() {
       {/* FAQ for baby swim lessons - section */}
       <BabyLessonsFaqSection />
       {/* Social media reviews section */}
-      <SocialMediaReviewsSection />
+      <ServerSocialMediaReviewsSection />
       {/* Service areas - section */}
       <ServiceLocationsSection />
       {/* List of all available locations - section */}

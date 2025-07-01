@@ -184,7 +184,7 @@ const FeaturedSwimInstructorsSection = ({
 
       {/* Call-to-action button */}
       {!hideButton && (
-        <div>
+        <div className="mb-[20px]">
           <ArrowButton
             text={buttonText}
             link={buttonLink}

@@ -58,11 +58,15 @@ const WhatMakesOurInstructorsSection = ({
   iconClasses = content.iconClasses,
   iconColor = content.iconColor,
 }: Props) => {
+  const [isClient, setIsClient] = useState(false);
   const [isMobile, setIsMobile] = useState(false); // Initialize with a default value
 
   useEffect(() => {
-    // Check if window is defined (ensures client-side execution)
-    if (typeof window === 'undefined') return;
+    setIsClient(true);
+  }, [])
+
+  useEffect(() => {
+    if (!isClient) return;
 
     const mobileMediaQuery = window.matchMedia('(max-width: 768px)');
     setIsMobile(mobileMediaQuery.matches); // Set initial state based on current media query
@@ -77,7 +81,7 @@ const WhatMakesOurInstructorsSection = ({
     return () => {
       mobileMediaQuery.removeEventListener('change', handleResize);
     };
-  }, []);
+  }, [isClient]);
 
   return (
     <Container className='flex flex-col gap-2 lg:gap-20 justify-start items-center'>

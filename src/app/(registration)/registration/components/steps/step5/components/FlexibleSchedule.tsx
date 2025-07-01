@@ -55,6 +55,7 @@ const FlexibleSchedule: React.FC<Props> = ({
           )
         }
         type='info'
+        displayIcon={false}
       />
 
       <hr />

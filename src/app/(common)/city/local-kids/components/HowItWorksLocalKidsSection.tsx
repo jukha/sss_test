@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import HowItWorksCitiesSection from '../../common/HowItWorksCitiesSection';
 import { HowItWorksType } from '@/types/city-how-it-works.type';
@@ -6,15 +8,16 @@ import {
   howItWorksLocalPrivateImg3,
   howItWorksSectionImage1,
 } from '@/assets';
+import { useCityPageContext } from '@/app/(common)/city/context';
 
-const content: HowItWorksType = {
+const generateContent = (options: { cityName: string }): HowItWorksType => ({
   sectionHeader: 'How does Sunsational Swim School work?',
   steps: [
     {
       title: 'Register Online',
       titleMaxWidth: 'max-w-[200px]',
       description:
-        "Tell us what you're looking for in your private swim lessons in [city name] and we'll match you with the perfect Sunsational instructor.",
+        `Tell us what you're looking for in your private swim lessons in ${options.cityName} and we'll match you with the perfect Sunsational instructor.`,
       image: howItWorksSectionImage1,
       parentCardClasses: 'pb-20',
       statWrapperClasses:
@@ -37,7 +40,7 @@ const content: HowItWorksType = {
       title: 'Start Lessons',
       titleMaxWidth: 'max-w-[200px]',
       description:
-        'Dive in and start making waves! Our private swim lessons in [city] are designed to help you or your child gain confidence and reach your swimming goals quickly.',
+        `Dive in and start making waves! Our private swim lessons in ${options.cityName} are designed to help you or your child gain confidence and reach your swimming goals quickly.`,
       image: howItWorksLocalPrivateImg3,
       statWrapperClasses:
         'right-1/2 transform translate-x-1/2 lg:translate-x-[unset] top-[80%] lg:right-0',
@@ -45,10 +48,11 @@ const content: HowItWorksType = {
       statCaption: 'Swimmers since 2009',
     },
   ],
-};
+});
 
 const HowItWorksLocalKidsSection = () => {
-  return <HowItWorksCitiesSection {...content} />;
+  const { cityName } = useCityPageContext()
+  return <HowItWorksCitiesSection {...generateContent({ cityName })} />;
 };
 
 export default HowItWorksLocalKidsSection;

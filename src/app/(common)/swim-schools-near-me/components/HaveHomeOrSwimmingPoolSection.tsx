@@ -1,3 +1,4 @@
+import React from 'react';
 import { homeOrCommunityPoolImg } from '@/assets';
 import { BackgroundCircles } from '@/components/decoration';
 import FeatureSection from '@/components/FeatureSection';
@@ -5,38 +6,12 @@ import Container from '@/components/layout/Container';
 import FlexWrapper from '@/components/layout/FlexWrapper';
 import Typography from '@/components/semantics/Typography';
 import Image from 'next/image';
-import React from 'react';
 
-const content = {
-  title:
-    'Have a home or community pool? Consider Private At-Home Swim Lessons!',
-  description:
-    'Skip the crowded pools and inconvenient schedules—Sunsational Swim School brings private swim lessons directly to your home or community pool in City . With highly qualified instructors, flexible scheduling, and a proven Learn to Swim Guarantee, we make learning to swim easier, faster, and more convenient than ever.',
-  benefits: [
-    {
-      title: 'Faster progress',
-      description:
-        'One on one home swimming lessons help kids with overcoming a fear of the water and improves retention.',
-    },
-    {
-      title: 'Personalized safety training',
-      description:
-        'Lessons adapt to their needs to teach critical survival skills like floating, safe exits, and self-rescue.',
-    },
-    {
-      title: 'Fewer distractions',
-      description:
-        'Kids get immediate feedback, unlike group lessons where teaching swim lessons is a juggling act.',
-    },
-    {
-      title: 'Familiar, safe environment',
-      description:
-        'Kids are more comfortable practising a life skill where they’ll swim most often.',
-    },
-  ],
-};
+type Props = {
+  city: string
+}
 
-const HaveHomeOrSwimmingPoolSection = () => {
+const HaveHomeOrSwimmingPoolSection: React.FC<Props> = ({ city }) => {
   return (
     <FeatureSection
       backgroundColor='var(--color-yellow)'
@@ -53,13 +28,13 @@ const HaveHomeOrSwimmingPoolSection = () => {
               variant='h3'
               className='max-w-[461px] font-bold font-primary text-black'
             >
-              {content.title}
+              Have a home or community pool? Consider Private At-Home Swim Lessons!
             </Typography>
             <Typography
               variant='body2'
               className='font-bold md:font-medium font-secondary max-w-[434px] text-offBlack leading-[120%]'
             >
-              {content.description}
+              Skip the crowded pools and inconvenient schedules—Sunsational Swim School brings private swim lessons directly to your home or community pool in {city}. With highly qualified instructors, flexible scheduling, and a proven Learn to Swim Guarantee, we make learning to swim easier, faster, and more convenient than ever.
             </Typography>
           </div>
 

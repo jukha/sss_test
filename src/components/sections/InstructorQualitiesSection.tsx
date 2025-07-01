@@ -20,6 +20,7 @@ import {
   areasWeServiceFeatureImage,
 } from '@/assets';
 import Typography from '@/components/semantics/Typography';
+import { withClientErrorBoundary } from '@/hoc/with-client-error-boundary';
 
 type Props = {
   page?: 'homepage' | 'nearbySwimInstructor' | 'areasWeService';
@@ -115,4 +116,4 @@ const InstructorQualitiesSection: React.FC<Props> = ({ page = 'homepage' }) => {
   );
 };
 
-export default InstructorQualitiesSection;
+export default withClientErrorBoundary(InstructorQualitiesSection);

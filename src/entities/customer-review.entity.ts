@@ -1,8 +1,24 @@
 export type CustomerReviewEntity = {
   id: number;
-  name: string | null;
+  instructorId: number;
+  metroAreaId: number;
+  neighborhoodId: number;
   city: string | null;
-  body: string | null;
-  avatar_url: string | null;
-  platform: string | null;
+  customerAddressCity: string | null;
+  customerAddressState: string | null;
+  customerAddressZip: string | null;
+  lat: number | null;
+  lng: number | null;
+  ageGroup: string | null;
+  designation: string | null;
+  body: string;
+  reviewDate: string | null;
+  rating: number;
+  top: boolean;
+  customerName: string | null;
+  customerPhotoUrl: string | null;
+  public: boolean;
+  socialPlatform?: string | null;
+  avatarUrl: string | null;
+  socialUrl: string | null;
 };

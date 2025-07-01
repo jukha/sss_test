@@ -42,14 +42,12 @@ const WhySwimLessonsSection = ({
         </Typography>
         <Typography
           variant='body2'
-          className='font-medium font-secondary leading-[120%] max-w-[342px] md:max-w-[657px] text-center z-10 whitespace-break-spaces'
+          className='font-medium font-secondary leading-[120%] max-w-[342px] md:max-w-[657px] text-center z-10 whitespace-break-spaces mb-[80px] mobile:mb-0'
         >
           {descriptionTop}
         </Typography>
 
-        <div
-          className='w-full flex justify-center items-center relative overflow-x-clip lg:overflow-visible'
-        >
+        <div className='w-full flex justify-center items-center relative overflow-x-clip lg:overflow-visible'>
           <Image src={image} alt={imageAlt} className='z-20' />
 
           {decorationIconLeft && (
@@ -66,7 +64,7 @@ const WhySwimLessonsSection = ({
 
           <div
             className={clsx(
-              'absolute w-full md:w-[80%] mobile:h-full inset-0 m-auto lg:-translate-y-1/12 z-20 flex flex-col',
+              'absolute mobile:h-full desktop:top-[80px] w-full md:w-[80%] inset-0 m-auto lg:-translate-y-1/12 z-20 flex flex-col',
               (facts?.length ?? 0) > 2 ? 'h-[200%]' : 'h-[150%]'
             )}
           >
@@ -84,7 +82,7 @@ const WhySwimLessonsSection = ({
 
         <Typography
           variant='body2'
-          className='font-medium font-secondary leading-[120%] max-w-[342px] md:max-w-[657px] text-center whitespace-break-spaces'
+          className='font-medium font-secondary leading-[120%] max-w-[342px] md:max-w-[657px] text-center whitespace-break-spaces mt-[100px] mobile:mt-0'
         >
           {descriptionBottom}
         </Typography>

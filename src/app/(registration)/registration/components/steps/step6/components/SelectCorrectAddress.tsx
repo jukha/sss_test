@@ -4,7 +4,7 @@ type Props = {
   suggestSelectable?: boolean;
   showWarningText?: boolean;
   onEditAddressClick?: () => void;
-  onAddressSelect?: (val: 'entered' | 'suggested') => void;
+  onAddressSelect?: (type: 'entered' | 'suggested', address: string) => void;
 };
 
 const SelectCorrectAddress: React.FC<Props> = ({
@@ -33,7 +33,7 @@ const SelectCorrectAddress: React.FC<Props> = ({
               className='mt-2'
               type='radio'
               name='select_correct_address'
-              onChange={() => onAddressSelect?.('entered')}
+              onChange={() => onAddressSelect?.('entered', enteredAddress)}
             />
             <span className='text-lg'>{enteredAddress}</span>
           </label>
@@ -51,7 +51,7 @@ const SelectCorrectAddress: React.FC<Props> = ({
                 className='mt-2'
                 type='radio'
                 name='select_correct_address'
-                onChange={() => onAddressSelect?.('suggested')}
+                onChange={() => onAddressSelect?.('suggested', suggestedText)}
               />
               <span className='text-lg'>{suggestedText}</span>
             </label>

@@ -11,32 +11,28 @@ const sellingPointsSectionData: SellingPointsSectionType = {
   sellingReasons: [
     {
       title: 'Quick Results',
-      description:
-        'One-on-one instruction means every lesson is tailored for your baby to get the most out of each session',
+      description: 'One-on-one instruction means every lesson is tailored for your baby to get the most out of each session',
       icon: <ToDoListIcon />,
       iconFrameColor: 'var(--color-offBlack)',
       iconRotateDeg: '28deg',
     },
     {
       title: 'Built in Convenience',
-      description:
-        'Sunsational swim instructors travel to you & work around your schedule',
+      description: 'Sunsational swim instructors travel to you & work around your schedule',
       icon: <PlannerV2Icon />,
       iconFrameColor: 'var(--color-darkBlue)',
       iconRotateDeg: '',
     },
     {
       title: 'Top-rated Instructors',
-      description:
-        'All Sunsational instructors are CPR/First Aid certified w/ minimum 2 years experience teaching baby lessons',
+      description: 'All Sunsational instructors are CPR/First Aid certified w/ minimum 2 years experience teaching baby lessons',
       icon: <SnorkelIcon />,
       iconFrameColor: 'var(--color-blue)',
       iconRotateDeg: '',
     },
     {
       title: 'Satisfaction Guaranteed',
-      description:
-        'Love your lessons or choose a new instructor or refund your unused lesson time',
+      description: 'Love your lessons or choose a new instructor or refund your unused lesson time',
       icon: <RefundIcon />,
       iconFrameColor: 'var(--color-teal)',
       iconRotateDeg: '',

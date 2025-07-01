@@ -7,8 +7,8 @@ import FeaturedSwimInstructorsSection from '@/components/sections/FeaturedSwimIn
 import VideoFrameGenericSsection from '@/components/sections/VideoFrameGenericSsection';
 import HowWeMatchYouSection from './components/HowWeMatchYouSection';
 import AreYouInstructor2Section from '@/components/sections/AreYouInstructor2Section';
-import CustomerReviewsSection from '@/components/sections/CustomerReviewsSection';
 import StackedSections from '@/components/layout/StackedSections';
+import { ServerCustomerReviewsSection } from '@/components/sections/customer_reviews';
 
 export default function OurSwimInstructors() {
   return (
@@ -26,7 +26,7 @@ export default function OurSwimInstructors() {
         {/*How We Match You With the Perfect Swim Instructor - Section */}
         <HowWeMatchYouSection />
         {/*Thousands Of Five Stars - Section */}
-        <CustomerReviewsSection />
+        <ServerCustomerReviewsSection buttonText='Book Swim Classes' />
       </StackedSections>
       {/*Are You A Swim Instructor? - Section */}
       <AreYouInstructor2Section />

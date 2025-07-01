@@ -4,6 +4,7 @@ import FlexWrapper from '@/components/layout/FlexWrapper';
 import Typography from '@/components/semantics/Typography';
 import Image from 'next/image';
 import React from 'react';
+import { withClientErrorBoundary } from '@/hoc/with-client-error-boundary';
 
 const data = {
   heading: 'Are You A Swim Instructor?',
@@ -46,4 +47,4 @@ const AreYouInstructor2Section = () => {
   );
 };
 
-export default AreYouInstructor2Section;
+export default withClientErrorBoundary(AreYouInstructor2Section);

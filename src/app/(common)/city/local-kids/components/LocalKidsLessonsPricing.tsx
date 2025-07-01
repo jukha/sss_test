@@ -1,56 +1,35 @@
+'use client';
+
 import { localKidPricingImg } from '@/assets';
 import LessonPricingSection from '@/components/sections/LessonPricingSection';
 import { LessonPricingSectionType } from '@/types/lesson.types';
+import { LessonPackageEntity } from '@/entities/lesson-package.entity';
+import { convertLessonPackagesToPricingCardOptions } from '@/utils/convert-lesson-package-to-pricing-card-options';
+import { useLocalPhoneNumber } from '@/context/phone.context';
 
-const data: LessonPricingSectionType = {
+const generateData = (options: { phoneNumber: string }): Omit<LessonPricingSectionType, 'lessonsPackages'> => ({
   title: 'Child lessons',
   image: localKidPricingImg,
   description: 'The more lessons you buy, the more you save!',
   noOfStudent: '1 Student',
   lessonType: '30 - 45 Minute private Lessons',
-  footerLessonSplitInfo:
-    '*60+ minute lessons can be divided into back-to-back lessons for multiple children \n\n Need help? Call 1-888-788-2140',
+  footerLessonSplitInfo: `*60+ minute lessons can be divided into back-to-back lessons for multiple children\n\nNeed help? Call ${options.phoneNumber}`,
   showHelpText: true,
-  lessonsPackages: [
-    {
-      id: 1,
-      noOfLessons: 6,
-      options: [
-        { rate: '30 minutes', price: 100 },
-        { rate: '60 minutes', price: 120 },
-      ],
-      cardColor: 'var(--color-iceBlue)',
-      blurPrice: false,
-    },
-    {
-      id: 2,
-      noOfLessons: 12,
-      options: [
-        { rate: '30 minutes', price: 95, discount: 5 },
-        { rate: '60 minutes', price: 115, discount: 7 },
-      ],
-      ribbonText: 'MOST POPULAR',
-      ribbonColor: 'var(--color-red)',
-      cardColor: 'var(--color-lightPeach)',
-      blurPrice: false,
-    },
-    {
-      id: 3,
-      noOfLessons: 18,
-      options: [
-        { rate: '30 minutes', price: 90, discount: 10 },
-        { rate: '60 minutes', price: 110, discount: 15 },
-      ],
-      ribbonText: 'BEST VALUE',
-      ribbonColor: 'var(--color-orange)',
-      cardColor: 'var(--color-lightYellow)',
-      blurPrice: false,
-    },
-  ],
-};
+})
 
-const LocalKidsLessonsPricing = () => {
-  return <LessonPricingSection {...data} />;
+type Props = {
+  lessonPackages: LessonPackageEntity[]
+}
+
+const LocalKidsLessonsPricing = ({ lessonPackages }: Props) => {
+  const localPhone = useLocalPhoneNumber();
+
+  return (
+    <LessonPricingSection
+      {...generateData({ phoneNumber: localPhone.formatted })}
+      lessonsPackages={convertLessonPackagesToPricingCardOptions(lessonPackages)}
+    />
+  )
 };
 
 export default LocalKidsLessonsPricing;

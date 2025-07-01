@@ -23,7 +23,7 @@ const StampIcon = () => {
           transform='rotate(90 107 107)'
           fill='#FEDF46'
           stroke='#F86008'
-          stroke-width='8'
+          strokeWidth='8'
         />
         <ellipse
           opacity='0.5'
@@ -140,9 +140,9 @@ const StampIcon = () => {
           width='210.6'
           height='210.6'
           filterUnits='userSpaceOnUse'
-          color-interpolation-filters='sRGB'
+          colorInterpolationFilters='sRGB'
         >
-          <feFlood flood-opacity='0' result='BackgroundImageFix' />
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
           <feColorMatrix
             in='SourceAlpha'
             type='matrix'
@@ -175,9 +175,9 @@ const StampIcon = () => {
           width='208'
           height='208'
           filterUnits='userSpaceOnUse'
-          color-interpolation-filters='sRGB'
+          colorInterpolationFilters='sRGB'
         >
-          <feFlood flood-opacity='0' result='BackgroundImageFix' />
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
           <feColorMatrix
             in='SourceAlpha'
             type='matrix'

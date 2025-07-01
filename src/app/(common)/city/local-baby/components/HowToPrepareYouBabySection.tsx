@@ -8,10 +8,8 @@ import React from 'react';
 
 const content = {
   title: 'How to prepare your baby for swim lessons',
-  description1:
-    'Not ready for a formal class yet? Start at home! Simple activities in the bathtub, like gently pouring water over your baby’s head, introducing words like “kick” and “splash”, or laying them on their back in shallow water, can help them feel comfortable in the water before their first lesson.',
-  description2:
-    'When you’re ready for the pool, help your baby be successful with these tips:',
+  description1: 'Not ready for a formal class yet? Start at home! Simple activities in the bathtub, like gently pouring water over your baby’s head, introducing words like “kick” and “splash”, or laying them on their back in shallow water, can help them feel comfortable in the water before their first lesson.',
+  description2: 'When you’re ready for the pool, help your baby be successful with these tips:',
   pools: [
     'Home pool',
     'Housing community pool',

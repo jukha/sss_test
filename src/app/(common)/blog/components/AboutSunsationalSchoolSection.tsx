@@ -3,6 +3,7 @@ import FeatureSection from '@/components/FeatureSection';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import FlexWrapper from '@/components/layout/FlexWrapper';
 import Typography from '@/components/semantics/Typography';
+import { withClientErrorBoundary } from '@/hoc/with-client-error-boundary';
 import Image from 'next/image';
 
 const content = {
@@ -48,4 +49,4 @@ const AboutSunsationalSchoolSection = () => {
   );
 };
 
-export default AboutSunsationalSchoolSection;
+export default withClientErrorBoundary(AboutSunsationalSchoolSection);

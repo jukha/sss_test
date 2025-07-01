@@ -66,6 +66,7 @@ import medalIcon from './images/medalIcon.svg';
 import glassdoorIcon from './images/glassdoorIcon.svg';
 import indeedIcon from './images/indeedIcon.svg';
 import logoSvg from './logos/main-logo.svg';
+import ratingStars from './images/ratingStars.png';
 
 //pictures
 import girlAndMom from './images/girlAndMom.webp';
@@ -271,7 +272,8 @@ import babySwimLessonHeroMobile from './images/babySwimLessonHeroMobile.png';
 import satisfactionGuaranteeBaby from './images/satisfactionGuaranteeBaby.png';
 import whyBabySwimLessonsImg from './images/whyBabySwimLessonsImg.png';
 import babyLessonsMadeEasyImg from './images/babyLessonsMadeEasyImg.png';
-import reasonToStartBabySwimLesson from "./images/reasonToStartBabySwimLesson.png"
+import reasonToStartBabySwimLesson from './images/reasonToStartBabySwimLesson.png';
+import locationPagesHero from './images/locationPagesHero.png';
 
 // figures
 import curveOval from './images/curveOval.svg';
@@ -578,5 +580,7 @@ export {
   satisfactionGuaranteeBaby,
   whyBabySwimLessonsImg,
   babyLessonsMadeEasyImg,
-  reasonToStartBabySwimLesson
+  reasonToStartBabySwimLesson,
+  locationPagesHero,
+  ratingStars,
 };

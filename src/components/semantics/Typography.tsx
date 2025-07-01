@@ -22,7 +22,7 @@ interface TypographyProps {
 }
 
 const variantClasses: Record<Variant, string> = {
-  h1: `text-5xl md:text-8xl text-white font-bold font-primary leading-[115%] md:leading-[100%]`, //96px
+  h1: `text-5xl text-white md:text-8xl text-black font-bold font-primary leading-[115%] md:leading-[100%]`, //96px
   h2: 'text-[40px] md:text-[64px] text-offBlack font-primary font-bold leading-[115%]', // 64px
   h3: 'text-[32px] md:text-5xl text-offBlack font-bold leading-[115%] md:leading-[110%]', // 48px
   h4: 'text-[24px] md:text-[32px]', //32 px
@@ -34,7 +34,7 @@ const variantClasses: Record<Variant, string> = {
   body2: 'text-[18px] md:text-xl', // 20px
   body3: 'text-base leading-[120%] font-secondary', // 16px
   caption: 'text-xs',
-  custom: ''
+  custom: '',
 };
 
 // Mapping variants to HTML tags
@@ -51,7 +51,7 @@ const variantTags: Record<Variant, React.ElementType> = {
   body2: 'p', // Use <p> tag for body2
   body3: 'p', // Use <p> tag for body3
   caption: 'span', // Use <span> for captions
-  custom: 'p'
+  custom: 'p',
 };
 
 const Typography: React.FC<TypographyProps> = ({
@@ -62,9 +62,7 @@ const Typography: React.FC<TypographyProps> = ({
   // Select the appropriate tag from the mapping
   const Tag = variantTags[variant];
 
-  return (
-    <Tag className={`${variantClasses[variant]} ${className} `}>{children}</Tag>
-  );
+  return <Tag className={`${variantClasses[variant]} ${className} `}>{children}</Tag>;
 };
 
 export default Typography;

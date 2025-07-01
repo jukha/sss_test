@@ -9,6 +9,7 @@ type CreateRegistrationStepOptions = {
   data: RegistrationForm;
   registrationIdentifier: NonNullableFields<RegistrationRecordIdentifier>,
   version: number;
+  sendWebhook?: boolean;
 }
 
 export class RegistrationApi {
@@ -20,6 +21,7 @@ export class RegistrationApi {
     return {
       create: (options: CreateRegistrationStepOptions) => endpoint.post({
         data: options.data,
+        searchParams: options.sendWebhook ? {sendWebhook: true} : undefined,
         headers: {
           'X-Registration-Id': options.registrationIdentifier.id.toString(),
           'X-Registration-Secret': options.registrationIdentifier.secret,
@@ -35,6 +37,20 @@ export class RegistrationApi {
 
     return {
       get: () => endpoint.findOne()
+    }
+  }
+
+  get byCredentials() {
+    const endpoint = new ApiEndpoint<RegistrationForm | null>({ url: urlJoin(this._baseUrl, '/by_credentials') });
+
+    return {
+      get: (identifier: NonNullableFields<RegistrationRecordIdentifier>) => endpoint.findOne({
+        headers: {
+          'X-Registration-Id': identifier.id.toString(),
+          'X-Registration-Secret': identifier.secret,
+          'X-Form-TypeId': identifier.formTypeId,
+        }
+      })
     }
   }
 }

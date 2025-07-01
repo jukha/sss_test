@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Typography from '../semantics/Typography';
 import {
@@ -10,12 +12,7 @@ import {
 } from '../icons';
 import Container from '../layout/Container';
 import PerkCard from '../shapes/PerkCard';
-
-
-type Props = {
-  descriptionTop?: string;
-  descriptionBottom?: string;
-};
+import { useCityPageContext } from '@/app/(common)/city/context';
 
 const perks = [
   {
@@ -65,10 +62,9 @@ const perks = [
 const leftColumn = perks.filter((_, i) => i % 2 === 0);
 const rightColumn = perks.filter((_, i) => i % 2 !== 0);
 
-const PartnerPerksSection: React.FC<Props> = ({
-  descriptionTop = 'Sunsational Swim School is the #1 provider of private swimming lessons in America. We are currently seeking top swim instructors for Spring/Summer 2025 and beyond! By joining our team, you’ll enjoy:',
-  descriptionBottom = 'Share your passion for swimming with students in the [city] area and find rewarding aquatic jobs this season. We can’t wait for you to join the Sunsational team.',
-}) => {
+const PartnerPerksSection = () => {
+  const { cityName } = useCityPageContext();
+
   return (
     <Container>
       <Typography variant='h2' className='max-w-[837px] mx-auto mb-5'>
@@ -78,7 +74,7 @@ const PartnerPerksSection: React.FC<Props> = ({
         variant='custom'
         className='text-[18px] text-off-black md:text-black md:text-[20px] font-medium leading-[120%] font-secondary mx-auto max-w-[735px] whitespace-break-spaces text-center'
       >
-        {descriptionTop}
+        Sunsational Swim School is the #1 provider of private swimming lessons in America. We are currently seeking top swim instructors for Spring/Summer 2025 and beyond! By joining our team, you’ll enjoy:
       </Typography>
       {/* Perks Start */}
       <ul className='grid gap-5 desktop:gap-[80px] justify-center lg:grid-cols-[480px_480px] my-[46px] lg:my-[90px]'>
@@ -109,7 +105,7 @@ const PartnerPerksSection: React.FC<Props> = ({
         variant='body1'
         className='font-secondary font-bold leading-[125%] max-w-[638px] text-center mx-auto'
       >
-        {descriptionBottom}
+        Share your passion for swimming with students in the {cityName} area and find rewarding aquatic jobs this season. We can’t wait for you to join the Sunsational team.
       </Typography>
     </Container>
   );

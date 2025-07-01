@@ -9,8 +9,7 @@ import {
 
 const content: HowItWorksType = {
   sectionHeader: 'How does Sunsational Swim School work?',
-  sectionDescription:
-    'Start America’s #1 rated swimming lessons at your home pool as easy as 1,2,3',
+  sectionDescription: 'Start America’s #1 rated swimming lessons at your home pool as easy as 1,2,3',
   steps: [
     {
       title: 'Register Online',

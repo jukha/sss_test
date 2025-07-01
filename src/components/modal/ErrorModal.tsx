@@ -22,10 +22,12 @@ export const ErrorModal = ({ text, onRetry, onClose }: Props) => {
   return (
     <ModalLayout>
       <div className="flex flex-col gap-[20px]">
-        <AlertBox
-          type='error'
-          text={text}
-        />
+        <div className="max-w-[400px]">
+          <AlertBox
+            type='error'
+            text={text}
+          />
+        </div>
 
         {retrying && <p>Retrying, please wait...</p>}
 

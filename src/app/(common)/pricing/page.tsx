@@ -1,7 +1,6 @@
 import ServiceLocationsSection from '@/components/sections/ServiceLocationsSection';
 import LocationsListSection from '@/components/sections/LocationsListSection';
 import PricingHero from './components/PricingHero';
-import CustomerReviewsSection from '@/components/sections/CustomerReviewsSection';
 import NeedHelpSection from './components/NeedHelpSection';
 import PricingFaqSection from './components/PricingFaqSection';
 import PricingPageHeadingSection from './components/PricingPageHeadingSection';
@@ -10,6 +9,7 @@ import SwimGuaranteePackageSection from './components/SwimGuaranteePackageSectio
 import SemiPrivateLessonsSection from './components/SemiPrivateLessonsSection';
 import AdultLessonsSection from './components/AdultLessonsSection';
 import ParentsGroupLessonsSection from './components/ParentsGroupLessonsSection';
+import { ServerCustomerReviewsSection } from '@/components/sections/customer_reviews';
 
 export default function Pricing() {
   return (
@@ -31,7 +31,7 @@ export default function Pricing() {
         {/*Faq -section */}
         <PricingFaqSection />
         {/*Thousands of Five Star Reviews - section*/}
-        <CustomerReviewsSection />
+        <ServerCustomerReviewsSection hideButton={true} />
         {/*Search our serviced locations - section*/}
         <ServiceLocationsSection />
         <LocationsListSection />

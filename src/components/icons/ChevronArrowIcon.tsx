@@ -12,7 +12,7 @@ const ChevronArrowIcon = () => {
       <path
         d='M0.949217 9.27412L8.18083 2.35693L15.4124 9.27413'
         stroke='#FFF9E1'
-        stroke-width='2.51534'
+        strokeWidth='2.51534'
       />
     </svg>
   );

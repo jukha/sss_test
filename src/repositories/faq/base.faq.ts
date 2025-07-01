@@ -1,25 +1,28 @@
 'use server';
 
-import { Faq } from '@/__generated__/prisma';
 import { prismaClient } from '@/prisma';
 import { convertPrismaTypesToNumber } from '@/utils/convert-prisma-types-to-primitives';
+import { FaqEntity } from '@/entities/faq.entity';
 
 type Options = { categoryName: string };
 
-type ReturnType = Promise<Faq[]>;
-
-export const getBaseFaqs = async ({ categoryName }: Options): ReturnType => {
-  const faqs = await prismaClient.faq.findMany({
+export const getBaseFaqs = async ({ categoryName }: Options): Promise<FaqEntity[]> => {
+  const faqs = await prismaClient.faqRecord.findMany({
     where: {
-      faqCategories: {
-        name: categoryName,
-      },
+      faq_record_categories: {
+        some: {
+          faq_category: {
+            name: categoryName
+          }
+        }
+      }
     },
-    orderBy: { index: 'desc' },
+    orderBy: { index: 'asc' },
   });
+
+  console.debug('GET BASE FAQ CALLED', categoryName, faqs);
 
   return faqs.map((f) => {
     return convertPrismaTypesToNumber(f);
   });
 };
- 

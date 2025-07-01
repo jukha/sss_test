@@ -1,3 +1,5 @@
+'use client';
+
 import { benefitofPrivateswimLesson } from '@/assets';
 import {
   PositiveDynamicIcon,
@@ -8,17 +10,17 @@ import {
 import SellingPointsSection from '@/components/sections/SellingPointsSection';
 import { SellingPointsSectionType } from '@/types/selling-point-section.type';
 import React from 'react';
+import { useCityPageContext } from '@/app/(common)/city/context';
 
-const sellingPointsSectionData: SellingPointsSectionType = {
-  sectionTitle: 'Benefits of kids swimming lessons in [city]',
+const generateSellingPointsSectionData = (options: { cityName: string }): SellingPointsSectionType => ({
+  sectionTitle: `Benefits of kids swimming lessons in ${options.cityName}`,
   sectionTitleMaxWidth: 'max-w-[837px]',
   image: benefitofPrivateswimLesson,
   arrowButtonProps: {
     text: 'Get Started',
     link: '/registration',
     iconColor: 'black',
-    buttonClasses:
-      'bg-offBlack text-white font-primary min-w-[300px] gap-12 mx-auto',
+    buttonClasses: 'bg-offBlack text-white min-w-[300px] mx-auto',
     IconClasses: 'bg-yellow',
     shadow: true,
     shadowClasses: 'bg-blue',
@@ -27,13 +29,13 @@ const sellingPointsSectionData: SellingPointsSectionType = {
     {
       title: 'Water safety starts early',
       description:
-        'Our kids swimming lessons in [city] teach essential water safety skills from day one. Our Sunsational Swim School instructors focus on helping swimmers learn to swim confidently to recover from unexpected falls into the water. The “Sunsational Swim Sequence” teaches students to turn around, find the wall, and swim to safety.',
+        `Our kids swimming lessons in ${options.cityName} teach essential water safety skills from day one. Our Sunsational Swim School instructors focus on helping swimmers learn to swim confidently to recover from unexpected falls into the water. The “Sunsational Swim Sequence” teaches students to turn around, find the wall, and swim to safety.`,
       icon: <ProtectIcon hasWhiteBg={true} />,
       iconFrameColor: 'var(--color-black)',
       iconRotateDeg: '',
     },
     {
-      title: 'Flexible scheduling for busy [city] families',
+      title: `Flexible scheduling for busy ${options.cityName} families`,
       description:
         'You may have to squeeze into your swimsuit, but you don’t have to squeeze our lessons into your calendar! If your Tuesdays and Thursdays are just too hectic, you can schedule lessons for a lazy Saturday morning or a peaceful Friday afternoon. Your Sunsational swimming class fits your schedule, not the other way around.',
       icon: <TimerIcon />,
@@ -43,7 +45,7 @@ const sellingPointsSectionData: SellingPointsSectionType = {
     {
       title: 'Personalized instruction for faster progress',
       description:
-        'ur experienced teachers make lesson plans guided by each swimmer’s needs and strengths, because every student learns to swim differently. Sunsational’s classes in [city] utilize gentle, encouraging techniques so that kids and adults can conquer fears and learn to swim more quickly.',
+        `ur experienced teachers make lesson plans guided by each swimmer’s needs and strengths, because every student learns to swim differently. Sunsational’s classes in ${options.cityName} utilize gentle, encouraging techniques so that kids and adults can conquer fears and learn to swim more quickly.`,
       icon: <PositiveDynamicIcon />,
       iconFrameColor: 'var(--color-blue)',
       iconRotateDeg: '',
@@ -51,16 +53,17 @@ const sellingPointsSectionData: SellingPointsSectionType = {
     {
       title: 'Home or community pool: your choice!',
       description:
-        'You save time and money when you can choose the location that works best for your family. Sunsational Swim Instructors teach lessons at the [city]-area pool you choose—in your neighborhood or your backyard!',
+        `You save time and money when you can choose the location that works best for your family. Sunsational Swim Instructors teach lessons at the ${options.cityName}-area pool you choose—in your neighborhood or your backyard!`,
       icon: <SwimmingPoolIcon />,
       iconFrameColor: 'var(--color-lightBlue)',
       iconRotateDeg: '',
     },
   ],
-};
+});
 
 const BenefitsOfKidsSwimSection = () => {
-  return <SellingPointsSection {...sellingPointsSectionData} />;
+  const { cityName } = useCityPageContext();
+  return <SellingPointsSection {...generateSellingPointsSectionData({ cityName })} />;
 };
 
 export default BenefitsOfKidsSwimSection;

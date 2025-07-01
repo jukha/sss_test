@@ -1,8 +1,11 @@
+'use client';
+
 import { localToddlerGeneralImage } from '@/assets';
 import GeneralFirstSection from '@/components/sections/GeneralFirstSection';
 import { GeneralFirstSectionType } from '@/types/general-section.types';
+import { useCityPageContext } from '@/app/(common)/city/context';
 
-const generalFirstSectionData: GeneralFirstSectionType = {
+const generateGeneralFirstSectionData = (options: { cityName: string }): GeneralFirstSectionType => ({
   heading1: 'Safe, fun, and taught at home!',
   media: localToddlerGeneralImage,
   mediaAlt: 'Baby enjoying a swim lesson',
@@ -17,15 +20,16 @@ const generalFirstSectionData: GeneralFirstSectionType = {
     </>
   ),
   descriptionsBottom: [
-    'Sunsational Swim School brings essential swim skills to your home pool or local community pool, helping everyone enjoy the water more safely across the [city nickname or city].',
+    `Sunsational Swim School brings essential swim skills to your home pool or local community pool, helping everyone enjoy the water more safely across the ${options.cityName}.`,
   ],
   buttonType: 'black',
-  buttonLink: '#',
+  buttonLink: '/registration',
   buttonText: 'Get Started',
-};
+});
 
 const SafeFunLessonsAtHomeSection = () => {
-  return <GeneralFirstSection {...generalFirstSectionData} />;
+  const { cityName } = useCityPageContext();
+  return <GeneralFirstSection {...generateGeneralFirstSectionData({ cityName })} />;
 };
 
 export default SafeFunLessonsAtHomeSection;

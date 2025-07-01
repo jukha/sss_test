@@ -141,17 +141,17 @@ const RegistrationForm2 = ({ onNextClicked, onPreviousClicked, buildOnFieldFocus
                 }}
                 onBlur={buildOnFieldFocusLostHandler(studentNameKey)}
                 icon={personIcon}
-                className='w-full'
+                className='tablet:w-auto'
               />
               <DropDownSelect
                 text='Student Age*'
-                choices={ageChoices.map((c, i) => ({index: i, text: c}))}
+                choices={ageChoices.map((c, i) => ({ index: i, text: c }))}
                 error={registrationErrors?.[studentAgeKey]}
                 value={{ text: studentAgeValue, index: i }}
                 onChange={(choice) => {
                   setRegistrationFormField(studentAgeKey, choice.text);
                 }}
-                className='max-w-[60%] shrink-0 desktop:max-w-[45%]'
+                className='tablet:max-w-[40%]'
                 dropdownWrapperClassName='!top-[102%]'
               />
             </div>

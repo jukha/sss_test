@@ -1,10 +1,8 @@
 import React from 'react';
 
-import CustomerReviewsSection from '@/components/sections/CustomerReviewsSection';
 import LocationsListSection from '@/components/sections/LocationsListSection';
 import ServiceLocationsSection from '@/components/sections/ServiceLocationsSection';
 import PrivateVsGroupLessonsSection from '../city/common/PrivateVsGroupLessonsSection';
-import SocialMediaReviewsSection from '@/components/sections/SocialMediaReviewsSection';
 import WhatMakesOurInstructorsSection from '@/components/sections/WhatMakesOurInstructorsSection';
 import SatisfactionGuaranteeSection from '@/components/sections/SatisfactionGuaranteeSection';
 import { specialNeedsLessonSatisfactionGuarantee } from '@/assets';
@@ -17,6 +15,8 @@ import StartSwimmingFasterSection from './components/StartSwimmingFasterSection'
 import SpecialSwimLessonsBenefitsSection from './components/SpecialSwimLessonsBenefitsSection';
 import SpecialNeedsLessonPricingSection from './components/SpecialNeedsLessonPricingSection';
 import StackedSections from '@/components/layout/StackedSections';
+import { ServerSocialMediaReviewsSection } from '@/components/sections/customer_reviews';
+import { ServerCustomerReviewsSection } from '@/components/sections/customer_reviews';
 
 const SpecialNeedsSwimmingLessons = () => {
   return (
@@ -25,7 +25,7 @@ const SpecialNeedsSwimmingLessons = () => {
         {/* Safe, Fun & taught at home special needs swim lessons! - Section */}
         <SafeFunAtHomeSection />
         {/* Sunsational clients love our swimming lessons - Section */}
-        <CustomerReviewsSection />
+        <ServerCustomerReviewsSection designation='special needs' hideButton={true} />
         {/* We cater to many needs - Section */}
         <SpecialLessonsCaterManyNeedsSection />
         {/* Why are Special Needs (SNAP) swimming lessons so important? - Section */}
@@ -45,7 +45,7 @@ const SpecialNeedsSwimmingLessons = () => {
         {/* Special Needs And Abilities/SNAP Swim Lesson Pricing - Section */}
         <SpecialNeedsLessonPricingSection />
         {/* Thousands of 5-Star Ratings from Happy Swimmers - Section */}
-        <SocialMediaReviewsSection />
+        <ServerSocialMediaReviewsSection />
         {/* Swim Lessons With Local Swim Instructors You Can Trust - Section */}
         <WhatMakesOurInstructorsSection />
         {/* Private swim lessons vs. Group swim lessons - Section */}

@@ -138,10 +138,10 @@ const RegistrationForm4_2: React.FC<Props> = ({ onNextClicked, onPreviousClicked
       {lessonTime && packageSelectionOptions.packages && (
         <div>
           <p className='font-bold text-2xl text-offBlack text-center mb-4 desktop:mb-[18px]'>Select a package</p>
-          <div className='relative desktop:h-[250px]'>
+          <div className='relative'>
             <div
               className={clsx(
-                'desktop:absolute -left-[76px] w-[598px] py-2 px-2',
+                'desktop:-ml-[76px] py-2 px-2',
                 packageSelectionOptions.packages.length > 3 && 'overflow-x-auto smallScroll pr-8'
               )}
             >

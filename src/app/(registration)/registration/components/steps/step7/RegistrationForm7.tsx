@@ -13,7 +13,7 @@ const STRIPE_PUBLIC_KEY: string = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || '
 const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 
 type Props = {
-  onNextClicked: () => void;
+  onNextClicked: (options?: {awaitBeforeSwitchToNextStep?: boolean}) => Promise<void>;
   onPreviousClicked: () => void;
   buildOnFieldFocusLostHandler: BuildOnFieldFocusLostHandlerFunction;
 };

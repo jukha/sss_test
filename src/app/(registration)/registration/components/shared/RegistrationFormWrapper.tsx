@@ -31,6 +31,8 @@ type Props = {
   formId: string;
 };
 
+type OnNextClickedOptions = { shouldNotSwitchToNextStep?: boolean, awaitBeforeSwitchToNextStep?: boolean };
+
 const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
   const {
     registrationForm,
@@ -46,11 +48,12 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
     setFormVersion,
     forcePreviousStep,
     setForcePreviousStep,
+    isConfirmationPage,
   } = useRegistrationForm();
   const { data } = useLocationsAndPricing()
   const { zip, customerHasAccessToPool, isRegistrationComplete } = registrationForm ?? {}
 
-  const formTopElementRef = useRef<HTMLImageElement >(null)
+  const formTopElementRef = useRef<HTMLImageElement>(null)
   const formScrollableWrapperRef = useRef<HTMLDivElement>(null);
 
   const metroArea = extractLocationMetroArea({
@@ -85,10 +88,11 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       },
       version: formVersion,
       data: { ...registrationForm!, canWeServeText: injectCanWeServeTextValue() },
+      sendWebhook: registrationStep === RegistrationStepEnum.Step3
     });
   }
 
-  const onNextClicked = async (options?: { shouldNotSwitchToNextStep?: boolean }) => {
+  const onNextClicked = async (options?: OnNextClickedOptions) => {
     const validationErrors = validateFormStep(registrationForm, registrationStep);
 
     if (validationErrors) {
@@ -98,11 +102,13 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
       setRegistrationErrors({});
     }
 
-    if (options?.shouldNotSwitchToNextStep !== true) {
-      switchToNextStep();
+    if (options?.awaitBeforeSwitchToNextStep) {
+      await sendRegistrationFormToServer();
+      if (options?.shouldNotSwitchToNextStep !== true) switchToNextStep();
+    } else {
+      if (options?.shouldNotSwitchToNextStep !== true) switchToNextStep();
+      await sendRegistrationFormToServer();
     }
-
-    await sendRegistrationFormToServer();
   };
 
   const onPreviousClicked = async () => {
@@ -187,7 +193,7 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
     if (formTopElementRef.current && document.body.clientWidth < 1440) {
       formTopElementRef.current.scrollIntoView({ inline: 'center' })
     }
-  },[registrationStep])
+  }, [registrationStep])
 
   return (
     <div className='flex flex-col relative w-full max-w-[750px] h-full'>
@@ -198,7 +204,7 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
         ref={formTopElementRef}
       />
       <StepsIndicator
-        isNavigationAllowed={isNavigationAllowed(registrationStep)}
+        isNavigationAllowed={!isConfirmationPage && isNavigationAllowed(registrationStep)}
         steps={circleNavigationBarSteps}
         currentStep={registrationStep}
         setStep={async (step) => {
@@ -207,15 +213,15 @@ const RegistrationFormWrapper = ({ databaseId, secret, formId }: Props) => {
         }}
         availableMaxStep={forcePreviousStep}
       />
-      <div className='flex flex-col items-center w-full h-full bg-white pt-[50px] pb-16 rounded-[16px] px-[25px] desktop:pt-[65px]'>
+      <div className='flex flex-col items-center w-full h-auto bg-white pt-[50px] pb-16 rounded-[16px] px-[25px] desktop:pt-[65px]'>
         <div
           ref={formScrollableWrapperRef}
-          className='w-full pb-6 desktop:max-w-[590px] desktop:px-[71px] desktop:min-h-[100%] overflow-y-auto overflow-x-hidden smallScroll'
+          className='w-full pb-6 desktop:max-w-[590px] desktop:px-[71px]'
         >
           {formsToRender[registrationStep]}
 
           {/*Make Step7 be never detached in order to Stripe PaymentElement iframe to always stay attached and never re-load. Otherwise it looses CC data previously entered. And loads slowly, BTW. :)*/}
-          <div style={{display: registrationStep == RegistrationStepEnum.Step7 ? 'block' : 'none'}}>
+          <div style={{ display: registrationStep == RegistrationStepEnum.Step7 ? 'block' : 'none' }}>
             <RegistrationForm7 onNextClicked={onNextClicked} onPreviousClicked={onPreviousClicked} buildOnFieldFocusLostHandler={buildOnFieldFocusLostHandler} />
           </div>
         </div>

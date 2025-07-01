@@ -1,7 +1,7 @@
 import { convertZipToLatLon } from '@/helpers/convert-zip-to-lat-lon';
 import { ServiceabilityErrorEnum } from '@/enum/serviceability-error.enum';
 import { LocationsAndPricingEntity } from '@/entities/locations-and-pricing.entity';
-import clientDataApi from '@/actions/data/client-data-api';
+import { apiClient } from '@/api_client/api.client';
 
 type Options = {
   zipCode: string;
@@ -16,7 +16,7 @@ export async function checkServiceabilityByZip({zipCode, requirePool, locationsA
 
   const {lng, lat} = await convertZipToLatLon(zipCode);
 
-  const instructors = await clientDataApi.instructors.nearbyLatLng.get({lat, lng});
+  const instructors = (await apiClient.instructors.nearbyLatLng.get({lat, lng})).data;
 
   if (instructors.length < 3) {
     return ServiceabilityErrorEnum.OutsideArea;

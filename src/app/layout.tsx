@@ -15,11 +15,8 @@ export const metadata: Metadata = {
   description: `America's #1 rated private at-home swim lessons. Get an experienced swim teacher for your baby, adult, beginner or special needs swim lessons. Start today!`,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
+
   return (
     <html lang='en' className='orangeScroll'>
       <head>

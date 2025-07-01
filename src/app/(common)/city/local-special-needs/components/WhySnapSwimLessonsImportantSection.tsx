@@ -1,10 +1,13 @@
+'use client';
+
 import React from 'react';
 import WhySwimLessonsSection from '../../common/WhySwimLessonsSection';
 import { SwimLessonFact } from '@/types/swim-lesson.types';
 import { whySnapSwimLessonsImportantImg } from '@/assets';
+import { useCityPageContext } from '@/app/(common)/city/context';
 
-const data = {
-  heading: 'Why are [city] SNAP swim lessons so important?',
+const generateData = (options: { cityName: string }) => ({
+  heading: `Why are ${options.cityName} SNAP swim lessons so important?`,
   descriptionTop:
     'Drowning is the second leading cause of accidental death in the US for children under 14, and in most cases, it happens in just minutes – even when a caregiver is nearby. In fact:',
   descriptionBottom:
@@ -23,10 +26,11 @@ const data = {
       position: 'bottom-left',
     },
   ] as SwimLessonFact[],
-};
+});
 
 const WhySnapSwimLessonsImportantSection = () => {
-  return <WhySwimLessonsSection {...data} />;
+  const { cityName } = useCityPageContext();
+  return <WhySwimLessonsSection {...generateData({ cityName })} />;
 };
 
 export default WhySnapSwimLessonsImportantSection;

@@ -1,8 +1,8 @@
 import { blogHeroImg, blogHeroMobileImg } from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
-import CustomInputForm from '@/components/shapes/CustomInputForm';
 import React from 'react';
+import SearchBlogInput from './SearchBlogInput';
 
 const BlogHero = () => {
   return (
@@ -23,7 +23,7 @@ const BlogHero = () => {
         offering private, at-home swim lessons for all ages.
       </Typography>
       <div className='flex justify-start items-center gap-4'>
-        <CustomInputForm placeholder='Search Topics' submitText='Search' />
+        <SearchBlogInput placeholder='Search Topics' submitText='Search' />
       </div>
     </Hero>
   );

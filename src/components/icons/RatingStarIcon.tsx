@@ -6,7 +6,7 @@ const RatingStarIcon = () => {
       width='100%'
       height='100%'
       viewBox='-4.8 -4.8 57.60 57.60'
-      enable-background='new 0 0 48 48'
+      enableBackground='new 0 0 48 48'
       id='_x3C_Layer_x3E_'
       version='1.1'
       xmlSpace='preserve'
@@ -14,14 +14,14 @@ const RatingStarIcon = () => {
       xmlnsXlink='http://www.w3.org/1999/xlink'
       fill='#000000'
     >
-      <g id='SVGRepo_bgCarrier' stroke-width='0' />
+      <g id='SVGRepo_bgCarrier' strokeWidth='0' />
 
       <g
         id='SVGRepo_tracerCarrier'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeLinecap='round'
+        strokeLinejoin='round'
         stroke='#CCCCCC'
-        stroke-width='0.384'
+        strokeWidth='0.384'
       />
 
       <g id='SVGRepo_iconCarrier'>

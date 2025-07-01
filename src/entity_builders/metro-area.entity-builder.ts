@@ -13,6 +13,7 @@ export class MetroAreaEntityBuilder implements IEntityBuilder<LocationMetroArea,
       serviceAvailable: plainEntity.are_we_serving,
       haveSIWithPool: plainEntity.have_sis_with_pool,
       matchRate30Day: plainEntity.match_rate_30_day,
+      localPhone: plainEntity.local_phone,
     });
 
     if (customMapper) {

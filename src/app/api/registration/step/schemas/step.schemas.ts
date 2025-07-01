@@ -3,12 +3,15 @@ import { z } from 'zod';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import { DaysEnum, WEEKDAYS_ARRAY, WEEKENDS_ARRAY } from '@/enum/days.enum';
 import { WhenToBeginEnum } from '@/enum/when-to-begin.enum';
+import { ErrorMessagesEnum } from '@/enum/error-messages.enum';
 
-const ERROR_MESSAGES = {
-  required: 'Required',
-  invalidZip: 'Must be exactly 5 digits', //'Invalid ZIP'
-  invalidEmail: 'Invalid E-mail',
-  invalidPhone: 'Invalid phone',
+export const ERROR_MESSAGES = {
+  required: ErrorMessagesEnum.Required,
+  invalidZip: ErrorMessagesEnum.Exactly5Digits, //'Invalid ZIP'
+  invalidEmail: ErrorMessagesEnum.InvalidEmail,
+  invalidPhone: ErrorMessagesEnum.InvalidPhone,
+  invalidAddress: ErrorMessagesEnum.InvalidAddress,
+  check: ErrorMessagesEnum.Check
 };
 
 export const nameSchema = z
@@ -236,7 +239,7 @@ export const step5Schema = z
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ['selectedDays'],
-          message: 'lessonFrequency',
+          message: ERROR_MESSAGES.required,
         });
       }
 
@@ -294,7 +297,7 @@ export const step6Schema = z
 
 export const step7Schema = z
   .object({
-    policiesAgreement: z.literal(true),
+    policiesAgreement: z.literal(true, { 'message': ERROR_MESSAGES.check }),
   });
 
 

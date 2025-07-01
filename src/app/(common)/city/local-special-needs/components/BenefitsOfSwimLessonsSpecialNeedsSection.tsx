@@ -17,8 +17,7 @@ const sellingPointsSectionData: SellingPointsSectionType = {
     text: 'Book Now',
     link: '/registration',
     iconColor: 'black',
-    buttonClasses:
-      'bg-offBlack text-white font-primary min-w-[300px] gap-12 mx-auto',
+    buttonClasses: 'bg-offBlack text-white min-w-[300px] mx-auto',
     IconClasses: 'bg-yellow',
     shadow: true,
     shadowClasses: 'bg-blue',

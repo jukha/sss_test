@@ -6,6 +6,5 @@ export type LocationCityPageEntity = {
   lng: number | null;
   metro_area_id: number | null;
   state_id: number | null;
-  neighborhood_id: number | null;
   template_id: number | null;
 };

@@ -1,4 +1,5 @@
 import urlJoin from 'url-join';
+import { ErrorMessagesEnum } from './enum/error-messages.enum';
 
 const SENDGRID_API_KEY = process.env.NEXT_SENDGRID_API_KEY!;
 const SENDGRID_API_BASE_URL = process.env.NEXT_SENDGRID_API_BASE_URL!;
@@ -73,9 +74,9 @@ function processEmailValidationResult (result: EmailValidationResult) {
   let message;
 
   if (!isValid && !result.hasValidSyntax) {
-    message = 'Invalid E-mail';
+    message = ErrorMessagesEnum.InvalidEmail;
   } else if (!isValid && result.hasValidSyntax) {
-    message = 'Please, provide a valid E-mail address';
+    message = ErrorMessagesEnum.ProvideValidEmail;
   }
 
   const suggestion = result.suggestion;

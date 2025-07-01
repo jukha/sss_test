@@ -1,15 +1,16 @@
+'use client';
+
 import React from 'react';
 import { whySwimLessons } from '@/assets';
 import { Bubbles } from '@/components/decoration';
 import LessonFactsSection from '../../common/LessonFactsSection';
 import { SwimLessonFact } from '@/types/swim-lesson.types';
+import { useCityPageContext } from '@/app/(common)/city/context';
 
-const data = {
-  heading: 'Why are [city] swimming lessons so important?',
-  descriptionTop:
-    'Drowning is the second leading cause of accidental death in the US for children under 14, and in most cases, it happens in just minutes – even when a caregiver is nearby. In fact:',
-  descriptionBottom:
-    'Enrolling your child in swimming lessons is one of the best ways to prevent drowning by teaching them essential water safety skills.',
+const generateData = (options: { cityName: string }) => ({
+  heading: `Why are ${options.cityName} swimming lessons so important?`,
+  descriptionTop: 'Drowning is the second leading cause of accidental death in the US for children under 14, and in most cases, it happens in just minutes – even when a caregiver is nearby. In fact:',
+  descriptionBottom: 'Enrolling your child in swimming lessons is one of the best ways to prevent drowning by teaching them essential water safety skills.',
   decorationIconLeft: <Bubbles color='var(--color-blue)' />,
   decorationIconRight: <Bubbles color='var(--color-blue)' />,
   image: whySwimLessons,
@@ -27,11 +28,11 @@ const data = {
       position: 'bottom-left',
     },
   ] as SwimLessonFact[],
-};
+});
 
 const WhySwimLessonsImportantSection = () => {
-
-  return <LessonFactsSection {...data} />;
+  const { cityName } = useCityPageContext();
+  return <LessonFactsSection {...generateData({ cityName })} />;
 };
 
 export default WhySwimLessonsImportantSection;

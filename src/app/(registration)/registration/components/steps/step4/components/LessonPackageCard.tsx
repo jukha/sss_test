@@ -71,28 +71,29 @@ const LessonPackageCard = ({
         {description}
       </div>
 
-      <div className='relative w-full h-[80px] mb-3 flex items-center justify-center desktop:w-[170px] desktop:h-[42px] desktop:mb-5'>
-        <div className='relative z-1 flex items-center font-bold text-offBlack'>
-          <div className='flex items-start text-black'>
-            <span className='text-[20px] mt-[12px] desktop:text-[10px] desktop:mt-[5px]'>$</span>
+      <div className='relative w-full mb-3 desktop:mb-2 flex items-center justify-center desktop:w-[170px] pt-1'>
+        <div className='relative z-1 flex flex-col items-center font-bold text-offBlack'>
+          <div className='flex items-center text-black'>
+            <span className='text-[20px] desktop:text-[10px]'>$</span>
             <span className='text-[48px] font-bold font-primary desktop:text-[22px]'>{price}</span>
-          </div>
-          <div className='uppercase text-[14px] mt-2 ml-1 mr-5 desktop:text-[10px] desktop:mt-0 desktop:ml-0 desktop:mr-2'>
-            / {lessonMinutes} MINUTES
-          </div>
-          {salePercent && (
-            <div className='px-[7px] py-0.5 mb-[-6px] rounded-[7px] bg-yellow text-red font-primary desktop:text-[14px] desktop:-mt-1.5'>
-              -{salePercent}%
+            <div className='uppercase text-[14px] mt-2 ml-1 mr-[3px] desktop:text-[10px] desktop:mt-0 desktop:ml-0 desktop:mr-2'>
+              / {lessonMinutes} MINS
             </div>
-          )}
+
+            {salePercent && (
+              <div className='px-[7px] py-0.5 mb-[-6px] desktop:mb-0 rounded-[7px] bg-yellow text-red font-primary desktop:text-[11px]'>
+                SAVE {salePercent}%!
+              </div>
+            )}
+          </div>
         </div>
 
-        <WhiteCurvySubstrate className='absolute top-0 left-0 w-full h-full' />
+        <WhiteCurvySubstrate className='absolute top-0 left-0 w-full h-[135%]' />
       </div>
 
       {learnGuaranteed && (
         <div
-          className='flex gap-[12px] items-center w-[194px] mx-auto font-primary font-semibold desktop:text-[10px] desktop:w-[120px] desktop:gap-2'
+          className='flex py-4 gap-[12px] items-center w-[194px] mx-auto font-primary font-semibold desktop:text-[10px] desktop:w-[120px] desktop:gap-2'
           style={{ color: mainColor }}
         >
           <div className='w-[64] aspect-square relative rounded-[50%] bg-white shrink-0 desktop:w-[40px]'>
@@ -102,7 +103,7 @@ const LessonPackageCard = ({
               className='absolute w-[50px] aspect-square top-1.5 left-2 desktop:w-[32px] desktop:top-1 desktop:left-1'
             />
           </div>
-          Learn to Swim learnGuaranteed
+          Learn to Swim Guaranteed!
         </div>
       )}
 

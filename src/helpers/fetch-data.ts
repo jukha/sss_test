@@ -20,7 +20,7 @@ type FetchDataOptions<D> = {
 
 type TryFetchDataOptions<D> = FetchDataOptions<D> & {
   globalErrorType?: GlobalErrorType;
-}
+};
 
 async function fetchData<E, D>({
   url,
@@ -33,16 +33,19 @@ async function fetchData<E, D>({
   const options: RequestInit = {
     method,
     headers: {
-      ...(jsonHeaderInRequest ? {'Content-Type': 'application/json'} : {}),
+      ...(jsonHeaderInRequest ? { 'Content-Type': 'application/json' } : {}),
       ...headers,
     },
     body: method === 'POST' && data ? JSON.stringify(data) : undefined,
   };
 
-  const response = await fetch(url + (searchParams ? `?${searchParams.toString()}` : ''), options);
+  const urlSearchParams = searchParams
+    ? new URLSearchParams(searchParams as Record<string, string>)
+    : undefined;
+  const response = await fetch(url + (urlSearchParams ? `?${urlSearchParams.toString()}` : ''), options);
 
   if (!response.ok) {
-    console.error(`Received response code ${response.status} (${response.statusText}) on ${method} ${url}`)
+    console.error(`Received response code ${response.status} (${response.statusText}) on ${method} ${url}`);
     throw new Error();
   }
 
@@ -50,11 +53,14 @@ async function fetchData<E, D>({
   return { data: result, response };
 }
 
-export async function tryFetchData<E, D>({globalErrorType = GlobalErrorType.Unknown, ...options}: TryFetchDataOptions<D>): Promise<FetchDataResponse<E>> {
-  const callback = () => fetchData<E, D>(options)
+export async function tryFetchData<E, D>({
+  globalErrorType = GlobalErrorType.Unknown,
+  ...options
+}: TryFetchDataOptions<D>): Promise<FetchDataResponse<E>> {
+  const callback = () => fetchData<E, D>(options);
 
   try {
-    return await autoRetryCatchable(callback, {abortController: options.abortController});
+    return await autoRetryCatchable(callback, { abortController: options.abortController });
   } catch (e) {
     if (e instanceof AbortError) {
       throw e; // don't add error to error store if retry was aborted
@@ -62,13 +68,11 @@ export async function tryFetchData<E, D>({globalErrorType = GlobalErrorType.Unkn
 
     const version = Number(options.headers?.['X-Version']);
 
-    const event = globalErrorHandlerState.addError<FetchDataResponse<E>>(
-      {
-        version: isNaN(version) || !isFinite(version) ? undefined : version,
-        type: globalErrorType,
-        retryCallback: callback
-      },
-    )
+    const event = globalErrorHandlerState.addError<FetchDataResponse<E>>({
+      version: isNaN(version) || !isFinite(version) ? undefined : version,
+      type: globalErrorType,
+      retryCallback: callback,
+    });
 
     const r = await event.promisify()();
 

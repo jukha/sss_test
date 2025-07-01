@@ -5,9 +5,9 @@ import ServiceLocationsSection from '@/components/sections/ServiceLocationsSecti
 import LocationsListSection from '@/components/sections/LocationsListSection';
 import TakeStressOutSection from './components/TakeStressOutSection';
 import HomeHero from './components/HomeHero';
-import CustomerReviewsSection from '@/components/sections/CustomerReviewsSection';
 import MembersOfSection from '@/components/sections/MembersOfSection';
 import SatisfactionGuaranteeSection from '@/components/sections/SatisfactionGuaranteeSection';
+import { ServerCustomerReviewsSection } from '@/components/sections/customer_reviews';
 
 /**
  * Home Page Component
@@ -25,7 +25,7 @@ export default function Home() {
         {/* How It Works Section */}
         <HowItWorksSection />
         {/* Customer Reviews Section - Testimonials */}
-        <CustomerReviewsSection />
+        <ServerCustomerReviewsSection buttonText={'See our glowing reviews'} buttonLink='/customer-reviews' />
         {/* Members of Section - Logos of organizations */}
         <MembersOfSection />
         {/* What makes our swim instructors sunsational - Highlights instructor qualities */}

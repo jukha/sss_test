@@ -13,7 +13,7 @@ const CheckboxWithText: React.FC<Props> = ({ checked, onChange, text, error }) =
   return (
     <div
       className={clsx(
-        'relative flex items-start justify-start gap-4 py-4 pl-6 pr-8 border-[2px] rounded-lg bg-lightBlue border-blue desktop:gap-2',
+        'relative flex items-start justify-start gap-4 py-4 pl-6 pr-8 rounded-lg bg-lightBlue border-blue desktop:gap-2',
         error && 'border-red bg-lightRed'
       )}
     >

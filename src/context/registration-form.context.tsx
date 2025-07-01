@@ -4,7 +4,9 @@ import { RegistrationForm } from '@/entities/registration-form.entity';
 import { RegistrationStepEnum } from '@/enum/registration-step.enum';
 import { findNextStep, findPreviousStep } from '@/app/(registration)/registration/logic/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { validateFormStep } from '@/app/(registration)/registration/logic/validation';
+import { generateRegFormErrorBannerText } from '@/utils/generate-reg-form-error-banner-text';
+import { globalErrorHandlerState } from '@/state/global-error-handler.state';
+import { usePathname, useRouter } from 'next/navigation';
 
 type SetRegistrationStepOptions = {
   pushToBrowserHistory?: boolean;
@@ -25,6 +27,7 @@ type RegistrationFormContextType = {
   setRegistrationStep: (step: RegistrationStepEnum, options?: SetRegistrationStepOptions) => void;
   switchToNextStep: () => void;
   switchToPreviousStep: () => void;
+  pushStepToBrowserHistory: (step: RegistrationStepEnum) => void;
 
   isStep1SuccessShown: boolean | null | undefined;
   setIsStep1SuccessShown: (isStep1SuccessShown: boolean | null | undefined) => void;
@@ -46,10 +49,17 @@ type RegistrationFormContextType = {
 
   forcePreviousStep?: RegistrationStepEnum;
   setForcePreviousStep: (step?: RegistrationStepEnum) => void;
+
+  isConfirmationPage: boolean;
+  setIsConfirmationPage: (value: boolean) => void;
 }
 
-type Props = { children: React.ReactNode };
-type RegistrationFormErrors = Partial<Record<keyof RegistrationForm, string>>;
+type Props = {
+  children: React.ReactNode;
+  isConfirmationPage?: boolean;
+};
+
+export type RegistrationFormErrors = Partial<Record<keyof RegistrationForm, string>>;
 
 const RegistrationFormContext = createContext<RegistrationFormContextType | undefined>(undefined);
 
@@ -64,7 +74,9 @@ const pushStepToBrowserHistory = (stepForReturn?: RegistrationStepEnum) => {
     return;
   }
 
-  window.history.pushState({ stepForReturn }, '');
+  if (window.history.state.stepForReturn !== stepForReturn) {
+    window.history.pushState({ stepForReturn }, '');
+  }
 };
 
 
@@ -106,16 +118,22 @@ const setRegistrationFormControlledFields = <FieldName extends keyof Registratio
   newState.packageSize = null;
 };
 
-
 export const RegistrationFormProvider = ({ children }: Props) => {
+  const router = useRouter();
+
   const [previousRegistrationStep, setPreviousRegistrationStep] = useState<RegistrationStepEnum>();
 
-  const [registrationStep, internalSetRegistrationStep] = useState<RegistrationStepEnum>(RegistrationStepEnum.Step1);
+  const [registrationStep, internalSetRegistrationStep] = useState(RegistrationStepEnum.Step1);
   const [isStep1SuccessShown, setIsStep1SuccessShown] = useState<boolean | null | undefined>(undefined);
   const [formVersion, setFormVersion] = useState(0);
   const [isUpgradedTo25LessonPackageSize, setIsUpgradedTo25LessonPackageSize] = useState(false);
   const [isLessonPackageSizeUpgradeDeclined, setIsLessonPackageSizeUpgradeDeclined] = useState(false);
   const [forcePreviousStep, setForcePreviousStep] = useState<RegistrationStepEnum | undefined>();
+  const [isConfirmationPage, setIsConfirmationPage] = useState(false);
+
+  const [registrationForm, setRegistrationForm] = useState<RegistrationForm | null>(null);
+  const [registrationErrors, internalSetRegistrationErrors] = useState<RegistrationFormErrors | null>(null);
+  const [registrationErrorsText, setRegistrationErrorsText] = useState<string | null>(null);
 
   const setRegistrationStep = (step: RegistrationStepEnum, options?: SetRegistrationStepOptions) => {
     clearRegistrationErrors();
@@ -127,8 +145,9 @@ export const RegistrationFormProvider = ({ children }: Props) => {
 
   const switchToNextStep = () => {
     if (registrationStep == RegistrationStepEnum.Step1) {
+      pushStepToBrowserHistory(registrationStep);
+
       if (!isStep1SuccessShown) {
-        pushStepToBrowserHistory(registrationStep);
         setRegistrationStep(RegistrationStepEnum.Step1Success);
         setIsStep1SuccessShown(true);
         return;
@@ -137,6 +156,12 @@ export const RegistrationFormProvider = ({ children }: Props) => {
 
     const nextStep = findNextStep(registrationStep);
     if (!nextStep) return;
+
+    if (nextStep === RegistrationStepEnum.Step7OrderConfirmed) {
+      const { id, secret } = registrationForm!
+      router.push(`/registration/thank-you?id=${id}&secret=${secret}`);
+      return;
+    }
 
     setPreviousRegistrationStep(registrationStep);
     setRegistrationStep(nextStep);
@@ -152,22 +177,9 @@ export const RegistrationFormProvider = ({ children }: Props) => {
     pushStepToBrowserHistory(previousStep);
   };
 
-  const [registrationForm, setRegistrationForm] = useState<RegistrationForm | null>(null);
-  const [registrationErrors, internalSetRegistrationErrors] = useState<RegistrationFormErrors | null>(null);
-  const [registrationErrorsText, setRegistrationErrorsText] = useState<string | null>(null);
-
   const setRegistrationErrors = (registrationErrors: RegistrationFormErrors | null) => {
-    let errorsText = null;
-
-    const erroneousFields = Object.keys(registrationErrors || {});
-    if (erroneousFields.length > 0) {
-      const erroneousFieldsStr = erroneousFields.join(', ');
-      errorsText = `Woops looks like some info is missing. Please provide ${erroneousFieldsStr}`;
-      // errorsText = 'Woops looks like some info is missing. Please provide ZIP, do you have access to a pool or not?';
-    }
-
     internalSetRegistrationErrors(registrationErrors);
-    setRegistrationErrorsText(errorsText);
+    setRegistrationErrorsText(generateRegFormErrorBannerText(registrationErrors ?? {}));
   };
 
   const clearRegistrationErrors = () => {
@@ -219,12 +231,28 @@ export const RegistrationFormProvider = ({ children }: Props) => {
     setFormVersion(registrationForm?.version || 1);
   }, [registrationForm?.version]);
 
+  const pathname = usePathname();
+
   useEffect(() => {
+    if (!pathname.startsWith('/registration')) return;
+
+    let forceReturn = false;
+
     const handlePopState = (event: PopStateEvent) => {
-      const validationErrors = validateFormStep(registrationForm, registrationStep);
+      if (forceReturn) {
+        forceReturn = false;
+        return;
+      }
+
       const { stepForReturn }: { stepForReturn: RegistrationStepEnum } = event.state;
 
-      if (validationErrors && stepForReturn >= registrationStep) {
+      if (!stepForReturn) {
+        window.history.back();
+        forceReturn = true;
+        return;
+      }
+
+      if (stepForReturn >= registrationStep) {
         return;
       }
 
@@ -238,6 +266,14 @@ export const RegistrationFormProvider = ({ children }: Props) => {
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
+  }, [registrationStep, pathname]);
+
+  useEffect(() => {
+    if (registrationStep === RegistrationStepEnum.Step7) {
+      globalErrorHandlerState.setErrorTitle('There was problem a swimming your request to our servers. Please try again. There has been no charge to your credit card');
+    } else {
+      globalErrorHandlerState.resetErrorTitle();
+    }
   }, [registrationStep]);
 
   return (
@@ -274,6 +310,10 @@ export const RegistrationFormProvider = ({ children }: Props) => {
 
         forcePreviousStep,
         setForcePreviousStep,
+
+        isConfirmationPage,
+        setIsConfirmationPage,
+        pushStepToBrowserHistory,
       }}
     >
       {children}

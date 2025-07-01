@@ -6,4 +6,5 @@ export type MetroAreaEntity = {
   haveSIWithPool: boolean | null;
   serviceAvailable: boolean | null;
   matchRate30Day: number | null;
+  localPhone: string | null;
 };

@@ -19,27 +19,27 @@ const sectionInfoCardData: SectionInfoCardType = {
 
   listItems: [
     {
-      itemBulletBg: 'var(--color-darkBlue',
+      itemBulletBg: 'var(--color-darkBlue)',
       itemDescription: 'Adults in all swimming levels',
     },
     {
-      itemBulletBg: 'var(--color-darkBlue',
+      itemBulletBg: 'var(--color-darkBlue)',
       itemDescription: 'Fear of water or aquaphobia',
     },
     {
-      itemBulletBg: 'var(--color-darkBlue',
+      itemBulletBg: 'var(--color-darkBlue)',
       itemDescription: 'Adults with near drowning/traumatic experiences',
     },
     {
-      itemBulletBg: 'var(--color-darkBlue',
+      itemBulletBg: 'var(--color-darkBlue)',
       itemDescription: 'Training for a triathlon or other swim competition',
     },
     {
-      itemBulletBg: 'var(--color-darkBlue',
+      itemBulletBg: 'var(--color-darkBlue)',
       itemDescription: 'Learning stroke technique',
     },
     {
-      itemBulletBg: 'var(--color-darkBlue',
+      itemBulletBg: 'var(--color-darkBlue)',
       itemDescription: 'Training for a swim test (military, school, etc.)',
     },
   ],

@@ -1,25 +1,15 @@
 import { ApiEndpoint } from '@/api_client/api.endpoint';
 import urlJoin from 'url-join';
 import { InstructorEntity } from '@/entities/instructor.entity';
-
-type NearbyCityOptions = {
-  cityId: number;
-  distance: number;
-  shouldBePublic?: boolean | null;
-  category: string;
-}
-
-type NearbyZipcodeOptions = {
-  zipCode: string;
-  distance: number;
-  shouldBePublic?: boolean | null;
-  category: string;
-}
+import { Coordinates } from '@/types/coordinates';
 
 type NearbyLatLngOptions = {
   lat: string | number;
   lng: string | number;
   radius?: number;
+  limit?: number;
+  offset?: number;
+  coordinatesOnly?: boolean;
 }
 
 export class InstructorsApi {
@@ -33,24 +23,8 @@ export class InstructorsApi {
     }
   }
 
-  get nearbyCity() {
-    const endpoint = new ApiEndpoint<InstructorEntity>({ url: urlJoin(this._baseUrl, '/nearby/city') });
-
-    return {
-      get: (options: NearbyCityOptions) => endpoint.findAll({ searchParams: options })
-    }
-  }
-
-  get nearbyZipcode() {
-    const endpoint = new ApiEndpoint<InstructorEntity>({ url: urlJoin(this._baseUrl, '/nearby/zipcode') });
-
-    return {
-      get: (options: NearbyZipcodeOptions) => endpoint.findAll({ searchParams: options })
-    }
-  }
-
   get nearbyLatLng() {
-    const endpoint = new ApiEndpoint<InstructorEntity>({ url: urlJoin(this._baseUrl, '/nearby/coordinates') });
+    const endpoint = new ApiEndpoint<InstructorEntity & Coordinates>({ url: urlJoin(this._baseUrl, '/nearby/coordinates') });
 
     return {
       get: (options: NearbyLatLngOptions) => endpoint.findAll({ searchParams: options })

@@ -7,10 +7,12 @@ type AdditionalParentGuardianProps = {
   studentName: string;
   currentUserName: string;
   currentUserEmail: string;
-  nameError?: string;
-  emailError?: string;
   name: string;
   email: string;
+  nameError?: string;
+  emailError?: string;
+  emailBottomError?: string;
+
   setName: (name: string) => void;
   setEmail: (email: string) => void;
   onNameChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -23,10 +25,11 @@ const AdditionalParentGuardian: React.FC<AdditionalParentGuardianProps> = ({
   studentName,
   currentUserName,
   currentUserEmail,
-  nameError,
-  emailError,
   name,
   email,
+  nameError,
+  emailError,
+  emailBottomError,
   setName,
   setEmail,
   onNameChange,
@@ -85,6 +88,7 @@ const AdditionalParentGuardian: React.FC<AdditionalParentGuardianProps> = ({
           disabled={isCurrentUserParentOrGuard}
           onChange={onEmailChange}
           onBlur={onEmailBlur}
+          bottomError={emailBottomError}
         />
       </div>
     </div>

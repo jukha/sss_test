@@ -1,4 +1,3 @@
-import CustomerReviewsSection from '@/components/sections/CustomerReviewsSection';
 import LocationsListSection from '@/components/sections/LocationsListSection';
 import ServiceLocationsSection from '@/components/sections/ServiceLocationsSection';
 import AdultsSwimmingLessonsHero from './components/AdultsSwimmingLessonsHero';
@@ -12,6 +11,7 @@ import NeverTooOldToLearnSection from './components/NeverTooOldToLearnSection';
 import PrivateLessonsAreGreatSection from './components/PrivateLessonsAreGreatSection';
 import AdultLessonSatisfactionGuaranteeSection from './components/AdultLessonSatisfactionGuaranteeSection';
 import StackedSections from '@/components/layout/StackedSections';
+import { ServerCustomerReviewsSection } from '@/components/sections/customer_reviews';
 
 const AdultsSwimmingLessons = () => {
   return (
@@ -37,9 +37,11 @@ const AdultsSwimmingLessons = () => {
         {/* 100% Satisfaction Guarantee - sections  */}
         <AdultLessonSatisfactionGuaranteeSection />
         {/* Sunsational clients love our swimming lessons - sections  */}
-        <CustomerReviewsSection
+        <ServerCustomerReviewsSection
+          ageGroup='adult'
           heading='Sunsational clients love our swimming lessons'
           description='Check out our 4.9 rating out of 1852 reviews'
+          hideButton={true}
           buttonClasses='bg-red text-white font-primary font-semiBold text-lg'
           shadowClasses='bg-orange'
           buttonText='Book Swimming Lessons'

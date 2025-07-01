@@ -19,7 +19,7 @@ type ReturnType = {
   data: CustomerReviewEntity[];
 };
 
-const getNearbyGroupedByAgeCustomerReview = async ({ cityId, ageGroup, limit = 3, offset = 1 }: Options): Promise<ReturnType | null> => {
+const getNearbyGroupedByAgeCustomerReview = async ({ cityId, ageGroup, limit = 3, offset = 0 }: Options): Promise<ReturnType | null> => {
   const city = await prismaClient.locationCityPage.findUnique({
     where: {
       id: cityId,
@@ -40,7 +40,7 @@ const getNearbyGroupedByAgeCustomerReview = async ({ cityId, ageGroup, limit = 3
         HAVING age_group = ${ageGroup}
         ORDER BY distance ASC, top DESC, ISNULL(customer_photo) DESC, review_date DESC, review_rank DESC
         LIMIT ${limit}
-        OFFSET ${(offset - 1) * limit}
+        OFFSET ${offset}
       `;
 
   const total = await prismaClient.customerReviews.count({

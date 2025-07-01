@@ -197,7 +197,8 @@ const RegistrationForm6: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
     poolAddressInputRef.current?.focus();
   };
 
-  const handleUserAcceptFullEnteredAddress = () => {
+  const handleUserAcceptFullEnteredAddress = (_: string, address: string) => {
+    setPoolAddress(address)
     setUserEnterFullAddress({
       ...userEnterFullAddress,
       confirmEnteredAddress: true,
@@ -325,8 +326,9 @@ const RegistrationForm6: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
             ...userEnterFullAddress,
             showAddressNotFoundInSuggestionWarning: true,
           });
+
+          return;
         }
-        return;
       }
     }
 
@@ -429,10 +431,12 @@ const RegistrationForm6: React.FC<Props> = ({ onNextClicked, onPreviousClicked, 
             <SelectCorrectAddress
               enteredAddress={poolAddress ?? ''}
               suggestedText={
+                foundSuggestions[0]?.text ??
                 'Your provided address was not found in the Maps database. Please double-check your address is entered correctly before continuing.'
               }
               onEditAddressClick={handleEditFullAddressClick}
               onAddressSelect={handleUserAcceptFullEnteredAddress}
+              suggestSelectable={Boolean(foundSuggestions.length)}
             />
           )}
 

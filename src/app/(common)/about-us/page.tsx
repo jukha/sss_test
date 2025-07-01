@@ -1,10 +1,10 @@
 import AboutusHero from './components/AboutusHero';
 import ServiceLocationsSection from '@/components/sections/ServiceLocationsSection';
 import LocationsListSection from '@/components/sections/LocationsListSection';
-import SuggestedArticles from './components/SuggestedArticles';
 import LearnToSwimGuarantee from './components/LearnToSwimGuarantee';
 import WhoWeAre from './components/WhoWeAre';
 import StackedSections from '@/components/layout/StackedSections';
+import { ServerSuggestedArticles } from './components/suggested-articles';
 
 export default function AboutUs() {
   return (
@@ -16,7 +16,7 @@ export default function AboutUs() {
         {/*  Learn to swim Guarantee Section */}
         <LearnToSwimGuarantee />
         {/* Making Waves: Blog for Happy, Confident Swimmers */}
-        <SuggestedArticles />
+        <ServerSuggestedArticles />
       </StackedSections>
       <ServiceLocationsSection />
       <LocationsListSection />

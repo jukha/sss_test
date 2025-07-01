@@ -16,6 +16,7 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
   maxLength?: number;
   className?: string;
   inputClassName?: string;
+  bottomError?: string
 };
 
 const CustomInput: React.FC<Props> = (props) => {
@@ -31,12 +32,13 @@ const CustomInput: React.FC<Props> = (props) => {
     error,
     className,
     inputClassName,
+    bottomError,
     ...inputProps
   } = props;
   return (
     <label
       className={clsx(
-        'flex flex-col gap-[8px] w-full',
+        'relative flex flex-col gap-[8px] w-full',
         disabled && 'opacity-70',
         className
       )}
@@ -77,6 +79,7 @@ const CustomInput: React.FC<Props> = (props) => {
           disabled={disabled}
         />
       </div>
+      {bottomError && <div className='text-red'>{bottomError}</div>}
     </label>
   );
 };

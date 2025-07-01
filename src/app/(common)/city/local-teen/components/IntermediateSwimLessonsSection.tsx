@@ -1,25 +1,28 @@
+'use client';
+
 import {
   localTeenGeneralImage2
 } from '@/assets';
 import GeneralFirstSection from '@/components/sections/GeneralFirstSection';
 import { GeneralFirstSectionType } from '@/types/general-section.types';
+import { useCityPageContext } from '@/app/(common)/city/context';
 
-const generalFirstSectionData: GeneralFirstSectionType = {
-  heading1: 'Intermediate swim lessons for teens in [city]',
+const generateGeneralFirstSectionData = (options: { cityName: string }): GeneralFirstSectionType => ({
+  heading1: `Intermediate swim lessons for teens in ${options.cityName}`,
   media: localTeenGeneralImage2,
   mediaAlt: 'Teen diving into a pool during a swim lesson',
   descriptionTop: [
     'For teens who already have a grasp of swimming basics, formal swimming lessons can provide a perfect way to go from a beginner swimmer to swim team-ready.\n\n',
     <>
-      Intermediate private lessons will usually include developing the
+      Intermediate private lessons will usually include developing the{' '}
       <a href='#' className='text-off-black font-bold md:font-medium underline'>
         mechanics of the various competitive strokes
       </a>
-      ; freestyle (or front crawl), backstroke,
+      ; freestyle (or front crawl), backstroke,{' '}
       <a href='#' className='text-off-black font-bold md:font-medium underline'>
         butterfly
       </a>
-      , and
+      , and{' '}
       <a href='#' className='text-off-black font-bold md:font-medium underline'>
         breaststroke
       </a>
@@ -31,9 +34,9 @@ const generalFirstSectionData: GeneralFirstSectionType = {
   descriptionsBottom: [
     <>
       <a href='#' className='text-off-black font-bold md:font-medium underline'>
-        Water safety&nbsp;
+        Water safety
       </a>
-      is a skill that should not be delayed. The sooner they start with a&nbsp;
+      {' '}is a skill that should not be delayed. The sooner they start with a&nbsp;
       <a href='#' className='text-off-black font-bold md:font-medium underline'>
         private swim instructor
       </a>
@@ -43,12 +46,13 @@ const generalFirstSectionData: GeneralFirstSectionType = {
     'Some teens may feel embarrassed about learning to swim. That’s why private swim lessons are so effective—no audience, no pressure, just one-on-one guidance from a skilled instructor focused on helping your teen succeed.',
   ],
   buttonType: 'black',
-  buttonLink: '#',
+  buttonLink: '/registration',
   buttonText: 'Get Started',
-};
+});
 
 const IntermediateSwimLessonsSection = () => {
-  return <GeneralFirstSection {...generalFirstSectionData} />;
+  const { cityName } = useCityPageContext();
+  return <GeneralFirstSection {...generateGeneralFirstSectionData({ cityName })} />;
 };
 
 export default IntermediateSwimLessonsSection;

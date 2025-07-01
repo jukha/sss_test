@@ -17,26 +17,22 @@ const content = {
     {
       img: localBabyWhyUs1,
       title: 'WE FIT YOUR SCHEDULE',
-      description:
-        'When you have a baby swimming lesson with Sunsational you get to choose a lesson time that works for you. You can even book more than one study back to back, so all your kids can have lessons at the same time.',
+      description: 'When you have a baby swimming lesson with Sunsational you get to choose a lesson time that works for you. You can even book more than one study back to back, so all your kids can have lessons at the same time.',
     },
     {
       img: localBabyWhyUs2,
       title: 'QUALIFIED INSTRUCTORS',
-      description:
-        'Sunsational has very strict rules for our instructors, and you can expect an airtight screening and qualification process (including working with children and background checks) that ensures every instructor is certified in CPR/First Aid and has a minimum of 2 years teaching experience.',
+      description: 'Sunsational has very strict rules for our instructors, and you can expect an airtight screening and qualification process (including working with children and background checks) that ensures every instructor is certified in CPR/First Aid and has a minimum of 2 years teaching experience.',
     },
     {
       img: localBabyWhyUs3,
       title: 'WE COMETO YOU',
-      description:
-        'Don’t worry about running your kids all over town to attend infant swimming lessons, because our instructors can come straight to your door. If you don’t have a pool, we can use your nearest community pool!',
+      description: 'Don’t worry about running your kids all over town to attend infant swimming lessons, because our instructors can come straight to your door. If you don’t have a pool, we can use your nearest community pool!',
     },
     {
       img: localBabyWhyUs4,
       title: 'WE CARE ABOUT WATER SAFETY',
-      description:
-        'After years of offering swimming lessons for babies, we understand that the most important part about learning to swim is safety skills. Our instructors prioritize these skills with our students to make sure they’re safe in the water.',
+      description: 'After years of offering swimming lessons for babies, we understand that the most important part about learning to swim is safety skills. Our instructors prioritize these skills with our students to make sure they’re safe in the water.',
     },
   ],
 };

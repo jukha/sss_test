@@ -1,3 +1,5 @@
+'use client';
+
 import { glassdoorIcon, indeedIcon, instructorLoveTeaching } from '@/assets';
 import { Bubbles } from '@/components/decoration';
 import FeatureSection from '@/components/FeatureSection';
@@ -5,12 +7,7 @@ import Container from '@/components/layout/Container';
 import Typography from '@/components/semantics/Typography';
 import Image, { StaticImageData } from 'next/image';
 import React from 'react';
-
-const content = {
-  heading: ' Our [city] Sunsational instructors love teaching with us',
-  description:
-    'Rated best swim school to work with by our independent swim instructors.',
-};
+import { useCityPageContext } from '@/app/(common)/city/context';
 
 type ImageContainerProps = {
   img: StaticImageData;
@@ -23,42 +20,43 @@ type SalaryInfoBlockProps = {
   textBottom: string;
 };
 
+const ImageContainer = ({ img, alt }: ImageContainerProps) => {
+  return (
+    <div className='chip-bg flex justify-center items-center bg-white px-4 md:h-[138px] h-[104px] w-[279px] md:w-[370px]'>
+      <Image src={img} alt={alt} />
+    </div>
+  );
+};
+
+
+const SalaryInfoBlock = ({ textTop, salary, textBottom }: SalaryInfoBlockProps) => {
+  return (
+    <div className='flex bg-white px-6 py-4 chip-bg flex-col justify-start items-center'>
+      <Typography
+        variant='custom'
+        className='text-[18px] leading-[114%] font-medium font-secondary'
+      >
+        {textTop}
+      </Typography>
+      <Typography
+        variant='custom'
+        className='text-[53px] font-primary leading-[112%] font-bold'
+      >
+        {salary}
+      </Typography>
+      <Typography
+        variant='custom'
+        className='text-[18px] leading-[114%] font-medium font-secondary'
+      >
+        {textBottom}
+      </Typography>
+    </div>
+  );
+};
+
 const InstructorsLoveTeachingSection = () => {
-  const ImageContainer = ({ img, alt }: ImageContainerProps) => {
-    return (
-      <div className='chip-bg flex justify-center items-center bg-white px-4 md:h-[138px] h-[104px] w-[279px] md:w-[370px]'>
-        <Image src={img} alt={alt} />
-      </div>
-    );
-  };
-  const SalaryInfoBlock = ({
-    textTop,
-    salary,
-    textBottom,
-  }: SalaryInfoBlockProps) => {
-    return (
-      <div className='flex bg-white px-6 py-4 chip-bg flex-col justify-start items-center'>
-        <Typography
-          variant='custom'
-          className='text-[18px] leading-[114%] font-medium font-secondary'
-        >
-          {textTop}
-        </Typography>
-        <Typography
-          variant='custom'
-          className='text-[53px] font-primary leading-[112%] font-bold'
-        >
-          {salary}
-        </Typography>
-        <Typography
-          variant='custom'
-          className='text-[18px] leading-[114%] font-medium font-secondary'
-        >
-          {textBottom}
-        </Typography>
-      </div>
-    );
-  };
+  const { cityName } = useCityPageContext();
+
   return (
     <FeatureSection
       backgroundColor='var(--color-lightBlue)'
@@ -67,13 +65,13 @@ const InstructorsLoveTeachingSection = () => {
     >
       <Container className='flex flex-col justify-start overflow-clip items-center relative gap-10'>
         <Typography variant='h2' className='max-w-[837px] text-center z-10'>
-          {content.heading}
+          Our {cityName} Sunsational instructors love teaching with us
         </Typography>
         <Typography
           variant='body2'
           className='font-medium font-secondary leading-[120%] max-w-[342px] md:max-w-[495px] text-center z-10 whitespace-break-spaces'
         >
-          {content.description}
+          Rated best swim school to work with by our independent swim instructors.
         </Typography>
 
         <div

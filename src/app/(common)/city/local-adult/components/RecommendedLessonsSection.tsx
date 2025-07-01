@@ -11,21 +11,18 @@ import LessonPlanCard from '@/components/shapes/LessonPlanCard';
 
 const content = {
   sectionHeading: 'Recommended lesson plans for adult Swim Lessons',
-  sectionDescription:
-    'After teaching thousands of adults how to swim, we’ve found that these lesson plans work best based on skill levels and goals:',
+  sectionDescription: 'After teaching thousands of adults how to swim, we’ve found that these lesson plans work best based on skill levels and goals:',
   steps: [
     {
       title: 'For beginner adult swim students',
-      description:
-        'If you’re new to swimming or overcoming a fear of water, our 6-pack of 1-hour lessons is ideal for building your confidence. For adult beginners looking to master basic skills and progress to strokes like freestyle, our 12-pack offers extended practice and faster results.',
+      description: 'If you’re new to swimming or overcoming a fear of water, our 6-pack of 1-hour lessons is ideal for building your confidence. For adult beginners looking to master basic skills and progress to strokes like freestyle, our 12-pack offers extended practice and faster results.',
       lessonLength: '60 minutes',
       recommendedLessons: '12-18',
       image: recommendedLessonPlanImg3,
     },
     {
       title: 'For advanced adult swim students',
-      description:
-        'For advanced swimmers training for competition, tests, or triathlons, as well as those who just want to improve their swimming skills, our 12 or 18-pack provides focused practice to refine your stroke technique. Better technique will help you swim faster with less effort.',
+      description: 'For advanced swimmers training for competition, tests, or triathlons, as well as those who just want to improve their swimming skills, our 12 or 18-pack provides focused practice to refine your stroke technique. Better technique will help you swim faster with less effort.',
       lessonLength: '60 minutes',
       recommendedLessons: '6-12',
       image: recommendedLessonPlanImg2,
@@ -42,10 +39,7 @@ const content = {
   ],
 };
 
-
-
 const RecommendedLessonsSection: React.FC<HowItWorksType> = () => {
-
   return (
     <Container>
       <div className='lg:px-20 flex flex-col gap-12'>

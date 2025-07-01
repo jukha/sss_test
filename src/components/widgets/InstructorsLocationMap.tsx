@@ -1,14 +1,24 @@
 'use client';
 import { InstructorEntity } from '@/entities/instructor.entity'; // Use InstructorEntity
 import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api';
+import { Coordinates } from '@/types/coordinates';
 
 const containerStyle = { width: '100%', height: '100%' };
 
+
 type Props = {
-  instructorProfiles: InstructorEntity[]; // Use InstructorEntity[]
+  instructorProfiles: InstructorEntity[];
+  center?: Coordinates;
 }
 
-const InstructorsLocationMap = ({ instructorProfiles }: Props) => {
+const defaultCenter = {
+  lat: 38.70991683333334,
+  lng: -101.36191699999999,
+}
+
+const isDefaultCenter = (center: Coordinates) => center.lat === defaultCenter.lat && center.lng === defaultCenter.lng;
+
+const InstructorsLocationMap = ({ instructorProfiles, center = defaultCenter }: Props) => {
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
@@ -19,21 +29,10 @@ const InstructorsLocationMap = ({ instructorProfiles }: Props) => {
   if (loadError) return <p>Error loading maps</p>;
   if (!isLoaded) return <p>Loading...</p>;
 
-  // Handle case where instructorProfiles might be empty or undefined during initial load or if no instructors
-  if (!instructorProfiles || instructorProfiles.length === 0) {
-    // Temporary UI, display a message or a default map view 
-    return <p>No instructor locations to display.</p>; 
-  }
-
-  // Determine a center point. Could be the first instructor or a calculated average.
-  const firstProfileWithCoords = instructorProfiles.find(p => p.lat != null && p.lng != null);
-  const center = {
-    lat: firstProfileWithCoords?.lat ?? 0, // Use lat from InstructorEntity
-    lng: firstProfileWithCoords?.lng ?? 0, // Use lng from InstructorEntity
-  };
+  const zoom = isDefaultCenter(center) ? 4 : 8;
 
   return (
-    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={7}>
+    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={zoom}>
       {instructorProfiles.map((inst) => (
         inst.lat != null && inst.lng != null && (
           <Marker

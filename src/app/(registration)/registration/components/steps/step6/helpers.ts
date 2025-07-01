@@ -2,10 +2,10 @@ import { SuggestedAddress } from '@/helpers/get-address-suggestions';
 
 export const convertSuggestedAddressToString = (address: SuggestedAddress) => {
   const addressParts = [
-    `${address.houseNumber ?? ''} ${address.street ?? ''}`,
+    `${address.houseNumber ?? ''}${address.street ? ' ' + address.street : ''}`,
     address.city,
     `${address.state ?? ''}${address.postalCode ? ' ' + address.postalCode : ''}`,
-  ];
+  ].filter(Boolean);
 
   return addressParts.join(', ').trim();
 };

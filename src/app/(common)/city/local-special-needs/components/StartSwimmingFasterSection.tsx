@@ -1,3 +1,5 @@
+'use client';
+
 import { startSwimmingFasterImg } from '@/assets';
 import { BackgroundCircles } from '@/components/decoration';
 import FeatureSection from '@/components/FeatureSection';
@@ -5,20 +7,11 @@ import Container from '@/components/layout/Container';
 import GeneralFirstSection from '@/components/sections/GeneralFirstSection';
 import Image from 'next/image';
 import React from 'react';
-
-const content = {
-  heading:
-    'Start swimming faster with personalized special needs swim lessons in [city]',
-  descriptionTop:
-    'At Sunsational Swim School, we believe special needs swim lessons are essential, and we make them convenient for families in [city]. With flexible scheduling and lessons at your home pool, your loved one can learn in a safe and supportive environment.',
-  descriptionBottom: [
-    "Our instructors tailor each one-on-one session to your child's unique needs, ensuring personalized lessons that help them build confidence, improve skills, and achieve meaningful progress.",
-  ],
-  buttonText: 'Book Swim Lessons',
-  buttonLink: '/registration',
-};
+import { useCityPageContext } from '@/app/(common)/city/context';
 
 const StartSwimmingFasterSection = () => {
+  const { cityName } = useCityPageContext();
+
   return (
     <FeatureSection
       waveColor='var(--color-lightBlue)'
@@ -27,11 +20,11 @@ const StartSwimmingFasterSection = () => {
     >
       <Container className='flex flex-col-reverse lg:flex-row justify-center items-center overflow-x-clip'>
         <GeneralFirstSection
-          descriptionTop={content.descriptionTop}
-          descriptionsBottom={content.descriptionBottom}
-          heading1={content.heading}
-          buttonText={content.buttonText}
-          buttonLink={content.buttonLink}
+          descriptionTop={`At Sunsational Swim School, we believe special needs swim lessons are essential, and we make them convenient for families in ${cityName}. With flexible scheduling and lessons at your home pool, your loved one can learn in a safe and supportive environment.`}
+          descriptionsBottom={["Our instructors tailor each one-on-one session to your child's unique needs, ensuring personalized lessons that help them build confidence, improve skills, and achieve meaningful progress."]}
+          heading1={`Start swimming faster with personalized special needs swim lessons in ${cityName}`}
+          buttonText={'Book Swim Lessons'}
+          buttonLink={'/registration'}
         />
         <div className='relative translate-y-8 lg:translate-y-0'>
           <Image

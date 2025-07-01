@@ -5,18 +5,25 @@ import { ErrorModal } from '@/components/modal/ErrorModal';
 import { globalErrorHandlerState } from '@/state/global-error-handler.state';
 
 const GlobalErrors = () => {
+  const [errorTitle, setErrorTitle] = useState(globalErrorHandlerState.errorTitle);
   const [errors, setErrors] = useState<typeof globalErrorHandlerState.errors>(globalErrorHandlerState.errors);
 
   useEffect(() => {
-    const sub = globalErrorHandlerState.onErrorsUpdate.addEventListener(setErrors);
-    return () => sub.unsubscribe();
+    const subs = [
+      globalErrorHandlerState.onErrorsUpdate.addEventListener(setErrors),
+      globalErrorHandlerState.onErrorTitleUpdate.addEventListener(setErrorTitle)
+    ]
+
+    return () => {
+      subs.forEach(s => s.unsubscribe);
+    }
   }, []);
 
   if (errors.length === 0) return null;
 
   return (
     <ErrorModal
-      text={'Woops looks like something went wrong'}
+      text={errorTitle}
       onRetry={async () => {
         const successIndices: number[] = [];
 

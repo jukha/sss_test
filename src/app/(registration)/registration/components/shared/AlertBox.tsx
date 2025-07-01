@@ -7,14 +7,16 @@ import FilteredImage from '@/components/FilteredImage';
 type Props = {
   text: React.ReactNode;
   bulletTexts?: string[];
-  type: 'info' | 'error' | 'alert';
+  type: 'info' | 'error' | 'alert' | 'info-no-icon';
+  displayIcon?: boolean;
 };
 
-const AlertBox: React.FC<Props> = ({ text, type, bulletTexts }) => {
+const AlertBox: React.FC<Props> = ({ text, type, bulletTexts, displayIcon }) => {
   const getColorScheme = () => {
     if (type === 'alert') return 'bg-lightYellow border-yellow';
     if (type === 'error') return 'bg-lightRed border-red';
     if (type === 'info') return 'bg-lightBlue border-blue';
+    return 'bg-lightBlue border-blue';
   };
 
   const getIconFilter = () => {
@@ -30,7 +32,7 @@ const AlertBox: React.FC<Props> = ({ text, type, bulletTexts }) => {
         getColorScheme()
       )}
     >
-      <FilteredImage filter={getIconFilter()} src={alertCircle} alt='icon' />
+      {(displayIcon !== false) && <FilteredImage filter={getIconFilter()} src={alertCircle} alt='icon' />}
       <div className='flex flex-col gap-[8px]'>
         <span>{text}</span>
         <ul className='list-disc'>

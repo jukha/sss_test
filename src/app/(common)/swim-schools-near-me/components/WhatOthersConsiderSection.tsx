@@ -1,3 +1,4 @@
+import React from 'react';
 import { whatOthersConsiderSectionImg } from '@/assets';
 import { Bubbles } from '@/components/decoration';
 import FeatureSection from '@/components/FeatureSection';
@@ -8,7 +9,6 @@ import Image from 'next/image';
 import OptionsRowBlock from './OptionsRowBlock';
 
 const content = {
-  title: 'What Others Consider When Choosing A Swim School in [city, state]!',
   description:
     'Choosing the best swim school near you depends on your needs and priorities. If you:',
   chooseOptions: [
@@ -33,7 +33,12 @@ const content = {
   ],
 };
 
-const WhatOthersConsiderSection = () => {
+type Props = {
+  city: string;
+  state: string;
+}
+
+const WhatOthersConsiderSection: React.FC<Props> = ({ city, state }) => {
   return (
     <FeatureSection
       waveColor='var(--color-lightBlue)'
@@ -41,7 +46,7 @@ const WhatOthersConsiderSection = () => {
     >
       <Container className='flex flex-col justify-start overflow-x-clip my-12 items-center relative gap-8'>
         <Typography variant='h2' className='text-center max-w-[911px]'>
-          {content.title}
+          What Others Consider When Choosing A Swim School in {city}, {state}!
         </Typography>
         <div
           className={`w-full flex flex-col justify-center items-center relative  lg:overflow-visible md:my-16`}

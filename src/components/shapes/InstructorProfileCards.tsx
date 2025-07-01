@@ -33,7 +33,7 @@ const InstructorProfileCards = ({ profile }: Props) => {
 
   return (
     <div className='mb-16'>
-      <div className='flex gap-3 lg:gap-4 items-center w-full mb-[18px]'>
+      <div className='flex gap-5 lg:gap-6 items-center w-full mb-[18px]'>
         {/* image */}
         <div className='relative'>
           <div className='instructor-profile-card-bg bg-blue'>
@@ -97,7 +97,7 @@ const InstructorProfileCards = ({ profile }: Props) => {
 
       <div className='relative max-w-max z-0'>
         <Link
-          href='#'
+          href={`/registration?instructor=${profile.id}`}
           className='text-center text-[20px] leading-[120%] font-bold font-primary py-3 px-5 inline-block'
         >
           Register Now

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { searchOurServiced } from '@/app/(common)/(home)/data';
 import Container from '../layout/Container';
 import Typography from '../semantics/Typography';
-import CustomInputForm from '../shapes/CustomInputForm';
 import MapWithStates from '../widgets/MapWithStates';
 import { ServiceLocations } from '@/enum/service-locations.enum';
+import { ZipCodeInput } from '@/components/ZipCodeInput';
+import { withClientErrorBoundary } from '@/hoc/with-client-error-boundary';
 
 type ServiceLocationsProps = {
   content?: {
@@ -13,6 +13,11 @@ type ServiceLocationsProps = {
     desc?: string;
   };
   locationsToShow?: ServiceLocations[];
+};
+
+const searchOurServiced = {
+  title: 'Search our Serviced Locations',
+  desc: 'Find out if a Sunsational Swim instructor is in your area',
 };
 
 const ServiceLocationsSection = ({
@@ -36,7 +41,7 @@ const ServiceLocationsSection = ({
       {/* Map */}
       <div className='relative z-0 flex justify-center'>
         <div className='absolute top-[20%] lg:top-36 max-w-[80%] mx-auto lg:max-w-full'>
-          <CustomInputForm placeholder='Your Zip Code' submitText='Search' />
+          <ZipCodeInput autoNavigate={true}/>
         </div>
         <MapWithStates locationsToShow={locationsToShow} />
         <div className='map-search-background top-2.5 -z-[1] absolute inset-0 h-full bg-lightBlue'></div>
@@ -45,4 +50,4 @@ const ServiceLocationsSection = ({
   );
 };
 
-export default ServiceLocationsSection;
+export default withClientErrorBoundary(ServiceLocationsSection);

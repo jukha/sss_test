@@ -8,16 +8,29 @@ export type GlobalError<T> = {
   retryResultEvent: SimpleEvent<T | Error>;
 }
 
+const defaultErrorTitle = 'There was problem a swimming your request to our servers. Please try again';
+
 class GlobalErrorHandlerState {
   private _errors: GlobalError<unknown>[] = [];
+  private _errorTitle = defaultErrorTitle;
+
   private _onErrorsUpdate = new SimpleEvent<typeof this._errors>();
+  private _onErrorTitleUpdate = new SimpleEvent<string>();
 
   get onErrorsUpdate() {
     return this._onErrorsUpdate.asSubscribeOnlyEvent();
   }
 
+  get onErrorTitleUpdate() {
+    return this._onErrorTitleUpdate.asSubscribeOnlyEvent();
+  }
+
   get errors() {
     return this._errors;
+  }
+
+  get errorTitle() {
+    return this._errorTitle;
   }
 
   addError<T>(error: Omit<GlobalError<unknown>, 'retryResultEvent'>) {
@@ -37,6 +50,16 @@ class GlobalErrorHandlerState {
     this._errors.forEach(e => e.retryResultEvent.emit(new Error()));
     this._errors = [];
     this._onErrorsUpdate.emit([]);
+  }
+
+  resetErrorTitle() {
+    this._errorTitle = defaultErrorTitle;
+    this._onErrorTitleUpdate.emit(this._errorTitle);
+  }
+
+  setErrorTitle(title: string) {
+    this._errorTitle = title;
+    this._onErrorTitleUpdate.emit(this._errorTitle);
   }
 
   async recallErrorCallback(index: number) {

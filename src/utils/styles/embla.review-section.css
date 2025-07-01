@@ -14,12 +14,19 @@
   touch-action: pan-y pinch-zoom;
   margin-left: calc(var(--slide-spacing) * -1);
 }
+
 .embla__slide_review_section {
   transform: translate3d(0, 0, 0);
   flex: 0 0 var(--slide-size);
-  min-width: 0;
   padding-left: var(--slide-spacing);
 }
+
+@media (max-width: 768px) {
+  .embla__slide_review_section {
+    min-width: 100% !important;
+  }
+}
+
 .embla_slide_number_review_section {
   box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
   border-radius: 1.8rem;

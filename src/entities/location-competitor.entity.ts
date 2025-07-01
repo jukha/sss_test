@@ -1,0 +1,20 @@
+export type LocationCompetitorEntity = {
+  id: number;
+  useInComparison: boolean;
+  metroAreaId: number;
+  name: string;
+  lessonTypes?: string | null;
+  address?: string | null;
+  ages?: string | null;
+  learnToSwimGuarantee?: boolean | null;
+  flexibleScheduling?: boolean | null;
+  scheduling?: string | null;
+  monthlyMembershipRequired?: boolean | null;
+  costsPerLesson?: string | null;
+  starsCount?: number | null;
+  yelpReviewsId?: string | null;
+  googleReviewsId?: string | null;
+  customerReviewText?: string | null;
+  lat?: number | null;
+  lng?: number | null;
+};

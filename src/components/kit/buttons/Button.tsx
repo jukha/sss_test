@@ -16,6 +16,7 @@ type Props = {
   shadowClasses?: string;
   /** Only works if link == false. */
   onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
 };
 // when adding hover effects: use group-hover:className
@@ -30,19 +31,21 @@ const Button: React.FC<Props> = (props) => {
   const buttonContent = (
     <div className={clsx('relative group', props.disabled && 'opacity-50')}>
       <div
-        className={`py-3 lg:py-4 px-3  lg:px-7 button  flex items-center justify-center duration-300   ${
+        className={clsx(
+          'py-3 lg:py-4 px-3  lg:px-7 button  flex items-center justify-center duration-300',
           props.buttonClasses ?? 'bg-brightYellow text-black'
-        } `}
+        )}
       >
-        <span className='relative text-base lg:text-lg font-bold '>
+        <span className='relative text-base lg:text-lg font-bold'>
           {props.text}
         </span>
       </div>
       {props.shadow && (
         <div
-          className={`absolute z-[-1] h-full w-full button bottom-[-6px] left-[-4px] duration-300 ${
+          className={clsx(
+            'absolute z-[-1] h-full w-full button bottom-[-6px] left-[-4px] duration-300',
             props.shadowClasses ?? 'bg-orange'
-          }`}
+          )}
         ></div>
       )}
     </div>
@@ -57,7 +60,7 @@ const Button: React.FC<Props> = (props) => {
   }
 
   return (
-    <button type='button' className='block w-full cursor-pointer' onClick={props.onClick}>
+    <button className='block w-full cursor-pointer' onClick={props.onClick} type={props.type || 'button'}>
       {buttonContent}
     </button>
   );
