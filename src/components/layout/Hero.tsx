@@ -13,7 +13,7 @@ type Props = {
   desktopBgImage: StaticImageData;
   hasBottomBar?: boolean;
   hasSticker?: boolean;
-  mobileBgImage: StaticImageData;
+  mobileBgImage?: StaticImageData;
   heroBottomVariant?: HeroBottomBarVariant;
 };
 
