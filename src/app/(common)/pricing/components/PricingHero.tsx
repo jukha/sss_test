@@ -1,14 +1,12 @@
-import { pricingHero, pricingHeroMobile } from '@/assets';
+import { pricingHero } from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
 import CustomInputForm from '@/components/shapes/CustomInputForm';
-import React from 'react';
 
 const PricingHero = () => {
   return (
     <Hero
       desktopBgImage={pricingHero}
-      mobileBgImage={pricingHeroMobile}
       hasBottomBar={false}
       hasSticker={false}
     >

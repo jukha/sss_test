@@ -1,11 +1,9 @@
 import {
-  teenSwimLessonsHeroDesktop,
-  teenSwimLessonsHeroMobile,
+  teenSwimLessonsHeroDesktop
 } from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
 import CustomInputForm from '@/components/shapes/CustomInputForm';
-import React from 'react';
 
 const TeenSwimLessonsHero = () => {
   const content = {
@@ -16,7 +14,6 @@ const TeenSwimLessonsHero = () => {
   return (
     <Hero
       desktopBgImage={teenSwimLessonsHeroDesktop}
-      mobileBgImage={teenSwimLessonsHeroMobile}
       hasBottomBar={false}
     >
       <Typography

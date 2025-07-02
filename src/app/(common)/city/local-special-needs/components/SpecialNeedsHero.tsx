@@ -1,12 +1,11 @@
 'use client';
 
-import { localSpecialNeedsHero, localSpecialNeedsHeroMobile } from '@/assets';
+import { Breadcrumbs } from '@/app/(common)/city/common/widgets/Breadcrumbs';
+import { useCityPageContext } from '@/app/(common)/city/context';
+import { localSpecialNeedsHero } from '@/assets';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
-import React from 'react';
-import { useCityPageContext } from '@/app/(common)/city/context';
-import { Breadcrumbs } from '@/app/(common)/city/common/widgets/Breadcrumbs';
 
 const SpecialNeedsHero = () => {
   const { cityName, metroArea } = useCityPageContext();
@@ -14,7 +13,6 @@ const SpecialNeedsHero = () => {
   return (
     <Hero
       desktopBgImage={localSpecialNeedsHero}
-      mobileBgImage={localSpecialNeedsHeroMobile}
       heroBottomVariant='citypage'
     >
       <Breadcrumbs city={cityName} state={metroArea.stateAbbreviation} program={'Special needs swimming'}/>

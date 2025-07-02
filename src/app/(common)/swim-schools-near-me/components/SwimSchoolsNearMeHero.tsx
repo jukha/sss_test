@@ -1,7 +1,7 @@
-import React from 'react';
-import { swimSchoolsNearMeHero, swimSchoolsNearMeHeroMobile } from '@/assets';
+import { swimSchoolsNearMeHero } from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
+import React from 'react';
 
 type Props = {
   city: string;
@@ -11,7 +11,6 @@ const SwimSchoolsNearMeHeroSection: React.FC<Props> = ({ city }) => {
   return (
     <Hero
       desktopBgImage={swimSchoolsNearMeHero}
-      mobileBgImage={swimSchoolsNearMeHeroMobile}
       hasBottomBar={false}
       hasSticker={false}
     >

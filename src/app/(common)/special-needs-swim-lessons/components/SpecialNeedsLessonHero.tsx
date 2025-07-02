@@ -1,4 +1,4 @@
-import { specialNeedsLessonHero, specialNeedsLessonHeroMobile } from '@/assets';
+import { specialNeedsLessonHero } from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
 import CustomInputForm from '@/components/shapes/CustomInputForm';
@@ -13,7 +13,6 @@ const SpecialNeedsLessonHero = () => {
   return (
     <Hero
       desktopBgImage={specialNeedsLessonHero}
-      mobileBgImage={specialNeedsLessonHeroMobile}
       hasBottomBar={false}
     >
       <Typography variant='h1' className='max-w-[672px] mb-10'>

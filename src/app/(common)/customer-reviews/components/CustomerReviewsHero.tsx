@@ -1,4 +1,4 @@
-import { customerReviewsHero, customerReviewsHeroMobile } from '@/assets';
+import { customerReviewsHero } from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
 
@@ -11,7 +11,6 @@ const CustomerReviewsHero = () => {
   return (
     <Hero
       desktopBgImage={customerReviewsHero}
-      mobileBgImage={customerReviewsHeroMobile}
       hasBottomBar={false}
       hasSticker={false}
     >

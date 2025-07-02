@@ -1,15 +1,13 @@
 'use client';
 
+import { Breadcrumbs } from '@/app/(common)/city/common/widgets/Breadcrumbs';
+import { useCityPageContext } from '@/app/(common)/city/context';
 import {
-  localBabyHero,
-  localBabyHeroMobile,
+  localBabyHero
 } from '@/assets';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
-import React from 'react';
-import { useCityPageContext } from '@/app/(common)/city/context';
-import { Breadcrumbs } from '@/app/(common)/city/common/widgets/Breadcrumbs';
 
 const LocalBabyHero = () => {
   const { cityName, metroArea } = useCityPageContext();
@@ -17,7 +15,6 @@ const LocalBabyHero = () => {
   return (
     <Hero
       desktopBgImage={localBabyHero}
-      mobileBgImage={localBabyHeroMobile}
       heroBottomVariant='citypage'
     >
       <Breadcrumbs city={cityName} state={metroArea.stateAbbreviation} program={'Baby swimming'}/>

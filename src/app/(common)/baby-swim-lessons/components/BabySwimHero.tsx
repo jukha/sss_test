@@ -1,4 +1,4 @@
-import { babySwimLessonHeroDesktop, babySwimLessonHeroMobile } from '@/assets';
+import { babySwimLessonHeroDesktop } from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
 import CustomInputForm from '@/components/shapes/CustomInputForm';
@@ -14,7 +14,6 @@ const BabySwimHero = () => {
   return (
     <Hero
       desktopBgImage={babySwimLessonHeroDesktop}
-      mobileBgImage={babySwimLessonHeroMobile}
       hasBottomBar={false}
     >
       <Typography

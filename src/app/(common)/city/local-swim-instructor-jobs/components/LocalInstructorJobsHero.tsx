@@ -1,15 +1,13 @@
 'use client';
 
+import { Breadcrumbs } from '@/app/(common)/city/common/widgets/Breadcrumbs';
+import { useCityPageContext } from '@/app/(common)/city/context';
 import {
-  localInstructorJobsHeroDesktop,
-  localInstructorJobsHeroMobile,
+  localInstructorJobsHeroDesktop
 } from '@/assets';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
-import React from 'react';
-import { Breadcrumbs } from '@/app/(common)/city/common/widgets/Breadcrumbs';
-import { useCityPageContext } from '@/app/(common)/city/context';
 
 const LocalInstructorJobsHero = () => {
   const { cityName, metroArea } = useCityPageContext();
@@ -17,7 +15,6 @@ const LocalInstructorJobsHero = () => {
   return (
     <Hero
       desktopBgImage={localInstructorJobsHeroDesktop}
-      mobileBgImage={localInstructorJobsHeroMobile}
       heroBottomVariant='citypage'
     >
       <Breadcrumbs city={cityName} state={metroArea.stateAbbreviation} program={'Instructor jobs'} />

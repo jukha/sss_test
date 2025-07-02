@@ -1,11 +1,9 @@
 import {
-  privateSwimLessonHeroDesktop,
-  privateSwimLessonHeroMobile,
+  privateSwimLessonHeroDesktop
 } from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
 import CustomInputForm from '@/components/shapes/CustomInputForm';
-import React from 'react';
 
 const heroSection = {
   title: 'Private Swim Lessons Program',
@@ -17,7 +15,6 @@ const PrivateSwimLessonHero = () => {
   return (
     <Hero
       desktopBgImage={privateSwimLessonHeroDesktop}
-      mobileBgImage={privateSwimLessonHeroMobile}
       hasBottomBar={false}
     >
       <Typography

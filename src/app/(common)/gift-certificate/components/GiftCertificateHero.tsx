@@ -1,11 +1,9 @@
 import {
-  giftCertificateHeroDesktop,
-  giftCertificateHeroMobile,
+  giftCertificateHeroDesktop
 } from '@/assets';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
-import React from 'react';
 
 const heroSection = {
   title: 'Give the gift of swimming',
@@ -16,7 +14,6 @@ const GiftCertificateHero = () => {
   return (
     <Hero
       desktopBgImage={giftCertificateHeroDesktop}
-      mobileBgImage={giftCertificateHeroMobile}
       hasBottomBar={false}
       hasSticker={false}
     >

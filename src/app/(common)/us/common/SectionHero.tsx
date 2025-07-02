@@ -1,4 +1,4 @@
-import { areasWeServiceHeroMobile, locationPagesHero } from '@/assets';
+import { locationPagesHero } from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
 
@@ -16,7 +16,6 @@ const SectionHero: React.FC<Props> = ({
   return (
     <Hero
       desktopBgImage={locationPagesHero}
-      mobileBgImage={areasWeServiceHeroMobile}
       hasBottomBar={false}
       hasSticker={false}
     >

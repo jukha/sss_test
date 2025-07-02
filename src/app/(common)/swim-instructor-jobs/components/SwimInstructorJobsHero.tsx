@@ -1,17 +1,14 @@
 import {
-  swimInstructorJobsHeroDesktop,
-  swimInstructorJobsHeroMobile,
+  swimInstructorJobsHeroDesktop
 } from '@/assets';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
-import React from 'react';
 
 const SwimInstructorJobsHero = () => {
   return (
     <Hero
       desktopBgImage={swimInstructorJobsHeroDesktop}
-      mobileBgImage={swimInstructorJobsHeroMobile}
       hasBottomBar={false}
       hasSticker={false}
     >
