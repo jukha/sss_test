@@ -18,8 +18,8 @@ const LocationsListSection = async () => {
     <Container>
       <div className='flex flex-col gap-7 justify-start items-center pl-6 md:px-0'>
         <Typography
-          className='font-bold font-primary text-offBlack text-center leading-[114%]'
-          variant='h4'
+          className='font-bold font-primary text-offBlack text-center leading-[114%] !text-[24px] md:!text-[32px]'
+          variant='h3'
         >
           Available all across the USA!
         </Typography>
