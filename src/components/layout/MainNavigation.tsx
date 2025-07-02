@@ -87,6 +87,10 @@ const Navbar = () => {
         <button
           className='text-[#110241] h-[40px] w-[40px] focus:outline-none'
           onClick={toggleMobileMenu}
+          aria-label={
+            isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'
+          }
+          aria-expanded={isMobileMenuOpen}
         >
           <HamburgerIcon />
         </button>
