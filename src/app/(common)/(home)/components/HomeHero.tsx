@@ -16,7 +16,7 @@ const HomeHero = () => {
     <Hero desktopBgImage={homeHero} mobileBgImage={homeHeroMobile}>
       <Typography
         variant='h1'
-        className='max-w-[327px] ml-[30px] md:max-w-full lg:max-w-[690px] mb-8'
+        className='max-w-[327px] ml-[30px] md:max-w-full lg:max-w-[690px] mb-8 relative z-0'
       >
         {heroSection.title}
         <span className='text-orange relative inline-flex justify-center items-center lg:p-4'>
