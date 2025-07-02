@@ -82,7 +82,7 @@ import calendar from './images/calendar.webp';
 import poolStairs from './images/poolStairs.webp';
 import guyFace from './images/guyFace.svg';
 import groupedWomen from './images/instructorWithStudent1.svg';
-import homeHero from './images/homeHero.png';
+import homeHero from './images/homeHero.webp';
 import homeHeroMobile from './images/homeHeroMobile.png';
 import stickerStamp from './images/stampSticker.svg';
 import homeFeatureSectionImage from './images/homeFeatureSectionImage.png';
