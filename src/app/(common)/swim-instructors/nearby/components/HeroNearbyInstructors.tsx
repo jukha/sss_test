@@ -1,9 +1,8 @@
 'use client';
 
-import { nearbyInstructorHeroImg, nearbyInstructorHeroMobileImg } from '@/assets';
+import { nearbyInstructorHeroImg } from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
-import React from 'react';
 import { ZipCodeInput } from '@/components/ZipCodeInput';
 import { withClientErrorBoundary } from '@/hoc/with-client-error-boundary';
 
@@ -11,7 +10,6 @@ const HeroNearbyInstructors = () => {
   return (
     <Hero
       desktopBgImage={nearbyInstructorHeroImg}
-      mobileBgImage={nearbyInstructorHeroMobileImg}
       hasBottomBar={false}
       hasSticker={false}
     >

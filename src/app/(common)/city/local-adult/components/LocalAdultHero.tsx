@@ -1,6 +1,6 @@
 'use client';
 
-import { localAdultHero, localAdultHeroMobile } from '@/assets';
+import { localAdultHero } from '@/assets';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
@@ -14,7 +14,6 @@ const LocalAdultHero = () => {
   return (
     <Hero
       desktopBgImage={localAdultHero}
-      mobileBgImage={localAdultHeroMobile}
       heroBottomVariant='citypage'
     >
       <Breadcrumbs city={cityName} state={metroArea.stateAbbreviation} program={'Adult swimming'}/>

@@ -1,6 +1,6 @@
 'use client';
 
-import { localPrivateHeroImg, localPrivateHeroMobileImg } from '@/assets';
+import { localPrivateHeroImg } from '@/assets';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
@@ -14,7 +14,6 @@ const LocalPrivateHero = () => {
   return (
     <Hero
       desktopBgImage={localPrivateHeroImg}
-      mobileBgImage={localPrivateHeroMobileImg}
       heroBottomVariant='citypage'
     >
       <Breadcrumbs city={cityName} state={metroArea.stateAbbreviation} program={'Private swimming'}/>

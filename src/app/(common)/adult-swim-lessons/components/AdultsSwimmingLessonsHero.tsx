@@ -1,4 +1,4 @@
-import { adultsSwimLessonHero, adultsSwimLessonHeroMobile } from '@/assets';
+import { adultsSwimLessonHero} from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
 import CustomInputForm from '@/components/shapes/CustomInputForm';
@@ -7,7 +7,6 @@ const AdultsSwimmingLessonsHero = () => {
   return (
     <Hero
       desktopBgImage={adultsSwimLessonHero}
-      mobileBgImage={adultsSwimLessonHeroMobile}
       hasBottomBar={false}
     >
       <Typography variant='h1' className='max-w-[610px] mb-10'>

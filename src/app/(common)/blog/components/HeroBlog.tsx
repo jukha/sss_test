@@ -1,4 +1,4 @@
-import { blogHeroImg, blogHeroMobileImg } from '@/assets';
+import { blogHeroImg } from '@/assets';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
 import React from 'react';
@@ -8,7 +8,6 @@ const BlogHero = () => {
   return (
     <Hero
       desktopBgImage={blogHeroImg}
-      mobileBgImage={blogHeroMobileImg}
       hasBottomBar={false}
       hasSticker={false}
     >
