@@ -2,7 +2,6 @@ import { homeHero } from '@/assets';
 import ArrowButton from '@/components/kit/buttons/ArrowButton';
 import Hero from '@/components/layout/Hero';
 import Typography from '@/components/semantics/Typography';
-import React from 'react';
 
 const heroSection = {
   title: 'Bring the swim school to',
@@ -16,7 +15,7 @@ const HomeHero = () => {
     <Hero desktopBgImage={homeHero}>
       <Typography
         variant='h1'
-        className='max-w-[327px] ml-[30px] md:max-w-full lg:max-w-[690px] mb-8'
+        className='max-w-[327px] ml-[30px] md:max-w-full lg:max-w-[690px] mb-8 relative z-0'
       >
         {heroSection.title}
         <span className='text-orange relative inline-flex justify-center items-center lg:p-4'>
