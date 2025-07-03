@@ -13,7 +13,6 @@ type Props = {
   desktopBgImage: StaticImageData;
   hasBottomBar?: boolean;
   hasSticker?: boolean;
-  mobileBgImage?: StaticImageData;
   heroBottomVariant?: HeroBottomBarVariant;
 };
 
@@ -53,7 +52,6 @@ const Hero: React.FC<Props> = ({
       <div className='relative hidden lg:block z-[-100] lg:absolute lg:top-0 lg:right-0 lg:object-cover w-full h-full lg:w-[75%] lg:-z-20'>
         <Image
           src={desktopBgImage}
-          quality={30}
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 100vw'
           fill
           alt=''
@@ -87,11 +85,10 @@ const Hero: React.FC<Props> = ({
           ></div>
           <Image
             src={desktopBgImage}
-            quality={30}
-            width={768} 
-            height={600} 
+            quality={80}
+            width={1000}
             alt=''
-            className='relative lg:hidden lg:translate-y-0 z-[-100] w-full'
+            className='relative lg:hidden lg:translate-y-0 z-[-100]'
             priority={true}
           />
         </div>

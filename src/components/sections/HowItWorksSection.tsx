@@ -124,8 +124,8 @@ const HowItWorksSection = () => {
                   {item.header}
                 </Typography>
                 <Typography
-                  variant='h5'
-                  className='font-secondary lg:max-w-[298px] leading-[120%]'
+                  variant='h4'
+                  className='font-secondary lg:max-w-[298px] leading-[120%] !text-xl !font-medium'
                 >
                   {item.description}
                 </Typography>

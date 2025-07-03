@@ -113,8 +113,8 @@ const WhyChooseUsSection = () => {
                     </div>
                     <div>
                       <Typography
-                        variant='h4'
-                        className='font-bold  text-darkBlue leading-[120%] font-primary'
+                        variant='h3'
+                        className='font-bold  !text-darkBlue leading-[120%] font-primary !text-[24px] md:!text-[32px]'
                       >
                         {el.title}
                         <br />

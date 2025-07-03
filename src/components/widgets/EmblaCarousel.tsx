@@ -132,6 +132,7 @@ const EmblaCarousel: React.FC<PropType> = ({ variant = 'homepage' }) => {
             {scrollSnaps.map((_, index) => (
               <DotButton
                 key={index}
+                aria-label={`Go to slide ${index + 1}${index === selectedIndex ? ' (current slide)' : ''}`}
                 onClick={() => onDotButtonClick(index)}
                 className={
                   'embla__dot' +

@@ -74,7 +74,7 @@ import boyAndMom from './images/boyAndMom.png';
 import waterBg from './images/waterBg.webp';
 import starBg from './images/starImage.webp';
 import logo from './images/logo.webp';
-import logoMobile from './images/logoMobile.svg';
+import logoMobile from './images/logoMobile.png';
 import fiveStar from './images/fiveStar.webp';
 import yellowLike from './images/yellowLike.webp';
 import yellowCoin from './images/yellowCoin.webp';

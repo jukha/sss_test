@@ -63,6 +63,7 @@ export const PrevButton: React.FC<PropType> = (props) => {
     <button
       className='embla_button_review_section embla_button_review_section--prev'
       type='button'
+      aria-label="Previous slide"
       {...restProps}
     >
       <ArrowIconButton direction='left' />
@@ -78,6 +79,7 @@ export const NextButton: React.FC<PropType> = (props) => {
     <button
       className='embla_button_review_section embla_button_review_section--next'
       type='button'
+      aria-label="Next slide"
       {...restProps}
     >
       <ArrowIconButton direction='right' />
