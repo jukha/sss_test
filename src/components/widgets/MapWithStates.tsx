@@ -38,7 +38,7 @@ const MapWithStates = ({ locationsToShow }: MapWithStatesProps) => {
 
   useEffect(() => {
     // Create a reference element that inherits your global styles
-    const referenceLink = document.createElement('a');
+    const referenceLink = document.createElement('span');
 
     referenceLink.className = 'font-primary text-lg'; // Match your Link's classes
     referenceLink.style.visibility = 'hidden';
