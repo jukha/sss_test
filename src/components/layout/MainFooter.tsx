@@ -35,10 +35,10 @@ const MainFooter = () => {
         <div className='flex flex-col-reverse lg:flex-row items-start  justify-between gap-4'>
           <Typography
             variant='body1'
-            className=' font-bold w-full  lg:max-w-[488px] text-offBlack'
+            className=' font-bold w-full !text-[20px] md:!text-[26px] lg:max-w-[510px] text-offBlack'
           >
             Our swim instructors travel to your home or community pool.
-            <span className='text-[var(--color-orange)]'>
+            <span className='text-[#f35e08]'>
               {' '}
               Learn to Swim guaranteed
             </span>
@@ -66,7 +66,7 @@ const MainFooter = () => {
         <div className='flex gap-10 lg:gap-6  flex-wrap justify-between'>
           {/* SiteMap */}
           <div className='flex flex-col gap-4 min-w-[189px]'>
-            <p className='text-[var(--color-orange)] font-primary text-xl font-bold '>
+            <p className='text-[#f35e08] font-primary text-xl font-bold '>
               Sitemap
             </p>
             <ul className='flex flex-col gap-4 font-semibold'>
@@ -175,7 +175,7 @@ const MainFooter = () => {
           </div>
           {/* Swim Lessons */}
           <div className='flex flex-col gap-4 min-w-[189px]'>
-            <p className='text-[var(--color-orange)] font-primary text-xl font-bold '>
+            <p className='text-[#f35e08] font-primary text-xl font-bold '>
               Swim Lessons
             </p>
             <ul className='flex flex-col gap-4 font-semibold'>
@@ -231,7 +231,7 @@ const MainFooter = () => {
           </div>
           {/* Swim Lessons */}
           <div className='flex flex-col gap-4 min-w-[189px]'>
-            <p className='text-[var(--color-orange)] font-primary text-xl font-bold '>
+            <p className='text-[#f35e08] font-primary text-xl font-bold '>
               Contact Us
             </p>
             <ul className='flex flex-col gap-4 font-semibold'>
@@ -264,11 +264,11 @@ const MainFooter = () => {
         </div>
 
         <div className='hidden flex-col gap-3 lg:flex'>
-          <p className='font-medium text-[#808080] text-xs'>
+          <p className='font-medium text-off-black text-xs'>
             ©Sunsational Swim School LLC 2025- Private At-Home Swim Lessons of
             America
           </p>
-          <p className='font-medium text-[#808080] text-xs'>
+          <p className='font-medium text-off-black text-xs'>
             Proudly founded in Los Angeles, Headquartered in San Diego & Serving
             All America Business {phoneNumber.formatted}
           </p>
@@ -279,7 +279,7 @@ const MainFooter = () => {
       <div className='flex flex-col gap-6'>
         <Typography variant='h2' className='max-w-[294px]  md:max-w-[444px]'>
           Bring the swim school to{' '}
-          <span className='text-[var(--color-orange)]'>your pool!™</span>
+          <span className='text-[#f35e08]'>your pool!™</span>
         </Typography>
 
         <div className='relative z-10'>
@@ -292,11 +292,11 @@ const MainFooter = () => {
       </div>
 
       <div className='flex-col  gap-3 lg:hidden'>
-        <p className='font-medium text-[#808080] text-xs'>
+        <p className='font-medium text-off-black text-xs'>
           ©Sunsational Swim School LLC 2025- Private At-Home Swim Lessons of
           America
         </p>
-        <p className='font-medium text-[#808080] text-xs'>
+        <p className='font-medium text-off-black text-xs'>
           Proudly founded in Los Angeles, Headquartered in San Diego & Serving
           All America Business {phoneNumber.formatted}
         </p>
